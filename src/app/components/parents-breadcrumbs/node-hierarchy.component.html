@@ -4,7 +4,7 @@
   <ul>
     <li *ngFor="let node of nodes">
       <a [href]="node['@id']" target="_blank">{{
-        node.title ?? removePrefix(node["@id"])
+        node.title ? truncate(node.title, 100) : removePrefix(node["@id"])
       }}</a>
     </li>
   </ul>
