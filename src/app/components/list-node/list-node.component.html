@@ -15,8 +15,18 @@
       </ng-container>
     </div>
 
-    <pre>
-      {{ node | json }}
-    </pre>
+    <div
+      class="collapse bg-base-200 mt-4 opacity-20 hover:opacity-100 transition-opacity duration-500"
+    >
+      <input type="checkbox" />
+      <div class="collapse-title font-medium font-mono">
+        Click to show/hide data
+      </div>
+      <div class="collapse-content">
+        <pre>
+            {{ node | json }}
+        </pre>
+      </div>
+    </div>
   </div>
 </div>
