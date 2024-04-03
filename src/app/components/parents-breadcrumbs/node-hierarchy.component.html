@@ -1,6 +1,6 @@
 <div class="skeleton h-3 w-1/2" *ngIf="!hasNodes"></div>
 
-<div class="text-sm breadcrumbs" *ngIf="hasNodes">
+<div class="text-sm breadcrumbs" *ngIf="showNodes">
   <ul>
     <li *ngFor="let node of nodes">
       <a [href]="node['@id']" target="_blank">{{ node.title }}</a>

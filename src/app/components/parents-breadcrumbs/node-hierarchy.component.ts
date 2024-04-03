@@ -17,4 +17,8 @@ export class NodeHierarchyComponent {
   get hasNodes(): boolean {
     return this.nodes && this.nodes.length > 0;
   }
+
+  get showNodes(): boolean {
+    return this.hasNodes && this.nodes.length > 1;
+  }
 }
