@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NodeBasicInfoModel } from '../../models/node-basic-info.model';
 import { NgForOf, NgIf } from '@angular/common';
+import { removePrefixes } from '../../helpers/util.helper';
 
 @Component({
   selector: 'app-node-hierarchy',
@@ -21,4 +22,6 @@ export class NodeHierarchyComponent {
   get showNodes(): boolean {
     return this.hasNodes && this.nodes.length > 1;
   }
+
+  protected readonly removePrefix = removePrefixes;
 }

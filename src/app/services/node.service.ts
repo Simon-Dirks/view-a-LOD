@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NodeModel, NodeObj } from '../models/node.model';
-import { removePrefix } from '../helpers/util.helper';
+import { removePrefixes } from '../helpers/util.helper';
 
 @Injectable({
   providedIn: 'root',
@@ -26,8 +26,8 @@ export class NodeService {
 
       if (stripPrefix) {
         const nodeObjStripped: NodeObj = Array.isArray(nodeObj)
-          ? nodeObj.map((o) => removePrefix(o))
-          : removePrefix(nodeObj);
+          ? nodeObj.map((o) => removePrefixes(o))
+          : removePrefixes(nodeObj);
         return nodeObjStripped;
       }
 

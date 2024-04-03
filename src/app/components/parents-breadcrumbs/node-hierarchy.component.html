@@ -3,7 +3,9 @@
 <div class="text-sm breadcrumbs" *ngIf="showNodes">
   <ul>
     <li *ngFor="let node of nodes">
-      <a [href]="node['@id']" target="_blank">{{ node.title }}</a>
+      <a [href]="node['@id']" target="_blank">{{
+        node.title ?? removePrefix(node["@id"])
+      }}</a>
     </li>
   </ul>
 </div>

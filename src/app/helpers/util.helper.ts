@@ -1,6 +1,6 @@
 import { Settings } from '../config/settings';
 
-export const removePrefix = (s: string): string => {
+export const removePrefixes = (s: string): string => {
   for (const prefixToRemove of Settings.prefixesToHide) {
     s = stripBeforeStr(s, prefixToRemove);
   }

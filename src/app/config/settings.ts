@@ -19,5 +19,6 @@ export const Settings = {
     'https://hetutrechtsarchief.nl/def/',
     'https://schema.org/',
     'http://www.w3.org/2004/02/skos/core#',
+    'https://hetutrechtsarchief.nl/id/',
   ],
 };
