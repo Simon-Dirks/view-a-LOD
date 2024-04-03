@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SearchService } from '../../services/search.service';
 import { FormsModule } from '@angular/forms';
 
@@ -9,10 +9,14 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './search-input.component.html',
   styleUrl: './search-input.component.scss',
 })
-export class SearchInputComponent {
-  searchInput: string = '';
+export class SearchInputComponent implements OnInit {
+  searchInput: string = 'Margaretha';
 
   constructor(public search: SearchService) {}
+
+  ngOnInit() {
+    this.onSearchInputChange(this.searchInput);
+  }
 
   onSearchInputChange(input: string) {
     void this.search.execute(input);
