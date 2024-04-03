@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { JsonPipe, NgForOf, NgIf } from '@angular/common';
-import { NodeModel, NodeObj } from '../../models/node.model';
+import { NodeModel, NodeObj, nodeObjAsArray } from '../../models/node.model';
 import { NodeService } from '../../services/node.service';
 import { Settings } from '../../config/settings';
 import { SparqlService } from '../../services/sparql.service';
@@ -32,8 +32,13 @@ export class ListNodeComponent implements OnInit {
     void this.retrieveParents();
   }
 
-  get type(): NodeObj {
-    return this.nodes.getObj(this.node, Settings.predicates.type, true);
+  get types(): string[] {
+    const obj: NodeObj = this.nodes.getObj(
+      this.node,
+      Settings.predicates.type,
+      true
+    );
+    return nodeObjAsArray(obj);
   }
 
   async retrieveParents() {

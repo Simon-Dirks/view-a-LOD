@@ -5,9 +5,15 @@
     <h2 class="card-title">
       {{ nodes.getObj(node, Settings.predicates.title) }}
     </h2>
-    <div class="badge badge-primary" *ngIf="type">
-      {{ type }}
+    <div>
+      <ng-container *ngFor="let type of types">
+        <div class="badge badge-primary mr-1" *ngIf="type">
+          {{ type }}
+        </div>
+      </ng-container>
+
     </div>
+
     <pre>
       {{ node | json }}
     </pre>
