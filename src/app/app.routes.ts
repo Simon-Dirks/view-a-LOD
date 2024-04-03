@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { ListNodeComponent } from './components/list-node/list-node.component';
+import { SearchComponent } from './components/views/search/search.component';
 
 export const routes: Routes = [
   {
-    path: 'details/:id',
-    component: ListNodeComponent,
+    path: '',
+    component: SearchComponent,
   },
 ];

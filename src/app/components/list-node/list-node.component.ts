@@ -29,9 +29,7 @@ export class ListNodeComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    setTimeout(() => {
-      void this.retrieveParents();
-    }, 1000);
+    void this.retrieveParents();
   }
 
   async retrieveParents() {
