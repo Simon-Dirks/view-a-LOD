@@ -1,0 +1,15 @@
+<div class="card w-full bg-base-100 shadow-xl my-4">
+  <div class="card-body">
+    <app-node-hierarchy [nodes]="parents"/>
+
+    <h2 class="card-title">
+      {{ nodes.getObj(node, Settings.predicates.title) }}
+    </h2>
+    <div class="badge badge-primary">
+      {{ nodes.getObj(node, Settings.predicates.type, true) }}
+    </div>
+    <pre>
+      {{ node | json }}
+    </pre>
+  </div>
+</div>

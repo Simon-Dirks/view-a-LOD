@@ -1,0 +1,17 @@
+export const Settings = {
+  endpoints: {
+    elastic:
+      'https://api.data.netwerkdigitaalerfgoed.nl/datasets/hetutrechtsarchief/Test-Amerongen/services/Zoeken/_search',
+    sparql:
+      'https://api.data.netwerkdigitaalerfgoed.nl/datasets/hetutrechtsarchief/Test-Amerongen/sparql',
+  },
+  predicates: {
+    parents: ['https://www.ica.org/standards/RiC/ontology#isOrWasIncludedIn'],
+    title: [
+      'http://www.w3.org/2000/01/rdf-schema#label',
+      'https://www.ica.org/standards/RiC/ontology#title',
+      '@id',
+    ],
+    type: ['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'],
+  },
+};
