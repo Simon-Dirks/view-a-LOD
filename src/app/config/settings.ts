@@ -6,7 +6,10 @@ export const Settings = {
       'https://api.data.netwerkdigitaalerfgoed.nl/datasets/hetutrechtsarchief/Test-Amerongen/sparql',
   },
   predicates: {
-    parents: ['https://www.ica.org/standards/RiC/ontology#isOrWasIncludedIn'],
+    parents: [
+      'https://www.ica.org/standards/RiC/ontology#isOrWasIncludedIn',
+      'https://schema.org/isPartOf',
+    ],
     title: [
       'http://www.w3.org/2000/01/rdf-schema#label',
       'https://www.ica.org/standards/RiC/ontology#title',
