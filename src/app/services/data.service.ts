@@ -21,14 +21,14 @@ export class DataService {
 
   getOrderedParentsFromSparqlResults(
     nodeId: string,
-    sparqlParentsData: SparqlNodeParentModel[]
+    sparqlParentsData: SparqlNodeParentModel[],
   ): NodeBasicInfoModel[] {
     const nodeParents: NodeBasicInfoModel[] = [];
     let currentNodeId: string | null = nodeId;
 
     while (currentNodeId !== null) {
       const sparqlNodeParentData = sparqlParentsData.find(
-        (d) => d.id === currentNodeId
+        (d) => d.id === currentNodeId,
       );
       if (sparqlNodeParentData) {
         const nodeInfo: NodeBasicInfoModel = {

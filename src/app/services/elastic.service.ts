@@ -12,7 +12,7 @@ export class ElasticService {
   constructor(private api: ApiService) {}
 
   async searchEntities(
-    query: string
+    query: string,
   ): Promise<estypes.SearchResponse<NodeModel>> {
     const queryData: ElasticQueryModel = {
       query: {
@@ -23,7 +23,7 @@ export class ElasticService {
     };
     return await this.api.postData<estypes.SearchResponse<NodeModel>>(
       Settings.endpoints.elastic,
-      queryData
+      queryData,
     );
   }
 }

@@ -8,6 +8,7 @@ import { SparqlNodeParentModel } from '../../models/sparql/sparql-node-parent';
 import { DataService } from '../../services/data.service';
 import { NodeBasicInfoModel } from '../../models/node-basic-info.model';
 import { NodeHierarchyComponent } from '../parents-breadcrumbs/node-hierarchy.component';
+import { removePrefixes } from '../../helpers/util.helper';
 
 @Component({
   selector: 'app-list-node',
@@ -25,7 +26,7 @@ export class ListNodeComponent implements OnInit {
   constructor(
     public nodes: NodeService,
     public sparql: SparqlService,
-    public data: DataService
+    public data: DataService,
   ) {}
 
   ngOnInit() {
@@ -33,11 +34,7 @@ export class ListNodeComponent implements OnInit {
   }
 
   get types(): string[] {
-    const obj: NodeObj = this.nodes.getObj(
-      this.node,
-      Settings.predicates.type,
-      true
-    );
+    const obj: NodeObj = this.nodes.getObj(this.node, Settings.predicates.type);
     return nodeObjAsArray(obj);
   }
 
@@ -47,12 +44,14 @@ export class ListNodeComponent implements OnInit {
     }
 
     const response: SparqlNodeParentModel[] = await this.sparql.getAllParents(
-      this.node
+      this.node,
     );
 
     this.parents = this.data.getOrderedParentsFromSparqlResults(
       this.node['@id'],
-      response
+      response,
     );
   }
+
+  protected readonly removePrefixes = removePrefixes;
 }

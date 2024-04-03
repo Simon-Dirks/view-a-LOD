@@ -11,7 +11,7 @@ export class NodeService {
   getObj(
     node: NodeModel | undefined,
     preds: string[],
-    stripPrefix = false
+    stripPrefix = false,
   ): NodeObj {
     if (!node) {
       return '';

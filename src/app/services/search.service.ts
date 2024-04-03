@@ -11,7 +11,10 @@ import { DataService } from './data.service';
 export class SearchService {
   results: BehaviorSubject<NodeModel[]> = new BehaviorSubject<NodeModel[]>([]);
 
-  constructor(private elastic: ElasticService, private data: DataService) {}
+  constructor(
+    private elastic: ElasticService,
+    private data: DataService,
+  ) {}
 
   private _parseHitsToNodes(hits: estypes.SearchHit<NodeModel>[]): NodeModel[] {
     return hits

@@ -1,17 +1,18 @@
 <div class="card w-full bg-base-100 shadow-xl my-4">
   <div class="card-body">
-    <app-node-hierarchy [nodes]="parents"/>
+    <app-node-hierarchy [nodes]="parents" />
 
     <h2 class="card-title">
       {{ nodes.getObj(node, Settings.predicates.title) }}
     </h2>
     <div>
       <ng-container *ngFor="let type of types">
-        <div class="badge badge-primary mr-1" *ngIf="type">
-          {{ type }}
-        </div>
+        <ng-container *ngIf="type">
+          <div class="badge badge-primary mr-1">
+            {{ removePrefixes(type) }}
+          </div>
+        </ng-container>
       </ng-container>
-
     </div>
 
     <pre>

@@ -17,10 +17,10 @@ export class SparqlService {
       return [];
     }
     const parentIris = Settings.predicates.parents.map((iri) =>
-      wrapWithAngleBrackets(iri)
+      wrapWithAngleBrackets(iri),
     );
     const titleIris = Settings.predicates.title.map((iri) =>
-      wrapWithAngleBrackets(iri)
+      wrapWithAngleBrackets(iri),
     );
 
     const query = `select distinct ?id ?title ?parent where {
