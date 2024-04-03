@@ -11,6 +11,14 @@ export const wrapWithAngleBrackets = (s: string): string => {
   return `<${s}>`;
 };
 
+export const truncate = (s: string, maxCharacters: number) => {
+  if (s.length <= maxCharacters) {
+    return s;
+  } else {
+    return s.substring(0, maxCharacters) + '...';
+  }
+};
+
 const stripBeforeStr = (inputStr: string, stripStr: string): string => {
   const index = inputStr.indexOf(stripStr);
   if (index !== -1) {
