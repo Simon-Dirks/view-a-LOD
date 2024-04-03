@@ -14,7 +14,7 @@ export class NodeService {
     stripPrefix = false
   ): NodeObj {
     if (!node) {
-      return 'N/A';
+      return '';
     }
 
     for (const pred of preds) {
@@ -34,7 +34,7 @@ export class NodeService {
       return nodeObj;
     }
 
-    return 'N/A';
+    return '';
   }
 
   getObjForAllPreds(node: NodeModel | undefined, preds: string[]): NodeObj {
