@@ -1,5 +1,10 @@
+import { Settings } from '../config/settings';
+
 export const removePrefix = (s: string): string => {
-  return stripBeforeStr(s, '#');
+  for (const prefixToRemove of Settings.prefixesToHide) {
+    s = stripBeforeStr(s, prefixToRemove);
+  }
+  return s;
 };
 
 export const wrapWithAngleBrackets = (s: string): string => {

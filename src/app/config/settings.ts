@@ -14,4 +14,10 @@ export const Settings = {
     ],
     type: ['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'],
   },
+  prefixesToHide: [
+    'https://www.ica.org/standards/RiC/ontology#',
+    'https://hetutrechtsarchief.nl/def/',
+    'https://schema.org/',
+    'http://www.w3.org/2004/02/skos/core#',
+  ],
 };
