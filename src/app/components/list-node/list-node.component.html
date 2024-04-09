@@ -2,11 +2,18 @@
   <div class="card-body">
     <app-node-hierarchy [nodes]="parents" />
 
-    <h2 class="card-title">
-      {{ nodes.getObj(node, Settings.predicates.title) }}
-    </h2>
+    <div class="card-title">
+      <p>{{ nodes.getObj(node, Settings.predicates.title) }}</p>
+    </div>
 
-    <app-node-types [types]="types" />
+    <app-node-types
+      [types]="nodes.getObjAsArray(node, Settings.predicates.type)"
+      class="mb-4"
+    />
+
+    <app-node-images
+      [images]="nodes.getObjAsArray(node, Settings.predicates.images)"
+    />
 
     <div
       class="collapse bg-base-200 mt-4 opacity-20 hover:opacity-100 transition-opacity duration-500"

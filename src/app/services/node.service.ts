@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NodeModel, NodeObj } from '../models/node.model';
+import { NodeModel, NodeObj, nodeObjAsArray } from '../models/node.model';
 import { removePrefixes, truncate } from '../helpers/util.helper';
 import { NodeBasicInfoModel } from '../models/node-basic-info.model';
 
@@ -36,6 +36,14 @@ export class NodeService {
     }
 
     return '';
+  }
+
+  getObjAsArray(
+    node: NodeModel | undefined,
+    preds: string[],
+    stripPrefix = false,
+  ) {
+    return nodeObjAsArray(this.getObj(node, preds, stripPrefix));
   }
 
   getObjForAllPreds(node: NodeModel | undefined, preds: string[]): NodeObj {

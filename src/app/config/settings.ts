@@ -23,6 +23,10 @@ export const Settings = {
       'https://schema.org/additionalType',
       'http://www.wikidata.org/entity/P31',
     ],
+    images: [
+      'http://xmlns.com/foaf/0.1/depiction',
+      'https://schema.org/thumbnail',
+    ],
   },
   prefixesToHide: [
     'https://www.ica.org/standards/RiC/ontology#',
