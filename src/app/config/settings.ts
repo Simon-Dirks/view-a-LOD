@@ -9,13 +9,20 @@ export const Settings = {
     parents: [
       'https://www.ica.org/standards/RiC/ontology#isOrWasIncludedIn',
       'https://schema.org/isPartOf',
+      'https://schema.org/hadPrimarySource',
     ],
     title: [
       'http://www.w3.org/2000/01/rdf-schema#label',
+      'https://schema.org/name',
       'https://www.ica.org/standards/RiC/ontology#title',
+      'https://www.ica.org/standards/RiC/ontology#textualValue',
       '@id',
     ],
-    type: ['http://www.w3.org/1999/02/22-rdf-syntax-ns#type'],
+    type: [
+      'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+      'https://schema.org/additionalType',
+      'http://www.wikidata.org/entity/P31',
+    ],
   },
   prefixesToHide: [
     'https://www.ica.org/standards/RiC/ontology#',
