@@ -9,11 +9,18 @@ import { DataService } from '../../services/data.service';
 import { NodeBasicInfoModel } from '../../models/node-basic-info.model';
 import { NodeHierarchyComponent } from '../node-hierarchy/node-hierarchy.component';
 import { removePrefixes } from '../../helpers/util.helper';
+import { NodeTypesComponent } from './node-types/node-types.component';
 
 @Component({
   selector: 'app-list-node',
   standalone: true,
-  imports: [JsonPipe, NgIf, NgForOf, NodeHierarchyComponent],
+  imports: [
+    JsonPipe,
+    NgIf,
+    NgForOf,
+    NodeHierarchyComponent,
+    NodeTypesComponent,
+  ],
   templateUrl: './list-node.component.html',
   styleUrl: './list-node.component.scss',
 })

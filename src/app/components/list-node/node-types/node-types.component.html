@@ -1,0 +1,7 @@
+<ng-container *ngFor="let type of types">
+  <ng-container *ngIf="type">
+    <div class="badge badge-primary mr-1">
+      {{ removePrefixes(type) }}
+    </div>
+  </ng-container>
+</ng-container>

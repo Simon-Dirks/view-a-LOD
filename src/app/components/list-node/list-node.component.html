@@ -5,15 +5,8 @@
     <h2 class="card-title">
       {{ nodes.getObj(node, Settings.predicates.title) }}
     </h2>
-    <div>
-      <ng-container *ngFor="let type of types">
-        <ng-container *ngIf="type">
-          <div class="badge badge-primary mr-1">
-            {{ removePrefixes(type) }}
-          </div>
-        </ng-container>
-      </ng-container>
-    </div>
+
+    <app-node-types [types]="types" />
 
     <div
       class="collapse bg-base-200 mt-4 opacity-20 hover:opacity-100 transition-opacity duration-500"
