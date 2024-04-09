@@ -20,8 +20,12 @@
           target="_blank"
           class="block hover:underline"
           [style.margin-left]="collapsed ? '0' : i + 'rem'"
-          [style.margin-top]="collapsed ? '0' : i * 0.2 + 'rem'"
         >
+          <ng-icon
+            name="featherChevronRight"
+            *ngIf="!collapsed && !isFirst"
+            class="opacity-40"
+          />
           {{ nodeService.getTitle(nodeInfo, collapsed ? 100 : undefined) }}
         </a>
       </li>
