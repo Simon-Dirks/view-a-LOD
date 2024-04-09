@@ -1,22 +1,24 @@
 import { Component, Input } from '@angular/core';
 import { NodeBasicInfoModel } from '../../models/node-basic-info.model';
-import { NgForOf, NgIf } from '@angular/common';
+import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { removePrefixes, truncate } from '../../helpers/util.helper';
+import { NodeService } from '../../services/node.service';
 
 @Component({
   selector: 'app-node-hierarchy',
   standalone: true,
-  imports: [NgForOf, NgIf],
+  imports: [NgForOf, NgIf, NgClass],
   templateUrl: './node-hierarchy.component.html',
   styleUrl: './node-hierarchy.component.scss',
 })
 export class NodeHierarchyComponent {
   @Input() nodes: NodeBasicInfoModel[] = [];
+  collapsed = true;
 
-  constructor() {}
+  constructor(public nodeService: NodeService) {}
 
   get hasNodes(): boolean {
-    return this.nodes && this.nodes.length > 0;
+    return this.nodes !== undefined && this.nodes.length > 0;
   }
 
   get showNodes(): boolean {

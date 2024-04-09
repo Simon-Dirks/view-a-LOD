@@ -1,11 +1,30 @@
 <div class="skeleton h-3 w-1/2" *ngIf="!hasNodes"></div>
 
-<div class="text-sm breadcrumbs" *ngIf="showNodes">
-  <ul>
-    <li *ngFor="let node of nodes">
-      <a [href]="node['@id']" target="_blank">{{
-        node.title ? truncate(node.title, 100) : removePrefix(node["@id"])
-      }}</a>
-    </li>
-  </ul>
+<div
+  class="flex"
+  [ngClass]="[collapsed ? 'items-center' : '']"
+  *ngIf="showNodes"
+>
+  <button class="btn inline-block btn-xs mr-4" (click)="collapsed = !collapsed">
+    {{ collapsed ? "+" : "-" }}
+  </button>
+
+  <div
+    class="text-sm inline-block"
+    [ngClass]="[collapsed ? 'breadcrumbs' : '']"
+  >
+    <ul>
+      <li *ngFor="let nodeInfo of nodes; index as i; first as isFirst">
+        <a
+          [href]="nodeInfo['@id']"
+          target="_blank"
+          class="block hover:underline"
+          [style.margin-left]="collapsed ? '0' : i + 'rem'"
+          [style.margin-top]="collapsed ? '0' : i * 0.2 + 'rem'"
+        >
+          {{ nodeService.getTitle(nodeInfo, collapsed ? 100 : undefined) }}
+        </a>
+      </li>
+    </ul>
+  </div>
 </div>

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NodeModel, NodeObj } from '../models/node.model';
-import { removePrefixes } from '../helpers/util.helper';
+import { removePrefixes, truncate } from '../helpers/util.helper';
+import { NodeBasicInfoModel } from '../models/node-basic-info.model';
 
 @Injectable({
   providedIn: 'root',
@@ -40,5 +41,14 @@ export class NodeService {
   getObjForAllPreds(node: NodeModel | undefined, preds: string[]): NodeObj {
     // TODO
     return 'TODO';
+  }
+
+  getTitle(node: NodeBasicInfoModel, maxCharacters?: number): string {
+    const nodeTitle = node.title;
+    if (nodeTitle) {
+      const shouldTruncate = maxCharacters !== undefined;
+      return shouldTruncate ? truncate(nodeTitle, maxCharacters) : nodeTitle;
+    }
+    return removePrefixes(node['@id']);
   }
 }
