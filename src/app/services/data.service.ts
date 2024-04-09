@@ -42,6 +42,6 @@ export class DataService {
       }
     }
 
-    return nodeParents.reverse();
+    return nodeParents.reverse().slice(0, -1);
   }
 }
