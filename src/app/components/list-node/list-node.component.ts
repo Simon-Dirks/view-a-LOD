@@ -7,7 +7,7 @@ import { SparqlService } from '../../services/sparql.service';
 import { SparqlNodeParentModel } from '../../models/sparql/sparql-node-parent';
 import { DataService } from '../../services/data.service';
 import { NodeBasicInfoModel } from '../../models/node-basic-info.model';
-import { NodeHierarchyComponent } from '../parents-breadcrumbs/node-hierarchy.component';
+import { NodeHierarchyComponent } from '../node-hierarchy/node-hierarchy.component';
 import { removePrefixes } from '../../helpers/util.helper';
 
 @Component({
