@@ -1,11 +1,15 @@
-<div class="skeleton h-3 w-1/2" *ngIf="!hasNodes"></div>
+<div class="skeleton h-3 w-1/2" *ngIf="!hasLoadedNodes"></div>
 
 <div
   class="flex"
   [ngClass]="[collapsed ? 'items-center' : '']"
   *ngIf="showNodes"
 >
-  <button class="btn inline-block btn-xs mr-4" (click)="collapsed = !collapsed">
+  <button
+    class="btn inline-block btn-xs mr-4"
+    (click)="collapsed = !collapsed"
+    *ngIf="allowExpand"
+  >
     {{ collapsed ? "+" : "-" }}
   </button>
 

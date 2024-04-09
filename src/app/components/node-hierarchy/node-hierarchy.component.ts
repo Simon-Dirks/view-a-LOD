@@ -4,6 +4,7 @@ import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { removePrefixes, truncate } from '../../helpers/util.helper';
 import { NodeService } from '../../services/node.service';
 import { NgIcon } from '@ng-icons/core';
+import { Config } from '../../config/config';
 
 @Component({
   selector: 'app-node-hierarchy',
@@ -18,12 +19,18 @@ export class NodeHierarchyComponent {
 
   constructor(public nodeService: NodeService) {}
 
-  get hasNodes(): boolean {
-    return this.nodes !== undefined && this.nodes.length > 0;
+  get hasLoadedNodes(): boolean {
+    return this.nodes !== undefined;
   }
 
   get showNodes(): boolean {
-    return this.hasNodes && this.nodes.length > 1;
+    return this.hasLoadedNodes && this.nodes.length > 0;
+  }
+
+  get allowExpand(): boolean {
+    return (
+      this.hasLoadedNodes && this.nodes.length >= Config.numParentsToAllowExpand
+    );
   }
 
   protected readonly removePrefix = removePrefixes;
