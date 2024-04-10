@@ -63,5 +63,6 @@ export const Settings = {
     'http://www.w3.org/ns/prov#': 'prov:',
     'https://data.cbg.nl/pico#': 'pico:',
     'https://w3id.org/pnv#': 'pnv:',
+    'http://xmlns.com/foaf/0.1/': 'foaf:',
   },
 };
