@@ -18,7 +18,15 @@
           <tr *ngIf="!Settings.hidePredicates.includes(nodeItem.key)">
             <td>{{ replacePrefixes(nodeItem.key) }}</td>
             <td>
-              {{ replacePrefixesArray(nodeObjAsArray(nodeItem.value)) | json }}
+              <div
+                *ngFor="
+                  let value of replacePrefixesArray(
+                    nodeObjAsArray(nodeItem.value)
+                  )
+                "
+              >
+                {{ value }}
+              </div>
             </td>
           </tr>
         </ng-container>
