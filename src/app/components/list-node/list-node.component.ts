@@ -18,9 +18,12 @@ import { NodeTypesComponent } from './node-types/node-types.component';
 import { NodeImagesComponent } from './node-images/node-images.component';
 import { CacheService } from '../../services/cache.service';
 import {
+  isValidHttpUrl,
   replacePrefixes,
   replacePrefixesArray,
 } from '../../helpers/util.helper';
+import { NodeLinkComponent } from './node-link/node-link.component';
+import { NodeRelationsTableComponent } from './node-relations-table/node-relations-table.component';
 
 @Component({
   selector: 'app-list-node',
@@ -34,6 +37,8 @@ import {
     NodeImagesComponent,
     AsyncPipe,
     KeyValuePipe,
+    NodeLinkComponent,
+    NodeRelationsTableComponent,
   ],
   templateUrl: './list-node.component.html',
   styleUrl: './list-node.component.scss',
@@ -86,4 +91,5 @@ export class ListNodeComponent implements OnInit {
   protected readonly replacePrefixes = replacePrefixes;
   protected readonly nodeObjAsArray = nodeObjAsArray;
   protected readonly replacePrefixesArray = replacePrefixesArray;
+  protected readonly isValidHttpUrl = isValidHttpUrl;
 }

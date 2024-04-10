@@ -1,0 +1,19 @@
+<table class="table" *ngIf="node">
+  <tbody>
+    <ng-container *ngFor="let nodeItem of node | keyvalue">
+      <tr *ngIf="!Settings.hidePredicates.includes(nodeItem.key)">
+        <td>
+          <app-node-link
+            [url]="nodeItem.key"
+            [label]="replacePrefixes(nodeItem.key)"
+          />
+        </td>
+        <td>
+          <div *ngFor="let value of nodeObjAsArray(nodeItem.value)">
+            <app-node-link [url]="value" [label]="replacePrefixes(value)" />
+          </div>
+        </td>
+      </tr>
+    </ng-container>
+  </tbody>
+</table>

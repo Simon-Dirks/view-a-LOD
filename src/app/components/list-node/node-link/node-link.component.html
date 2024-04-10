@@ -1,0 +1,14 @@
+<ng-container *ngIf="url">
+  <a
+    [href]="url"
+    target="_blank"
+    class="hover:underline"
+    *ngIf="isValidHttpUrl(url)"
+  >
+    {{ label ?? url }}
+  </a>
+
+  <span *ngIf="!isValidHttpUrl(url)">
+    {{ label ?? url }}
+  </span>
+</ng-container>

@@ -25,6 +25,18 @@ export const truncate = (s: string, maxCharacters: number) => {
   }
 };
 
+export const isValidHttpUrl = (s: string): boolean => {
+  let url;
+
+  try {
+    url = new URL(s);
+  } catch (_) {
+    return false;
+  }
+
+  return url.protocol === 'http:' || url.protocol === 'https:';
+};
+
 const stripBeforeStr = (inputStr: string, stripStr: string): string => {
   const index = inputStr.indexOf(stripStr);
   if (index !== -1) {

@@ -55,5 +55,8 @@ export const Settings = {
     'http://www.w3.org/1999/02/22-rdf-syntax-ns#': 'rdf:',
     'http://www.w3.org/2000/01/rdf-schema#': 'rdfs:',
     'http://www.wikidata.org/entity/': 'wd:',
+    'http://www.w3.org/ns/prov#': 'prov:',
+    'https://data.cbg.nl/pico#': 'pico:',
+    'https://w3id.org/pnv#': 'pnv:',
   },
 };

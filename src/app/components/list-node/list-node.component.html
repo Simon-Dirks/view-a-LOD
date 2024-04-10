@@ -12,25 +12,6 @@
       [images]="nodes.getObjAsArray(node, Settings.predicates.images)"
     />
 
-    <table class="table" *ngIf="node">
-      <tbody>
-        <ng-container *ngFor="let nodeItem of node | keyvalue">
-          <tr *ngIf="!Settings.hidePredicates.includes(nodeItem.key)">
-            <td>{{ replacePrefixes(nodeItem.key) }}</td>
-            <td>
-              <div
-                *ngFor="
-                  let value of replacePrefixesArray(
-                    nodeObjAsArray(nodeItem.value)
-                  )
-                "
-              >
-                {{ value }}
-              </div>
-            </td>
-          </tr>
-        </ng-container>
-      </tbody>
-    </table>
+    <app-node-relations-table [node]="node" />
   </div>
 </div>
