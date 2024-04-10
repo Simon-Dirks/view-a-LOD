@@ -13,8 +13,10 @@ export class ElasticService {
 
   async searchEntities(
     query: string,
+    from: number = 0,
   ): Promise<estypes.SearchResponse<NodeModel>> {
     const queryData: ElasticQueryModel = {
+      from: from,
       query: {
         simple_query_string: {
           query: query,

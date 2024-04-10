@@ -15,4 +15,13 @@ export class SearchComponent implements OnInit {
   constructor(public search: SearchService) {}
 
   ngOnInit() {}
+
+  onScroll($event: any) {
+    const hasReachedEnd =
+      $event.target.offsetHeight + $event.target.scrollTop >=
+      $event.target.scrollHeight;
+    if (hasReachedEnd) {
+      void this.search.execute();
+    }
+  }
 }

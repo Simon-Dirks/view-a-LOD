@@ -5,6 +5,9 @@ export const Settings = {
     sparql:
       'https://api.data.netwerkdigitaalerfgoed.nl/datasets/hetutrechtsarchief/Test-Amerongen/sparql',
   },
+  search: {
+    resultsPerPage: 10,
+  },
   predicates: {
     parents: [
       'https://www.ica.org/standards/RiC/ontology#isOrWasIncludedIn',

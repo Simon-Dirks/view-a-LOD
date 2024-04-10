@@ -1,7 +1,12 @@
-<div class="m-4">
-  <app-search-input />
-  <app-list-node
-    *ngFor="let node of search.results.getValue()"
-    [node]="node"
-  ></app-list-node>
+<div class="flex flex-col h-screen">
+  <div class="flex-grow-0 p-4">
+    <app-search-input />
+  </div>
+
+  <div class="flex-grow p-4 overflow-y-scroll" (scroll)="onScroll($event)">
+    <app-list-node
+      *ngFor="let node of search.results.getValue()"
+      [node]="node"
+    ></app-list-node>
+  </div>
 </div>
