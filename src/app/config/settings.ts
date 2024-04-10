@@ -54,5 +54,6 @@ export const Settings = {
     'https://hetutrechtsarchief.nl/id/': 'id:',
     'http://www.w3.org/1999/02/22-rdf-syntax-ns#': 'rdf:',
     'http://www.w3.org/2000/01/rdf-schema#': 'rdfs:',
+    'http://www.wikidata.org/entity/': 'wd:',
   },
 };
