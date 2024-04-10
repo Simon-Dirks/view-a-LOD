@@ -1,7 +1,7 @@
-<ng-container *ngFor="let type of types">
-  <ng-container *ngIf="type">
+<ng-container *ngFor="let typeId of typeIds">
+  <ng-container *ngIf="typeId">
     <div class="badge badge-primary mr-1">
-      {{ removePrefixes(type) }}
+      {{ cache.labels?.[typeId] ?? replacePrefixes(typeId) }}
     </div>
   </ng-container>
 </ng-container>

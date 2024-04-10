@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NodeBasicInfoModel } from '../../models/node-basic-info.model';
+import { ThingWithLabelModel } from '../../models/thing-with-label.model';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { replacePrefixes, truncate } from '../../helpers/util.helper';
 import { NodeService } from '../../services/node.service';
@@ -14,7 +14,7 @@ import { Config } from '../../config/config';
   styleUrl: './node-hierarchy.component.scss',
 })
 export class NodeHierarchyComponent {
-  @Input() nodes: NodeBasicInfoModel[] = [];
+  @Input() nodes: ThingWithLabelModel[] = [];
   collapsed = true;
 
   constructor(public nodeService: NodeService) {}

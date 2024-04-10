@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SparqlNodeParentModel } from '../models/sparql/sparql-node-parent';
-import { NodeBasicInfoModel } from '../models/node-basic-info.model';
+import { ThingWithLabelModel } from '../models/thing-with-label.model';
 import { NodeModel } from '../models/node.model';
 
 @Injectable({
@@ -22,8 +22,8 @@ export class DataService {
   getOrderedParentsFromSparqlResults(
     nodeId: string,
     sparqlParentsData: SparqlNodeParentModel[],
-  ): NodeBasicInfoModel[] {
-    const nodeParents: NodeBasicInfoModel[] = [];
+  ): ThingWithLabelModel[] {
+    const nodeParents: ThingWithLabelModel[] = [];
     let currentNodeId: string | null = nodeId;
 
     while (currentNodeId !== null) {
@@ -31,9 +31,9 @@ export class DataService {
         (d) => d.id === currentNodeId,
       );
       if (sparqlNodeParentData) {
-        const nodeInfo: NodeBasicInfoModel = {
+        const nodeInfo: ThingWithLabelModel = {
           '@id': sparqlNodeParentData.id,
-          title: sparqlNodeParentData.title,
+          label: sparqlNodeParentData.title,
         };
         nodeParents.push(nodeInfo);
         currentNodeId = sparqlNodeParentData.parent;

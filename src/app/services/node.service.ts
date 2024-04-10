@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NodeModel, NodeObj, nodeObjAsArray } from '../models/node.model';
 import { replacePrefixes, truncate } from '../helpers/util.helper';
-import { NodeBasicInfoModel } from '../models/node-basic-info.model';
+import { ThingWithLabelModel } from '../models/thing-with-label.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +12,7 @@ export class NodeService {
   getObj(
     node: NodeModel | undefined,
     preds: string[],
-    stripPrefix = false,
+    replacePrefix = false,
   ): NodeObj {
     if (!node) {
       return '';
@@ -25,11 +25,11 @@ export class NodeService {
         continue;
       }
 
-      if (stripPrefix) {
-        const nodeObjStripped: NodeObj = Array.isArray(nodeObj)
+      if (replacePrefix) {
+        const nodeObjPrefixesReplaced: NodeObj = Array.isArray(nodeObj)
           ? nodeObj.map((o) => replacePrefixes(o))
           : replacePrefixes(nodeObj);
-        return nodeObjStripped;
+        return nodeObjPrefixesReplaced;
       }
 
       return nodeObj;
@@ -51,8 +51,8 @@ export class NodeService {
     return 'TODO';
   }
 
-  getTitle(node: NodeBasicInfoModel, maxCharacters?: number): string {
-    const nodeTitle = node.title;
+  getTitle(node: ThingWithLabelModel, maxCharacters?: number): string {
+    const nodeTitle = node.label;
     if (nodeTitle) {
       const shouldTruncate = maxCharacters !== undefined;
       return shouldTruncate ? truncate(nodeTitle, maxCharacters) : nodeTitle;

@@ -6,10 +6,7 @@
       <p>{{ nodes.getObj(node, Settings.predicates.title) }}</p>
     </div>
 
-    <app-node-types
-      [types]="nodes.getObjAsArray(node, Settings.predicates.type)"
-      class="mb-4"
-    />
+    <app-node-types [typeIds]="types" class="mb-4" />
 
     <app-node-images
       [images]="nodes.getObjAsArray(node, Settings.predicates.images)"

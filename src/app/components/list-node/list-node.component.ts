@@ -1,16 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { JsonPipe, NgForOf, NgIf } from '@angular/common';
-import { NodeModel, NodeObj, nodeObjAsArray } from '../../models/node.model';
+import { AsyncPipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
+import { NodeModel } from '../../models/node.model';
 import { NodeService } from '../../services/node.service';
 import { Settings } from '../../config/settings';
 import { SparqlService } from '../../services/sparql.service';
 import { SparqlNodeParentModel } from '../../models/sparql/sparql-node-parent';
 import { DataService } from '../../services/data.service';
-import { NodeBasicInfoModel } from '../../models/node-basic-info.model';
+import { ThingWithLabelModel } from '../../models/thing-with-label.model';
 import { NodeHierarchyComponent } from '../node-hierarchy/node-hierarchy.component';
 import { replacePrefixes } from '../../helpers/util.helper';
 import { NodeTypesComponent } from './node-types/node-types.component';
 import { NodeImagesComponent } from './node-images/node-images.component';
+import { CacheService } from '../../services/cache.service';
 
 @Component({
   selector: 'app-list-node',
@@ -22,13 +23,14 @@ import { NodeImagesComponent } from './node-images/node-images.component';
     NodeHierarchyComponent,
     NodeTypesComponent,
     NodeImagesComponent,
+    AsyncPipe,
   ],
   templateUrl: './list-node.component.html',
   styleUrl: './list-node.component.scss',
 })
 export class ListNodeComponent implements OnInit {
   @Input() node?: NodeModel;
-  parents: NodeBasicInfoModel[] = [];
+  parents: ThingWithLabelModel[] = [];
 
   protected readonly Settings = Settings;
 
@@ -36,15 +38,24 @@ export class ListNodeComponent implements OnInit {
     public nodes: NodeService,
     public sparql: SparqlService,
     public data: DataService,
+    public cache: CacheService,
   ) {}
 
   ngOnInit() {
     void this.retrieveParents();
   }
 
-  get types(): string[] {
-    const obj: NodeObj = this.nodes.getObj(this.node, Settings.predicates.type);
-    return nodeObjAsArray(obj);
+  get types() {
+    const typeIds: string[] = this.nodes.getObjAsArray(
+      this.node,
+      Settings.predicates.type,
+    );
+
+    typeIds.forEach((typeId) => {
+      void this.cache.cacheLabelForId(typeId);
+    });
+
+    return typeIds;
   }
 
   async retrieveParents() {
