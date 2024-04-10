@@ -33,6 +33,7 @@ export const Settings = {
   },
   views: {
     'https://schema.org/Article': 'sdo-article-view',
+    'https://schema.org/Message': 'sdo-message-view',
     'https://www.ica.org/standards/RiC/ontology#Record': 'rico-record-view',
   },
   hidePredicates: [

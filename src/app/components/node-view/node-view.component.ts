@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NodeModel } from '../../models/node.model';
+import { NodeService } from '../../services/node.service';
 
 @Component({
   selector: 'app-node-view',
@@ -9,4 +10,6 @@ import { NodeModel } from '../../models/node.model';
 })
 export class NodeViewComponent {
   @Input() node?: NodeModel;
+
+  constructor(public nodes: NodeService) {}
 }

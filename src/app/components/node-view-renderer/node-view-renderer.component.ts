@@ -6,6 +6,7 @@ import { RicoRecordViewComponent } from '../node-view/rico-record-view/rico-reco
 import { NodeModel } from '../../models/node.model';
 import { NodeService } from '../../services/node.service';
 import { Settings } from '../../config/settings';
+import { SdoMessageViewComponent } from '../node-view/sdo-message-view/sdo-message-view.component';
 
 @Component({
   selector: 'app-node-view-renderer',
@@ -17,6 +18,7 @@ import { Settings } from '../../config/settings';
     NgSwitch,
     NgSwitchCase,
     RicoRecordViewComponent,
+    SdoMessageViewComponent,
   ],
   templateUrl: './node-view-renderer.component.html',
   styleUrl: './node-view-renderer.component.scss',

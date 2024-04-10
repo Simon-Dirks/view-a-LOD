@@ -7,6 +7,10 @@
     [node]="node"
     *ngIf="views.includes('sdo-article-view')"
   />
+  <app-sdo-message-view
+    [node]="node"
+    *ngIf="views.includes('sdo-message-view')"
+  />
 
   <app-node-table-view [node]="node" />
 </ng-container>

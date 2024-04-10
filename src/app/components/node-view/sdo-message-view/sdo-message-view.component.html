@@ -1,0 +1,13 @@
+<div class="chat chat-start">
+  <div class="chat-header">
+    {{ nodes.getObj(node, ["https://schema.org/sender"]) }}
+    <time class="text-xs opacity-50">
+      {{ nodes.getObj(node, ["https://schema.org/dateSent"]) }}
+    </time>
+  </div>
+  <div class="chat-bubble">
+    {{ nodes.getObj(node, ["https://schema.org/text"]) }}
+  </div>
+  <!--  <div class="chat-footer opacity-50">-->
+  <!--  </div>-->
+</div>
