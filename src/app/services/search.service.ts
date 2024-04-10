@@ -36,7 +36,6 @@ export class SearchService {
   }
 
   async execute(clearResults = false) {
-    console.log('SEARCHING...');
     if (clearResults) {
       this.clearResults();
     }
