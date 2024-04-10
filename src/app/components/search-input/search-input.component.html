@@ -6,7 +6,6 @@
     [(ngModel)]="search.queryStr"
     (ngModelChange)="onSearchInputChange($event)"
   />
-  <span>{{ search.page }}</span>
   <span
     class="loading loading-spinner loading-xs opacity-70"
     *ngIf="search.isLoading.getValue()"
