@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { removePrefixes } from '../../../helpers/util.helper';
+import { replacePrefixes } from '../../../helpers/util.helper';
 import { NgForOf, NgIf } from '@angular/common';
 
 @Component({
@@ -12,5 +12,5 @@ import { NgForOf, NgIf } from '@angular/common';
 export class NodeTypesComponent {
   @Input() types?: string[];
 
-  protected readonly removePrefixes = removePrefixes;
+  protected readonly removePrefixes = replacePrefixes;
 }

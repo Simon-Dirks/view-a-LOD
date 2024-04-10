@@ -31,11 +31,11 @@ export const Settings = {
       'https://schema.org/thumbnail',
     ],
   },
-  prefixesToHide: [
-    'https://www.ica.org/standards/RiC/ontology#',
-    'https://hetutrechtsarchief.nl/def/',
-    'https://schema.org/',
-    'http://www.w3.org/2004/02/skos/core#',
-    'https://hetutrechtsarchief.nl/id/',
-  ],
+  namespacePrefixes: {
+    'https://www.ica.org/standards/RiC/ontology#': 'rico:',
+    'https://hetutrechtsarchief.nl/def/': 'def:',
+    'https://schema.org/': 'sdo:',
+    'http://www.w3.org/2004/02/skos/core#': 'skos:',
+    'https://hetutrechtsarchief.nl/id/': 'id:',
+  },
 };

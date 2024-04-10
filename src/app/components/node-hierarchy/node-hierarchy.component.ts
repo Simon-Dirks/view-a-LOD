@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NodeBasicInfoModel } from '../../models/node-basic-info.model';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
-import { removePrefixes, truncate } from '../../helpers/util.helper';
+import { replacePrefixes, truncate } from '../../helpers/util.helper';
 import { NodeService } from '../../services/node.service';
 import { NgIcon } from '@ng-icons/core';
 import { Config } from '../../config/config';
@@ -33,6 +33,6 @@ export class NodeHierarchyComponent {
     );
   }
 
-  protected readonly removePrefix = removePrefixes;
+  protected readonly removePrefix = replacePrefixes;
   protected readonly truncate = truncate;
 }

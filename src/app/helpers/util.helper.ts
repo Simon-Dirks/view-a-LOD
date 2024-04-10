@@ -1,8 +1,10 @@
 import { Settings } from '../config/settings';
 
-export const removePrefixes = (s: string): string => {
-  for (const prefixToRemove of Settings.prefixesToHide) {
-    s = stripBeforeStr(s, prefixToRemove);
+export const replacePrefixes = (s: string): string => {
+  for (const [namespace, prefix] of Object.entries(
+    Settings.namespacePrefixes,
+  )) {
+    s = s.replaceAll(namespace, prefix);
   }
   return s;
 };

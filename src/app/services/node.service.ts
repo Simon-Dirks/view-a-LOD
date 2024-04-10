@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { NodeModel, NodeObj, nodeObjAsArray } from '../models/node.model';
-import { removePrefixes, truncate } from '../helpers/util.helper';
+import { replacePrefixes, truncate } from '../helpers/util.helper';
 import { NodeBasicInfoModel } from '../models/node-basic-info.model';
 
 @Injectable({
@@ -27,8 +27,8 @@ export class NodeService {
 
       if (stripPrefix) {
         const nodeObjStripped: NodeObj = Array.isArray(nodeObj)
-          ? nodeObj.map((o) => removePrefixes(o))
-          : removePrefixes(nodeObj);
+          ? nodeObj.map((o) => replacePrefixes(o))
+          : replacePrefixes(nodeObj);
         return nodeObjStripped;
       }
 
@@ -57,6 +57,6 @@ export class NodeService {
       const shouldTruncate = maxCharacters !== undefined;
       return shouldTruncate ? truncate(nodeTitle, maxCharacters) : nodeTitle;
     }
-    return removePrefixes(node['@id']);
+    return replacePrefixes(node['@id']);
   }
 }

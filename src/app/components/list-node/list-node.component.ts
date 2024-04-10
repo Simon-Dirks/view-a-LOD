@@ -8,7 +8,7 @@ import { SparqlNodeParentModel } from '../../models/sparql/sparql-node-parent';
 import { DataService } from '../../services/data.service';
 import { NodeBasicInfoModel } from '../../models/node-basic-info.model';
 import { NodeHierarchyComponent } from '../node-hierarchy/node-hierarchy.component';
-import { removePrefixes } from '../../helpers/util.helper';
+import { replacePrefixes } from '../../helpers/util.helper';
 import { NodeTypesComponent } from './node-types/node-types.component';
 import { NodeImagesComponent } from './node-images/node-images.component';
 
@@ -62,5 +62,5 @@ export class ListNodeComponent implements OnInit {
     );
   }
 
-  protected readonly removePrefixes = removePrefixes;
+  protected readonly removePrefixes = replacePrefixes;
 }
