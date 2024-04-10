@@ -1,6 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AsyncPipe, JsonPipe, NgForOf, NgIf } from '@angular/common';
-import { NodeModel } from '../../models/node.model';
+import {
+  AsyncPipe,
+  JsonPipe,
+  KeyValuePipe,
+  NgForOf,
+  NgIf,
+} from '@angular/common';
+import { NodeModel, nodeObjAsArray } from '../../models/node.model';
 import { NodeService } from '../../services/node.service';
 import { Settings } from '../../config/settings';
 import { SparqlService } from '../../services/sparql.service';
@@ -8,10 +14,13 @@ import { SparqlNodeParentModel } from '../../models/sparql/sparql-node-parent';
 import { DataService } from '../../services/data.service';
 import { ThingWithLabelModel } from '../../models/thing-with-label.model';
 import { NodeHierarchyComponent } from '../node-hierarchy/node-hierarchy.component';
-import { replacePrefixes } from '../../helpers/util.helper';
 import { NodeTypesComponent } from './node-types/node-types.component';
 import { NodeImagesComponent } from './node-images/node-images.component';
 import { CacheService } from '../../services/cache.service';
+import {
+  replacePrefixes,
+  replacePrefixesArray,
+} from '../../helpers/util.helper';
 
 @Component({
   selector: 'app-list-node',
@@ -24,6 +33,7 @@ import { CacheService } from '../../services/cache.service';
     NodeTypesComponent,
     NodeImagesComponent,
     AsyncPipe,
+    KeyValuePipe,
   ],
   templateUrl: './list-node.component.html',
   styleUrl: './list-node.component.scss',
@@ -73,5 +83,7 @@ export class ListNodeComponent implements OnInit {
     );
   }
 
-  protected readonly removePrefixes = replacePrefixes;
+  protected readonly replacePrefixes = replacePrefixes;
+  protected readonly nodeObjAsArray = nodeObjAsArray;
+  protected readonly replacePrefixesArray = replacePrefixesArray;
 }

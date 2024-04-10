@@ -46,6 +46,7 @@ export class SearchService {
         await this.elastic.searchEntities(
           this.queryStr,
           this.page * Settings.search.resultsPerPage,
+          Settings.search.resultsPerPage,
         );
       const hits: estypes.SearchHit<NodeModel>[] = response?.hits?.hits;
       const hitNodes: NodeModel[] = this._parseHitsToNodes(hits);

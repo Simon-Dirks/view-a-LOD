@@ -12,18 +12,17 @@
       [images]="nodes.getObjAsArray(node, Settings.predicates.images)"
     />
 
-    <div
-      class="collapse bg-base-200 mt-4 opacity-20 hover:opacity-100 transition-opacity duration-500"
-    >
-      <input type="checkbox" />
-      <div class="collapse-title font-medium font-mono">
-        Click to show/hide data
-      </div>
-      <div class="collapse-content">
-        <pre>
-            {{ node | json }}
-        </pre>
-      </div>
-    </div>
+    <table class="table" *ngIf="node">
+      <tbody>
+        <ng-container *ngFor="let nodeItem of node | keyvalue">
+          <tr *ngIf="!Settings.hidePredicates.includes(nodeItem.key)">
+            <td>{{ replacePrefixes(nodeItem.key) }}</td>
+            <td>
+              {{ replacePrefixesArray(nodeObjAsArray(nodeItem.value)) | json }}
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
   </div>
 </div>

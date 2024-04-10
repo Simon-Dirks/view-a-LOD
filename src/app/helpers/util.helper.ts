@@ -9,6 +9,10 @@ export const replacePrefixes = (s: string): string => {
   return s;
 };
 
+export const replacePrefixesArray = (sArr: string[]): string[] => {
+  return sArr.map((s) => replacePrefixes(s));
+};
+
 export const wrapWithAngleBrackets = (s: string): string => {
   return `<${s}>`;
 };
