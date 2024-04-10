@@ -1,7 +1,7 @@
 <ng-container *ngFor="let typeId of typeIds">
   <ng-container *ngIf="typeId">
     <div class="badge badge-primary mr-1">
-      {{ cache.labels?.[typeId] ?? replacePrefixes(typeId) }}
+      {{ getLabel(typeId) }}
     </div>
   </ng-container>
 </ng-container>

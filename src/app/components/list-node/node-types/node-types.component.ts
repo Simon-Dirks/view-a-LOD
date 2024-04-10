@@ -15,5 +15,7 @@ export class NodeTypesComponent {
 
   constructor(public cache: CacheService) {}
 
-  protected readonly replacePrefixes = replacePrefixes;
+  getLabel(typeId: string) {
+    return this.cache.labels?.[typeId] ?? replacePrefixes(typeId);
+  }
 }
