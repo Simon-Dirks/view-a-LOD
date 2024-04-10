@@ -1,0 +1,12 @@
+<ng-container *ngIf="node">
+  <app-rico-record-view
+    [node]="node"
+    *ngIf="views.includes('rico-record-view')"
+  />
+  <app-sdo-article-view
+    [node]="node"
+    *ngIf="views.includes('sdo-article-view')"
+  />
+
+  <app-node-table-view [node]="node" />
+</ng-container>

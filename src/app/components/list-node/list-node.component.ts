@@ -6,7 +6,7 @@ import {
   NgForOf,
   NgIf,
 } from '@angular/common';
-import { NodeModel, nodeObjAsArray } from '../../models/node.model';
+import { NodeModel } from '../../models/node.model';
 import { NodeService } from '../../services/node.service';
 import { Settings } from '../../config/settings';
 import { SparqlService } from '../../services/sparql.service';
@@ -17,13 +17,8 @@ import { NodeHierarchyComponent } from '../node-hierarchy/node-hierarchy.compone
 import { NodeTypesComponent } from './node-types/node-types.component';
 import { NodeImagesComponent } from './node-images/node-images.component';
 import { CacheService } from '../../services/cache.service';
-import {
-  isValidHttpUrl,
-  replacePrefixes,
-  replacePrefixesArray,
-} from '../../helpers/util.helper';
 import { NodeLinkComponent } from './node-link/node-link.component';
-import { NodeRelationsTableComponent } from './node-relations-table/node-relations-table.component';
+import { NodeViewRendererComponent } from '../node-view-renderer/node-view-renderer.component';
 
 @Component({
   selector: 'app-list-node',
@@ -38,7 +33,7 @@ import { NodeRelationsTableComponent } from './node-relations-table/node-relatio
     AsyncPipe,
     KeyValuePipe,
     NodeLinkComponent,
-    NodeRelationsTableComponent,
+    NodeViewRendererComponent,
   ],
   templateUrl: './list-node.component.html',
   styleUrl: './list-node.component.scss',
@@ -87,9 +82,4 @@ export class ListNodeComponent implements OnInit {
       response,
     );
   }
-
-  protected readonly replacePrefixes = replacePrefixes;
-  protected readonly nodeObjAsArray = nodeObjAsArray;
-  protected readonly replacePrefixesArray = replacePrefixesArray;
-  protected readonly isValidHttpUrl = isValidHttpUrl;
 }

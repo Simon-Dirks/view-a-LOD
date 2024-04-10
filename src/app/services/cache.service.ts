@@ -20,7 +20,6 @@ export class CacheService {
       if (!this.labels?.[idToCache]) {
         this.labels[idToCache] = replacePrefixes(idToCache);
         this.labels[idToCache] = await this.sparql.getRdfsLabel(idToCache);
-        console.log('RETRIEVE LABEL FOR', idToCache);
       }
     }
   }

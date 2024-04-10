@@ -31,6 +31,10 @@ export const Settings = {
       'https://schema.org/thumbnail',
     ],
   },
+  views: {
+    'https://schema.org/Article': 'sdo-article-view',
+    'https://www.ica.org/standards/RiC/ontology#Record': 'rico-record-view',
+  },
   hidePredicates: [
     'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
     'https://schema.org/additionalType',
