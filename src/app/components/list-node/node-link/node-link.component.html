@@ -5,7 +5,7 @@
     class="hover:underline"
     *ngIf="isValidHttpUrl(url)"
   >
-    {{ label ?? url }}
+    {{ cachedLabel ?? url }}
   </a>
 
   <span *ngIf="!isValidHttpUrl(url)">
