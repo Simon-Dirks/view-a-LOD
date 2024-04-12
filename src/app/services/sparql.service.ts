@@ -35,6 +35,27 @@ limit 500`;
     return await this.api.postData(Settings.endpoints.sparql, { query: query });
   }
 
+  async getLabelFromLiterals(id: string): Promise<string> {
+    const query = `
+    SELECT (GROUP_CONCAT(DISTINCT ?literalValue; separator=" ") AS ?label)
+    WHERE {
+      <${id}> ?p ?o .
+      FILTER(isLiteral(?o))
+      BIND(str(?o) AS ?literalValue)
+    }`;
+    const labels: { label: string }[] = await this.api.postData<
+      { label: string }[]
+    >(Settings.endpoints.sparql, {
+      query: query,
+    });
+    if (!labels || labels.length === 0 || labels[0].label.length == 0) {
+      console.log("nog steeds geen label voor",id)
+      return replacePrefixes(id);
+    } 
+    console.log("label gevonden",id,labels[0].label)
+    return replacePrefixes(labels[0].label);
+  }
+
   async getRdfsLabel(id: string): Promise<string> {
     const query = `
 select distinct ?label where {
@@ -47,9 +68,13 @@ limit 1`;
       query: query,
     });
     if (!labels || labels.length === 0) {
-      return replacePrefixes(id);
+      return this.getLabelFromLiterals(id)
+      // return replacePrefixes(id);
     }
 
     return replacePrefixes(labels[0].label);
   }
+
+
+
 }
