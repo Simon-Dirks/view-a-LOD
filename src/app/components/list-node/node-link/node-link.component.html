@@ -3,12 +3,12 @@
     [href]="url"
     target="_blank"
     class="hover:underline"
-    *ngIf="isValidHttpUrl(url)"
+    *ngIf="isValidHttpUrl(url) && !disabled"
   >
     {{ cachedLabel ?? url }}
   </a>
 
-  <span *ngIf="!isValidHttpUrl(url)">
-    {{ label ?? url }}
+  <span *ngIf="!isValidHttpUrl(url) || disabled">
+    {{ cachedLabel ?? url }}
   </span>
 </ng-container>

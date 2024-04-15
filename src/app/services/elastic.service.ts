@@ -1,9 +1,9 @@
 import { estypes } from '@elastic/elasticsearch';
 import { Injectable } from '@angular/core';
-import { ElasticQueryModel } from '../models/elastic-query.model';
 import { ApiService } from './api.service';
 import { Settings } from '../config/settings';
 import { NodeModel } from '../models/node.model';
+import { ElasticFiltersModel } from '../models/elastic-filters.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,15 +13,22 @@ export class ElasticService {
 
   async searchEntities(
     query: string,
+    filters: ElasticFiltersModel,
     from: number,
     size: number,
   ): Promise<estypes.SearchResponse<NodeModel>> {
-    const queryData: ElasticQueryModel = {
+    const queryData: any = {
       from: from,
       size: size,
       query: {
-        simple_query_string: {
-          query: query,
+        bool: {
+          must: [
+            {
+              simple_query_string: {
+                query: query,
+              },
+            },
+          ],
         },
       },
       aggs: {
@@ -32,6 +39,12 @@ export class ElasticService {
         },
       },
     };
+
+    const hasFilters = Object.keys(filters.terms).length > 0;
+    if (hasFilters) {
+      queryData.query.bool.must.push(filters);
+      console.log(queryData);
+    }
     return await this.api.postData<estypes.SearchResponse<NodeModel>>(
       Settings.endpoints.elastic,
       queryData,

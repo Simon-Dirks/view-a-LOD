@@ -3,7 +3,7 @@ import { ListNodeComponent } from '../../list-node/list-node.component';
 import { JsonPipe, NgForOf } from '@angular/common';
 import { SearchService } from '../../../services/search.service';
 import { SearchInputComponent } from '../../search-input/search-input.component';
-import { TypeCountsComponent } from '../../type-counts/type-counts.component';
+import { TypeFilterComponent } from '../../type-filter/type-filter.component';
 
 @Component({
   selector: 'app-search',
@@ -13,7 +13,7 @@ import { TypeCountsComponent } from '../../type-counts/type-counts.component';
     NgForOf,
     SearchInputComponent,
     JsonPipe,
-    TypeCountsComponent,
+    TypeFilterComponent,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',

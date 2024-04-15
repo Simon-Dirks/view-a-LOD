@@ -7,14 +7,16 @@ import {
   AsyncPipe,
   JsonPipe,
   KeyValuePipe,
+  NgClass,
   NgForOf,
   NgIf,
 } from '@angular/common';
 import { CacheService } from '../../services/cache.service';
 import { NodeLinkComponent } from '../list-node/node-link/node-link.component';
+import { SearchService } from '../../services/search.service';
 
 @Component({
-  selector: 'app-type-counts',
+  selector: 'app-type-filter',
   standalone: true,
   imports: [
     JsonPipe,
@@ -23,11 +25,12 @@ import { NodeLinkComponent } from '../list-node/node-link/node-link.component';
     NgForOf,
     AsyncPipe,
     NodeLinkComponent,
+    NgClass,
   ],
-  templateUrl: './type-counts.component.html',
-  styleUrl: './type-counts.component.scss',
+  templateUrl: './type-filter.component.html',
+  styleUrl: './type-filter.component.scss',
 })
-export class TypeCountsComponent {
+export class TypeFilterComponent {
   @Input() typeCounts?: TypeCountsModel;
 
   public get typeCountsList(): TypeCountModel[] {
@@ -39,5 +42,8 @@ export class TypeCountsComponent {
     list.map((t) => this.cache.cacheLabelForId(t.typeDetails['@id']));
     return list;
   }
-  constructor(public cache: CacheService) {}
+  constructor(
+    public cache: CacheService,
+    public search: SearchService,
+  ) {}
 }
