@@ -1,7 +1,7 @@
 # View-a-LOD
 
 > [!WARNING]  
-> This project is currently in (very) early stage development, and not yet in a usable/stable state.
+> This project is currently in (very) early stage development, and not yet in a stable state.
 
 A flexible and configurable LOD viewer using SPARQL and Elastic endpoints.
 
