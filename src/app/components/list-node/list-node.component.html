@@ -3,7 +3,9 @@
     <app-node-hierarchy [nodes]="parents" />
 
     <div class="card-title">
-      <p>{{ nodes.getObj(node, Settings.predicates.title) }}</p>
+      <a [href]="node?.['@id']" target="_blank" class="hover:underline">{{
+        nodes.getObj(node, Settings.predicates.title)
+      }}</a>
     </div>
 
     <app-node-types [typeIds]="types" />
