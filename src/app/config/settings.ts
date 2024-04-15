@@ -19,6 +19,7 @@ export const Settings = {
       'https://schema.org/name',
       'https://www.ica.org/standards/RiC/ontology#title',
       'https://www.ica.org/standards/RiC/ontology#textualValue',
+      'http://www.nationaalarchief.nl/mdto#naam',
       '@id',
     ],
     type: [
@@ -64,5 +65,6 @@ export const Settings = {
     'https://data.cbg.nl/pico#': 'pico:',
     'https://w3id.org/pnv#': 'pnv:',
     'http://xmlns.com/foaf/0.1/': 'foaf:',
+    'http://www.nationaalarchief.nl/mdto#': 'mdto:',
   },
 };
