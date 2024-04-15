@@ -2,11 +2,12 @@ import { Component, Input } from '@angular/core';
 import { NgForOf, NgIf } from '@angular/common';
 import { CacheService } from '../../../services/cache.service';
 import { replacePrefixes } from '../../../helpers/util.helper';
+import { NodeLinkComponent } from '../node-link/node-link.component';
 
 @Component({
   selector: 'app-node-types',
   standalone: true,
-  imports: [NgForOf, NgIf],
+  imports: [NgForOf, NgIf, NodeLinkComponent],
   templateUrl: './node-types.component.html',
   styleUrl: './node-types.component.scss',
 })

@@ -1,7 +1,7 @@
 <ng-container *ngFor="let typeId of typeIds">
   <ng-container *ngIf="typeId">
     <div class="badge badge-primary mr-1">
-      {{ getLabel(typeId) }}
+      <app-node-link [url]="typeId" [label]="getLabel(typeId)" />
     </div>
   </ng-container>
 </ng-container>
