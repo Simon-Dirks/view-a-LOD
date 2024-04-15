@@ -24,6 +24,13 @@ export class ElasticService {
           query: query,
         },
       },
+      aggs: {
+        rdf_types: {
+          terms: {
+            field: 'http://www w3 org/1999/02/22-rdf-syntax-ns#type.keyword',
+          },
+        },
+      },
     };
     return await this.api.postData<estypes.SearchResponse<NodeModel>>(
       Settings.endpoints.elastic,

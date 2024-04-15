@@ -5,13 +5,19 @@ import { ElasticService } from './elastic.service';
 import { BehaviorSubject } from 'rxjs';
 import { DataService } from './data.service';
 import { Settings } from '../config/settings';
+import {
+  SearchResultsModel,
+  TypeCountsModel,
+} from '../models/search-results.model';
+import { replacePrefixes } from '../helpers/util.helper';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchService {
   queryStr: string = 'Margaretha';
-  results: BehaviorSubject<NodeModel[]> = new BehaviorSubject<NodeModel[]>([]);
+  results: BehaviorSubject<SearchResultsModel> =
+    new BehaviorSubject<SearchResultsModel>({});
   page: number = 0;
   isLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
@@ -30,8 +36,29 @@ export class SearchService {
       });
   }
 
+  private _parseTypeCounts(
+    searchResponse: estypes.SearchResponse<NodeModel>,
+  ): TypeCountsModel {
+    const aggregations: any = searchResponse?.aggregations;
+    const buckets: { key: string; doc_count: string }[] =
+      aggregations?.['rdf_types']?.buckets;
+    const typeCounts: TypeCountsModel = {};
+    buckets.forEach((bucket) => {
+      const typeId = bucket.key;
+      const typeLabel = typeId;
+      typeCounts[typeId] = {
+        typeDetails: {
+          label: replacePrefixes(typeId),
+          '@id': typeId,
+        },
+        count: Number(bucket.doc_count),
+      };
+    });
+    return typeCounts;
+  }
+
   clearResults() {
-    this.results.next([]);
+    this.results.next({});
     this.page = 0;
   }
 
@@ -48,13 +75,18 @@ export class SearchService {
           this.page * Settings.search.resultsPerPage,
           Settings.search.resultsPerPage,
         );
+      const typeCounts: TypeCountsModel = this._parseTypeCounts(response);
+
       const hits: estypes.SearchHit<NodeModel>[] = response?.hits?.hits;
       const hitNodes: NodeModel[] = this._parseHitsToNodes(hits);
       const hasHits = hitNodes && hitNodes.length > 0;
       if (hasHits) {
         this.page++;
       }
-      this.results.next([...this.results.value, ...hitNodes]);
+      this.results.next({
+        nodes: [...(this.results.value.nodes ?? []), ...hitNodes],
+        typeCounts: typeCounts,
+      });
     } catch (error) {
       console.error('Error searching:', error);
     } finally {

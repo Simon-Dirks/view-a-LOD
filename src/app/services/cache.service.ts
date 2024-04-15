@@ -11,9 +11,9 @@ export class CacheService {
 
   constructor(public sparql: SparqlService) {}
 
-  async cacheLabelForId(id: string) {
+  async cacheLabelForId(id: string): Promise<string> {
     if (!id) {
-      return;
+      return 'N/A';
     }
     this._ids.add(id);
     for (const idToCache of this._ids) {
@@ -22,5 +22,7 @@ export class CacheService {
         this.labels[idToCache] = await this.sparql.getRdfsLabel(idToCache);
       }
     }
+
+    return this.labels[id];
   }
 }

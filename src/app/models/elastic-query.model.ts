@@ -6,4 +6,5 @@ export interface ElasticQueryModel {
       query: string;
     };
   };
+  aggs?: any; // TODO: Add type
 }
