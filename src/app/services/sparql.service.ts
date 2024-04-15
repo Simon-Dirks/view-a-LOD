@@ -49,10 +49,10 @@ limit 500`;
       query: query,
     });
     if (!labels || labels.length === 0 || labels[0].label.length == 0) {
-      console.log("nog steeds geen label voor",id)
+      // console.log('nog steeds geen label voor', id);
       return replacePrefixes(id);
-    } 
-    console.log("label gevonden",id,labels[0].label)
+    }
+    // console.log('label gevonden', id, labels[0].label);
     return replacePrefixes(labels[0].label);
   }
 
@@ -68,13 +68,10 @@ limit 1`;
       query: query,
     });
     if (!labels || labels.length === 0) {
-      return this.getLabelFromLiterals(id)
+      return this.getLabelFromLiterals(id);
       // return replacePrefixes(id);
     }
 
     return replacePrefixes(labels[0].label);
   }
-
-
-
 }
