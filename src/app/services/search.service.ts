@@ -103,6 +103,10 @@ export class SearchService {
     this.page = 0;
   }
 
+  clearFilters() {
+    this.filters.next({ terms: {} });
+  }
+
   async execute(clearResults = false) {
     if (clearResults) {
       this.clearResults();

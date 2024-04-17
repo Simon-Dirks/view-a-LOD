@@ -19,6 +19,8 @@ export class SearchInputComponent implements OnInit {
   }
 
   onSearchInputChange(input: string) {
+    // TODO: Might trigger double search (filter update triggers search)
+    void this.search.clearFilters();
     void this.search.execute(true);
   }
 }
