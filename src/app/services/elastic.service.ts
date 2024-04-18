@@ -2,8 +2,8 @@ import { estypes } from '@elastic/elasticsearch';
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Settings } from '../config/settings';
-import { ElasticFiltersModel } from '../models/elastic-filters.model';
-import { ElasticNodeModel } from '../models/elastic-node.model';
+import { ElasticFiltersModel } from '../models/elastic/elastic-filters.model';
+import { ElasticNodeModel } from '../models/elastic/elastic-node.model';
 
 @Injectable({
   providedIn: 'root',

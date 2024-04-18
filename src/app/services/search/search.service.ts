@@ -4,10 +4,6 @@ import { estypes } from '@elastic/elasticsearch';
 import { TypeCountsService } from './type-counts.service';
 import { BehaviorSubject } from 'rxjs';
 import {
-  ElasticFiltersModel,
-  NoElasticFilters,
-} from '../../models/elastic-filters.model';
-import {
   SearchResultsModel,
   TypeCountsModel,
 } from '../../models/search-results.model';
@@ -15,7 +11,11 @@ import { ElasticService } from '../elastic.service';
 import { NodeModel } from '../../models/node.model';
 import { Settings } from '../../config/settings';
 import { SearchHitsService } from './search-hits.service';
-import { ElasticNodeModel } from '../../models/elastic-node.model';
+import {
+  ElasticFiltersModel,
+  NoElasticFilters,
+} from '../../models/elastic/elastic-filters.model';
+import { ElasticNodeModel } from '../../models/elastic/elastic-node.model';
 
 @Injectable({
   providedIn: 'root',

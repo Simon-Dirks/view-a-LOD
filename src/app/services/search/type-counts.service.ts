@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { TypeCountsModel } from '../../models/search-results.model';
 import { estypes } from '@elastic/elasticsearch';
 import { replacePrefixes } from '../../helpers/util.helper';
-import { ElasticNodeModel } from '../../models/elastic-node.model';
+import { ElasticNodeModel } from '../../models/elastic/elastic-node.model';
 
 @Injectable({
   providedIn: 'root',

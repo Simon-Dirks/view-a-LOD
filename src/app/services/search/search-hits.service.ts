@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { estypes } from '@elastic/elasticsearch';
 import { Direction, NodeModel } from '../../models/node.model';
 import { DataService } from '../data.service';
-import { ElasticNodeModel } from '../../models/elastic-node.model';
+import { ElasticNodeModel } from '../../models/elastic/elastic-node.model';
 
 @Injectable({
   providedIn: 'root',
