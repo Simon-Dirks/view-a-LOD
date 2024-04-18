@@ -3,11 +3,11 @@
     <ng-container *ngFor="let nodeItem of node | keyvalue">
       <tr *ngIf="!Settings.hidePredicates.includes(nodeItem.key)">
         <td>
-          <ng-icon
-            name="featherArrowRight"
-            *ngIf="nodeItem.value.direction === Direction.Outgoing"
-            class="opacity-40"
-          />
+          <!--          <ng-icon-->
+          <!--            name="featherArrowRight"-->
+          <!--            *ngIf="nodeItem.value.direction === Direction.Outgoing"-->
+          <!--            class="opacity-40"-->
+          <!--          />-->
 
           <ng-icon
             name="featherArrowLeft"
