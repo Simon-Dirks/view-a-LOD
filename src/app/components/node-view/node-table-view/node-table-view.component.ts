@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { nodeObjAsArray } from '../../../models/node.model';
+import { nodeObjValuesAsArray } from '../../../models/node.model';
 import { replacePrefixes } from '../../../helpers/util.helper';
 import { Settings } from '../../../config/settings';
 import { KeyValuePipe, NgForOf, NgIf } from '@angular/common';
@@ -14,7 +14,7 @@ import { NodeViewComponent } from '../node-view.component';
   styleUrl: './node-table-view.component.scss',
 })
 export class NodeTableViewComponent extends NodeViewComponent {
-  protected readonly nodeObjAsArray = nodeObjAsArray;
+  protected readonly nodeObjAsArray = nodeObjValuesAsArray;
   protected readonly replacePrefixes = replacePrefixes;
   protected readonly Settings = Settings;
 }

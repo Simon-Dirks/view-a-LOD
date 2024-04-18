@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { TypeCountsModel } from '../../models/search-results.model';
 import { estypes } from '@elastic/elasticsearch';
-import { NodeModel } from '../../models/node.model';
 import { replacePrefixes } from '../../helpers/util.helper';
+import { ElasticNodeModel } from '../../models/elastic-node.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +25,7 @@ export class TypeCountsService {
   }
 
   getFromSearchResponses(
-    searchResponses: estypes.SearchResponse<NodeModel>[],
+    searchResponses: estypes.SearchResponse<ElasticNodeModel>[],
   ): TypeCountsModel {
     const typeCountsForEndpoints: TypeCountsModel[] = searchResponses.map(
       (response) => this.getFromSearchResponse(response),
@@ -34,7 +34,7 @@ export class TypeCountsService {
   }
 
   getFromSearchResponse(
-    searchResponse: estypes.SearchResponse<NodeModel>,
+    searchResponse: estypes.SearchResponse<ElasticNodeModel>,
   ): TypeCountsModel {
     const aggregations: any = searchResponse?.aggregations;
     const buckets: { key: string; doc_count: string }[] =

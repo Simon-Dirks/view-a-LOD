@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SparqlNodeParentModel } from '../models/sparql/sparql-node-parent';
 import { ThingWithLabelModel } from '../models/thing-with-label.model';
-import { NodeModel } from '../models/node.model';
+import { ElasticNodeModel } from '../models/elastic-node.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,7 @@ import { NodeModel } from '../models/node.model';
 export class DataService {
   constructor() {}
 
-  replaceNodePredSpacesWithPeriods(node: NodeModel): void {
+  replaceElasticNodePredSpacesWithPeriods(node: ElasticNodeModel): void {
     Object.entries(node)
       .filter(([pred]) => pred.includes(' '))
       .map(([pred, obj]) => {

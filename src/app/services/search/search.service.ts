@@ -15,6 +15,7 @@ import { ElasticService } from '../elastic.service';
 import { NodeModel } from '../../models/node.model';
 import { Settings } from '../../config/settings';
 import { SearchHitsService } from './search-hits.service';
+import { ElasticNodeModel } from '../../models/elastic-node.model';
 
 @Injectable({
   providedIn: 'root',
@@ -85,7 +86,7 @@ export class SearchService {
 
     this.isLoading.next(true);
     try {
-      const responses: estypes.SearchResponse<NodeModel>[] =
+      const responses: estypes.SearchResponse<ElasticNodeModel>[] =
         await this.elastic.searchEntities(
           this.queryStr,
           this.filters.value,
@@ -95,7 +96,7 @@ export class SearchService {
 
       const typeCounts: TypeCountsModel =
         this.typeCounts.getFromSearchResponses(responses);
-      const hits: estypes.SearchHit<NodeModel>[] =
+      const hits: estypes.SearchHit<ElasticNodeModel>[] =
         this.hits.getFromSearchResponses(responses);
 
       const hitNodes: NodeModel[] = this.hits.parseToNodes(hits);

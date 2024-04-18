@@ -1,10 +1,10 @@
-<div class="card w-full bg-base-100 shadow-xl mb-4">
+<div class="card w-full bg-base-100 shadow-xl mb-4" *ngIf="node">
   <div class="card-body">
     <app-node-hierarchy [nodes]="parents" />
 
     <div class="card-title">
       <app-node-link
-        [url]="node?.['@id']"
+        [url]="nodes.getId(node)"
         [label]="nodes.getObjAsArray(node, Settings.predicates.title).join(' ')"
       />
     </div>

@@ -32,7 +32,7 @@ UNION {
   }
 
   async getAllParents(node: NodeModel): Promise<SparqlNodeParentModel[]> {
-    if (!node || !node['@id']) {
+    if (!node || !node['@id'] || !node['@id'].value) {
       console.warn('No node to get parents for', node);
       return [];
     }
@@ -50,7 +50,7 @@ UNION {
     );
 
     const parentQueryTemplate = `
-    <${node['@id']}> ${parentIris.join('*|')}* ?id .
+    <${node['@id'].value}> ${parentIris.join('*|')}* ?id .
     OPTIONAL { ?id ${titleIris.join('|')} ?title . }
     OPTIONAL { ?id ${parentIris.join('|')} ?parent . }`;
 

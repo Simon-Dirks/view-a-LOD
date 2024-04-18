@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NodeModel, NodeObj, nodeObjAsArray } from '../models/node.model';
+import { NodeModel, NodeObj, nodeObjValuesAsArray } from '../models/node.model';
 import { replacePrefixes, truncate } from '../helpers/util.helper';
 import { ThingWithLabelModel } from '../models/thing-with-label.model';
 import { Settings } from '../config/settings';
@@ -16,27 +16,30 @@ export class NodeService {
     replacePrefix = false,
   ): NodeObj {
     if (!node) {
-      return '';
+      return { value: '' };
     }
 
     for (const pred of preds) {
       const nodeObj: NodeObj = node?.[pred];
-      const noObjFoundForThisPred = !nodeObj || nodeObj.length === 0;
+      const noObjFoundForThisPred =
+        !nodeObj || !nodeObj.value || nodeObj.value.length === 0;
       if (noObjFoundForThisPred) {
         continue;
       }
 
       if (replacePrefix) {
-        const nodeObjPrefixesReplaced: NodeObj = Array.isArray(nodeObj)
-          ? nodeObj.map((o) => replacePrefixes(o))
-          : replacePrefixes(nodeObj);
-        return nodeObjPrefixesReplaced;
+        const valuePrefixesReplaces: string[] | string = Array.isArray(
+          nodeObj.value,
+        )
+          ? nodeObj.value.map((o) => replacePrefixes(o))
+          : replacePrefixes(nodeObj.value);
+        return { value: valuePrefixesReplaces, direction: nodeObj.direction };
       }
 
       return nodeObj;
     }
 
-    return '';
+    return { value: '' };
   }
 
   getObjAsArray(
@@ -44,12 +47,7 @@ export class NodeService {
     preds: string[],
     replacePrefix = false,
   ) {
-    return nodeObjAsArray(this.getObj(node, preds, replacePrefix));
-  }
-
-  getObjForAllPreds(node: NodeModel | undefined, preds: string[]): NodeObj {
-    // TODO
-    return 'TODO';
+    return nodeObjValuesAsArray(this.getObj(node, preds, replacePrefix));
   }
 
   getTitle(node: ThingWithLabelModel, maxCharacters?: number): string {
@@ -71,5 +69,10 @@ export class NodeService {
     }
 
     return views;
+  }
+
+  getId(node: NodeModel) {
+    const id = node['@id'].value;
+    return Array.isArray(id) ? id.join(' ') : id;
   }
 }

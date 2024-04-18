@@ -78,7 +78,7 @@ export class ListNodeComponent implements OnInit {
     );
 
     this.parents = this.data.getOrderedParentsFromSparqlResults(
-      this.node['@id'],
+      this.nodes.getId(this.node),
       response,
     );
   }

@@ -1,11 +1,18 @@
 export interface NodeModel {
-  '@id': string;
-
+  '@id': NodeObj;
   [pred: string]: NodeObj;
 }
 
-export type NodeObj = string[] | string;
+export enum Direction {
+  Incoming,
+  Outgoing,
+}
 
-export const nodeObjAsArray = (obj: NodeObj): string[] => {
-  return Array.isArray(obj) ? obj : [obj];
+export type NodeObj = {
+  value: string[] | string;
+  direction?: Direction;
+};
+
+export const nodeObjValuesAsArray = (obj: NodeObj): string[] => {
+  return Array.isArray(obj.value) ? obj.value : [obj.value];
 };
