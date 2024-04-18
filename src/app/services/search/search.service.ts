@@ -22,7 +22,7 @@ import { NodeService } from '../node.service';
   providedIn: 'root',
 })
 export class SearchService {
-  queryStr: string = 'Margaretha';
+  queryStr: string = 'Amerongen';
   filters: BehaviorSubject<ElasticFiltersModel> =
     new BehaviorSubject<ElasticFiltersModel>(NoElasticFilters);
 
