@@ -20,7 +20,7 @@ import { SearchHitsService } from './search-hits.service';
   providedIn: 'root',
 })
 export class SearchService {
-  queryStr: string = 'Margaretha';
+  queryStr: string = '';
   filters: BehaviorSubject<ElasticFiltersModel> =
     new BehaviorSubject<ElasticFiltersModel>(NoElasticFilters);
 

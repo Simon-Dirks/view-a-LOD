@@ -3,8 +3,7 @@
     type="text"
     class="grow"
     placeholder="Search"
-    [(ngModel)]="search.queryStr"
-    (ngModelChange)="onSearchInputChange($event)"
+    (input)="onSearchInputChange($event)"
   />
   <span
     class="loading loading-spinner loading-xs opacity-70"
