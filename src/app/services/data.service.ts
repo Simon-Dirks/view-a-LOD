@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { SparqlNodeParentModel } from '../models/sparql/sparql-node-parent';
 import { ThingWithLabelModel } from '../models/thing-with-label.model';
 import { ElasticNodeModel } from '../models/elastic/elastic-node.model';
+import { SparqlNodeParentModel } from '../models/sparql/sparql-node-parent.model';
 
 @Injectable({
   providedIn: 'root',

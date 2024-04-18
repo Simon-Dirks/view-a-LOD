@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
+  featherArrowLeft,
+  featherArrowRight,
   featherChevronRight,
-  featherCornerDownLeft,
-  featherCornerDownRight,
   featherSearch,
 } from '@ng-icons/feather-icons';
 
@@ -19,8 +19,8 @@ import {
     provideIcons({
       featherChevronRight,
       featherSearch,
-      featherCornerDownRight,
-      featherCornerDownLeft,
+      featherArrowLeft,
+      featherArrowRight,
     }),
   ],
 })

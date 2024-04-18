@@ -3,7 +3,8 @@ import { NodeModel } from '../models/node.model';
 import { Settings } from '../config/settings';
 import { ApiService } from './api.service';
 import { replacePrefixes, wrapWithAngleBrackets } from '../helpers/util.helper';
-import { SparqlNodeParentModel } from '../models/sparql/sparql-node-parent';
+import { SparqlIncomingRelationModel } from '../models/sparql/sparql-incoming-relation.model';
+import { SparqlNodeParentModel } from '../models/sparql/sparql-node-parent.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,16 +32,47 @@ UNION {
     return `${firstServiceQuery}\n${unionServiceQueries.join('\n')}`;
   }
 
-  async getAllParents(node: NodeModel): Promise<SparqlNodeParentModel[]> {
-    if (!node || !node['@id'] || !node['@id'].value) {
-      console.warn('No node to get parents for', node);
-      return [];
+  private _ensureNodeHasId(node: NodeModel): void {
+    const isValidNode =
+      node !== undefined &&
+      node['@id'] !== undefined &&
+      node['@id'].value !== undefined;
+    if (!isValidNode) {
+      throw new Error('Node without ID passed');
     }
+  }
 
+  private _ensureEndpointsExist(): void {
     if (Settings.endpoints.length === 0) {
-      console.warn('No endpoints defined');
-      return [];
+      throw new Error('No endpoints defined');
     }
+  }
+
+  async getIncomingRelations(
+    node: NodeModel,
+  ): Promise<SparqlIncomingRelationModel[]> {
+    this._ensureNodeHasId(node);
+    this._ensureEndpointsExist();
+
+    const incomingRelationsQueryTemplate = `?sub ?pred <${node['@id'].value}>`;
+    const query = `
+SELECT DISTINCT ?sub ?pred WHERE {
+ ${this._getFederatedQuery(incomingRelationsQueryTemplate)}
+}
+
+limit 500`;
+
+    return await this.api.postData<SparqlIncomingRelationModel[]>(
+      Settings.endpoints[0].sparql,
+      {
+        query: query,
+      },
+    );
+  }
+
+  async getAllParents(node: NodeModel): Promise<SparqlNodeParentModel[]> {
+    this._ensureNodeHasId(node);
+    this._ensureEndpointsExist();
 
     const parentIris = Settings.predicates.parents.map((iri) =>
       wrapWithAngleBrackets(iri),

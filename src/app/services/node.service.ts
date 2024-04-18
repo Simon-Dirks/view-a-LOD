@@ -1,14 +1,20 @@
 import { Injectable } from '@angular/core';
-import { NodeModel, NodeObj, nodeObjValuesAsArray } from '../models/node.model';
+import {
+  Direction,
+  NodeModel,
+  NodeObj,
+  nodeObjValuesAsArray,
+} from '../models/node.model';
 import { replacePrefixes, truncate } from '../helpers/util.helper';
 import { ThingWithLabelModel } from '../models/thing-with-label.model';
 import { Settings } from '../config/settings';
+import { SparqlService } from './sparql.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NodeService {
-  constructor() {}
+  constructor(private sparql: SparqlService) {}
 
   getObj(
     node: NodeModel | undefined,
@@ -74,5 +80,29 @@ export class NodeService {
   getId(node: NodeModel) {
     const id = node['@id'].value;
     return Array.isArray(id) ? id.join(' ') : id;
+  }
+
+  async enrichWithIncomingRelations(nodes: NodeModel[]): Promise<NodeModel[]> {
+    for (const node of nodes) {
+      this.sparql.getIncomingRelations(node).then((sparqlIncomingRelations) => {
+        for (const sparqlIncomingRelation of sparqlIncomingRelations) {
+          // const incomingRelation: NodeObj = {
+          //   value: sparqlIncomingRelation.sub,
+          //   direction: Direction.Incoming,
+          // };
+          const pred = sparqlIncomingRelation.pred;
+          // TODO: IMPORTANT, allow nodes to have both incoming and outgoing relations for the same pred. Now: overwrites existing outgoing relations.
+          node[pred] = {
+            value:
+              pred in node
+                ? [...node[pred].value, sparqlIncomingRelation.sub]
+                : [sparqlIncomingRelation.sub],
+            direction: Direction.Incoming,
+          };
+        }
+      });
+    }
+
+    return nodes;
   }
 }

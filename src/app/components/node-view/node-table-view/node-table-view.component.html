@@ -4,13 +4,13 @@
       <tr *ngIf="!Settings.hidePredicates.includes(nodeItem.key)">
         <td>
           <ng-icon
-            name="featherCornerDownRight"
+            name="featherArrowRight"
             *ngIf="nodeItem.value.direction === Direction.Outgoing"
             class="opacity-40"
           />
 
           <ng-icon
-            name="featherCornerDownLeft"
+            name="featherArrowLeft"
             *ngIf="nodeItem.value.direction === Direction.Incoming"
             class="opacity-40"
           />

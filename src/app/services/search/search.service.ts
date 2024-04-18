@@ -16,6 +16,7 @@ import {
   NoElasticFilters,
 } from '../../models/elastic/elastic-filters.model';
 import { ElasticNodeModel } from '../../models/elastic/elastic-node.model';
+import { NodeService } from '../node.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +35,7 @@ export class SearchService {
     private elastic: ElasticService,
     private typeCounts: TypeCountsService,
     private hits: SearchHitsService,
+    private nodes: NodeService,
   ) {
     this._initSearchOnFilterChange();
   }
@@ -100,6 +102,7 @@ export class SearchService {
         this.hits.getFromSearchResponses(responses);
 
       const hitNodes: NodeModel[] = this.hits.parseToNodes(hits);
+      void this.nodes.enrichWithIncomingRelations(hitNodes);
       const hasHits = hitNodes && hitNodes.length > 0;
       if (hasHits) {
         this.page++;

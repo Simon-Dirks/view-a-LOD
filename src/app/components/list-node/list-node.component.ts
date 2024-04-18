@@ -10,7 +10,6 @@ import { NodeModel } from '../../models/node.model';
 import { NodeService } from '../../services/node.service';
 import { Settings } from '../../config/settings';
 import { SparqlService } from '../../services/sparql.service';
-import { SparqlNodeParentModel } from '../../models/sparql/sparql-node-parent';
 import { DataService } from '../../services/data.service';
 import { ThingWithLabelModel } from '../../models/thing-with-label.model';
 import { NodeHierarchyComponent } from '../node-hierarchy/node-hierarchy.component';
@@ -19,6 +18,7 @@ import { NodeImagesComponent } from './node-images/node-images.component';
 import { CacheService } from '../../services/cache.service';
 import { NodeLinkComponent } from './node-link/node-link.component';
 import { NodeViewRendererComponent } from '../node-view-renderer/node-view-renderer.component';
+import { SparqlNodeParentModel } from '../../models/sparql/sparql-node-parent.model';
 
 @Component({
   selector: 'app-list-node',
