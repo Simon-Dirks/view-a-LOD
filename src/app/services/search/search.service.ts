@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
 import { estypes } from '@elastic/elasticsearch';
-import { NodeModel } from '../models/node.model';
-import { ElasticService } from './elastic.service';
+
+import { TypeCountsService } from './type-counts.service';
 import { BehaviorSubject } from 'rxjs';
-import { DataService } from './data.service';
-import { Settings } from '../config/settings';
-import {
-  SearchResultsModel,
-  TypeCountsModel,
-} from '../models/search-results.model';
-import { replacePrefixes } from '../helpers/util.helper';
 import {
   ElasticFiltersModel,
   NoElasticFilters,
-} from '../models/elastic-filters.model';
+} from '../../models/elastic-filters.model';
+import {
+  SearchResultsModel,
+  TypeCountsModel,
+} from '../../models/search-results.model';
+import { ElasticService } from '../elastic.service';
+import { NodeModel } from '../../models/node.model';
+import { Settings } from '../../config/settings';
+import { SearchHitsService } from './search-hits.service';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +31,8 @@ export class SearchService {
 
   constructor(
     private elastic: ElasticService,
-    private data: DataService,
+    private typeCounts: TypeCountsService,
+    private hits: SearchHitsService,
   ) {
     this._initSearchOnFilterChange();
   }
@@ -40,37 +42,6 @@ export class SearchService {
       console.log('FILTER CHANGE', filters);
       void this.execute(true);
     });
-  }
-
-  private _parseHitsToNodes(hits: estypes.SearchHit<NodeModel>[]): NodeModel[] {
-    return hits
-      .map((hit) => hit?._source)
-      .filter((hitNode): hitNode is NodeModel => !!hitNode)
-      .map((hitNode) => {
-        this.data.replaceNodePredSpacesWithPeriods(hitNode);
-        return hitNode;
-      });
-  }
-
-  private _parseTypeCounts(
-    searchResponse: estypes.SearchResponse<NodeModel>,
-  ): TypeCountsModel {
-    const aggregations: any = searchResponse?.aggregations;
-    const buckets: { key: string; doc_count: string }[] =
-      aggregations?.['rdf_types']?.buckets;
-    const typeCounts: TypeCountsModel = {};
-    buckets.forEach((bucket) => {
-      const typeId = bucket.key;
-      const typeLabel = typeId;
-      typeCounts[typeId] = {
-        typeDetails: {
-          label: replacePrefixes(typeId),
-          '@id': typeId,
-        },
-        count: Number(bucket.doc_count),
-      };
-    });
-    return typeCounts;
   }
 
   hasFilter(filterId: string, filterValue: string) {
@@ -114,17 +85,20 @@ export class SearchService {
 
     this.isLoading.next(true);
     try {
-      const response: estypes.SearchResponse<NodeModel> =
+      const responses: estypes.SearchResponse<NodeModel>[] =
         await this.elastic.searchEntities(
           this.queryStr,
           this.filters.value,
           this.page * Settings.search.resultsPerPage,
           Settings.search.resultsPerPage,
         );
-      const typeCounts: TypeCountsModel = this._parseTypeCounts(response);
 
-      const hits: estypes.SearchHit<NodeModel>[] = response?.hits?.hits;
-      const hitNodes: NodeModel[] = this._parseHitsToNodes(hits);
+      const typeCounts: TypeCountsModel =
+        this.typeCounts.getFromSearchResponses(responses);
+      const hits: estypes.SearchHit<NodeModel>[] =
+        this.hits.getFromSearchResponses(responses);
+
+      const hitNodes: NodeModel[] = this.hits.parseToNodes(hits);
       const hasHits = hitNodes && hitNodes.length > 0;
       if (hasHits) {
         this.page++;

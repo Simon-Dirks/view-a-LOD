@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ListNodeComponent } from '../../list-node/list-node.component';
 import { JsonPipe, NgForOf } from '@angular/common';
-import { SearchService } from '../../../services/search.service';
 import { SearchInputComponent } from '../../search-input/search-input.component';
 import { TypeFilterComponent } from '../../type-filter/type-filter.component';
+import { SearchService } from '../../../services/search/search.service';
 
 @Component({
   selector: 'app-search',

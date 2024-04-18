@@ -32,7 +32,10 @@ select distinct ?id ?title ?parent where {
 
 limit 500`;
 
-    return await this.api.postData(Settings.endpoints.sparql, { query: query });
+    // TODO: Support multiple endpoints
+    return await this.api.postData(Settings.endpoints[0].sparql, {
+      query: query,
+    });
   }
 
   async getLabelFromLiterals(id: string): Promise<string> {
@@ -43,9 +46,10 @@ limit 500`;
       FILTER(isLiteral(?o))
       BIND(str(?o) AS ?literalValue)
     }`;
+    // TODO: Support multiple endpoints
     const labels: { label: string }[] = await this.api.postData<
       { label: string }[]
-    >(Settings.endpoints.sparql, {
+    >(Settings.endpoints[0].sparql, {
       query: query,
     });
     if (!labels || labels.length === 0 || labels[0].label.length == 0) {
@@ -62,9 +66,11 @@ select distinct ?label where {
     <${id}> <http://www.w3.org/2000/01/rdf-schema#label> ?label
 }
 limit 1`;
+
+    // TODO: Support multiple endpoints
     const labels: { label: string }[] = await this.api.postData<
       { label: string }[]
-    >(Settings.endpoints.sparql, {
+    >(Settings.endpoints[0].sparql, {
       query: query,
     });
     if (!labels || labels.length === 0) {

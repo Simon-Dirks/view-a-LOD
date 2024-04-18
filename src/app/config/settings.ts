@@ -1,10 +1,18 @@
 export const Settings = {
-  endpoints: {
-    elastic:
-      'https://api.data.netwerkdigitaalerfgoed.nl/datasets/hetutrechtsarchief/Test-Amerongen/services/Zoeken/_search',
-    sparql:
-      'https://api.data.netwerkdigitaalerfgoed.nl/datasets/hetutrechtsarchief/Test-Amerongen/sparql',
-  },
+  endpoints: [
+    {
+      elastic:
+        'https://api.data.netwerkdigitaalerfgoed.nl/datasets/hetutrechtsarchief/Test-Amerongen/services/Zoeken/_search',
+      sparql:
+        'https://api.data.netwerkdigitaalerfgoed.nl/datasets/hetutrechtsarchief/Test-Amerongen/sparql',
+    },
+    {
+      elastic:
+        'https://test.data.razu.nl/_api/datasets/Kasteel-Amerongen/PoC/services/PoC-2/_search',
+      sparql:
+        'https://api.test.data.razu.nl/datasets/Kasteel-Amerongen/PoC/services/PoC/sparql',
+    },
+  ],
   search: {
     resultsPerPage: 10,
   },

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { SearchService } from '../../services/search.service';
 import { FormsModule } from '@angular/forms';
 import { NgIcon } from '@ng-icons/core';
 import { NgIf } from '@angular/common';
+import { SearchService } from '../../services/search/search.service';
 
 @Component({
   selector: 'app-search-input',

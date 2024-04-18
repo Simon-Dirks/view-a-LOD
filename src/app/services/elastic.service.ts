@@ -16,7 +16,7 @@ export class ElasticService {
     filters: ElasticFiltersModel,
     from: number,
     size: number,
-  ): Promise<estypes.SearchResponse<NodeModel>> {
+  ): Promise<estypes.SearchResponse<NodeModel>[]> {
     const queryData: any = {
       from: from,
       size: size,
@@ -45,9 +45,17 @@ export class ElasticService {
       queryData.query.bool.must.push(filters);
       console.log(queryData);
     }
-    return await this.api.postData<estypes.SearchResponse<NodeModel>>(
-      Settings.endpoints.elastic,
-      queryData,
-    );
+
+    const searchPromises = [];
+    for (const endpoint of Settings.endpoints) {
+      const searchPromise = this.api.postData<
+        estypes.SearchResponse<NodeModel>
+      >(endpoint.elastic, queryData);
+      searchPromises.push(searchPromise);
+    }
+    const searchResults: estypes.SearchResponse<NodeModel>[] =
+      await Promise.all(searchPromises);
+
+    return searchResults;
   }
 }
