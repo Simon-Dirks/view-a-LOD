@@ -74,5 +74,7 @@ export const Settings = {
     'https://w3id.org/pnv#': 'pnv:',
     'http://xmlns.com/foaf/0.1/': 'foaf:',
     'http://www.nationaalarchief.nl/mdto#': 'mdto:',
+    'https://test.data.razu.nl/Kasteel-Amerongen/PoC/': 'PoC:',
+    'https://test.data.razu.nl/razu/': 'razu:',
   },
 };

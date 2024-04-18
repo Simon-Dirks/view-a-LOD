@@ -16,6 +16,12 @@ export class SparqlService {
       console.warn('No node to get parents for', node);
       return [];
     }
+
+    if (Settings.endpoints.length === 0) {
+      console.warn('No endpoints defined');
+      return [];
+    }
+
     const parentIris = Settings.predicates.parents.map((iri) =>
       wrapWithAngleBrackets(iri),
     );
@@ -23,19 +29,42 @@ export class SparqlService {
       wrapWithAngleBrackets(iri),
     );
 
+    const parentQueryTemplate = `
+    <${node['@id']}> ${parentIris.join('*|')}* ?id .
+    OPTIONAL { ?id ${titleIris.join('|')} ?title . }
+    OPTIONAL { ?id ${parentIris.join('|')} ?parent . }`;
+
+    const firstServiceQuery = `
+{
+  SERVICE <${Settings.endpoints[0].sparql}> {
+      ${parentQueryTemplate}
+  }
+}`;
+
+    const unionServiceQueries = Settings.endpoints.slice(1).map(
+      (endpoint) => `
+UNION {
+    SERVICE <${endpoint.sparql}> {
+        ${parentQueryTemplate}
+    }
+}`,
+    );
+
     const query = `
-select distinct ?id ?title ?parent where {
-  <${node['@id']}> ${parentIris.join('*|')}* ?id .
-  OPTIONAL { ?id ${titleIris.join('|')} ?title . }
-  OPTIONAL { ?id ${parentIris.join('|')} ?parent . }
+SELECT DISTINCT ?id ?title ?parent WHERE {
+  ${firstServiceQuery}
+
+  ${unionServiceQueries.join('\n')}
 }
 
 limit 500`;
 
-    // TODO: Support multiple endpoints
-    return await this.api.postData(Settings.endpoints[0].sparql, {
-      query: query,
-    });
+    return await this.api.postData<SparqlNodeParentModel[]>(
+      Settings.endpoints[0].sparql,
+      {
+        query: query,
+      },
+    );
   }
 
   async getLabelFromLiterals(id: string): Promise<string> {
