@@ -4,7 +4,7 @@
       <tr
         *ngIf="getVisibility(nodeItem.key) === PredicateVisibility.AlwaysShow"
       >
-        <td>
+        <td class="w-1/2">
           <!--          <ng-icon-->
           <!--            name="featherArrowRight"-->
           <!--            *ngIf="nodeItem.value.direction === Direction.Outgoing"-->
@@ -22,7 +22,7 @@
             [label]="replacePrefixes(nodeItem.key)"
           />
         </td>
-        <td>
+        <td class="w-1/2">
           <div *ngFor="let value of nodeObjAsArray(nodeItem.value)">
             <app-node-link [url]="value" [label]="replacePrefixes(value)" />
           </div>
