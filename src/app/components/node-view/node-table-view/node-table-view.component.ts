@@ -22,6 +22,7 @@ export class NodeTableViewComponent extends NodeViewComponent {
   protected readonly Direction = Direction;
 
   getVisibility(predicateId: string): PredicateVisibility {
+    // TODO: Optimize / reduce number of calls if necessary
     // TODO: Iterate over enum options dynamically
     for (const visibility of [
       PredicateVisibility.AlwaysShow,
