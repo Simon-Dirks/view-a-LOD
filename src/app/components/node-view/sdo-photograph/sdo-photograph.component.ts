@@ -5,11 +5,12 @@ import { Settings } from '../../../config/settings';
 import { replacePrefixes } from '../../../helpers/util.helper';
 import { NodeLinkComponent } from '../../list-node/node-link/node-link.component';
 import { nodeObjValuesAsArray } from '../../../models/node.model';
+import { NodeTableViewComponent } from '../node-table-view/node-table-view.component';
 
 @Component({
   selector: 'app-sdo-photograph',
   standalone: true,
-  imports: [JsonPipe, NgForOf, NodeLinkComponent],
+  imports: [JsonPipe, NgForOf, NodeLinkComponent, NodeTableViewComponent],
   templateUrl: './sdo-photograph.component.html',
   styleUrl: './sdo-photograph.component.scss',
 })
