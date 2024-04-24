@@ -1,16 +1,8 @@
 <ng-container *ngIf="node">
-  <app-rico-record-view
+  <app-sdo-photograph
     [node]="node"
-    *ngIf="views.includes('rico-record-view')"
-  />
-  <app-sdo-article-view
-    [node]="node"
-    *ngIf="views.includes('sdo-article-view')"
-  />
-  <app-sdo-message-view
-    [node]="node"
-    *ngIf="views.includes('sdo-message-view')"
+    *ngIf="viewComponents.includes('sdo-photograph')"
   />
 
-  <app-node-table-view [node]="node" />
+  <app-node-table-view [node]="node" *ngIf="!hasDefinedViewComponent" />
 </ng-container>

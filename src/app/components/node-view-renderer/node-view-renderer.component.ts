@@ -1,12 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
 import { NodeTableViewComponent } from '../node-view/node-table-view/node-table-view.component';
-import { SdoArticleViewComponent } from '../node-view/sdo-article-view/sdo-article-view.component';
-import { RicoRecordViewComponent } from '../node-view/rico-record-view/rico-record-view.component';
 import { NodeModel } from '../../models/node.model';
 import { NodeService } from '../../services/node.service';
 import { Settings } from '../../config/settings';
-import { SdoMessageViewComponent } from '../node-view/sdo-message-view/sdo-message-view.component';
+import { SdoPhotographComponent } from '../node-view/sdo-photograph/sdo-photograph.component';
 
 @Component({
   selector: 'app-node-view-renderer',
@@ -14,11 +12,9 @@ import { SdoMessageViewComponent } from '../node-view/sdo-message-view/sdo-messa
   imports: [
     NodeTableViewComponent,
     NgIf,
-    SdoArticleViewComponent,
     NgSwitch,
     NgSwitchCase,
-    RicoRecordViewComponent,
-    SdoMessageViewComponent,
+    SdoPhotographComponent,
   ],
   templateUrl: './node-view-renderer.component.html',
   styleUrl: './node-view-renderer.component.scss',
@@ -28,12 +24,24 @@ export class NodeViewRendererComponent {
 
   constructor(public nodes: NodeService) {}
 
-  get views(): string[] {
+  get viewComponents(): string[] {
     if (!this.node) {
       return [];
     }
 
     return this.nodes.getViewsBasedOnTypes(this.node);
+  }
+
+  get hasDefinedViewComponent(): boolean {
+    return (
+      this.allDefinedViewComponents.filter((c) =>
+        this.viewComponents.includes(c),
+      ).length > 0
+    );
+  }
+
+  get allDefinedViewComponents(): string[] {
+    return Object.values(Settings.viewComponents);
   }
 
   protected readonly Settings = Settings;

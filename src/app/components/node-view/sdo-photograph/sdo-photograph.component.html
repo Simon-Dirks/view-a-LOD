@@ -1,0 +1,16 @@
+<div class="w-full carousel mt-2">
+  <div *ngFor="let imgUrl of imageUrls" class="carousel-item">
+    <img [src]="imgUrl" alt="TODO" class="w-full object-contain rounded-lg" />
+  </div>
+</div>
+
+<div class="w-full">
+  <!--  {{ node | json }}-->
+
+  <app-node-link
+    [url]="commentId"
+    *ngFor="
+      let commentId of nodes.getObjAsArray(node, ['https://schema.org/comment'])
+    "
+  />
+</div>
