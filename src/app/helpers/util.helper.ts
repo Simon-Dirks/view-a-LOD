@@ -25,6 +25,15 @@ export const truncate = (s: string, maxCharacters: number) => {
   }
 };
 
+export const isValidUrl = (s: string): boolean => {
+  try {
+    new URL(s);
+    return true;
+  } catch (_) {
+    return false;
+  }
+};
+
 export const isValidHttpUrl = (s: string): boolean => {
   let url;
 

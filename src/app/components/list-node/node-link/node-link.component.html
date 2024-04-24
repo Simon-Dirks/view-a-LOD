@@ -1,14 +1,15 @@
-<ng-container *ngIf="url">
+<ng-container>
   <a
     [href]="url"
-    target="_blank"
+    target="_blank'"
+    (click)="onLinkClick($event)"
     class="hover:underline"
-    *ngIf="isValidHttpUrl(url) && !disabled"
+    *ngIf="isClickableUrl"
   >
     {{ cachedLabel ?? url }}
   </a>
 
-  <span *ngIf="!isValidHttpUrl(url) || disabled">
+  <span *ngIf="!isClickableUrl">
     {{ cachedLabel ?? url }}
   </span>
 </ng-container>
