@@ -52,6 +52,8 @@ export const Settings = {
     [PredicateVisibility.ShowInDetailView]: [
       'http://www.nationaalarchief.nl/mdto#waardering',
       'https://www.ica.org/standards/RiC/ontology#hasRecordSetType',
+      'https://www.ica.org/standards/RiC/ontology#hasAccumulator',
+      'https://www.ica.org/standards/RiC/ontology#isAccumulatorOf',
     ],
     [PredicateVisibility.NeverShow]: [
       'https://www.ica.org/standards/RiC/ontology#conditionsOfAccess',
@@ -79,6 +81,7 @@ export const Settings = {
     'http://www.w3.org/1999/02/22-rdf-syntax-ns#': 'rdf:',
     'http://www.w3.org/2000/01/rdf-schema#': 'rdfs:',
     'http://www.wikidata.org/entity/': 'wd:',
+    'http://www.wikidata.org/prop/direct/': 'wdt:',
     'http://www.w3.org/ns/prov#': 'prov:',
     'https://data.cbg.nl/pico#': 'pico:',
     'https://w3id.org/pnv#': 'pnv:',
