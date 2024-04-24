@@ -29,7 +29,8 @@ export class NodeHierarchyComponent {
 
   get allowExpand(): boolean {
     return (
-      this.hasLoadedNodes && this.nodes.length >= Config.numParentsToAllowExpand
+      this.hasLoadedNodes &&
+      this.nodes.length >= Config.numParentsToAllowTreeExpand
     );
   }
 

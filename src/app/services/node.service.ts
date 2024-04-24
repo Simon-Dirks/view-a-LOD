@@ -68,7 +68,7 @@ export class NodeService {
   getViewsBasedOnTypes(node: NodeModel): string[] {
     const nodeTypes = this.getObjAsArray(node, Settings.predicates.type);
     const views: string[] = [];
-    for (const [viewType, view] of Object.entries(Settings.views)) {
+    for (const [viewType, view] of Object.entries(Settings.viewComponents)) {
       if (nodeTypes.includes(viewType)) {
         views.push(view);
       }

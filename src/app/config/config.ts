@@ -1,3 +1,3 @@
 export const Config = {
-  numParentsToAllowExpand: 3,
+  numParentsToAllowTreeExpand: 3,
 };
