@@ -1,7 +1,9 @@
 <table class="table" *ngIf="node">
   <tbody>
     <ng-container *ngFor="let nodeItem of node | keyvalue">
-      <tr *ngIf="!Settings.hidePredicates.includes(nodeItem.key)">
+      <tr
+        *ngIf="getVisibility(nodeItem.key) === PredicateVisibility.AlwaysShow"
+      >
         <td>
           <!--          <ng-icon-->
           <!--            name="featherArrowRight"-->
