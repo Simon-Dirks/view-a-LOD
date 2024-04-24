@@ -5,7 +5,9 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
   featherArrowLeft,
   featherArrowRight,
+  featherChevronDown,
   featherChevronRight,
+  featherChevronUp,
   featherSearch,
 } from '@ng-icons/feather-icons';
 
@@ -18,6 +20,8 @@ import {
   viewProviders: [
     provideIcons({
       featherChevronRight,
+      featherChevronDown,
+      featherChevronUp,
       featherSearch,
       featherArrowLeft,
       featherArrowRight,

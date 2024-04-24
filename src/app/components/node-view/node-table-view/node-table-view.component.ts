@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Direction, nodeObjValuesAsArray } from '../../../models/node.model';
 import { replacePrefixes } from '../../../helpers/util.helper';
 import { JsonPipe, KeyValuePipe, NgForOf, NgIf } from '@angular/common';
@@ -7,7 +7,6 @@ import { NodeViewComponent } from '../node-view.component';
 import { NgIcon } from '@ng-icons/core';
 import { PredicateVisibility } from '../../../models/predicate-visibility.enum';
 import { Settings } from '../../../config/settings';
-import { PredicateVisibilitiesModel } from '../../../models/predicate-visibilities.model';
 
 @Component({
   selector: 'app-node-table-view',
@@ -16,22 +15,47 @@ import { PredicateVisibilitiesModel } from '../../../models/predicate-visibiliti
   templateUrl: './node-table-view.component.html',
   styleUrl: './node-table-view.component.scss',
 })
-export class NodeTableViewComponent extends NodeViewComponent {
-  protected readonly nodeObjAsArray = nodeObjValuesAsArray;
-  protected readonly replacePrefixes = replacePrefixes;
-  protected readonly Direction = Direction;
+export class NodeTableViewComponent
+  extends NodeViewComponent
+  implements OnInit
+{
+  showingDetails = false;
+
+  ngOnInit() {}
+
+  getNumOfVisiblePreds(visibility: PredicateVisibility): number {
+    if (!this.node) {
+      return 0;
+    }
+
+    if (visibility === PredicateVisibility.AlwaysShow) {
+      return (
+        Object.keys(this.node).length -
+        (this.getNumOfVisiblePreds(PredicateVisibility.ShowInDetailView) +
+          this.getNumOfVisiblePreds(PredicateVisibility.NeverShow))
+      );
+    }
+
+    // TODO: Optimize (duplicate call given that component checks getVisibility for each pred)
+    const visiblePreds = Object.keys(
+      Object.entries(this.node).filter(([pred, obj]) => {
+        return (Settings.predicateVisibility as any)[visibility]?.includes(
+          pred,
+        );
+      }),
+    );
+    return visiblePreds.length;
+  }
 
   getVisibility(predicateId: string): PredicateVisibility {
     // TODO: Optimize / reduce number of calls if necessary
-    // TODO: Iterate over enum options dynamically
     for (const visibility of [
-      PredicateVisibility.AlwaysShow,
       PredicateVisibility.ShowInDetailView,
       PredicateVisibility.NeverShow,
     ]) {
-      const visibilityIsDefined = (
-        Settings.predicateVisibility as PredicateVisibilitiesModel
-      )[visibility].includes(predicateId);
+      const visibilityIsDefined = (Settings.predicateVisibility as any)[
+        visibility
+      ].includes(predicateId);
       if (visibilityIsDefined) {
         return visibility;
       }
@@ -41,4 +65,7 @@ export class NodeTableViewComponent extends NodeViewComponent {
   }
 
   protected readonly PredicateVisibility = PredicateVisibility;
+  protected readonly nodeObjAsArray = nodeObjValuesAsArray;
+  protected readonly replacePrefixes = replacePrefixes;
+  protected readonly Direction = Direction;
 }
