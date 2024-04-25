@@ -48,14 +48,14 @@ export const Settings = {
   },
   predicateVisibility: {
     [PredicateVisibility.ShowInDetailView]: [
-      'https://www.ica.org/standards/RiC/ontology#endDate',
-      'https://www.ica.org/standards/RiC/ontology#beginningDate',
       'http://www.nationaalarchief.nl/mdto#waardering',
       'https://www.ica.org/standards/RiC/ontology#hasRecordSetType',
       'https://www.ica.org/standards/RiC/ontology#hasAccumulator',
       'https://www.ica.org/standards/RiC/ontology#isAccumulatorOf',
       'https://schema.org/numberOfPages',
       'https://schema.org/size',
+      'http://www.nationaalarchief.nl/mdto#archiefvormer',
+      'http://www.nationaalarchief.nl/mdto#classificatie',
     ],
     [PredicateVisibility.NeverShow]: [
       'https://www.ica.org/standards/RiC/ontology#conditionsOfAccess',
