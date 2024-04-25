@@ -26,6 +26,12 @@ export class DataService {
     const nodeParents: ThingWithLabelModel[] = [];
     let currentNodeId: string | null = nodeId;
 
+    sparqlParentsData = sparqlParentsData.sort((a, b) => {
+      if (a.parent && !b.parent) return -1;
+      if (!a.parent && b.parent) return 1;
+      return 0;
+    });
+
     while (currentNodeId !== null) {
       const sparqlNodeParentData = sparqlParentsData.find(
         (d) => d.id === currentNodeId,
