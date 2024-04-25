@@ -1,4 +1,8 @@
-<table class="table" [ngClass]="[smallFontSize ? 'text-xs' : '']" *ngIf="node">
+<table
+  class="table break-all"
+  [ngClass]="[smallFontSize ? 'text-xs' : '']"
+  *ngIf="node"
+>
   <tbody>
     <ng-container *ngFor="let pred of Object.keys(node)">
       <ng-container
