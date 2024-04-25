@@ -1,47 +1,4 @@
-<table class="table" *ngIf="node">
-  <tbody>
-    <ng-container *ngFor="let pred of Object.keys(node)">
-      <ng-container
-        *ngFor="let direction of [Direction.Incoming, Direction.Outgoing]"
-      >
-        <tr
-          *ngIf="
-            getVisibility(pred) === PredicateVisibility.AlwaysShow &&
-            nodes.getObjValuesByDirection(node, [pred], direction).length > 0
-          "
-        >
-          <td class="w-1/2">
-            <!--          <ng-icon-->
-            <!--            name="featherArrowRight"-->
-            <!--            *ngIf="nodeItem.value.direction === Direction.Outgoing"-->
-            <!--            class="opacity-40"-->
-            <!--          />-->
-
-            <ng-icon
-              name="featherArrowLeft"
-              *ngIf="direction === Direction.Incoming"
-              class="opacity-40"
-            />
-
-            <app-node-link [url]="pred" />
-          </td>
-          <td class="w-1/2">
-            <app-node-link
-              [url]="objValue"
-              *ngFor="
-                let objValue of nodes.getObjValuesByDirection(
-                  node,
-                  [pred],
-                  direction
-                )
-              "
-            />
-          </td>
-        </tr>
-      </ng-container>
-    </ng-container>
-  </tbody>
-</table>
+<app-node-table [node]="node" [visibility]="PredicateVisibility.AlwaysShow" />
 
 <button
   class="text-xs mt-4"
@@ -56,34 +13,9 @@
   {{ showingDetails ? "Hide details" : "Show details" }}
 </button>
 
-<!--&lt;!&ndash; TODO: Refactor into re-usable table component &ndash;&gt;-->
-<!--<table class="table text-xs opacity-70" *ngIf="node && showingDetails">-->
-<!--  <tbody>-->
-<!--    <ng-container *ngFor="let pred of Object.keys(node)">-->
-<!--      <ng-container *ngFor="let obj of node[pred]">-->
-<!--        <tr-->
-<!--          *ngIf="getVisibility(pred) === PredicateVisibility.ShowInDetailView"-->
-<!--        >-->
-<!--          <td class="w-1/2">-->
-<!--            &lt;!&ndash;          <ng-icon&ndash;&gt;-->
-<!--            &lt;!&ndash;            name="featherArrowRight"&ndash;&gt;-->
-<!--            &lt;!&ndash;            *ngIf="nodeItem.value.direction === Direction.Outgoing"&ndash;&gt;-->
-<!--            &lt;!&ndash;            class="opacity-40"&ndash;&gt;-->
-<!--            &lt;!&ndash;          />&ndash;&gt;-->
-
-<!--            <ng-icon-->
-<!--              name="featherArrowLeft"-->
-<!--              *ngIf="obj.direction === Direction.Incoming"-->
-<!--              class="opacity-40"-->
-<!--            />-->
-
-<!--            <app-node-link [url]="pred" />-->
-<!--          </td>-->
-<!--          <td class="w-1/2">-->
-<!--            <app-node-link [url]="obj.value" />-->
-<!--          </td>-->
-<!--        </tr>-->
-<!--      </ng-container>-->
-<!--    </ng-container>-->
-<!--  </tbody>-->
-<!--</table>-->
+<app-node-table
+  [node]="node"
+  [visibility]="PredicateVisibility.ShowInDetailView"
+  [smallFontSize]="true"
+  *ngIf="showingDetails"
+/>

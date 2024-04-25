@@ -6,11 +6,20 @@ import { NodeViewComponent } from '../node-view.component';
 import { NgIcon } from '@ng-icons/core';
 import { PredicateVisibility } from '../../../models/predicate-visibility.enum';
 import { Settings } from '../../../config/settings';
+import { NodeTableComponent } from './node-table/node-table.component';
 
 @Component({
   selector: 'app-node-table-view',
   standalone: true,
-  imports: [KeyValuePipe, NodeLinkComponent, NgForOf, NgIf, JsonPipe, NgIcon],
+  imports: [
+    KeyValuePipe,
+    NodeLinkComponent,
+    NgForOf,
+    NgIf,
+    JsonPipe,
+    NgIcon,
+    NodeTableComponent,
+  ],
   templateUrl: './node-table-view.component.html',
   styleUrl: './node-table-view.component.scss',
 })
@@ -35,7 +44,7 @@ export class NodeTableViewComponent
       );
     }
 
-    // TODO: Optimize (duplicate call given that component checks getVisibility for each pred)
+    // TODO: Optimize (duplicate call given that table component checks getVisibility for each pred)
     const visiblePreds = Object.keys(
       Object.entries(this.node).filter(([pred, obj]) => {
         return (Settings.predicateVisibility as any)[visibility]?.includes(
@@ -44,23 +53,6 @@ export class NodeTableViewComponent
       }),
     );
     return visiblePreds.length;
-  }
-
-  getVisibility(predicateId: string): PredicateVisibility {
-    // TODO: Optimize / reduce number of calls if necessary
-    for (const visibility of [
-      PredicateVisibility.ShowInDetailView,
-      PredicateVisibility.NeverShow,
-    ]) {
-      const visibilityIsDefined = (Settings.predicateVisibility as any)[
-        visibility
-      ].includes(predicateId);
-      if (visibilityIsDefined) {
-        return visibility;
-      }
-    }
-
-    return PredicateVisibility.AlwaysShow;
   }
 
   protected readonly PredicateVisibility = PredicateVisibility;
