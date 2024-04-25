@@ -1,10 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  Direction,
-  NodeModel,
-  NodeObj,
-  nodeObjValuesAsArray,
-} from '../models/node.model';
+import { Direction, NodeModel, NodeObj } from '../models/node.model';
 import { replacePrefixes, truncate } from '../helpers/util.helper';
 import { ThingWithLabelModel } from '../models/thing-with-label.model';
 import { Settings } from '../config/settings';
@@ -16,44 +11,44 @@ import { SparqlService } from './sparql.service';
 export class NodeService {
   constructor(private sparql: SparqlService) {}
 
-  getObj(
+  getObjs(
     node: NodeModel | undefined,
     preds: string[],
     replacePrefix = false,
-  ): NodeObj {
+  ): NodeObj[] {
     if (!node) {
-      return { value: '' };
+      return [];
     }
 
+    const objs = [];
     for (const pred of preds) {
-      const nodeObj: NodeObj = node?.[pred];
-      const noObjFoundForThisPred =
-        !nodeObj || !nodeObj.value || nodeObj.value.length === 0;
-      if (noObjFoundForThisPred) {
+      if (!(pred in node)) {
         continue;
       }
+      for (const obj of node[pred]) {
+        const noObjFoundForThisPred =
+          !obj || !obj?.value || obj?.value?.length === 0;
+        if (noObjFoundForThisPred) {
+          continue;
+        }
 
-      if (replacePrefix) {
-        const valuePrefixesReplaces: string[] | string = Array.isArray(
-          nodeObj.value,
-        )
-          ? nodeObj.value.map((o) => replacePrefixes(o))
-          : replacePrefixes(nodeObj.value);
-        return { value: valuePrefixesReplaces, direction: nodeObj.direction };
+        const objValue = replacePrefix ? replacePrefixes(obj.value) : obj.value;
+        objs.push({
+          value: objValue,
+          direction: obj.direction,
+        });
       }
-
-      return nodeObj;
     }
 
-    return { value: '' };
+    return objs;
   }
 
-  getObjAsArray(
+  getObjValues(
     node: NodeModel | undefined,
     preds: string[],
     replacePrefix = false,
   ) {
-    return nodeObjValuesAsArray(this.getObj(node, preds, replacePrefix));
+    return this.getObjs(node, preds, replacePrefix).map((o) => o.value);
   }
 
   getTitle(node: ThingWithLabelModel, maxCharacters?: number): string {
@@ -66,7 +61,10 @@ export class NodeService {
   }
 
   getViewsBasedOnTypes(node: NodeModel): string[] {
-    const nodeTypes = this.getObjAsArray(node, Settings.predicates.type);
+    const nodeTypes: string[] = this.getObjValues(
+      node,
+      Settings.predicates.type,
+    );
     const views: string[] = [];
     for (const [viewType, view] of Object.entries(Settings.viewComponents)) {
       if (nodeTypes.includes(viewType)) {
@@ -77,28 +75,33 @@ export class NodeService {
     return views;
   }
 
-  getId(node: NodeModel) {
-    const id = node['@id'].value;
-    return Array.isArray(id) ? id.join(' ') : id;
+  getId(node: NodeModel): string {
+    return this.getObjValues(node, ['@id'])[0];
   }
 
   async enrichWithIncomingRelations(nodes: NodeModel[]): Promise<NodeModel[]> {
     for (const node of nodes) {
       this.sparql.getIncomingRelations(node).then((sparqlIncomingRelations) => {
         for (const sparqlIncomingRelation of sparqlIncomingRelations) {
-          // const incomingRelation: NodeObj = {
-          //   value: sparqlIncomingRelation.sub,
-          //   direction: Direction.Incoming,
-          // };
           const pred = sparqlIncomingRelation.pred;
-          // TODO: IMPORTANT, allow nodes to have both incoming and outgoing relations for the same pred. Now: overwrites existing outgoing relations.
-          node[pred] = {
-            value:
-              pred in node
-                ? [...node[pred].value, sparqlIncomingRelation.sub]
-                : [sparqlIncomingRelation.sub],
+          if (!(pred in node)) {
+            node[pred] = [];
+          }
+
+          const existingValues: string[] = this.getObjValues(node, [pred]);
+          const relationIsAlreadySaved = existingValues.includes(
+            sparqlIncomingRelation.sub,
+          );
+          if (relationIsAlreadySaved) {
+            continue;
+          }
+
+          const incomingRelation: NodeObj = {
+            value: sparqlIncomingRelation.sub,
             direction: Direction.Incoming,
           };
+
+          node[pred].push(incomingRelation);
         }
       });
     }

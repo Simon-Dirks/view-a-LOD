@@ -7,10 +7,11 @@
 <div class="w-full">
   <!--  {{ node | json }}-->
 
+  <!--  TODO: Show direction here? -->
   <app-node-link
     [url]="commentId"
     *ngFor="
-      let commentId of nodes.getObjAsArray(node, ['https://schema.org/comment'])
+      let commentId of nodes.getObjValues(node, ['https://schema.org/comment'])
     "
   />
 </div>

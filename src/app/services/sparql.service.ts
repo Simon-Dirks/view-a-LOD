@@ -36,7 +36,7 @@ UNION {
     const isValidNode =
       node !== undefined &&
       node['@id'] !== undefined &&
-      node['@id'].value !== undefined;
+      node['@id'].length !== 0;
     if (!isValidNode) {
       throw new Error('Node without ID passed');
     }
@@ -54,7 +54,7 @@ UNION {
     this._ensureNodeHasId(node);
     this._ensureEndpointsExist();
 
-    const incomingRelationsQueryTemplate = `?sub ?pred <${node['@id'].value}>`;
+    const incomingRelationsQueryTemplate = `?sub ?pred <${node['@id'][0].value}>`;
     const query = `
 SELECT DISTINCT ?sub ?pred WHERE {
  ${this._getFederatedQuery(incomingRelationsQueryTemplate)}
@@ -82,7 +82,7 @@ limit 500`;
     );
 
     const parentQueryTemplate = `
-    <${node['@id'].value}> ${parentIris.join('*|')}* ?id .
+    <${node['@id'][0].value}> ${parentIris.join('*|')}* ?id .
     OPTIONAL { ?id ${titleIris.join('|')} ?title . }
     OPTIONAL { ?id ${parentIris.join('|')} ?parent . }`;
 

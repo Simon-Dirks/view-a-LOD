@@ -5,7 +5,7 @@
     <div class="card-title">
       <app-node-link
         [url]="nodes.getId(node)"
-        [label]="nodes.getObjAsArray(node, Settings.predicates.title).join(' ')"
+        [label]="nodes.getObjValues(node, Settings.predicates.title).join(' ')"
       />
     </div>
 

@@ -15,10 +15,18 @@ export class SearchHitsService {
       .map((hit) => hit?._source)
       .filter((hitNode): hitNode is ElasticNodeModel => !!hitNode)
       .map((hitNode) => {
-        const node: NodeModel = { '@id': { value: hitNode['@id'] } };
+        const node: NodeModel = {
+          '@id': [{ value: hitNode['@id'] }],
+        };
         this.data.replaceElasticNodePredSpacesWithPeriods(hitNode);
         for (const [pred, obj] of Object.entries(hitNode)) {
-          node[pred] = { value: obj, direction: Direction.Outgoing };
+          if (!(pred in node)) {
+            node[pred] = [];
+          }
+          const objValuesAsArray = Array.isArray(obj) ? obj : [obj];
+          for (const objValue of objValuesAsArray) {
+            node[pred].push({ value: objValue, direction: Direction.Outgoing });
+          }
         }
         return node;
       });

@@ -1,33 +1,28 @@
 <table class="table" *ngIf="node">
   <tbody>
-    <ng-container *ngFor="let nodeItem of node | keyvalue">
-      <tr
-        *ngIf="getVisibility(nodeItem.key) === PredicateVisibility.AlwaysShow"
-      >
-        <td class="w-1/2">
-          <!--          <ng-icon-->
-          <!--            name="featherArrowRight"-->
-          <!--            *ngIf="nodeItem.value.direction === Direction.Outgoing"-->
-          <!--            class="opacity-40"-->
-          <!--          />-->
+    <ng-container *ngFor="let pred of Object.keys(node)">
+      <ng-container *ngFor="let obj of node[pred]">
+        <tr *ngIf="getVisibility(pred) === PredicateVisibility.AlwaysShow">
+          <td class="w-1/2">
+            <!--          <ng-icon-->
+            <!--            name="featherArrowRight"-->
+            <!--            *ngIf="nodeItem.value.direction === Direction.Outgoing"-->
+            <!--            class="opacity-40"-->
+            <!--          />-->
 
-          <ng-icon
-            name="featherArrowLeft"
-            *ngIf="nodeItem.value.direction === Direction.Incoming"
-            class="opacity-40"
-          />
+            <ng-icon
+              name="featherArrowLeft"
+              *ngIf="obj.direction === Direction.Incoming"
+              class="opacity-40"
+            />
 
-          <app-node-link
-            [url]="nodeItem.key"
-            [label]="replacePrefixes(nodeItem.key)"
-          />
-        </td>
-        <td class="w-1/2">
-          <div *ngFor="let value of nodeObjAsArray(nodeItem.value)">
-            <app-node-link [url]="value" [label]="replacePrefixes(value)" />
-          </div>
-        </td>
-      </tr>
+            <app-node-link [url]="pred" />
+          </td>
+          <td class="w-1/2">
+            <app-node-link [url]="obj.value" />
+          </td>
+        </tr>
+      </ng-container>
     </ng-container>
   </tbody>
 </table>
@@ -48,36 +43,31 @@
 <!-- TODO: Refactor into re-usable table component -->
 <table class="table text-xs opacity-70" *ngIf="node && showingDetails">
   <tbody>
-    <ng-container *ngFor="let nodeItem of node | keyvalue">
-      <tr
-        *ngIf="
-          getVisibility(nodeItem.key) === PredicateVisibility.ShowInDetailView
-        "
-      >
-        <td class="w-1/2">
-          <!--          <ng-icon-->
-          <!--            name="featherArrowRight"-->
-          <!--            *ngIf="nodeItem.value.direction === Direction.Outgoing"-->
-          <!--            class="opacity-40"-->
-          <!--          />-->
+    <ng-container *ngFor="let pred of Object.keys(node)">
+      <ng-container *ngFor="let obj of node[pred]">
+        <tr
+          *ngIf="getVisibility(pred) === PredicateVisibility.ShowInDetailView"
+        >
+          <td class="w-1/2">
+            <!--          <ng-icon-->
+            <!--            name="featherArrowRight"-->
+            <!--            *ngIf="nodeItem.value.direction === Direction.Outgoing"-->
+            <!--            class="opacity-40"-->
+            <!--          />-->
 
-          <ng-icon
-            name="featherArrowLeft"
-            *ngIf="nodeItem.value.direction === Direction.Incoming"
-            class="opacity-40"
-          />
+            <ng-icon
+              name="featherArrowLeft"
+              *ngIf="obj.direction === Direction.Incoming"
+              class="opacity-40"
+            />
 
-          <app-node-link
-            [url]="nodeItem.key"
-            [label]="replacePrefixes(nodeItem.key)"
-          />
-        </td>
-        <td class="w-1/2">
-          <div *ngFor="let value of nodeObjAsArray(nodeItem.value)">
-            <app-node-link [url]="value" [label]="replacePrefixes(value)" />
-          </div>
-        </td>
-      </tr>
+            <app-node-link [url]="pred" />
+          </td>
+          <td class="w-1/2">
+            <app-node-link [url]="obj.value" />
+          </td>
+        </tr>
+      </ng-container>
     </ng-container>
   </tbody>
 </table>

@@ -56,7 +56,7 @@ export class ListNodeComponent implements OnInit {
   }
 
   get types() {
-    const typeIds: string[] = this.nodes.getObjAsArray(
+    const typeIds: string[] = this.nodes.getObjValues(
       this.node,
       Settings.predicates.type,
     );
