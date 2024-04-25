@@ -6,11 +6,22 @@ import { NgIcon } from '@ng-icons/core';
 import { NodeLinkComponent } from '../../../list-node/node-link/node-link.component';
 import { NodeService } from '../../../../services/node.service';
 import { Settings } from '../../../../config/settings';
+import {
+  NodeTableCellComponent,
+  TableCellShowOptions,
+} from './node-table-cell/node-table-cell.component';
 
 @Component({
   selector: 'app-node-table',
   standalone: true,
-  imports: [NgForOf, NgIcon, NgIf, NodeLinkComponent, NgClass],
+  imports: [
+    NgForOf,
+    NgIcon,
+    NgIf,
+    NodeLinkComponent,
+    NgClass,
+    NodeTableCellComponent,
+  ],
   templateUrl: './node-table.component.html',
   styleUrl: './node-table.component.scss',
 })
@@ -41,4 +52,5 @@ export class NodeTableComponent {
   protected readonly Direction = Direction;
   protected readonly PredicateVisibility = PredicateVisibility;
   protected readonly Object = Object;
+  protected readonly TableCellShowOptions = TableCellShowOptions;
 }

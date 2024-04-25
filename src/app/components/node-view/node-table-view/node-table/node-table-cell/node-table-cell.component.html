@@ -1,0 +1,15 @@
+<ng-container *ngIf="node && pred">
+  <app-node-link [url]="pred" *ngIf="show === TableCellShowOptions.Pred" />
+
+  <ng-container *ngIf="show === TableCellShowOptions.Obj">
+    <div *ngFor="let objValue of objValues">
+      <ng-icon
+        name="featherArrowUpLeft"
+        class="opacity-40"
+        *ngIf="isIncoming"
+      />
+
+      <app-node-link [url]="objValue" />
+    </div>
+  </ng-container>
+</ng-container>
