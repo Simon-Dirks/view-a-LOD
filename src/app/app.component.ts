@@ -3,11 +3,15 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import {
+  featherArrowDownLeft,
+  featherArrowDownRight,
   featherArrowLeft,
   featherArrowRight,
+  featherArrowUpLeft,
   featherChevronDown,
   featherChevronRight,
   featherChevronUp,
+  featherRotateCcw,
   featherSearch,
 } from '@ng-icons/feather-icons';
 
@@ -25,6 +29,10 @@ import {
       featherSearch,
       featherArrowLeft,
       featherArrowRight,
+      featherRotateCcw,
+      featherArrowDownRight,
+      featherArrowDownLeft,
+      featherArrowUpLeft,
     }),
   ],
 })

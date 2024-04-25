@@ -11,30 +11,49 @@
           "
         >
           <td class="w-1/2">
-            <!--          <ng-icon-->
-            <!--            name="featherArrowRight"-->
-            <!--            *ngIf="nodeItem.value.direction === Direction.Outgoing"-->
-            <!--            class="opacity-40"-->
-            <!--          />-->
-
-            <ng-icon
-              name="featherArrowLeft"
-              *ngIf="direction === Direction.Incoming"
-              class="opacity-40"
+            <app-node-link
+              [url]="pred"
+              *ngIf="direction === Direction.Outgoing"
             />
 
-            <app-node-link [url]="pred" />
+            <ng-container *ngIf="direction === Direction.Incoming">
+              <div
+                *ngFor="
+                  let objValue of nodes.getObjValuesByDirection(
+                    node,
+                    [pred],
+                    direction
+                  )
+                "
+              >
+                <ng-icon
+                  name="featherArrowUpLeft"
+                  *ngIf="direction === Direction.Incoming"
+                  class="opacity-40"
+                />
+
+                <app-node-link [url]="objValue" />
+              </div>
+            </ng-container>
           </td>
           <td class="w-1/2">
+            <ng-container *ngIf="direction === Direction.Outgoing">
+              <div
+                *ngFor="
+                  let objValue of nodes.getObjValuesByDirection(
+                    node,
+                    [pred],
+                    direction
+                  )
+                "
+              >
+                <app-node-link [url]="objValue" />
+              </div>
+            </ng-container>
+
             <app-node-link
-              [url]="objValue"
-              *ngFor="
-                let objValue of nodes.getObjValuesByDirection(
-                  node,
-                  [pred],
-                  direction
-                )
-              "
+              [url]="pred"
+              *ngIf="direction === Direction.Incoming"
             />
           </td>
         </tr>
