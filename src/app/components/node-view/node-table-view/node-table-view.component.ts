@@ -7,6 +7,9 @@ import { NgIcon } from '@ng-icons/core';
 import { PredicateVisibility } from '../../../models/predicate-visibility.enum';
 import { Settings } from '../../../config/settings';
 import { NodeTableComponent } from './node-table/node-table.component';
+import { ViewModeService } from '../../../services/view-mode.service';
+import { NodeService } from '../../../services/node.service';
+import { ViewMode } from '../../../models/view-mode.enum';
 
 @Component({
   selector: 'app-node-table-view',
@@ -28,6 +31,13 @@ export class NodeTableViewComponent
   implements OnInit
 {
   showingDetails = false;
+
+  constructor(
+    public viewModes: ViewModeService,
+    public override nodes: NodeService,
+  ) {
+    super(nodes);
+  }
 
   ngOnInit() {}
 
@@ -58,4 +68,5 @@ export class NodeTableViewComponent
   protected readonly PredicateVisibility = PredicateVisibility;
   protected readonly Direction = Direction;
   protected readonly Object = Object;
+  protected readonly ViewMode = ViewMode;
 }

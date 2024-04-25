@@ -5,6 +5,8 @@ import { replacePrefixes, truncate } from '../../helpers/util.helper';
 import { NodeService } from '../../services/node.service';
 import { NgIcon } from '@ng-icons/core';
 import { Config } from '../../config/config';
+import { ViewMode } from '../../models/view-mode.enum';
+import { ViewModeService } from '../../services/view-mode.service';
 
 @Component({
   selector: 'app-node-hierarchy',
@@ -17,14 +19,21 @@ export class NodeHierarchyComponent {
   @Input() nodes: ThingWithLabelModel[] = [];
   collapsed = true;
 
-  constructor(public nodeService: NodeService) {}
+  constructor(
+    public nodeService: NodeService,
+    public viewModes: ViewModeService,
+  ) {}
 
   get hasLoadedNodes(): boolean {
     return this.nodes !== undefined;
   }
 
   get showNodes(): boolean {
-    return this.hasLoadedNodes && this.nodes.length > 0;
+    return (
+      this.hasLoadedNodes &&
+      this.nodes.length > 0 &&
+      this.viewModes.current === ViewMode.List
+    );
   }
 
   get allowExpand(): boolean {
