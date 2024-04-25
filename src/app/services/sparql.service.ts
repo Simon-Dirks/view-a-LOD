@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { NodeModel } from '../models/node.model';
 import { Settings } from '../config/settings';
 import { ApiService } from './api.service';
-import { replacePrefixes, wrapWithAngleBrackets } from '../helpers/util.helper';
+import { wrapWithAngleBrackets } from '../helpers/util.helper';
 import { SparqlIncomingRelationModel } from '../models/sparql/sparql-incoming-relation.model';
 import { SparqlNodeParentModel } from '../models/sparql/sparql-node-parent.model';
+import { ThingWithLabelModel } from '../models/thing-with-label.model';
 
 @Injectable({
   providedIn: 'root',
@@ -101,48 +102,82 @@ limit 500`;
     );
   }
 
-  async getLabelFromLiterals(id: string): Promise<string> {
-    const literalLabelQueryTemplate = `
-    <${id}> ?p ?o .
-    FILTER(isLiteral(?o))
-    BIND(str(?o) AS ?literalValue)`;
+  // async getLabelFromLiterals(id: string): Promise<string> {
+  //   const literalLabelQueryTemplate = `
+  //   <${id}> ?p ?o .
+  //   FILTER(isLiteral(?o))
+  //   BIND(str(?o) AS ?literalValue)`;
+  //
+  //   const query = `
+  //   SELECT (GROUP_CONCAT(DISTINCT ?literalValue; separator=" ") AS ?label)
+  //   WHERE {
+  //     ${this._getFederatedQuery(literalLabelQueryTemplate)}
+  //   }`;
+  //
+  //   const labels: { label: string }[] = await this.api.postData<
+  //     { label: string }[]
+  //   >(Settings.endpoints[0].sparql, {
+  //     query: query,
+  //   });
+  //   if (!labels || labels.length === 0 || labels[0].label.length == 0) {
+  //     return replacePrefixes(id);
+  //   }
+  //   return replacePrefixes(labels[0].label);
+  // }
+
+  //   async getRdfsLabel(id: string): Promise<string> {
+  //     const labelQueryTemplate = `<${id}> <http://www.w3.org/2000/01/rdf-schema#label> ?label`;
+  //
+  //     const query = `
+  // select distinct ?label where {
+  //     ${this._getFederatedQuery(labelQueryTemplate)}
+  // }
+  // limit 1`;
+  //
+  //     const labels: { label: string }[] = await this.api.postData<
+  //       { label: string }[]
+  //     >(Settings.endpoints[0].sparql, {
+  //       query: query,
+  //     });
+  //     if (!labels || labels.length === 0) {
+  //       return this.getLabelFromLiterals(id);
+  //       // return replacePrefixes(id);
+  //     }
+  //
+  //     return replacePrefixes(labels[0].label);
+  //   }
+
+  async getRdfsLabels(ids: string[]): Promise<ThingWithLabelModel[]> {
+    const idIrisStr = ids.map((id) => wrapWithAngleBrackets(id)).join('\n');
+    const labelQueryTemplate = `
+VALUES ?s {
+  ${idIrisStr}
+}
+?s <http://www.w3.org/2000/01/rdf-schema#label> ?label .`;
 
     const query = `
-    SELECT (GROUP_CONCAT(DISTINCT ?literalValue; separator=" ") AS ?label)
-    WHERE {
-      ${this._getFederatedQuery(literalLabelQueryTemplate)}
-    }`;
-
-    const labels: { label: string }[] = await this.api.postData<
-      { label: string }[]
-    >(Settings.endpoints[0].sparql, {
-      query: query,
-    });
-    if (!labels || labels.length === 0 || labels[0].label.length == 0) {
-      return replacePrefixes(id);
-    }
-    return replacePrefixes(labels[0].label);
-  }
-
-  async getRdfsLabel(id: string): Promise<string> {
-    const labelQueryTemplate = `<${id}> <http://www.w3.org/2000/01/rdf-schema#label> ?label`;
-
-    const query = `
-select distinct ?label where {
+SELECT DISTINCT ?s ?label WHERE {
     ${this._getFederatedQuery(labelQueryTemplate)}
 }
-limit 1`;
+LIMIT 10000`;
 
-    const labels: { label: string }[] = await this.api.postData<
-      { label: string }[]
+    const response: { s: string; label: string }[] = await this.api.postData<
+      { s: string; label: string }[]
     >(Settings.endpoints[0].sparql, {
       query: query,
     });
-    if (!labels || labels.length === 0) {
-      return this.getLabelFromLiterals(id);
-      // return replacePrefixes(id);
-    }
+    const labels: ThingWithLabelModel[] = response.map(({ s, label }) => {
+      return { '@id': s, label: label };
+    });
 
-    return replacePrefixes(labels[0].label);
+    return labels;
+
+    // TODO: Bring back fallback label from literals functionality
+    // if (!labels || labels.length === 0) {
+    //   return this.getLabelFromLiterals(id);
+    //   return replacePrefixes(id);
+    // }
+    //
+    // return replacePrefixes(labels[0].label);
   }
 }
