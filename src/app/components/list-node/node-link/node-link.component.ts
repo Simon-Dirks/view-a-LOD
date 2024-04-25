@@ -1,5 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { isValidHttpUrl, isValidUrl } from '../../../helpers/util.helper';
+import {
+  isValidHttpUrl,
+  isValidUrl,
+  replacePrefixes,
+} from '../../../helpers/util.helper';
 import { JsonPipe, NgClass, NgIf } from '@angular/common';
 import { CacheService } from '../../../services/cache.service';
 import { Router, RouterLink } from '@angular/router';
@@ -30,12 +34,16 @@ export class NodeLinkComponent implements OnInit {
   }
 
   get cachedLabel(): string | undefined {
-    if (this?.labelUrl && isValidHttpUrl(this.labelUrl)) {
-      void this.cache.cacheLabelForId(this.labelUrl);
-      return this.cache.labels?.[this.labelUrl] ?? this.label;
+    if (this.label) {
+      return this.label;
     }
 
-    return this.label;
+    if (this?.labelUrl && isValidHttpUrl(this.labelUrl)) {
+      void this.cache.cacheLabelForId(this.labelUrl);
+      return this.cache.labels?.[this.labelUrl];
+    }
+
+    return this.url ? replacePrefixes(this.url) : undefined;
   }
 
   get isClickableUrl(): boolean {

@@ -3,10 +3,7 @@
     <app-node-hierarchy [nodes]="parents" />
 
     <div class="card-title">
-      <app-node-link
-        [url]="nodes.getId(node)"
-        [label]="nodes.getObjValues(node, Settings.predicates.title).join(' ')"
-      />
+      <app-node-link [url]="nodes.getId(node)" [label]="title" />
     </div>
 
     <app-node-types [typeIds]="types" />

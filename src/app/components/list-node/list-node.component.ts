@@ -55,6 +55,17 @@ export class ListNodeComponent implements OnInit {
     void this.retrieveParents();
   }
 
+  get title(): string | undefined {
+    const titles = this.nodes
+      .getObjValues(this.node, Settings.predicates.title)
+      .map((title) => title.trim());
+    if (!titles || titles.length === 0) {
+      return undefined;
+    }
+
+    return titles[0];
+  }
+
   get types() {
     const typeIds: string[] = this.nodes.getObjValues(
       this.node,

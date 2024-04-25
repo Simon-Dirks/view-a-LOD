@@ -31,7 +31,7 @@ export const Settings = {
       'https://www.ica.org/standards/RiC/ontology#title',
       'https://www.ica.org/standards/RiC/ontology#textualValue',
       'http://www.nationaalarchief.nl/mdto#naam',
-      '@id',
+      'http://www.nationaalarchief.nl/mdto#begripLabel',
     ],
     type: [
       'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
