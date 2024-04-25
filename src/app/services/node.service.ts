@@ -26,8 +26,7 @@ export class NodeService {
         continue;
       }
       for (const obj of node[pred]) {
-        const noObjFoundForThisPred =
-          !obj || !obj?.value || obj?.value?.length === 0;
+        const noObjFoundForThisPred = !obj || obj?.value.length === 0;
         if (noObjFoundForThisPred) {
           continue;
         }
@@ -49,6 +48,17 @@ export class NodeService {
     replacePrefix = false,
   ) {
     return this.getObjs(node, preds, replacePrefix).map((o) => o.value);
+  }
+
+  getObjValuesByDirection(
+    node: NodeModel | undefined,
+    preds: string[],
+    direction: Direction,
+    replacePrefix = false,
+  ) {
+    return this.getObjs(node, preds, replacePrefix)
+      .filter((o) => o.direction === direction)
+      .map((o) => o.value);
   }
 
   getTitle(node: ThingWithLabelModel, maxCharacters?: number): string {

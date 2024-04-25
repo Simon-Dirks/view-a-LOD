@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Direction } from '../../../models/node.model';
-import { replacePrefixes } from '../../../helpers/util.helper';
 import { JsonPipe, KeyValuePipe, NgForOf, NgIf } from '@angular/common';
 import { NodeLinkComponent } from '../../list-node/node-link/node-link.component';
 import { NodeViewComponent } from '../node-view.component';
@@ -65,7 +64,6 @@ export class NodeTableViewComponent
   }
 
   protected readonly PredicateVisibility = PredicateVisibility;
-  protected readonly replacePrefixes = replacePrefixes;
   protected readonly Direction = Direction;
   protected readonly Object = Object;
 }
