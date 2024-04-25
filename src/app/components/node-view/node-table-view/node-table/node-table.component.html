@@ -2,7 +2,7 @@
   <tbody>
     <ng-container *ngFor="let pred of Object.keys(node)">
       <ng-container
-        *ngFor="let direction of [Direction.Incoming, Direction.Outgoing]"
+        *ngFor="let direction of [Direction.Outgoing, Direction.Incoming]"
       >
         <tr
           *ngIf="

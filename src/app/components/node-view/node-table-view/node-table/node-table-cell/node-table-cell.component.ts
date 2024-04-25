@@ -4,6 +4,7 @@ import { NgForOf, NgIf } from '@angular/common';
 import { NgIcon } from '@ng-icons/core';
 import { NodeLinkComponent } from '../../../../list-node/node-link/node-link.component';
 import { NodeService } from '../../../../../services/node.service';
+import { Config } from '../../../../../config/config';
 
 export enum TableCellShowOptions {
   Pred,
@@ -23,6 +24,8 @@ export class NodeTableCellComponent {
   @Input() direction?: Direction;
   @Input() show?: TableCellShowOptions;
 
+  numObjValuesToShow = Config.numObjValuesToShowDefault;
+
   constructor(public nodes: NodeService) {}
 
   get isIncoming() {
@@ -33,12 +36,33 @@ export class NodeTableCellComponent {
     if (this.direction === undefined || !this.pred) {
       return [];
     }
+
     return this.nodes.getObjValuesByDirection(
       this.node,
       [this.pred],
       this.direction,
     );
   }
+  get objValuesToShow(): string[] {
+    return this.objValues.slice(0, this.numObjValuesToShow);
+  }
+
+  get numObjValuesNotShown(): number {
+    return this.objValues.length - this.numObjValuesToShow;
+  }
+
+  loadMoreObjValues() {
+    this.numObjValuesToShow += Config.additionalNumObjValuesToShowOnClick;
+  }
+
+  get showMoreLabel(): string {
+    return `Show ${Math.min(
+      this.numObjValuesNotShown,
+      Config.additionalNumObjValuesToShowOnClick,
+    )} more...`;
+  }
 
   protected readonly TableCellShowOptions = TableCellShowOptions;
+  protected readonly Config = Config;
+  protected readonly Math = Math;
 }

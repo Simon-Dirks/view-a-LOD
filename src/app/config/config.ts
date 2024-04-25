@@ -1,3 +1,5 @@
 export const Config = {
-  numParentsToAllowTreeExpand: 3,
+  minNumParentsToAllowTreeExpand: 3,
+  numObjValuesToShowDefault: 5,
+  additionalNumObjValuesToShowOnClick: 5,
 };
