@@ -23,6 +23,7 @@ export const Settings = {
       'https://www.ica.org/standards/RiC/ontology#isOrWasIncludedIn',
       'https://schema.org/isPartOf',
       'https://schema.org/hadPrimarySource',
+      'http://www.nationaalarchief.nl/mdto#isOnderdeelVan',
     ],
     title: [
       'http://www.w3.org/2000/01/rdf-schema#label',
