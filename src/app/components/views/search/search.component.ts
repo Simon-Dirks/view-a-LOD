@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ListNodeComponent } from '../../list-node/list-node.component';
-import { JsonPipe, NgForOf } from '@angular/common';
+import { JsonPipe, NgClass, NgForOf } from '@angular/common';
 import { SearchInputComponent } from '../../search-input/search-input.component';
 import { TypeFilterComponent } from '../../type-filter/type-filter.component';
 import { SearchService } from '../../../services/search/search.service';
+import { ViewModeSelectComponent } from '../../view-mode-select/view-mode-select.component';
+import { ViewModeService } from '../../../services/view-mode.service';
+import { ViewMode } from '../../../models/view-mode.enum';
 
 @Component({
   selector: 'app-search',
@@ -14,12 +17,17 @@ import { SearchService } from '../../../services/search/search.service';
     SearchInputComponent,
     JsonPipe,
     TypeFilterComponent,
+    ViewModeSelectComponent,
+    NgClass,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
 })
 export class SearchComponent implements OnInit {
-  constructor(public search: SearchService) {}
+  constructor(
+    public search: SearchService,
+    public viewMode: ViewModeService,
+  ) {}
 
   ngOnInit() {}
 
@@ -31,4 +39,6 @@ export class SearchComponent implements OnInit {
       void this.search.execute();
     }
   }
+
+  protected readonly ViewMode = ViewMode;
 }

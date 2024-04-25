@@ -11,6 +11,9 @@ import {
   featherChevronDown,
   featherChevronRight,
   featherChevronUp,
+  featherGrid,
+  featherList,
+  featherMap,
   featherRotateCcw,
   featherSearch,
 } from '@ng-icons/feather-icons';
@@ -33,6 +36,9 @@ import {
       featherArrowDownRight,
       featherArrowDownLeft,
       featherArrowUpLeft,
+      featherMap,
+      featherGrid,
+      featherList,
     }),
   ],
 })

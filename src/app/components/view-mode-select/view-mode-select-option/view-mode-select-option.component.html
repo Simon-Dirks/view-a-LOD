@@ -1,0 +1,8 @@
+<li *ngIf="viewMode !== undefined">
+  <a
+    [ngClass]="[viewModes.current === viewMode ? 'active' : '']"
+    (click)="viewModes.current = viewMode"
+  >
+    <ng-icon [name]="iconName" *ngIf="iconName" />
+  </a>
+</li>
