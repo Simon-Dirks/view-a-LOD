@@ -16,7 +16,7 @@ export class SearchHitsService {
       .filter((hitNode): hitNode is ElasticNodeModel => !!hitNode)
       .map((hitNode) => {
         const node: NodeModel = {
-          '@id': [{ value: hitNode['@id'] }],
+          '@id': [],
         };
         this.data.replaceElasticNodePredSpacesWithPeriods(hitNode);
         for (const [pred, obj] of Object.entries(hitNode)) {
