@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ListNodeComponent } from '../../list-node/list-node.component';
-import { JsonPipe, NgClass, NgForOf, NgStyle } from '@angular/common';
+import { JsonPipe, NgClass, NgForOf, NgIf, NgStyle } from '@angular/common';
 import { SearchInputComponent } from '../../search-input/search-input.component';
 import { TypeFilterComponent } from '../../type-filter/type-filter.component';
 import { SearchService } from '../../../services/search/search.service';
@@ -22,6 +22,7 @@ import { ViewModeService } from '../../../services/view-mode.service';
     NgClass,
     NgxMasonryModule,
     NgStyle,
+    NgIf,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
@@ -42,14 +43,18 @@ export class SearchComponent implements OnInit {
     this.viewModes.current.subscribe((viewMode) => this.updateMasonryLayout());
 
     // TODO: Optimize if needed, fixes occasional layout errors after reactive component height changes
-    setInterval(() => this.updateMasonryLayout(), 250);
+    setInterval(() => {
+      if (this.viewModes.current.value === ViewMode.Grid) {
+        this.updateMasonryLayout();
+      }
+    }, 200);
   }
 
   updateMasonryLayout() {
     this.updateMasonryLayoutTrigger = true;
     setTimeout(() => {
       this.updateMasonryLayoutTrigger = false;
-    });
+    }, 10);
   }
 
   get listNodeWidthStr(): string {

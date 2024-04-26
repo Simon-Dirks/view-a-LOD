@@ -11,7 +11,10 @@
   </div>
 
   <div class="p-4 overflow-y-scroll flex-grow" (scroll)="onScroll($event)">
-    <ngx-masonry [updateLayout]="updateMasonryLayoutTrigger">
+    <ngx-masonry
+      [updateLayout]="updateMasonryLayoutTrigger"
+      *ngIf="viewModes.current.value === ViewMode.Grid"
+    >
       <app-list-node
         ngxMasonryItem
         *ngFor="let node of search.results.getValue()?.nodes"
@@ -19,5 +22,12 @@
         [style.width]="listNodeWidthStr"
       ></app-list-node>
     </ngx-masonry>
+
+    <ng-container *ngIf="viewModes.current.value === ViewMode.List">
+      <app-list-node
+        *ngFor="let node of search.results.getValue()?.nodes"
+        [node]="node"
+      ></app-list-node>
+    </ng-container>
   </div>
 </div>
