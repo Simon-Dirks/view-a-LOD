@@ -1,18 +1,18 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ViewMode } from '../../../models/view-mode.enum';
+import { ViewMode } from '../../models/view-mode.enum';
 import { NgxMasonryModule } from 'ngx-masonry';
-import { NodeComponent } from '../node.component';
+import { NodeComponent } from '../node/node.component';
 import { NgForOf, NgIf } from '@angular/common';
-import { NodeModel } from '../../../models/node.model';
+import { NodeModel } from '../../models/node.model';
 
 @Component({
-  selector: 'app-node-masonry-grid',
+  selector: 'app-nodes-masonry-grid',
   standalone: true,
   imports: [NgxMasonryModule, NodeComponent, NgForOf, NgIf],
-  templateUrl: './node-masonry-grid.component.html',
-  styleUrl: './node-masonry-grid.component.scss',
+  templateUrl: './nodes-masonry-grid.component.html',
+  styleUrl: './nodes-masonry-grid.component.scss',
 })
-export class NodeMasonryGridComponent implements OnInit {
+export class NodesMasonryGridComponent implements OnInit {
   @Input() nodes?: NodeModel[];
 
   updateMasonryLayoutTrigger = false;
