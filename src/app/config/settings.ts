@@ -13,6 +13,11 @@ const showInDetailsView: string[] = [
   'http://www.nationaalarchief.nl/mdto#classificatie',
 ];
 
+const imagePredicates: string[] = [
+  'http://xmlns.com/foaf/0.1/depiction',
+  'https://schema.org/thumbnail',
+];
+
 export const Settings = {
   endpoints: [
     {
@@ -51,10 +56,7 @@ export const Settings = {
       'https://schema.org/additionalType',
       'http://www.wikidata.org/entity/P31',
     ],
-    images: [
-      'http://xmlns.com/foaf/0.1/depiction',
-      'https://schema.org/thumbnail',
-    ],
+    images: imagePredicates,
   },
   viewComponents: {
     'https://schema.org/Photograph': 'sdo-photograph',
@@ -74,7 +76,10 @@ export const Settings = {
       show: ['*'],
       hide: showInDetailsView,
     },
-    [PredicateVisibility.ShowInGridView]: { show: [], hide: [] },
+    [PredicateVisibility.ShowInGridView]: {
+      show: [...imagePredicates],
+      hide: [],
+    },
     [PredicateVisibility.ShowInDetailView]: {
       show: showInDetailsView,
       hide: [],
