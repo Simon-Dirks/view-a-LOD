@@ -1,4 +1,6 @@
 import { PredicateVisibility } from '../models/predicate-visibility.enum';
+import { ViewMode } from '../models/view-mode.enum';
+import { ViewModeSetting } from '../models/view-mode-setting.enum';
 
 export const Settings = {
   endpoints: [
@@ -45,6 +47,14 @@ export const Settings = {
   },
   viewComponents: {
     'https://schema.org/Photograph': 'sdo-photograph',
+  },
+  viewModes: {
+    [ViewMode.List]: {
+      [ViewModeSetting.ShowDetails]: true,
+    },
+    [ViewMode.Grid]: {
+      [ViewModeSetting.ShowDetails]: true,
+    },
   },
   predicateVisibility: {
     [PredicateVisibility.ShowInDetailView]: [
