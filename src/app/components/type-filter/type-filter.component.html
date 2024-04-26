@@ -17,11 +17,7 @@
       )
     "
   >
-    <app-node-link
-      [url]="typeCount.typeDetails['@id']"
-      [label]="typeCount.typeDetails.label"
-      [disabled]="true"
-    />
+    <app-node-link [url]="typeCount.typeDetails['@id']" [disabled]="true" />
     <span>({{ typeCount.count }})</span>
   </div>
 </ng-container>
