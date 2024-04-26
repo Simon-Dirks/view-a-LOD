@@ -21,7 +21,7 @@ import { NodeViewRendererComponent } from '../node-view-renderer/node-view-rende
 import { SparqlNodeParentModel } from '../../models/sparql/sparql-node-parent.model';
 
 @Component({
-  selector: 'app-list-node',
+  selector: 'app-node',
   standalone: true,
   imports: [
     JsonPipe,
@@ -35,10 +35,10 @@ import { SparqlNodeParentModel } from '../../models/sparql/sparql-node-parent.mo
     NodeLinkComponent,
     NodeViewRendererComponent,
   ],
-  templateUrl: './list-node.component.html',
-  styleUrl: './list-node.component.scss',
+  templateUrl: './node.component.html',
+  styleUrl: './node.component.scss',
 })
-export class ListNodeComponent implements OnInit {
+export class NodeComponent implements OnInit {
   @Input() node?: NodeModel;
   parents: ThingWithLabelModel[] = [];
 

@@ -15,19 +15,19 @@
       [updateLayout]="updateMasonryLayoutTrigger"
       *ngIf="viewModes.current.value === ViewMode.Grid"
     >
-      <app-list-node
+      <app-node
         ngxMasonryItem
         *ngFor="let node of search.results.getValue()?.nodes"
         [node]="node"
-        [style.width]="listNodeWidthStr"
-      ></app-list-node>
+        [style.width]="gridNodeWidthStr"
+      ></app-node>
     </ngx-masonry>
 
     <ng-container *ngIf="viewModes.current.value === ViewMode.List">
-      <app-list-node
+      <app-node
         *ngFor="let node of search.results.getValue()?.nodes"
         [node]="node"
-      ></app-list-node>
+      ></app-node>
     </ng-container>
   </div>
 </div>

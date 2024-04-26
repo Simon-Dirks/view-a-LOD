@@ -3,7 +3,7 @@ import { Direction, NodeModel } from '../../../../models/node.model';
 import { PredicateVisibility } from '../../../../models/predicate-visibility.enum';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { NgIcon } from '@ng-icons/core';
-import { NodeLinkComponent } from '../../../list-node/node-link/node-link.component';
+import { NodeLinkComponent } from '../../../node/node-link/node-link.component';
 import { NodeService } from '../../../../services/node.service';
 import {
   NodeTableCellComponent,

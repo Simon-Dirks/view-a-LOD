@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ListNodeComponent } from '../../list-node/list-node.component';
+import { NodeComponent } from '../../node/node.component';
 import { JsonPipe, NgClass, NgForOf, NgIf, NgStyle } from '@angular/common';
 import { SearchInputComponent } from '../../search-input/search-input.component';
 import { TypeFilterComponent } from '../../type-filter/type-filter.component';
@@ -13,7 +13,7 @@ import { ViewModeService } from '../../../services/view-mode.service';
   selector: 'app-search',
   standalone: true,
   imports: [
-    ListNodeComponent,
+    NodeComponent,
     NgForOf,
     SearchInputComponent,
     JsonPipe,
@@ -57,7 +57,7 @@ export class SearchComponent implements OnInit {
     }, 10);
   }
 
-  get listNodeWidthStr(): string {
+  get gridNodeWidthStr(): string {
     let columns = 1;
     if (this.viewModes.current.value === ViewMode.Grid) {
       columns = 2;

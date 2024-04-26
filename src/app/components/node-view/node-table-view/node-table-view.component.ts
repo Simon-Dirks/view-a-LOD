@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { JsonPipe, KeyValuePipe, NgForOf, NgIf } from '@angular/common';
-import { NodeLinkComponent } from '../../list-node/node-link/node-link.component';
+import { NodeLinkComponent } from '../../node/node-link/node-link.component';
 import { NodeViewComponent } from '../node-view.component';
 import { NgIcon } from '@ng-icons/core';
 import { PredicateVisibility } from '../../../models/predicate-visibility.enum';

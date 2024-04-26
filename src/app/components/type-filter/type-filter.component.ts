@@ -12,7 +12,7 @@ import {
   NgIf,
 } from '@angular/common';
 import { CacheService } from '../../services/cache.service';
-import { NodeLinkComponent } from '../list-node/node-link/node-link.component';
+import { NodeLinkComponent } from '../node/node-link/node-link.component';
 import { SearchService } from '../../services/search/search.service';
 
 @Component({
