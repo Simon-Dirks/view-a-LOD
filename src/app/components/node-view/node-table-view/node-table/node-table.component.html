@@ -10,7 +10,8 @@
       >
         <tr
           *ngIf="
-            getVisibility(pred) === visibility &&
+            visibility !== undefined &&
+            getVisibilities(pred).includes(visibility) &&
             nodes.getObjValuesByDirection(node, [pred], direction).length > 0
           "
         >

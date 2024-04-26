@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Direction } from '../../../models/node.model';
 import { JsonPipe, KeyValuePipe, NgForOf, NgIf } from '@angular/common';
 import { NodeLinkComponent } from '../../list-node/node-link/node-link.component';
 import { NodeViewComponent } from '../node-view.component';
 import { NgIcon } from '@ng-icons/core';
 import { PredicateVisibility } from '../../../models/predicate-visibility.enum';
-import { Settings } from '../../../config/settings';
 import { NodeTableComponent } from './node-table/node-table.component';
 import { NodeService } from '../../../services/node.service';
 import { ViewMode } from '../../../models/view-mode.enum';
 import { SettingsService } from '../../../services/settings.service';
 import { ViewModeSetting } from '../../../models/view-mode-setting.enum';
+import { ViewModeService } from '../../../services/view-mode.service';
 
 @Component({
   selector: 'app-node-table-view',
@@ -35,6 +34,7 @@ export class NodeTableViewComponent
 
   constructor(
     public settings: SettingsService,
+    public viewModes: ViewModeService,
     public override nodes: NodeService,
   ) {
     super(nodes);
@@ -47,27 +47,23 @@ export class NodeTableViewComponent
       return 0;
     }
 
-    if (visibility === PredicateVisibility.AlwaysShow) {
-      return (
-        Object.keys(this.node).length -
-        (this.getNumOfVisiblePreds(PredicateVisibility.ShowInDetailView) +
-          this.getNumOfVisiblePreds(PredicateVisibility.NeverShow))
-      );
-    }
-
     // TODO: Optimize (duplicate call given that table component checks getVisibility for each pred)
     const visiblePreds = Object.keys(
-      Object.entries(this.node).filter(([pred, obj]) => {
-        return (Settings.predicateVisibility as any)[visibility]?.includes(
-          pred,
+      Object.entries(this.node).filter(([pred, _]) => {
+        const shouldShowAllPredicates = this.settings.predicateIsVisible(
+          '*',
+          visibility,
         );
+        if (shouldShowAllPredicates) {
+          return true;
+        }
+        return this.settings.predicateIsVisible(pred, visibility);
       }),
     );
     return visiblePreds.length;
   }
 
   protected readonly PredicateVisibility = PredicateVisibility;
-  protected readonly Direction = Direction;
   protected readonly Object = Object;
   protected readonly ViewMode = ViewMode;
   protected readonly ViewModeSetting = ViewModeSetting;

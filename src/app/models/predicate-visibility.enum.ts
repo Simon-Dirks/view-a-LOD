@@ -1,5 +1,5 @@
 export enum PredicateVisibility {
-  AlwaysShow,
+  ShowInListView,
+  ShowInGridView,
   ShowInDetailView,
-  NeverShow,
 }

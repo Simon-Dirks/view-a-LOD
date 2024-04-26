@@ -2,6 +2,17 @@ import { PredicateVisibility } from '../models/predicate-visibility.enum';
 import { ViewMode } from '../models/view-mode.enum';
 import { ViewModeSetting } from '../models/view-mode-setting.enum';
 
+const showInDetailsView: string[] = [
+  'http://www.nationaalarchief.nl/mdto#waardering',
+  'https://www.ica.org/standards/RiC/ontology#hasRecordSetType',
+  'https://www.ica.org/standards/RiC/ontology#hasAccumulator',
+  'https://www.ica.org/standards/RiC/ontology#isAccumulatorOf',
+  'https://schema.org/numberOfPages',
+  'https://schema.org/size',
+  'http://www.nationaalarchief.nl/mdto#archiefvormer',
+  'http://www.nationaalarchief.nl/mdto#classificatie',
+];
+
 export const Settings = {
   endpoints: [
     {
@@ -59,33 +70,32 @@ export const Settings = {
     },
   },
   predicateVisibility: {
-    [PredicateVisibility.ShowInDetailView]: [
-      'http://www.nationaalarchief.nl/mdto#waardering',
-      'https://www.ica.org/standards/RiC/ontology#hasRecordSetType',
-      'https://www.ica.org/standards/RiC/ontology#hasAccumulator',
-      'https://www.ica.org/standards/RiC/ontology#isAccumulatorOf',
-      'https://schema.org/numberOfPages',
-      'https://schema.org/size',
-      'http://www.nationaalarchief.nl/mdto#archiefvormer',
-      'http://www.nationaalarchief.nl/mdto#classificatie',
-    ],
-    [PredicateVisibility.NeverShow]: [
-      'https://www.ica.org/standards/RiC/ontology#conditionsOfAccess',
-      'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
-      'https://schema.org/additionalType',
-      'http://www.wikidata.org/entity/P31',
-      'http://www.w3.org/2000/01/rdf-schema#label',
-      'https://schema.org/name',
-      'https://www.ica.org/standards/RiC/ontology#title',
-      'https://www.ica.org/standards/RiC/ontology#textualValue',
-      'https://www.ica.org/standards/RiC/ontology#isOrWasIncludedIn',
-      'https://www.ica.org/standards/RiC/ontology#hasOrHadIdentifier',
-      'https://schema.org/isPartOf',
-      'https://schema.org/identifier',
-      'https://schema.org/hadPrimarySource',
-      '@id',
-    ],
+    [PredicateVisibility.ShowInListView]: {
+      show: ['*'],
+      hide: showInDetailsView,
+    },
+    [PredicateVisibility.ShowInGridView]: { show: [], hide: [] },
+    [PredicateVisibility.ShowInDetailView]: {
+      show: showInDetailsView,
+      hide: [],
+    },
   },
+  alwaysHidePredicates: [
+    'https://www.ica.org/standards/RiC/ontology#conditionsOfAccess',
+    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+    'https://schema.org/additionalType',
+    'http://www.wikidata.org/entity/P31',
+    'http://www.w3.org/2000/01/rdf-schema#label',
+    'https://schema.org/name',
+    'https://www.ica.org/standards/RiC/ontology#title',
+    'https://www.ica.org/standards/RiC/ontology#textualValue',
+    'https://www.ica.org/standards/RiC/ontology#isOrWasIncludedIn',
+    'https://www.ica.org/standards/RiC/ontology#hasOrHadIdentifier',
+    'https://schema.org/isPartOf',
+    'https://schema.org/identifier',
+    'https://schema.org/hadPrimarySource',
+    '@id',
+  ],
   namespacePrefixes: {
     'https://www.ica.org/standards/RiC/ontology#': 'rico:',
     'https://hetutrechtsarchief.nl/def/': 'def:',
