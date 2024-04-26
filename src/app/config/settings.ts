@@ -51,9 +51,11 @@ export const Settings = {
   viewModes: {
     [ViewMode.List]: {
       [ViewModeSetting.ShowDetails]: true,
+      [ViewModeSetting.ShowParents]: true,
     },
     [ViewMode.Grid]: {
-      [ViewModeSetting.ShowDetails]: true,
+      [ViewModeSetting.ShowDetails]: false,
+      [ViewModeSetting.ShowParents]: false,
     },
   },
   predicateVisibility: {

@@ -10,6 +10,7 @@ import { NodeTableComponent } from './node-table/node-table.component';
 import { NodeService } from '../../../services/node.service';
 import { ViewMode } from '../../../models/view-mode.enum';
 import { SettingsService } from '../../../services/settings.service';
+import { ViewModeSetting } from '../../../models/view-mode-setting.enum';
 
 @Component({
   selector: 'app-node-table-view',
@@ -69,4 +70,5 @@ export class NodeTableViewComponent
   protected readonly Direction = Direction;
   protected readonly Object = Object;
   protected readonly ViewMode = ViewMode;
+  protected readonly ViewModeSetting = ViewModeSetting;
 }

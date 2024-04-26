@@ -11,7 +11,7 @@ import { ViewModeSetting } from '../models/view-mode-setting.enum';
 export class SettingsService {
   constructor(public viewModes: ViewModeService) {}
 
-  shouldShowDetails(): boolean {
+  getViewModeSetting(viewModeSetting: ViewModeSetting): boolean {
     const currentViewMode: ViewMode = this.viewModes.current;
     if (currentViewMode === undefined) {
       return true;
@@ -19,6 +19,6 @@ export class SettingsService {
     const viewModeSettings = (Settings.viewModes as ViewModeSettings)[
       currentViewMode
     ];
-    return viewModeSettings?.[ViewModeSetting.ShowDetails];
+    return viewModeSettings?.[viewModeSetting];
   }
 }

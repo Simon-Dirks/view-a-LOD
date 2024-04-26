@@ -5,7 +5,7 @@
   (click)="showingDetails = !showingDetails"
   *ngIf="
     getNumOfVisiblePreds(PredicateVisibility.ShowInDetailView) > 0 &&
-    settings.shouldShowDetails()
+    settings.getViewModeSetting(ViewModeSetting.ShowDetails)
   "
 >
   <ng-icon
