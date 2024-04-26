@@ -20,8 +20,7 @@ const imagePredicates: string[] = [
 ];
 
 export const Settings = {
-  defaultSearchQuery:
-    "Lit. MIP Amerongen, geschiedenis en architectuur, p. 139-141. Foto nr 1 in een cassette met 30 foto's, samengesteld ter gelegenheid van de bouw van de vergaderzaal van het Lekdijkshuis (Keistraat 9) te Utrecht.",
+  defaultSearchQuery: 'Margaretha',
   endpoints: [
     {
       elastic:
