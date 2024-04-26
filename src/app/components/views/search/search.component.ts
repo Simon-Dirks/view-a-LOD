@@ -27,7 +27,7 @@ import { ViewModeService } from '../../../services/view-mode.service';
   styleUrl: './search.component.scss',
 })
 export class SearchComponent implements OnInit {
-  updateMasonryLayout = false;
+  updateMasonryLayoutTrigger = false;
 
   constructor(
     public search: SearchService,
@@ -39,11 +39,16 @@ export class SearchComponent implements OnInit {
   }
 
   initMasonryLayoutUpdates() {
-    this.viewModes.current.subscribe((viewMode) => {
-      this.updateMasonryLayout = true;
-      setTimeout(() => {
-        this.updateMasonryLayout = false;
-      });
+    this.viewModes.current.subscribe((viewMode) => this.updateMasonryLayout());
+
+    // TODO: Optimize if needed, fixes occasional layout errors after reactive component height changes
+    setInterval(() => this.updateMasonryLayout(), 250);
+  }
+
+  updateMasonryLayout() {
+    this.updateMasonryLayoutTrigger = true;
+    setTimeout(() => {
+      this.updateMasonryLayoutTrigger = false;
     });
   }
 
