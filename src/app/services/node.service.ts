@@ -4,6 +4,7 @@ import { replacePrefixes, truncate } from '../helpers/util.helper';
 import { ThingWithLabelModel } from '../models/thing-with-label.model';
 import { Settings } from '../config/settings';
 import { SparqlService } from './sparql.service';
+import { ViewComponentSettings } from '../models/settings/view-component-settings.type';
 
 @Injectable({
   providedIn: 'root',
@@ -76,7 +77,9 @@ export class NodeService {
       Settings.predicates.type,
     );
     const views: string[] = [];
-    for (const [viewType, view] of Object.entries(Settings.viewComponents)) {
+    for (const [viewType, view] of Object.entries(
+      Settings.viewComponents as ViewComponentSettings,
+    )) {
       if (nodeTypes.includes(viewType)) {
         views.push(view);
       }
