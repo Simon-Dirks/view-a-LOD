@@ -13,6 +13,7 @@
   <div class="p-4 overflow-y-scroll flex-grow" (scroll)="onScroll($event)">
     <ngx-masonry
       [updateLayout]="updateMasonryLayoutTrigger"
+      [options]="{ columnWidth: '.grid-item' }"
       *ngIf="viewModes.current.value === ViewMode.Grid"
     >
       <app-node
@@ -20,6 +21,7 @@
         *ngFor="let node of search.results.getValue()?.nodes"
         [node]="node"
         [style.width]="gridNodeWidthStr"
+        class="grid-item"
       ></app-node>
     </ngx-masonry>
 
