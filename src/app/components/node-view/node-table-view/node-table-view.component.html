@@ -1,7 +1,7 @@
 <app-node-table
   [node]="node"
   [visibility]="
-    viewModes.current === ViewMode.Grid
+    viewModes.current.value === ViewMode.Grid
       ? PredicateVisibility.ShowInGridView
       : PredicateVisibility.ShowInListView
   "

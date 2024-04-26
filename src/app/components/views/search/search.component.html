@@ -10,14 +10,14 @@
     </div>
   </div>
 
-  <div
-    class="flex-grow p-4 gap-x-4 overflow-y-scroll"
-    [ngClass]="[viewMode.current === ViewMode.Grid ? 'grid grid-cols-2' : '']"
-    (scroll)="onScroll($event)"
-  >
-    <app-list-node
-      *ngFor="let node of search.results.getValue()?.nodes"
-      [node]="node"
-    ></app-list-node>
+  <div class="p-4 overflow-y-scroll flex-grow" (scroll)="onScroll($event)">
+    <ngx-masonry [updateLayout]="updateMasonryLayout">
+      <app-list-node
+        ngxMasonryItem
+        *ngFor="let node of search.results.getValue()?.nodes"
+        [node]="node"
+        [style.width]="listNodeWidthStr"
+      ></app-list-node>
+    </ngx-masonry>
   </div>
 </div>

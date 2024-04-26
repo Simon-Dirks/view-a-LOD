@@ -1,13 +1,15 @@
-<div class="card w-full bg-base-100 shadow-xl mb-4" *ngIf="node">
-  <div class="card-body">
-    <app-node-hierarchy [nodes]="parents" />
+<div class="mx-2">
+  <div class="card w-full bg-base-100 shadow-xl mb-4" *ngIf="node">
+    <div class="card-body">
+      <app-node-hierarchy [nodes]="parents" />
 
-    <div class="card-title">
-      <app-node-link [url]="nodes.getId(node)" [label]="title" />
+      <div class="card-title">
+        <app-node-link [url]="nodes.getId(node)" [label]="title" />
+      </div>
+
+      <app-node-types [typeIds]="types" />
+
+      <app-node-view-renderer [node]="node" />
     </div>
-
-    <app-node-types [typeIds]="types" />
-
-    <app-node-view-renderer [node]="node" />
   </div>
 </div>

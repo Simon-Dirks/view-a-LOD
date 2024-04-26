@@ -17,7 +17,7 @@ export class SettingsService {
   constructor(public viewModes: ViewModeService) {}
 
   getViewModeSetting(viewModeSetting: ViewModeSetting): boolean {
-    const currentViewMode: ViewMode = this.viewModes.current;
+    const currentViewMode: ViewMode = this.viewModes.current.value;
     if (currentViewMode === undefined) {
       return true;
     }
