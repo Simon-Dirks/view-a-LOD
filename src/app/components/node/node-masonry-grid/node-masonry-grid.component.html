@@ -1,0 +1,13 @@
+<ngx-masonry
+  [updateLayout]="updateMasonryLayoutTrigger"
+  [options]="{ columnWidth: '.grid-item' }"
+  class="w-full"
+>
+  <app-node
+    ngxMasonryItem
+    *ngFor="let node of nodes"
+    [node]="node"
+    [style.width]="gridNodeWidthStr"
+    class="grid-item"
+  ></app-node>
+</ngx-masonry>

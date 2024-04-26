@@ -12,12 +12,12 @@ import { Settings } from '../../config/settings';
 import { SparqlService } from '../../services/sparql.service';
 import { DataService } from '../../services/data.service';
 import { ThingWithLabelModel } from '../../models/thing-with-label.model';
-import { NodeHierarchyComponent } from '../node-hierarchy/node-hierarchy.component';
+import { NodeHierarchyComponent } from './node-hierarchy/node-hierarchy.component';
 import { NodeTypesComponent } from './node-types/node-types.component';
 import { NodeImagesComponent } from './node-images/node-images.component';
 import { CacheService } from '../../services/cache.service';
 import { NodeLinkComponent } from './node-link/node-link.component';
-import { NodeViewRendererComponent } from '../node-view-renderer/node-view-renderer.component';
+import { NodeViewRendererComponent } from './node-view-renderer/node-view-renderer.component';
 import { SparqlNodeParentModel } from '../../models/sparql/sparql-node-parent.model';
 
 @Component({

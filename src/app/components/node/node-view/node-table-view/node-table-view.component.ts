@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { JsonPipe, KeyValuePipe, NgForOf, NgIf } from '@angular/common';
-import { NodeLinkComponent } from '../../node/node-link/node-link.component';
+import { NodeLinkComponent } from '../../node-link/node-link.component';
 import { NodeViewComponent } from '../node-view.component';
 import { NgIcon } from '@ng-icons/core';
-import { PredicateVisibility } from '../../../models/predicate-visibility.enum';
+import { PredicateVisibility } from '../../../../models/predicate-visibility.enum';
 import { NodeTableComponent } from './node-table/node-table.component';
-import { NodeService } from '../../../services/node.service';
-import { ViewMode } from '../../../models/view-mode.enum';
-import { SettingsService } from '../../../services/settings.service';
-import { ViewModeSetting } from '../../../models/view-mode-setting.enum';
-import { ViewModeService } from '../../../services/view-mode.service';
+import { NodeService } from '../../../../services/node.service';
+import { ViewMode } from '../../../../models/view-mode.enum';
+import { SettingsService } from '../../../../services/settings.service';
+import { ViewModeSetting } from '../../../../models/view-mode-setting.enum';
+import { ViewModeService } from '../../../../services/view-mode.service';
 
 @Component({
   selector: 'app-node-table-view',

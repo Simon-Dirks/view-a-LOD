@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { NodeModel } from '../../models/node.model';
-import { NodeService } from '../../services/node.service';
+import { NodeModel } from '../../../models/node.model';
+import { NodeService } from '../../../services/node.service';
 
 @Component({
   selector: 'app-node-view',

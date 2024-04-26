@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
 import { NodeTableViewComponent } from '../node-view/node-table-view/node-table-view.component';
-import { NodeModel } from '../../models/node.model';
-import { NodeService } from '../../services/node.service';
-import { Settings } from '../../config/settings';
+import { NodeModel } from '../../../models/node.model';
+import { NodeService } from '../../../services/node.service';
+import { Settings } from '../../../config/settings';
 import { SdoPhotographComponent } from '../node-view/sdo-photograph/sdo-photograph.component';
 
 @Component({

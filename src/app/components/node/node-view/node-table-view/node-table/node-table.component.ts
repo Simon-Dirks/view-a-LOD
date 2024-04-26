@@ -1,15 +1,15 @@
 import { Component, Input } from '@angular/core';
-import { Direction, NodeModel } from '../../../../models/node.model';
-import { PredicateVisibility } from '../../../../models/predicate-visibility.enum';
+import { Direction, NodeModel } from '../../../../../models/node.model';
+import { PredicateVisibility } from '../../../../../models/predicate-visibility.enum';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { NgIcon } from '@ng-icons/core';
-import { NodeLinkComponent } from '../../../node/node-link/node-link.component';
-import { NodeService } from '../../../../services/node.service';
+import { NodeLinkComponent } from '../../../node-link/node-link.component';
+import { NodeService } from '../../../../../services/node.service';
 import {
   NodeTableCellComponent,
   TableCellShowOptions,
 } from './node-table-cell/node-table-cell.component';
-import { SettingsService } from '../../../../services/settings.service';
+import { SettingsService } from '../../../../../services/settings.service';
 
 @Component({
   selector: 'app-node-table',

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NodeViewComponent } from '../node-view.component';
 import { JsonPipe, NgForOf } from '@angular/common';
-import { Settings } from '../../../config/settings';
-import { NodeLinkComponent } from '../../node/node-link/node-link.component';
+import { Settings } from '../../../../config/settings';
+import { NodeLinkComponent } from '../../node-link/node-link.component';
 import { NodeTableViewComponent } from '../node-table-view/node-table-view.component';
 
 @Component({

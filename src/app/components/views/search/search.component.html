@@ -11,19 +11,11 @@
   </div>
 
   <div class="p-4 overflow-y-scroll flex-grow" (scroll)="onScroll($event)">
-    <ngx-masonry
-      [updateLayout]="updateMasonryLayoutTrigger"
-      [options]="{ columnWidth: '.grid-item' }"
+    <app-node-masonry-grid
+      [nodes]="search.results.getValue()?.nodes"
       *ngIf="viewModes.current.value === ViewMode.Grid"
-    >
-      <app-node
-        ngxMasonryItem
-        *ngFor="let node of search.results.getValue()?.nodes"
-        [node]="node"
-        [style.width]="gridNodeWidthStr"
-        class="grid-item"
-      ></app-node>
-    </ngx-masonry>
+      class="w-full"
+    />
 
     <ng-container *ngIf="viewModes.current.value === ViewMode.List">
       <app-node

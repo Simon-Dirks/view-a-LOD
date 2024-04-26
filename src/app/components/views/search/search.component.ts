@@ -8,6 +8,7 @@ import { ViewModeSelectComponent } from '../../view-mode-select/view-mode-select
 import { ViewMode } from '../../../models/view-mode.enum';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { ViewModeService } from '../../../services/view-mode.service';
+import { NodeMasonryGridComponent } from '../../node/node-masonry-grid/node-masonry-grid.component';
 
 @Component({
   selector: 'app-search',
@@ -23,47 +24,18 @@ import { ViewModeService } from '../../../services/view-mode.service';
     NgxMasonryModule,
     NgStyle,
     NgIf,
+    NodeMasonryGridComponent,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
 })
 export class SearchComponent implements OnInit {
-  updateMasonryLayoutTrigger = false;
-
   constructor(
     public search: SearchService,
     public viewModes: ViewModeService,
   ) {}
 
-  ngOnInit() {
-    this.initMasonryLayoutUpdates();
-  }
-
-  initMasonryLayoutUpdates() {
-    this.viewModes.current.subscribe((viewMode) => this.updateMasonryLayout());
-
-    // TODO: Optimize if needed, fixes occasional layout errors after reactive component height changes
-    setInterval(() => {
-      if (this.viewModes.current.value === ViewMode.Grid) {
-        this.updateMasonryLayout();
-      }
-    }, 200);
-  }
-
-  updateMasonryLayout() {
-    this.updateMasonryLayoutTrigger = true;
-    setTimeout(() => {
-      this.updateMasonryLayoutTrigger = false;
-    }, 10);
-  }
-
-  get gridNodeWidthStr(): string {
-    let columns = 1;
-    if (this.viewModes.current.value === ViewMode.Grid) {
-      columns = 2;
-    }
-    return (100 / columns).toString() + '%';
-  }
+  ngOnInit() {}
 
   onScroll($event: any) {
     const hasReachedEnd =

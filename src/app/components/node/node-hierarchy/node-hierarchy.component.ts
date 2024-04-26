@@ -1,11 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { ThingWithLabelModel } from '../../models/thing-with-label.model';
+import { ThingWithLabelModel } from '../../../models/thing-with-label.model';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
-import { NodeService } from '../../services/node.service';
+import { NodeService } from '../../../services/node.service';
 import { NgIcon } from '@ng-icons/core';
-import { Config } from '../../config/config';
-import { SettingsService } from '../../services/settings.service';
-import { ViewModeSetting } from '../../models/view-mode-setting.enum';
+import { Config } from '../../../config/config';
+import { SettingsService } from '../../../services/settings.service';
+import { ViewModeSetting } from '../../../models/view-mode-setting.enum';
 
 @Component({
   selector: 'app-node-hierarchy',

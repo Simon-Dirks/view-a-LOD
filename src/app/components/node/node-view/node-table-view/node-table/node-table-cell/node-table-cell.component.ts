@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
-import { Direction, NodeModel } from '../../../../../models/node.model';
+import { Direction, NodeModel } from '../../../../../../models/node.model';
 import { NgForOf, NgIf } from '@angular/common';
 import { NgIcon } from '@ng-icons/core';
-import { NodeLinkComponent } from '../../../../node/node-link/node-link.component';
-import { NodeService } from '../../../../../services/node.service';
-import { Config } from '../../../../../config/config';
+import { NodeLinkComponent } from '../../../../node-link/node-link.component';
+import { NodeService } from '../../../../../../services/node.service';
+import { Config } from '../../../../../../config/config';
 
 export enum TableCellShowOptions {
   Pred,
