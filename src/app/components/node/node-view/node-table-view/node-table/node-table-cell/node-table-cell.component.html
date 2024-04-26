@@ -2,22 +2,47 @@
   <app-node-link [url]="pred" *ngIf="show === TableCellShowOptions.Pred" />
 
   <ng-container *ngIf="show === TableCellShowOptions.Obj">
-    <div *ngFor="let objValue of objValuesToShow">
-      <ng-icon
-        name="featherArrowUpLeft"
-        class="opacity-40"
-        *ngIf="isIncoming"
-      />
+    <app-node-images
+      [images]="nodes.getObjValues(node, Settings.predicates.images)"
+      *ngIf="
+        renderComponent.shouldShow(
+          node,
+          RenderMode.ByPredicate,
+          'node-images',
+          [pred]
+        )
+      "
+    />
 
-      <app-node-link [url]="objValue" />
-    </div>
-
-    <button
-      class="btn btn-xs mt-2"
-      (click)="loadMoreObjValues()"
-      *ngIf="numObjValuesNotShown > 0"
+    <!-- TODO: Retrieve and pass coordinates -->
+    <app-map-thumb
+      *ngIf="
+        renderComponent.shouldShow(node, RenderMode.ByPredicate, 'map-thumb', [
+          pred
+        ])
+      "
     >
-      {{ showMoreLabel }}
-    </button>
+    </app-map-thumb>
+
+    <!--    *ngIf="!renderComponent.isDefined(node, RenderMode.ByPredicate, [pred])"-->
+    <ng-container>
+      <div *ngFor="let objValue of objValuesToShow">
+        <ng-icon
+          name="featherArrowUpLeft"
+          class="opacity-40"
+          *ngIf="isIncoming"
+        />
+
+        <app-node-link [url]="objValue" />
+      </div>
+
+      <button
+        class="btn btn-xs mt-2"
+        (click)="loadMoreObjValues()"
+        *ngIf="numObjValuesNotShown > 0"
+      >
+        {{ showMoreLabel }}
+      </button>
+    </ng-container>
   </ng-container>
 </ng-container>

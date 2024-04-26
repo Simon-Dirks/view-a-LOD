@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { Direction, NodeModel, NodeObj } from '../models/node.model';
 import { replacePrefixes, truncate } from '../helpers/util.helper';
 import { ThingWithLabelModel } from '../models/thing-with-label.model';
-import { Settings } from '../config/settings';
 import { SparqlService } from './sparql.service';
-import { ViewComponentSettings } from '../models/settings/view-component-settings.type';
 
 @Injectable({
   providedIn: 'root',
@@ -71,25 +69,12 @@ export class NodeService {
     return replacePrefixes(node['@id']);
   }
 
-  getViewsBasedOnTypes(node: NodeModel): string[] {
-    const nodeTypes: string[] = this.getObjValues(
-      node,
-      Settings.predicates.type,
-    );
-    const views: string[] = [];
-    for (const [viewType, view] of Object.entries(
-      Settings.viewComponents as ViewComponentSettings,
-    )) {
-      if (nodeTypes.includes(viewType)) {
-        views.push(view);
-      }
-    }
-
-    return views;
-  }
-
   getId(node: NodeModel): string {
     return this.getObjValues(node, ['@id'])[0];
+  }
+
+  getPredicates(node: NodeModel): string[] {
+    return Object.keys(node);
   }
 
   async enrichWithIncomingRelations(nodes: NodeModel[]): Promise<NodeModel[]> {

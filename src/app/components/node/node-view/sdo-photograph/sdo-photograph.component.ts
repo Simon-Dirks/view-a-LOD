@@ -14,11 +14,6 @@ import { NodeTableViewComponent } from '../node-table-view/node-table-view.compo
 })
 export class SdoPhotographComponent extends NodeViewComponent {
   get imageUrls(): string[] {
-    // return [
-    //   'https://loremflickr.com/320/240',
-    //   'https://loremflickr.com/320/200',
-    //   'https://loremflickr.com/400/240',
-    // ];
     return this.nodes.getObjValues(this.node, Settings.predicates.images);
   }
 

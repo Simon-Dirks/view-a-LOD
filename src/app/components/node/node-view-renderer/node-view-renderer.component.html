@@ -1,8 +1,13 @@
 <ng-container *ngIf="node">
   <app-sdo-photograph
     [node]="node"
-    *ngIf="viewComponents.includes('sdo-photograph')"
+    *ngIf="
+      renderComponents.shouldShow(node, RenderMode.ByType, 'sdo-photograph')
+    "
   />
 
-  <app-node-table-view [node]="node" *ngIf="!hasDefinedViewComponent" />
+  <app-node-table-view
+    [node]="node"
+    *ngIf="!renderComponents.isDefined(node, RenderMode.ByType)"
+  />
 </ng-container>

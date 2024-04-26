@@ -92,8 +92,8 @@ export class SearchService {
         await this.elastic.searchEntities(
           this.queryStr,
           this.filters.value,
-          this.page * Settings.search.resultsPerPage,
-          Settings.search.resultsPerPage,
+          this.page * Settings.search.resultsPerPagePerEndpoint,
+          Settings.search.resultsPerPagePerEndpoint,
         );
 
       const typeCounts: TypeCountsModel =

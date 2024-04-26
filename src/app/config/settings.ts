@@ -1,6 +1,7 @@
 import { PredicateVisibility } from '../models/predicate-visibility.enum';
 import { ViewMode } from '../models/view-mode.enum';
 import { ViewModeSetting } from '../models/view-mode-setting.enum';
+import { RenderMode } from '../models/settings/view-component-settings.type';
 
 const showInDetailsView: string[] = [
   'http://www.nationaalarchief.nl/mdto#waardering',
@@ -19,7 +20,8 @@ const imagePredicates: string[] = [
 ];
 
 export const Settings = {
-  defaultSearchQuery: 'Een paradijs vol weelde',
+  defaultSearchQuery:
+    "Lit. MIP Amerongen, geschiedenis en architectuur, p. 139-141. Foto nr 1 in een cassette met 30 foto's, samengesteld ter gelegenheid van de bouw van de vergaderzaal van het Lekdijkshuis (Keistraat 9) te Utrecht.",
   endpoints: [
     {
       elastic:
@@ -35,7 +37,7 @@ export const Settings = {
     },
   ],
   search: {
-    resultsPerPage: 10,
+    resultsPerPagePerEndpoint: 10,
   },
   predicates: {
     parents: [
@@ -59,8 +61,14 @@ export const Settings = {
     ],
     images: imagePredicates,
   },
-  viewComponents: {
-    'https://schema.org/Photograph': 'sdo-photograph',
+  renderComponents: {
+    [RenderMode.ByType]: {
+      'https://schema.org/Photograph': 'sdo-photograph',
+    },
+    [RenderMode.ByPredicate]: {
+      'http://xmlns.com/foaf/0.1/depiction': 'node-images',
+      'https://schema.org/contentLocation': 'map-thumb',
+    },
   },
   viewModes: {
     [ViewMode.List]: {

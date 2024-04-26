@@ -5,6 +5,12 @@ import { NgIcon } from '@ng-icons/core';
 import { NodeLinkComponent } from '../../../../node-link/node-link.component';
 import { NodeService } from '../../../../../../services/node.service';
 import { Config } from '../../../../../../config/config';
+import { RenderComponentService } from '../../../../../../services/render-component.service';
+import { RenderMode } from '../../../../../../models/settings/view-component-settings.type';
+import { SdoPhotographComponent } from '../../../sdo-photograph/sdo-photograph.component';
+import { NodeImagesComponent } from '../../../../node-images/node-images.component';
+import { Settings } from '../../../../../../config/settings';
+import { MapThumbComponent } from '../../../../../map-thumb/map-thumb.component';
 
 export enum TableCellShowOptions {
   Pred,
@@ -14,7 +20,15 @@ export enum TableCellShowOptions {
 @Component({
   selector: 'app-node-table-cell',
   standalone: true,
-  imports: [NgForOf, NgIcon, NgIf, NodeLinkComponent],
+  imports: [
+    NgForOf,
+    NgIcon,
+    NgIf,
+    NodeLinkComponent,
+    SdoPhotographComponent,
+    NodeImagesComponent,
+    MapThumbComponent,
+  ],
   templateUrl: './node-table-cell.component.html',
   styleUrl: './node-table-cell.component.scss',
 })
@@ -26,7 +40,10 @@ export class NodeTableCellComponent {
 
   numObjValuesToShow = Config.numObjValuesToShowDefault;
 
-  constructor(public nodes: NodeService) {}
+  constructor(
+    public nodes: NodeService,
+    public renderComponent: RenderComponentService,
+  ) {}
 
   get isIncoming() {
     return this.direction === Direction.Incoming;
@@ -63,6 +80,6 @@ export class NodeTableCellComponent {
   }
 
   protected readonly TableCellShowOptions = TableCellShowOptions;
-  protected readonly Config = Config;
-  protected readonly Math = Math;
+  protected readonly RenderMode = RenderMode;
+  protected readonly Settings = Settings;
 }

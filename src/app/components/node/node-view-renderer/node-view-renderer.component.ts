@@ -1,9 +1,11 @@
 import { Component, Input } from '@angular/core';
-import { NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
+import { JsonPipe, NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
 import { NodeTableViewComponent } from '../node-view/node-table-view/node-table-view.component';
 import { NodeModel } from '../../../models/node.model';
 import { NodeService } from '../../../services/node.service';
 import { Settings } from '../../../config/settings';
+import { RenderComponentService } from '../../../services/render-component.service';
+import { RenderMode } from '../../../models/settings/view-component-settings.type';
 import { SdoPhotographComponent } from '../node-view/sdo-photograph/sdo-photograph.component';
 
 @Component({
@@ -15,6 +17,7 @@ import { SdoPhotographComponent } from '../node-view/sdo-photograph/sdo-photogra
     NgSwitch,
     NgSwitchCase,
     SdoPhotographComponent,
+    JsonPipe,
   ],
   templateUrl: './node-view-renderer.component.html',
   styleUrl: './node-view-renderer.component.scss',
@@ -22,27 +25,11 @@ import { SdoPhotographComponent } from '../node-view/sdo-photograph/sdo-photogra
 export class NodeViewRendererComponent {
   @Input() node?: NodeModel;
 
-  constructor(public nodes: NodeService) {}
-
-  get viewComponents(): string[] {
-    if (!this.node) {
-      return [];
-    }
-
-    return this.nodes.getViewsBasedOnTypes(this.node);
-  }
-
-  get hasDefinedViewComponent(): boolean {
-    return (
-      this.allDefinedViewComponents.filter((c) =>
-        this.viewComponents.includes(c),
-      ).length > 0
-    );
-  }
-
-  get allDefinedViewComponents(): string[] {
-    return Object.values(Settings.viewComponents);
-  }
+  constructor(
+    public nodes: NodeService,
+    public renderComponents: RenderComponentService,
+  ) {}
 
   protected readonly Settings = Settings;
+  protected readonly RenderMode = RenderMode;
 }
