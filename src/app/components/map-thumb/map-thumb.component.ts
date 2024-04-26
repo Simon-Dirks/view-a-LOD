@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
 import * as L from 'leaflet';
 
 @Component({
@@ -9,11 +9,12 @@ import * as L from 'leaflet';
   styleUrl: './map-thumb.component.scss',
 })
 export class MapThumbComponent implements AfterViewInit {
-  private map!: L.Map;
+  private map?: L.Map;
+  @ViewChild('mapElem') mapElem!: ElementRef;
 
   private initMap(): void {
     // TODO: Pass coordinates as input
-    this.map = L.map('map', {
+    this.map = L.map(this.mapElem.nativeElement, {
       center: [39.8282, -98.5795],
       zoom: 3,
     });
