@@ -19,6 +19,7 @@ const imagePredicates: string[] = [
 ];
 
 export const Settings = {
+  defaultSearchQuery: 'Een paradijs vol weelde',
   endpoints: [
     {
       elastic:
