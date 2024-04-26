@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class ViewModeService {
   current: BehaviorSubject<ViewMode> = new BehaviorSubject<ViewMode>(
-    ViewMode.Grid,
+    ViewMode.List,
   );
 
   constructor() {}
