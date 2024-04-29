@@ -27,13 +27,13 @@
     <!--    *ngIf="!renderComponent.isDefined(node, RenderMode.ByPredicate, [pred])"-->
     <ng-container>
       <div *ngFor="let objValue of objValuesToShow">
-        <ng-icon
-          [svg]="featherArrowUpLeft"
-          class="opacity-40"
-          *ngIf="isIncoming"
-        />
-
-        <app-node-link [url]="objValue" />
+        <app-node-link [url]="objValue">
+          <ng-icon
+            [svg]="featherArrowUpLeft"
+            class="opacity-40"
+            *ngIf="isIncoming"
+          />
+        </app-node-link>
       </div>
 
       <button

@@ -1,6 +1,4 @@
 <ng-container>
-  <ng-content></ng-content>
-
   <float-ui-content #popupContent>
     <a class="btn btn-sm mr-2" [href]="url" target="_blank">
       <ng-icon [svg]="featherExternalLink" /> Open link
@@ -26,6 +24,8 @@
     [placement]="NgxFloatUiPlacements.TOP"
     [positionFixed]="true"
   >
+    <ng-content></ng-content>
+
     <a
       [href]="url"
       target="_blank'"
