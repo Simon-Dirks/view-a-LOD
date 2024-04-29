@@ -26,10 +26,10 @@
           last as isLast
         "
       >
-        <a
-          [href]="nodeInfo['@id']"
-          target="_blank"
-          class="block hover:underline"
+        <app-node-link
+          [url]="nodeInfo['@id']"
+          [label]="nodeService.getTitle(nodeInfo, collapsed ? 40 : undefined)"
+          class="block"
           [style.margin-left]="collapsed ? '0' : i + 'rem'"
         >
           <ng-icon
@@ -37,8 +37,7 @@
             *ngIf="!collapsed && !isFirst"
             class="opacity-40"
           />
-          {{ nodeService.getTitle(nodeInfo, collapsed ? 40 : undefined) }}
-        </a>
+        </app-node-link>
       </li>
     </ul>
   </div>

@@ -6,11 +6,12 @@ import { NgIcon } from '@ng-icons/core';
 import { Config } from '../../../config/config';
 import { SettingsService } from '../../../services/settings.service';
 import { ViewModeSetting } from '../../../models/view-mode-setting.enum';
+import { NodeLinkComponent } from '../node-link/node-link.component';
 
 @Component({
   selector: 'app-node-hierarchy',
   standalone: true,
-  imports: [NgForOf, NgIf, NgClass, NgIcon],
+  imports: [NgForOf, NgIf, NgClass, NgIcon, NodeLinkComponent],
   templateUrl: './node-hierarchy.component.html',
   styleUrl: './node-hierarchy.component.scss',
 })

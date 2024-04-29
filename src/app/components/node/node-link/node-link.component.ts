@@ -7,6 +7,7 @@ import {
 import { JsonPipe, NgClass, NgIf } from '@angular/common';
 import { CacheService } from '../../../services/cache.service';
 import { Router, RouterLink } from '@angular/router';
+import { FilterService } from '../../../services/search/filter.service';
 
 @Component({
   selector: 'app-node-link',
@@ -21,10 +22,12 @@ export class NodeLinkComponent implements OnInit {
   @Input() labelUrl?: string;
   @Input() disabled?: boolean;
   @Input() isInternalLink = false;
+  @Input() clickToFilter = true;
 
   constructor(
     public cache: CacheService,
     public router: Router,
+    public filters: FilterService,
   ) {}
 
   ngOnInit() {
@@ -52,11 +55,21 @@ export class NodeLinkComponent implements OnInit {
   }
 
   onLinkClick(event: MouseEvent) {
-    if (!this.isInternalLink || !this.url) {
+    if (!this.url) {
       return;
     }
 
-    event.preventDefault();
-    void this.router.navigateByUrl(this.url);
+    if (this.isInternalLink) {
+      event.preventDefault();
+      void this.router.navigateByUrl(this.url);
+      return;
+    }
+
+    if (this.clickToFilter) {
+      event.preventDefault();
+      this.filters.toggle({
+        id: this.url,
+      });
+    }
   }
 }

@@ -8,6 +8,7 @@ import { ViewMode } from '../../../models/view-mode.enum';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { ViewModeService } from '../../../services/view-mode.service';
 import { NodesMasonryGridComponent } from '../../nodes-masonry-grid/nodes-masonry-grid.component';
+import { ActiveFiltersComponent } from '../../active-filters/active-filters.component';
 
 @Component({
   selector: 'app-search',
@@ -23,6 +24,7 @@ import { NodesMasonryGridComponent } from '../../nodes-masonry-grid/nodes-masonr
     NgStyle,
     NgIf,
     NodesMasonryGridComponent,
+    ActiveFiltersComponent,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
