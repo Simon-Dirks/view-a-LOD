@@ -9,6 +9,7 @@ import { Settings } from '../../config/settings';
 import { SearchHitsService } from './search-hits.service';
 import { ElasticNodeModel } from '../../models/elastic/elastic-node.model';
 import { NodeService } from '../node.service';
+import { FilterService } from './filter.service';
 
 @Injectable({
   providedIn: 'root',
@@ -25,8 +26,15 @@ export class SearchService {
     private elastic: ElasticService,
     private hits: SearchHitsService,
     private nodes: NodeService,
+    private filters: FilterService,
   ) {
-    void this.execute(true);
+    this.initSearchOnFilterChange();
+  }
+
+  initSearchOnFilterChange() {
+    this.filters.all.subscribe((f) => {
+      void this.execute(true);
+    });
   }
 
   clearResults() {
@@ -46,6 +54,7 @@ export class SearchService {
           this.queryStr,
           this.page * Settings.search.resultsPerPagePerEndpoint,
           Settings.search.resultsPerPagePerEndpoint,
+          this.filters.all.value,
         );
 
       const hits: estypes.SearchHit<ElasticNodeModel>[] =
