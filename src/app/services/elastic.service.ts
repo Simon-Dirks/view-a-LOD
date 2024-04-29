@@ -2,7 +2,6 @@ import { estypes } from '@elastic/elasticsearch';
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Settings } from '../config/settings';
-import { ElasticFiltersModel } from '../models/elastic/elastic-filters.model';
 import { ElasticNodeModel } from '../models/elastic/elastic-node.model';
 
 @Injectable({
@@ -13,7 +12,6 @@ export class ElasticService {
 
   async searchEntities(
     query: string,
-    filters: ElasticFiltersModel,
     from: number,
     size: number,
   ): Promise<estypes.SearchResponse<ElasticNodeModel>[]> {
@@ -31,20 +29,7 @@ export class ElasticService {
           ],
         },
       },
-      aggs: {
-        rdf_types: {
-          terms: {
-            field: 'http://www w3 org/1999/02/22-rdf-syntax-ns#type.keyword',
-          },
-        },
-      },
     };
-
-    const hasFilters = Object.keys(filters.terms).length > 0;
-    if (hasFilters) {
-      queryData.query.bool.must.push(filters);
-      console.log(queryData);
-    }
 
     const searchPromises = [];
     for (const endpoint of Settings.endpoints) {

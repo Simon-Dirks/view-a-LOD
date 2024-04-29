@@ -4,10 +4,6 @@
       <app-search-input class="flex-grow" />
       <app-view-mode-select class="flex-grow-0 ml-8" />
     </div>
-
-    <div class="mt-2">
-      <app-type-filter [typeCounts]="search.results.getValue().typeCounts" />
-    </div>
   </div>
 
   <div class="p-4 overflow-y-scroll flex-grow" (scroll)="onScroll($event)">
