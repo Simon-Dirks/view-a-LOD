@@ -33,7 +33,7 @@
           [style.margin-left]="collapsed ? '0' : i + 'rem'"
         >
           <ng-icon
-            name="featherChevronRight"
+            [svg]="featherChevronRight"
             *ngIf="!collapsed && !isFirst"
             class="opacity-40"
           />

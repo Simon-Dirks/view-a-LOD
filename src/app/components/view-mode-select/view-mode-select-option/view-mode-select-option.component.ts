@@ -13,7 +13,7 @@ import { NgIcon } from '@ng-icons/core';
 })
 export class ViewModeSelectOptionComponent {
   @Input() viewMode!: ViewMode;
-  @Input() iconName?: string;
+  @Input() iconSvg?: string;
 
   constructor(public viewModes: ViewModeService) {}
 }

@@ -7,6 +7,7 @@ import { Config } from '../../../config/config';
 import { SettingsService } from '../../../services/settings.service';
 import { ViewModeSetting } from '../../../models/view-mode-setting.enum';
 import { NodeLinkComponent } from '../node-link/node-link.component';
+import { featherChevronRight } from '@ng-icons/feather-icons';
 
 @Component({
   selector: 'app-node-hierarchy',
@@ -42,4 +43,6 @@ export class NodeHierarchyComponent {
       this.nodes.length >= Config.minNumParentsToAllowTreeExpand
     );
   }
+
+  protected readonly featherChevronRight = featherChevronRight;
 }

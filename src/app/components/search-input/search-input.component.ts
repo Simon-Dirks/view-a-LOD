@@ -5,6 +5,7 @@ import { NgIf } from '@angular/common';
 import { SearchService } from '../../services/search/search.service';
 import { debounceTime, distinctUntilChanged, Subject, tap } from 'rxjs';
 import { Settings } from '../../config/settings';
+import { featherSearch } from '@ng-icons/feather-icons';
 
 @Component({
   selector: 'app-search-input',
@@ -46,4 +47,5 @@ export class SearchInputComponent implements OnInit {
   }
 
   protected readonly Settings = Settings;
+  protected readonly featherSearch = featherSearch;
 }

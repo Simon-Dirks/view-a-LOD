@@ -1,22 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import {
-  featherArrowDownLeft,
-  featherArrowDownRight,
-  featherArrowLeft,
-  featherArrowRight,
-  featherArrowUpLeft,
-  featherChevronDown,
-  featherChevronRight,
-  featherChevronUp,
-  featherGrid,
-  featherList,
-  featherMap,
-  featherRotateCcw,
-  featherSearch,
-} from '@ng-icons/feather-icons';
+import { NgIconComponent } from '@ng-icons/core';
 
 @Component({
   selector: 'app-root',
@@ -24,23 +9,6 @@ import {
   imports: [CommonModule, RouterOutlet, NgIconComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  viewProviders: [
-    provideIcons({
-      featherChevronRight,
-      featherChevronDown,
-      featherChevronUp,
-      featherSearch,
-      featherArrowLeft,
-      featherArrowRight,
-      featherRotateCcw,
-      featherArrowDownRight,
-      featherArrowDownLeft,
-      featherArrowUpLeft,
-      featherMap,
-      featherGrid,
-      featherList,
-    }),
-  ],
 })
 export class AppComponent {
   title = 'view-a-LOD';

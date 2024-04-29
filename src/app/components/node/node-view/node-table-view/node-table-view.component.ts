@@ -10,6 +10,7 @@ import { ViewMode } from '../../../../models/view-mode.enum';
 import { SettingsService } from '../../../../services/settings.service';
 import { ViewModeSetting } from '../../../../models/view-mode-setting.enum';
 import { ViewModeService } from '../../../../services/view-mode.service';
+import { featherChevronDown, featherChevronUp } from '@ng-icons/feather-icons';
 
 @Component({
   selector: 'app-node-table-view',
@@ -67,4 +68,6 @@ export class NodeTableViewComponent
   protected readonly Object = Object;
   protected readonly ViewMode = ViewMode;
   protected readonly ViewModeSetting = ViewModeSetting;
+  protected readonly featherChevronDown = featherChevronDown;
+  protected readonly featherChevronUp = featherChevronUp;
 }

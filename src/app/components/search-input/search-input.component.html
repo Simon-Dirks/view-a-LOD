@@ -11,7 +11,7 @@
     *ngIf="search.isLoading.getValue()"
   ></span>
   <ng-icon
-    name="featherSearch"
+    [svg]="featherSearch"
     class="opacity-70"
     *ngIf="!search.isLoading.getValue()"
   />

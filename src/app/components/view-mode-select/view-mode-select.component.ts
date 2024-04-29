@@ -4,6 +4,7 @@ import { NgClass, NgIf } from '@angular/common';
 import { ViewModeService } from '../../services/view-mode.service';
 import { ViewMode } from '../../models/view-mode.enum';
 import { ViewModeSelectOptionComponent } from './view-mode-select-option/view-mode-select-option.component';
+import { featherGrid, featherList } from '@ng-icons/feather-icons';
 
 @Component({
   selector: 'app-view-mode-select',
@@ -16,4 +17,6 @@ export class ViewModeSelectComponent {
   constructor(public viewMode: ViewModeService) {}
 
   protected readonly ViewMode = ViewMode;
+  protected readonly featherGrid = featherGrid;
+  protected readonly featherList = featherList;
 }

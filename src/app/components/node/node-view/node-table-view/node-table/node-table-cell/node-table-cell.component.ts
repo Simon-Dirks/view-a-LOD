@@ -11,6 +11,7 @@ import { SdoPhotographComponent } from '../../../sdo-photograph/sdo-photograph.c
 import { NodeImagesComponent } from '../../../../node-images/node-images.component';
 import { Settings } from '../../../../../../config/settings';
 import { MapThumbComponent } from '../../../../../map-thumb/map-thumb.component';
+import { featherArrowUpLeft } from '@ng-icons/feather-icons';
 
 export enum TableCellShowOptions {
   Pred,
@@ -82,4 +83,5 @@ export class NodeTableCellComponent {
   protected readonly TableCellShowOptions = TableCellShowOptions;
   protected readonly RenderMode = RenderMode;
   protected readonly Settings = Settings;
+  protected readonly featherArrowUpLeft = featherArrowUpLeft;
 }
