@@ -21,4 +21,8 @@ export class FilterService {
     }
     this.all.next(filters);
   }
+
+  has(id: string): boolean {
+    return this.all.value.find((f) => f.id === id) !== undefined;
+  }
 }

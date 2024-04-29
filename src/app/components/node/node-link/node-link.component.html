@@ -1,17 +1,46 @@
 <ng-container>
   <ng-content></ng-content>
 
-  <a
-    [href]="url"
-    target="_blank'"
-    (click)="onLinkClick($event)"
-    class="hover:underline"
-    *ngIf="isClickableUrl"
-  >
-    {{ cachedLabel ?? url }}
-  </a>
+  <float-ui-content #popupContent>
+    <a class="btn btn-sm mr-2" [href]="url" target="_blank">
+      <ng-icon [svg]="featherExternalLink" /> Open link
+    </a>
+    <button
+      class="btn btn-sm"
+      (click)="onToggleFilterClicked($event)"
+      *ngIf="url"
+    >
+      <ng-icon [svg]="filters.has(url) ? featherX : featherFilter" />
+      {{ filters.has(url) ? "Remove filter" : "Add filter" }}
+    </button>
+  </float-ui-content>
 
-  <span *ngIf="!isClickableUrl">
-    {{ cachedLabel ?? url }}
-  </span>
+  <div
+    class="inline-block"
+    [ngClass]="[isClickableUrl ? 'cursor-pointer' : '']"
+    [floatUi]="popupContent"
+    [disabled]="!isClickableUrl"
+    [hideOnClickOutside]="true"
+    [showOnStart]="false"
+    [showTrigger]="NgxFloatUiTriggers.click"
+    [placement]="NgxFloatUiPlacements.TOP"
+    [positionFixed]="true"
+  >
+    <a
+      [href]="url"
+      target="_blank'"
+      (click)="preventDefault($event)"
+      *ngIf="isClickableUrl"
+    >
+      {{ cachedLabel ?? url }}
+    </a>
+
+    <span *ngIf="!isClickableUrl">
+      {{ cachedLabel ?? url }}
+    </span>
+  </div>
+
+  <!--  <button class="btn btn-link btn-xs text-black" *ngIf="clickToFilter">-->
+  <!--    <ng-icon [svg]="featherPlus" />-->
+  <!--  </button>-->
 </ng-container>

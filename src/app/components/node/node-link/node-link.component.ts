@@ -8,11 +8,39 @@ import { JsonPipe, NgClass, NgIf } from '@angular/common';
 import { CacheService } from '../../../services/cache.service';
 import { Router, RouterLink } from '@angular/router';
 import { FilterService } from '../../../services/search/filter.service';
+import {
+  featherExternalLink,
+  featherFilter,
+  featherLink,
+  featherX,
+  featherXCircle,
+} from '@ng-icons/feather-icons';
+import { NgIcon } from '@ng-icons/core';
+import {
+  NgxFloatUiContentComponent,
+  NgxFloatUiDirective,
+  NgxFloatUiModule,
+  NgxFloatUiPlacements,
+  NgxFloatUiTriggers,
+} from 'ngx-float-ui';
+import {
+  faSolidFilter,
+  faSolidFilterCircleXmark,
+} from '@ng-icons/font-awesome/solid';
 
 @Component({
   selector: 'app-node-link',
   standalone: true,
-  imports: [NgIf, NgClass, JsonPipe, RouterLink],
+  imports: [
+    NgIf,
+    NgClass,
+    JsonPipe,
+    RouterLink,
+    NgIcon,
+    NgxFloatUiContentComponent,
+    NgxFloatUiDirective,
+    NgxFloatUiModule,
+  ],
   templateUrl: './node-link.component.html',
   styleUrl: './node-link.component.scss',
 })
@@ -21,8 +49,6 @@ export class NodeLinkComponent implements OnInit {
   @Input() label?: string;
   @Input() labelUrl?: string;
   @Input() disabled?: boolean;
-  @Input() isInternalLink = false;
-  @Input() clickToFilter = true;
 
   constructor(
     public cache: CacheService,
@@ -51,25 +77,31 @@ export class NodeLinkComponent implements OnInit {
 
   get isClickableUrl(): boolean {
     const isValidAbsoluteUrl = this.url !== undefined && isValidUrl(this.url);
-    return (isValidAbsoluteUrl || this.isInternalLink) && !this.disabled;
+    return isValidAbsoluteUrl && !this.disabled;
   }
 
-  onLinkClick(event: MouseEvent) {
+  preventDefault(event: MouseEvent) {
+    event.preventDefault();
+  }
+
+  onToggleFilterClicked(event: MouseEvent) {
+    this.preventDefault(event);
     if (!this.url) {
       return;
     }
 
-    if (this.isInternalLink) {
-      event.preventDefault();
-      void this.router.navigateByUrl(this.url);
-      return;
-    }
-
-    if (this.clickToFilter) {
-      event.preventDefault();
-      this.filters.toggle({
-        id: this.url,
-      });
-    }
+    this.filters.toggle({
+      id: this.url,
+    });
   }
+
+  protected readonly featherFilter = featherFilter;
+  protected readonly NgxFloatUiPlacements = NgxFloatUiPlacements;
+  protected readonly NgxFloatUiTriggers = NgxFloatUiTriggers;
+  protected readonly featherLink = featherLink;
+  protected readonly featherExternalLink = featherExternalLink;
+  protected readonly featherX = featherX;
+  protected readonly faSolidFilter = faSolidFilter;
+  protected readonly faSolidFilterCircleXmark = faSolidFilterCircleXmark;
+  protected readonly featherXCircle = featherXCircle;
 }

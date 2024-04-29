@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+.float-ui-container {
+  background: white !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  border: none !important;
+  max-width: 300px !important;
+}
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
