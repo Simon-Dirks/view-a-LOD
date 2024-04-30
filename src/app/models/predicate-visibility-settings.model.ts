@@ -1,10 +1,15 @@
-import { PredicateVisibility } from './predicate-visibility.enum';
+import { ViewMode } from './view-mode.enum';
 
 export type PredicateVisibilitySettings = {
-  [v in PredicateVisibility]: PredicateVisibilityEntries;
+  [v in ViewMode]: PredicateVisibilityEntries;
 };
 
+export enum PredicateVisibility {
+  Show,
+  Details,
+  Hide,
+}
+
 export type PredicateVisibilityEntries = {
-  show: string[];
-  hide: string[];
+  [v in PredicateVisibility]: string[];
 };

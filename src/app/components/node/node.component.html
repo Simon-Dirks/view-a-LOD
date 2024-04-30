@@ -1,9 +1,15 @@
 <div class="mx-2">
   <div class="card w-full bg-base-100 shadow-xl mb-4" *ngIf="node">
     <div class="card-body">
-      <app-node-hierarchy [nodes]="parents" />
+      <app-node-hierarchy
+        [nodes]="parents"
+        *ngIf="settings.getViewModeSetting(ViewModeSetting.ShowParents)"
+      />
 
-      <div class="card-title">
+      <div
+        class="card-title"
+        *ngIf="settings.getViewModeSetting(ViewModeSetting.ShowTitle)"
+      >
         <app-node-link
           [url]="nodes.getId(node)"
           [label]="title"
@@ -11,7 +17,10 @@
         />
       </div>
 
-      <app-node-types [typeIds]="types" />
+      <app-node-types
+        [typeIds]="types"
+        *ngIf="settings.getViewModeSetting(ViewModeSetting.ShowTypes)"
+      />
 
       <app-node-view-renderer [node]="node" />
     </div>

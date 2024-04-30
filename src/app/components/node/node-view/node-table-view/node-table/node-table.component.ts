@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { Direction, NodeModel } from '../../../../../models/node.model';
-import { PredicateVisibility } from '../../../../../models/predicate-visibility.enum';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { NgIcon } from '@ng-icons/core';
 import { NodeLinkComponent } from '../../../node-link/node-link.component';
@@ -10,6 +9,7 @@ import {
   TableCellShowOptions,
 } from './node-table-cell/node-table-cell.component';
 import { SettingsService } from '../../../../../services/settings.service';
+import { PredicateVisibility } from '../../../../../models/predicate-visibility-settings.model';
 
 @Component({
   selector: 'app-node-table',
@@ -27,37 +27,15 @@ import { SettingsService } from '../../../../../services/settings.service';
 })
 export class NodeTableComponent {
   @Input() node?: NodeModel;
-  @Input() visibility!: PredicateVisibility;
   @Input() smallFontSize = false;
+  @Input() visibility!: PredicateVisibility;
 
   constructor(
     public nodes: NodeService,
     public settings: SettingsService,
   ) {}
 
-  getVisibilities(predicateId: string): PredicateVisibility[] {
-    // TODO: Optimize / reduce number of calls (if necessary)
-    // TODO: Iterate over enum values dynamically
-    const visibilities: PredicateVisibility[] = [];
-    for (const visibility of [
-      PredicateVisibility.ShowInListView,
-      PredicateVisibility.ShowInGridView,
-      PredicateVisibility.ShowInDetailView,
-    ]) {
-      const predIsVisible = this.settings.predicateIsVisible(
-        predicateId,
-        visibility,
-      );
-      if (predIsVisible) {
-        visibilities.push(visibility);
-      }
-    }
-
-    return visibilities;
-  }
-
   protected readonly Direction = Direction;
-  protected readonly PredicateVisibility = PredicateVisibility;
   protected readonly Object = Object;
   protected readonly TableCellShowOptions = TableCellShowOptions;
 }

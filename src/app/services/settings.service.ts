@@ -5,10 +5,10 @@ import { ViewMode } from '../models/view-mode.enum';
 import { ViewModeSettings } from '../models/view-mode-settings.type';
 import { ViewModeSetting } from '../models/view-mode-setting.enum';
 import {
+  PredicateVisibility,
   PredicateVisibilityEntries,
   PredicateVisibilitySettings,
 } from '../models/predicate-visibility-settings.model';
-import { PredicateVisibility } from '../models/predicate-visibility.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -27,31 +27,65 @@ export class SettingsService {
     return viewModeSettings?.[viewModeSetting];
   }
 
-  getVisiblePredicates(
-    visibility: PredicateVisibility,
-  ): PredicateVisibilityEntries {
-    return (Settings.predicateVisibility as PredicateVisibilitySettings)[
-      visibility
-    ];
+  getVisiblePredicates(): PredicateVisibilityEntries {
+    // TODO: Fix type issue
+    return (
+      Settings.predicateVisibility as unknown as PredicateVisibilitySettings
+    )[this.viewModes.current.value];
   }
 
-  predicateIsVisible(
-    predicateId: string,
-    visibility: PredicateVisibility,
-  ): boolean {
+  getPredicateVisibility(predicateId: string): PredicateVisibility {
     if (Settings.alwaysHidePredicates.includes(predicateId)) {
-      return false;
+      return PredicateVisibility.Hide;
     }
 
     const visiblePredicates: PredicateVisibilityEntries =
-      this.getVisiblePredicates(visibility);
-    if (visiblePredicates.hide.includes(predicateId)) {
-      return false;
+      this.getVisiblePredicates();
+    if (visiblePredicates[PredicateVisibility.Hide].includes(predicateId)) {
+      return PredicateVisibility.Hide;
     }
 
-    if (visiblePredicates.show.includes('*')) {
-      return true;
+    const showPreds = visiblePredicates[PredicateVisibility.Show];
+    const detailPreds = visiblePredicates[PredicateVisibility.Details];
+
+    const shouldShowAllPredsNotShownInDetails = showPreds.includes('*');
+    const predIsShownInDetails = detailPreds.includes(predicateId);
+    const shouldShowPred = showPreds.includes(predicateId);
+
+    if (
+      (shouldShowAllPredsNotShownInDetails && !predIsShownInDetails) ||
+      shouldShowPred
+    ) {
+      if (
+        predicateId ===
+        'https://www.ica.org/standards/RiC/ontology#hasRecordSetType'
+      ) {
+        console.log(
+          'SHOWING',
+          shouldShowAllPredsNotShownInDetails,
+          predIsShownInDetails,
+          JSON.stringify(detailPreds),
+        );
+      }
+      return PredicateVisibility.Show;
     }
-    return visiblePredicates.show.includes(predicateId);
+
+    const shouldShowRemainingPredsInDetails = detailPreds.includes('*');
+    const predIsAlreadyShown = showPreds.includes(predicateId);
+    const shouldShowDetailPred = detailPreds.includes(predicateId);
+    if (
+      (shouldShowRemainingPredsInDetails && !predIsAlreadyShown) ||
+      shouldShowDetailPred
+    ) {
+      if (
+        predicateId ===
+        'https://www.ica.org/standards/RiC/ontology#hasRecordSetType'
+      ) {
+        console.log('DETAILS');
+      }
+      return PredicateVisibility.Details;
+    }
+
+    return PredicateVisibility.Hide;
   }
 }

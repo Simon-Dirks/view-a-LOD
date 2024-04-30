@@ -1,17 +1,10 @@
-<app-node-table
-  [node]="node"
-  [visibility]="
-    viewModes.current.value === ViewMode.Grid
-      ? PredicateVisibility.ShowInGridView
-      : PredicateVisibility.ShowInListView
-  "
-/>
+<app-node-table [node]="node" [visibility]="PredicateVisibility.Show" />
 
 <button
   class="text-xs mt-4"
   (click)="showingDetails = !showingDetails"
   *ngIf="
-    getNumOfVisiblePreds(PredicateVisibility.ShowInDetailView) > 0 &&
+    getNumOfPreds(PredicateVisibility.Details) > 0 &&
     settings.getViewModeSetting(ViewModeSetting.ShowDetails)
   "
 >
@@ -25,11 +18,11 @@
 
 <app-node-table
   [node]="node"
-  [visibility]="PredicateVisibility.ShowInDetailView"
   [smallFontSize]="true"
+  [visibility]="PredicateVisibility.Details"
   *ngIf="
     showingDetails &&
-    getNumOfVisiblePreds(PredicateVisibility.ShowInDetailView) > 0 &&
+    getNumOfPreds(PredicateVisibility.Details) > 0 &&
     settings.getViewModeSetting(ViewModeSetting.ShowDetails)
   "
 />

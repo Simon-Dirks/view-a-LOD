@@ -19,6 +19,8 @@ import { CacheService } from '../../services/cache.service';
 import { NodeLinkComponent } from './node-link/node-link.component';
 import { NodeViewRendererComponent } from './node-view-renderer/node-view-renderer.component';
 import { SparqlNodeParentModel } from '../../models/sparql/sparql-node-parent.model';
+import { SettingsService } from '../../services/settings.service';
+import { ViewModeSetting } from '../../models/view-mode-setting.enum';
 
 @Component({
   selector: 'app-node',
@@ -49,6 +51,7 @@ export class NodeComponent implements OnInit {
     public sparql: SparqlService,
     public data: DataService,
     public cache: CacheService,
+    public settings: SettingsService,
   ) {}
 
   ngOnInit() {
@@ -95,4 +98,6 @@ export class NodeComponent implements OnInit {
       response,
     );
   }
+
+  protected readonly ViewModeSetting = ViewModeSetting;
 }

@@ -10,7 +10,7 @@
 
   <div class="p-4 overflow-y-scroll flex-grow" (scroll)="onScroll($event)">
     <app-nodes-masonry-grid
-      [nodes]="search.results.getValue().nodes"
+      [nodes]="search.results.value.nodes"
       *ngIf="viewModes.current.value === ViewMode.Grid"
       class="w-full"
     />

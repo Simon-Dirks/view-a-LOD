@@ -1,7 +1,7 @@
-import { PredicateVisibility } from '../models/predicate-visibility.enum';
 import { ViewMode } from '../models/view-mode.enum';
 import { ViewModeSetting } from '../models/view-mode-setting.enum';
 import { RenderMode } from '../models/settings/view-component-settings.type';
+import { PredicateVisibility } from '../models/predicate-visibility-settings.model';
 
 const showInDetailsView: string[] = [
   'http://www.nationaalarchief.nl/mdto#waardering',
@@ -74,24 +74,25 @@ export const Settings = {
     [ViewMode.List]: {
       [ViewModeSetting.ShowDetails]: true,
       [ViewModeSetting.ShowParents]: true,
+      [ViewModeSetting.ShowTypes]: true,
+      [ViewModeSetting.ShowTitle]: true,
     },
     [ViewMode.Grid]: {
-      [ViewModeSetting.ShowDetails]: false,
-      [ViewModeSetting.ShowParents]: false,
+      [ViewModeSetting.ShowTitle]: true,
+      [ViewModeSetting.ShowDetails]: true,
     },
+    [ViewMode.Image]: {},
   },
   predicateVisibility: {
-    [PredicateVisibility.ShowInListView]: {
-      show: ['*'],
-      hide: showInDetailsView,
+    [ViewMode.List]: {
+      [PredicateVisibility.Show]: ['*'],
+      [PredicateVisibility.Details]: [...showInDetailsView],
+      [PredicateVisibility.Hide]: [],
     },
-    [PredicateVisibility.ShowInGridView]: {
-      show: [...imagePredicates],
-      hide: [],
-    },
-    [PredicateVisibility.ShowInDetailView]: {
-      show: showInDetailsView,
-      hide: [],
+    [ViewMode.Grid]: {
+      [PredicateVisibility.Show]: [...imagePredicates],
+      [PredicateVisibility.Details]: ['*'],
+      [PredicateVisibility.Hide]: [],
     },
   },
   alwaysHidePredicates: [

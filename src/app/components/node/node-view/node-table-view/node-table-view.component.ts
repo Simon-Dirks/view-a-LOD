@@ -3,7 +3,6 @@ import { JsonPipe, KeyValuePipe, NgForOf, NgIf } from '@angular/common';
 import { NodeLinkComponent } from '../../node-link/node-link.component';
 import { NodeViewComponent } from '../node-view.component';
 import { NgIcon } from '@ng-icons/core';
-import { PredicateVisibility } from '../../../../models/predicate-visibility.enum';
 import { NodeTableComponent } from './node-table/node-table.component';
 import { NodeService } from '../../../../services/node.service';
 import { ViewMode } from '../../../../models/view-mode.enum';
@@ -11,6 +10,7 @@ import { SettingsService } from '../../../../services/settings.service';
 import { ViewModeSetting } from '../../../../models/view-mode-setting.enum';
 import { ViewModeService } from '../../../../services/view-mode.service';
 import { featherChevronDown, featherChevronUp } from '@ng-icons/feather-icons';
+import { PredicateVisibility } from '../../../../models/predicate-visibility-settings.model';
 
 @Component({
   selector: 'app-node-table-view',
@@ -43,7 +43,7 @@ export class NodeTableViewComponent
 
   ngOnInit() {}
 
-  getNumOfVisiblePreds(visibility: PredicateVisibility): number {
+  getNumOfPreds(visibility: PredicateVisibility): number {
     if (!this.node) {
       return 0;
     }
@@ -51,14 +51,7 @@ export class NodeTableViewComponent
     // TODO: Optimize (duplicate call given that table component checks getVisibility for each pred)
     const visiblePreds = Object.keys(
       Object.entries(this.node).filter(([pred, _]) => {
-        const shouldShowAllPredicates = this.settings.predicateIsVisible(
-          '*',
-          visibility,
-        );
-        if (shouldShowAllPredicates) {
-          return true;
-        }
-        return this.settings.predicateIsVisible(pred, visibility);
+        return this.settings.getPredicateVisibility(pred) === visibility;
       }),
     );
     return visiblePreds.length;

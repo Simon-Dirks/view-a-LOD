@@ -5,7 +5,6 @@ import { NodeService } from '../../../services/node.service';
 import { NgIcon } from '@ng-icons/core';
 import { Config } from '../../../config/config';
 import { SettingsService } from '../../../services/settings.service';
-import { ViewModeSetting } from '../../../models/view-mode-setting.enum';
 import { NodeLinkComponent } from '../node-link/node-link.component';
 import { featherChevronRight } from '@ng-icons/feather-icons';
 import { Settings } from '../../../config/settings';
@@ -31,11 +30,7 @@ export class NodeHierarchyComponent {
   }
 
   get showNodes(): boolean {
-    return (
-      this.hasLoadedNodes &&
-      this.nodes.length > 0 &&
-      this.settings.getViewModeSetting(ViewModeSetting.ShowParents)
-    );
+    return this.hasLoadedNodes && this.nodes.length > 0;
   }
 
   get allowExpand(): boolean {
