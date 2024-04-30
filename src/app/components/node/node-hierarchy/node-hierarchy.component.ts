@@ -8,6 +8,7 @@ import { SettingsService } from '../../../services/settings.service';
 import { ViewModeSetting } from '../../../models/view-mode-setting.enum';
 import { NodeLinkComponent } from '../node-link/node-link.component';
 import { featherChevronRight } from '@ng-icons/feather-icons';
+import { Settings } from '../../../config/settings';
 
 @Component({
   selector: 'app-node-hierarchy',
@@ -45,4 +46,5 @@ export class NodeHierarchyComponent {
   }
 
   protected readonly featherChevronRight = featherChevronRight;
+  protected readonly Settings = Settings;
 }

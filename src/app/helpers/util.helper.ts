@@ -13,11 +13,15 @@ export const wrapWithAngleBrackets = (s: string): string => {
   return `<${s}>`;
 };
 
-export const truncate = (s: string, maxCharacters: number) => {
+export const truncate = (
+  s: string,
+  maxCharacters: number,
+  addEllipsis = false,
+) => {
   if (s.length <= maxCharacters) {
     return s;
   } else {
-    return s.substring(0, maxCharacters) + '...';
+    return s.substring(0, maxCharacters) + (addEllipsis ? '...' : '');
   }
 };
 

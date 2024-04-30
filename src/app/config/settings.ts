@@ -21,6 +21,7 @@ const imagePredicates: string[] = [
 
 export const Settings = {
   defaultSearchQuery: 'Margaretha',
+  labelMaxChars: 100,
   endpoints: [
     {
       elastic:

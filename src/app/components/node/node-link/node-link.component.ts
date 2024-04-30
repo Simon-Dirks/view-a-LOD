@@ -11,9 +11,7 @@ import { FilterService } from '../../../services/search/filter.service';
 import {
   featherExternalLink,
   featherFilter,
-  featherLink,
   featherX,
-  featherXCircle,
 } from '@ng-icons/feather-icons';
 import { NgIcon } from '@ng-icons/core';
 import {
@@ -23,10 +21,7 @@ import {
   NgxFloatUiPlacements,
   NgxFloatUiTriggers,
 } from 'ngx-float-ui';
-import {
-  faSolidFilter,
-  faSolidFilterCircleXmark,
-} from '@ng-icons/font-awesome/solid';
+import { NodeLabelComponent } from '../node-label/node-label.component';
 
 @Component({
   selector: 'app-node-link',
@@ -40,6 +35,7 @@ import {
     NgxFloatUiContentComponent,
     NgxFloatUiDirective,
     NgxFloatUiModule,
+    NodeLabelComponent,
   ],
   templateUrl: './node-link.component.html',
   styleUrl: './node-link.component.scss',
@@ -49,6 +45,7 @@ export class NodeLinkComponent implements OnInit {
   @Input() label?: string;
   @Input() labelUrl?: string;
   @Input() disabled?: boolean;
+  @Input() truncate = true;
 
   constructor(
     public cache: CacheService,
@@ -98,10 +95,6 @@ export class NodeLinkComponent implements OnInit {
   protected readonly featherFilter = featherFilter;
   protected readonly NgxFloatUiPlacements = NgxFloatUiPlacements;
   protected readonly NgxFloatUiTriggers = NgxFloatUiTriggers;
-  protected readonly featherLink = featherLink;
   protected readonly featherExternalLink = featherExternalLink;
   protected readonly featherX = featherX;
-  protected readonly faSolidFilter = faSolidFilter;
-  protected readonly faSolidFilterCircleXmark = faSolidFilterCircleXmark;
-  protected readonly featherXCircle = featherXCircle;
 }

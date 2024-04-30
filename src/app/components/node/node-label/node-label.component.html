@@ -1,0 +1,8 @@
+<span>{{ renderedLabel }}</span>
+<button
+  class="text-primary"
+  (click)="onEllipsisClick($event)"
+  *ngIf="shouldTruncate && showingTruncatedLabel && labelIsTruncated"
+>
+  ...
+</button>

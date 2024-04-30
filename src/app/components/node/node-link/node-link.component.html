@@ -32,11 +32,17 @@
       (click)="preventDefault($event)"
       *ngIf="isClickableUrl"
     >
-      {{ cachedLabel ?? url }}
+      <app-node-label
+        [label]="cachedLabel ?? url"
+        [shouldTruncate]="truncate"
+      />
     </a>
 
     <span *ngIf="!isClickableUrl">
-      {{ cachedLabel ?? url }}
+      <app-node-label
+        [label]="cachedLabel ?? url"
+        [shouldTruncate]="truncate"
+      />
     </span>
   </div>
 

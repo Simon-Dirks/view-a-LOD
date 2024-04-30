@@ -28,7 +28,7 @@
       >
         <app-node-link
           [url]="nodeInfo['@id']"
-          [label]="nodeService.getTitle(nodeInfo, collapsed ? 40 : undefined)"
+          [truncate]="collapsed"
           class="block"
           [style.margin-left]="collapsed ? '0' : i + 'rem'"
         >
