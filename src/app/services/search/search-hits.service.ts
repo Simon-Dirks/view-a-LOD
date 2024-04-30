@@ -12,6 +12,9 @@ export class SearchHitsService {
 
   parseToNodes(hits: estypes.SearchHit<ElasticNodeModel>[]): NodeModel[] {
     return hits
+      .sort((a, b) => {
+        return (a._source as any)?.['_score'] - (b._source as any)?.['_score'];
+      })
       .map((hit) => hit?._source)
       .filter((hitNode): hitNode is ElasticNodeModel => !!hitNode)
       .map((hitNode) => {
