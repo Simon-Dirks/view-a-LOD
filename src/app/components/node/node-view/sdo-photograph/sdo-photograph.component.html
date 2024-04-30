@@ -18,6 +18,7 @@
     *ngFor="
       let commentId of nodes.getObjValues(node, ['https://schema.org/comment'])
     "
+    [shouldTruncate]="false"
   />
 </div>
 
