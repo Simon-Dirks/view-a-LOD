@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Direction, NodeModel, NodeObj } from '../models/node.model';
-import { replacePrefixes, truncate } from '../helpers/util.helper';
-import { ThingWithLabelModel } from '../models/thing-with-label.model';
 import { SparqlService } from './sparql.service';
 
 @Injectable({
@@ -10,11 +8,7 @@ import { SparqlService } from './sparql.service';
 export class NodeService {
   constructor(private sparql: SparqlService) {}
 
-  getObjs(
-    node: NodeModel | undefined,
-    preds: string[],
-    replacePrefix = false,
-  ): NodeObj[] {
+  getObjs(node: NodeModel | undefined, preds: string[]): NodeObj[] {
     if (!node) {
       return [];
     }
@@ -30,7 +24,7 @@ export class NodeService {
           continue;
         }
 
-        const objValue = replacePrefix ? replacePrefixes(obj.value) : obj.value;
+        const objValue = obj.value;
         objs.push({
           value: objValue,
           direction: obj.direction,
@@ -44,29 +38,23 @@ export class NodeService {
   getObjValues(
     node: NodeModel | undefined,
     preds: string[],
-    replacePrefix = false,
+    direction: Direction | undefined = undefined,
   ) {
-    return this.getObjs(node, preds, replacePrefix).map((o) => o.value);
+    let objs = this.getObjs(node, preds);
+    if (direction !== undefined) {
+      objs = objs.filter((obj) => obj.direction === direction);
+    }
+    return objs.map((o) => o.value);
   }
 
   getObjValuesByDirection(
     node: NodeModel | undefined,
     preds: string[],
     direction: Direction,
-    replacePrefix = false,
   ) {
-    return this.getObjs(node, preds, replacePrefix)
+    return this.getObjs(node, preds)
       .filter((o) => o.direction === direction)
       .map((o) => o.value);
-  }
-
-  getTitle(node: ThingWithLabelModel, maxCharacters?: number): string {
-    const nodeTitle = node.label;
-    if (nodeTitle) {
-      const shouldTruncate = maxCharacters !== undefined;
-      return shouldTruncate ? truncate(nodeTitle, maxCharacters) : nodeTitle;
-    }
-    return replacePrefixes(node['@id']);
   }
 
   getId(node: NodeModel): string {

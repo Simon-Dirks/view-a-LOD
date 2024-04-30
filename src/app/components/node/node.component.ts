@@ -6,7 +6,7 @@ import {
   NgForOf,
   NgIf,
 } from '@angular/common';
-import { NodeModel } from '../../models/node.model';
+import { Direction, NodeModel } from '../../models/node.model';
 import { NodeService } from '../../services/node.service';
 import { Settings } from '../../config/settings';
 import { SparqlService } from '../../services/sparql.service';
@@ -67,9 +67,11 @@ export class NodeComponent implements OnInit {
   }
 
   get types() {
+    // TODO: Render incoming types in the table view?
     const typeIds: string[] = this.nodes.getObjValues(
       this.node,
       Settings.predicates.type,
+      Direction.Outgoing,
     );
 
     typeIds.forEach((typeId) => {
