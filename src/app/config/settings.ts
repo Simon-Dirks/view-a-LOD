@@ -3,17 +3,6 @@ import { ViewModeSetting } from '../models/view-mode-setting.enum';
 import { RenderMode } from '../models/settings/view-component-settings.type';
 import { PredicateVisibility } from '../models/predicate-visibility-settings.model';
 
-const showInDetailsView: string[] = [
-  'http://www.nationaalarchief.nl/mdto#waardering',
-  'https://www.ica.org/standards/RiC/ontology#hasRecordSetType',
-  'https://www.ica.org/standards/RiC/ontology#hasAccumulator',
-  'https://www.ica.org/standards/RiC/ontology#isAccumulatorOf',
-  'https://schema.org/numberOfPages',
-  'https://schema.org/size',
-  'http://www.nationaalarchief.nl/mdto#archiefvormer',
-  'http://www.nationaalarchief.nl/mdto#classificatie',
-];
-
 const imagePredicates: string[] = [
   'http://xmlns.com/foaf/0.1/depiction',
   'https://schema.org/thumbnail',
@@ -86,7 +75,16 @@ export const Settings = {
   predicateVisibility: {
     [ViewMode.List]: {
       [PredicateVisibility.Show]: ['*'],
-      [PredicateVisibility.Details]: [...showInDetailsView],
+      [PredicateVisibility.Details]: [
+        'http://www.nationaalarchief.nl/mdto#waardering',
+        'https://www.ica.org/standards/RiC/ontology#hasRecordSetType',
+        'https://www.ica.org/standards/RiC/ontology#hasAccumulator',
+        'https://www.ica.org/standards/RiC/ontology#isAccumulatorOf',
+        'https://schema.org/numberOfPages',
+        'https://schema.org/size',
+        'http://www.nationaalarchief.nl/mdto#archiefvormer',
+        'http://www.nationaalarchief.nl/mdto#classificatie',
+      ],
       [PredicateVisibility.Hide]: [],
     },
     [ViewMode.Grid]: {
