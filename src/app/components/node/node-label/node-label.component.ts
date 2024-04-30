@@ -1,18 +1,19 @@
 import { Component, Input } from '@angular/core';
 import { truncate } from '../../../helpers/util.helper';
 import { Settings } from '../../../config/settings';
-import { NgIf } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-node-label',
   standalone: true,
-  imports: [NgIf],
+  imports: [NgIf, NgClass],
   templateUrl: './node-label.component.html',
   styleUrl: './node-label.component.scss',
 })
 export class NodeLabelComponent {
   @Input() label?: string;
   @Input() shouldTruncate = true;
+  @Input() allowLabelExpand = true;
   showingTruncatedLabel = true;
 
   get labelIsTruncated(): boolean {
@@ -34,6 +35,8 @@ export class NodeLabelComponent {
     $event.stopPropagation();
     $event.preventDefault();
 
-    this.showingTruncatedLabel = !this.showingTruncatedLabel;
+    if (this.allowLabelExpand) {
+      this.showingTruncatedLabel = !this.showingTruncatedLabel;
+    }
   }
 }

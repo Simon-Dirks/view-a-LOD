@@ -4,6 +4,6 @@
     *ngFor="let filter of filters.all.value"
     class="badge badge-neutral gap-1 mr-1"
   >
-    <app-node-link [url]="filter.id" />
+    <app-node-link [url]="filter.id" [allowLabelExpand]="false" />
   </div>
 </div>

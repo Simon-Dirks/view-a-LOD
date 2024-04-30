@@ -45,7 +45,8 @@ export class NodeLinkComponent implements OnInit {
   @Input() label?: string;
   @Input() labelUrl?: string;
   @Input() disabled?: boolean;
-  @Input() truncate = true;
+  @Input() shouldTruncate = true;
+  @Input() allowLabelExpand = true;
 
   constructor(
     public cache: CacheService,

@@ -34,14 +34,16 @@
     >
       <app-node-label
         [label]="cachedLabel ?? url"
-        [shouldTruncate]="truncate"
+        [shouldTruncate]="shouldTruncate"
+        [allowLabelExpand]="allowLabelExpand"
       />
     </a>
 
     <span *ngIf="!isClickableUrl">
       <app-node-label
         [label]="cachedLabel ?? url"
-        [shouldTruncate]="truncate"
+        [shouldTruncate]="shouldTruncate"
+        [allowLabelExpand]="allowLabelExpand"
       />
     </span>
   </div>
