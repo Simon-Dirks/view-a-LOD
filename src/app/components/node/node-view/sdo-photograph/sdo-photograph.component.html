@@ -1,6 +1,11 @@
 <div class="w-full carousel mt-2">
   <div *ngFor="let imgUrl of imageUrls" class="carousel-item">
-    <img [src]="imgUrl" alt="TODO" class="w-full object-contain rounded-lg" />
+    <!--    TODO: Add alt-->
+    <img
+      [src]="imgUrl"
+      [alt]="imgUrl"
+      class="w-full object-contain rounded-lg"
+    />
   </div>
 </div>
 
