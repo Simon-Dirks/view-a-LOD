@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { JsonPipe, KeyValuePipe, NgForOf, NgIf } from '@angular/common';
 import { NodeLinkComponent } from '../../node-link/node-link.component';
-import { NodeViewComponent } from '../node-view.component';
+import { NodeRenderComponent } from '../node-render.component';
 import { NgIcon } from '@ng-icons/core';
 import { NodeTableComponent } from './node-table/node-table.component';
 import { NodeService } from '../../../../services/node.service';
@@ -28,7 +28,7 @@ import { PredicateVisibility } from '../../../../models/predicate-visibility-set
   styleUrl: './node-table-view.component.scss',
 })
 export class NodeTableViewComponent
-  extends NodeViewComponent
+  extends NodeRenderComponent
   implements OnInit
 {
   showingDetails = false;

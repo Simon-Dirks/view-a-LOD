@@ -3,12 +3,12 @@ import { NodeModel } from '../../../models/node.model';
 import { NodeService } from '../../../services/node.service';
 
 @Component({
-  selector: 'app-node-view',
+  selector: 'app-node-render-components',
   standalone: true,
   imports: [],
   template: ``,
 })
-export class NodeViewComponent {
+export class NodeRenderComponent {
   @Input() node?: NodeModel;
 
   constructor(public nodes: NodeService) {}

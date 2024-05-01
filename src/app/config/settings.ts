@@ -66,19 +66,19 @@ export const Settings = {
         'node-type',
       'https://schema.org/additionalType': 'node-type',
       'http://www.wikidata.org/entity/P31': 'node-type',
+      'http://www.nationaalarchief.nl/mdto#betrokkene': 'mdto-actor',
     },
   },
   viewModes: {
     [ViewMode.List]: {
       [ViewModeSetting.ShowDetails]: true,
       [ViewModeSetting.ShowParents]: true,
-      [ViewModeSetting.ShowTypes]: true,
+      [ViewModeSetting.ShowTypes]: false,
       [ViewModeSetting.ShowTitle]: true,
     },
     [ViewMode.Grid]: {
       [ViewModeSetting.ShowTitle]: true,
       [ViewModeSetting.ShowDetails]: true,
-      [ViewModeSetting.ShowTypes]: true,
     },
     [ViewMode.Image]: {},
   },

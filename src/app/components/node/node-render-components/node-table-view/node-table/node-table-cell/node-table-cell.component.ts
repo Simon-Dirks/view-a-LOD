@@ -7,10 +7,10 @@ import { NodeService } from '../../../../../../services/node.service';
 import { Config } from '../../../../../../config/config';
 import { RenderComponentService } from '../../../../../../services/render-component.service';
 import { RenderMode } from '../../../../../../models/settings/view-component-settings.type';
-import { SdoPhotographComponent } from '../../../sdo-photograph/sdo-photograph.component';
+import { SdoPhotographComponent } from '../../../type-render-components/sdo-photograph/sdo-photograph.component';
 import { NodeImagesComponent } from '../../../../node-images/node-images.component';
 import { Settings } from '../../../../../../config/settings';
-import { MapThumbComponent } from '../../../../../map-thumb/map-thumb.component';
+import { MapThumbComponent } from '../../../predicate-render-components/map-thumb/map-thumb.component';
 import { featherArrowUpLeft } from '@ng-icons/feather-icons';
 import { NodeTypeComponent } from '../../../../node-types/node-type/node-type.component';
 
