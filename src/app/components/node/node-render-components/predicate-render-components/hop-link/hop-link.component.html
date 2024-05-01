@@ -1,0 +1,22 @@
+<span class="loading loading-spinner loading-xs" *ngIf="loading"></span>
+
+<app-node-link
+  [url]="hopObjId"
+  *ngFor="let hopObjId of hopObjIds"
+  class="inline"
+>
+  <div class="inline text-xs opacity-70">
+    <div *ngFor="let hopPred of hopPreds" class="inline-block">
+      <app-node-link
+        [url]="hopPred"
+        [disabled]="true"
+        [shouldTruncate]="false"
+        [allowLabelExpand]="false"
+      ></app-node-link>
+      <ng-icon
+        [svg]="featherChevronRight"
+        class="relative top-[0.1rem] mx-1 opacity-70"
+      />
+    </div>
+  </div>
+</app-node-link>

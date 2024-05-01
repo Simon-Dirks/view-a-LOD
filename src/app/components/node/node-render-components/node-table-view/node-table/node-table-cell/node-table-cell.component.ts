@@ -6,13 +6,14 @@ import { NodeLinkComponent } from '../../../../node-link/node-link.component';
 import { NodeService } from '../../../../../../services/node.service';
 import { Config } from '../../../../../../config/config';
 import { RenderComponentService } from '../../../../../../services/render-component.service';
-import { RenderMode } from '../../../../../../models/settings/view-component-settings.type';
 import { SdoPhotographComponent } from '../../../type-render-components/sdo-photograph/sdo-photograph.component';
 import { NodeImagesComponent } from '../../../../node-images/node-images.component';
 import { Settings } from '../../../../../../config/settings';
 import { MapThumbComponent } from '../../../predicate-render-components/map-thumb/map-thumb.component';
 import { featherArrowUpLeft } from '@ng-icons/feather-icons';
 import { NodeTypeComponent } from '../../../../node-types/node-type/node-type.component';
+import { HopLinkComponent } from '../../../predicate-render-components/hop-link/hop-link.component';
+import { RenderMode } from '../../../../../../models/settings/render-component-settings.type';
 
 export enum TableCellShowOptions {
   Pred,
@@ -31,6 +32,7 @@ export enum TableCellShowOptions {
     NodeImagesComponent,
     MapThumbComponent,
     NodeTypeComponent,
+    HopLinkComponent,
   ],
   templateUrl: './node-table-cell.component.html',
   styleUrl: './node-table-cell.component.scss',

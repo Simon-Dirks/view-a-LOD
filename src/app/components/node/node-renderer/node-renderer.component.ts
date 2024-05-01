@@ -5,8 +5,8 @@ import { NodeModel } from '../../../models/node.model';
 import { NodeService } from '../../../services/node.service';
 import { Settings } from '../../../config/settings';
 import { RenderComponentService } from '../../../services/render-component.service';
-import { RenderMode } from '../../../models/settings/view-component-settings.type';
 import { SdoPhotographComponent } from '../node-render-components/type-render-components/sdo-photograph/sdo-photograph.component';
+import { RenderMode } from '../../../models/settings/render-component-settings.type';
 
 @Component({
   selector: 'app-node-renderer',

@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
-import {
-  RenderComponentSettings,
-  RenderMode,
-} from '../models/settings/view-component-settings.type';
+
 import { NodeModel } from '../models/node.model';
 import { Settings } from '../config/settings';
 import { NodeService } from './node.service';
+import {
+  RenderComponentSetting,
+  RenderComponentSettings,
+  RenderMode,
+} from '../models/settings/render-component-settings.type';
 
 @Injectable({
   providedIn: 'root',
@@ -23,11 +25,35 @@ export class RenderComponentService {
   }
 
   getIds(node: NodeModel, mode: RenderMode, predicates?: string[]): string[] {
+    return this.getSettings(node, mode, predicates).map((r) => r.componentId);
+  }
+
+  getSettingByKey(
+    settingKey: string,
+    node: NodeModel,
+    mode: RenderMode,
+    predicates?: string[],
+  ): string[] {
+    const settingsByKey = this.getSettings(node, mode, predicates).map(
+      (s) => s?.[settingKey],
+    );
+    if (!settingsByKey || settingsByKey.length === 0) {
+      return [];
+    }
+
+    return settingsByKey[0];
+  }
+
+  getSettings(
+    node: NodeModel,
+    mode: RenderMode,
+    predicates?: string[],
+  ): RenderComponentSetting[] {
     if (!node) {
       return [];
     }
 
-    const renderComponentIds: string[] = [];
+    const settings: RenderComponentSetting[] = [];
     let nodePreds: string[] = [];
     if (mode === RenderMode.ByType) {
       nodePreds = this.nodes.getObjValues(node, Settings.predicates.type);
@@ -35,26 +61,30 @@ export class RenderComponentService {
       nodePreds = predicates ?? [];
     }
 
-    for (const [pred, componentId] of Object.entries(
-      Settings.renderComponents?.[mode] as RenderComponentSettings,
+    // TODO: Fix type error
+    for (const [pred, setting] of Object.entries(
+      Settings.renderComponents?.[mode] as unknown as RenderComponentSettings,
     )) {
       if (nodePreds.includes(pred)) {
-        renderComponentIds.push(componentId);
+        settings.push(setting);
       }
     }
 
-    return renderComponentIds;
+    return settings;
   }
 
   isDefined(node: NodeModel, mode: RenderMode, predicates?: string[]): boolean {
     return (
       this.getAll(mode).filter((c) =>
-        this.getIds(node, mode, predicates).includes(c),
+        this.getIds(node, mode, predicates).includes(c.componentId),
       ).length > 0
     );
   }
 
-  getAll(mode: RenderMode): string[] {
-    return Object.values(Settings.renderComponents?.[mode]);
+  getAll(mode: RenderMode): RenderComponentSetting[] {
+    // TODO: Fix type error
+    return Object.values(
+      Settings.renderComponents?.[mode] as unknown as RenderComponentSettings,
+    );
   }
 }

@@ -1,7 +1,7 @@
 import { ViewMode } from '../models/view-mode.enum';
 import { ViewModeSetting } from '../models/view-mode-setting.enum';
-import { RenderMode } from '../models/settings/view-component-settings.type';
 import { PredicateVisibility } from '../models/predicate-visibility-settings.model';
+import { RenderMode } from '../models/settings/render-component-settings.type';
 
 const imagePredicates: string[] = [
   'http://xmlns.com/foaf/0.1/depiction',
@@ -31,6 +31,12 @@ export const Settings = {
       sparql:
         'https://api.test.data.razu.nl/datasets/Kasteel-Amerongen/PoC/services/PoC/sparql',
     },
+    {
+      elastic:
+        'https://api.test.data.razu.nl/datasets/Gedeeld/actoren/services/actoren-1/_search',
+      sparql:
+        'https://api.test.data.razu.nl/datasets/Gedeeld/actoren/services/actoren/sparql',
+    },
   ],
   search: {
     resultsPerPagePerEndpoint: 10,
@@ -56,17 +62,29 @@ export const Settings = {
   },
   renderComponents: {
     [RenderMode.ByType]: {
-      'https://schema.org/Photograph': 'sdo-photograph',
+      'https://schema.org/Photograph': { componentId: 'sdo-photograph' },
     },
     [RenderMode.ByPredicate]: {
-      'http://xmlns.com/foaf/0.1/depiction': 'node-images',
-      'https://schema.org/contentLocation': 'map-thumb',
-      'http://www.w3.org/1999/02/22-rdf-syntax-ns#type': 'node-type',
-      'https://www.ica.org/standards/RiC/ontology#hasRecordSetType':
-        'node-type',
-      'https://schema.org/additionalType': 'node-type',
-      'http://www.wikidata.org/entity/P31': 'node-type',
-      'http://www.nationaalarchief.nl/mdto#betrokkene': 'mdto-actor',
+      'http://xmlns.com/foaf/0.1/depiction': { componentId: 'node-images' },
+      'https://schema.org/contentLocation': { componentId: 'map-thumb' },
+      'http://www.w3.org/1999/02/22-rdf-syntax-ns#type': {
+        componentId: 'node-type',
+      },
+      'https://www.ica.org/standards/RiC/ontology#hasRecordSetType': {
+        componentId: 'node-type',
+      },
+      'https://schema.org/additionalType': { componentId: 'node-type' },
+      'http://www.wikidata.org/entity/P31': { componentId: 'node-type' },
+      'http://www.nationaalarchief.nl/mdto#betrokkene': {
+        componentId: 'hop-link',
+        hopPreds: ['http://www.nationaalarchief.nl/mdto#Actor'],
+      },
+      'http://www.nationaalarchief.nl/mdto#gerelateerdInformatieobject': {
+        componentId: 'hop-link',
+        hopPreds: [
+          'http://www.nationaalarchief.nl/mdto#gerelateerdInformatieobjectVerwijzing',
+        ],
+      },
     },
   },
   viewModes: {
@@ -119,5 +137,6 @@ export const Settings = {
     'https://test.data.razu.nl/razu/': 'razu:',
     'https://www.ica.org/standards/RiC/vocabularies/recordSetTypes#':
       'ric-rst:',
+    'https://data.cbg.nl/pico-terms#': 'picot:',
   },
 };

@@ -13,39 +13,41 @@
     </button>
   </float-ui-content>
 
-  <div
-    class="inline-block"
-    [ngClass]="[isClickableUrl ? 'cursor-pointer' : '']"
-    [floatUi]="popupContent"
-    [disabled]="!isClickableUrl"
-    [hideOnClickOutside]="true"
-    [showOnStart]="false"
-    [showTrigger]="NgxFloatUiTriggers.click"
-    [placement]="NgxFloatUiPlacements.TOP"
-    [positionFixed]="true"
-  >
+  <div class="inline-block">
     <ng-content></ng-content>
 
-    <a
-      [href]="url"
-      target="_blank'"
-      (click)="preventDefault($event)"
-      *ngIf="isClickableUrl"
+    <div
+      class="inline"
+      [ngClass]="[isClickableUrl ? 'cursor-pointer' : '']"
+      [floatUi]="popupContent"
+      [disabled]="!isClickableUrl"
+      [hideOnClickOutside]="true"
+      [showOnStart]="false"
+      [showTrigger]="NgxFloatUiTriggers.click"
+      [placement]="NgxFloatUiPlacements.TOP"
+      [positionFixed]="true"
     >
-      <app-node-label
-        [label]="cachedLabel ?? url"
-        [shouldTruncate]="shouldTruncate"
-        [allowLabelExpand]="allowLabelExpand"
-      />
-    </a>
+      <a
+        [href]="url"
+        target="_blank'"
+        (click)="preventDefault($event)"
+        *ngIf="isClickableUrl"
+      >
+        <app-node-label
+          [label]="cachedLabel ?? url"
+          [shouldTruncate]="shouldTruncate"
+          [allowLabelExpand]="allowLabelExpand"
+        />
+      </a>
 
-    <span *ngIf="!isClickableUrl">
-      <app-node-label
-        [label]="cachedLabel ?? url"
-        [shouldTruncate]="shouldTruncate"
-        [allowLabelExpand]="allowLabelExpand"
-      />
-    </span>
+      <span *ngIf="!isClickableUrl">
+        <app-node-label
+          [label]="cachedLabel ?? url"
+          [shouldTruncate]="shouldTruncate"
+          [allowLabelExpand]="allowLabelExpand"
+        />
+      </span>
+    </div>
   </div>
 
   <!--  <button class="btn btn-link btn-xs text-black" *ngIf="clickToFilter">-->

@@ -147,7 +147,7 @@ limit 500`;
   //     return replacePrefixes(labels[0].label);
   //   }
 
-  async getRdfsLabels(ids: string[]): Promise<ThingWithLabelModel[]> {
+  async getLabels(ids: string[]): Promise<ThingWithLabelModel[]> {
     const idIrisStr = ids.map((id) => wrapWithAngleBrackets(id)).join('\n');
     const labelIrisStr = Settings.predicates.label
       .map((iri) => wrapWithAngleBrackets(iri))
@@ -182,5 +182,28 @@ LIMIT 10000`;
     // }
     //
     // return replacePrefixes(labels[0].label);
+  }
+
+  async getObjIds(id: string, preds: string[]): Promise<string[]> {
+    const predsIrisStr = preds
+      .map((pred) => wrapWithAngleBrackets(pred))
+      .join('/');
+    const queryTemplate = `${wrapWithAngleBrackets(id)} ${predsIrisStr} ?o .`;
+
+    const query = `
+SELECT DISTINCT ?o WHERE {
+    ${this._getFederatedQuery(queryTemplate)}
+}
+LIMIT 10000`;
+
+    const response: { o: string }[] = await this.api.postData<{ o: string }[]>(
+      Settings.endpoints[0].sparql,
+      {
+        query: query,
+      },
+    );
+    const objIds = response.map((item) => item.o);
+
+    return objIds;
   }
 }

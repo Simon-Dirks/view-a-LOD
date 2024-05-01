@@ -13,13 +13,22 @@
 
     <ng-container>
       <div *ngFor="let objValue of objValuesToShow">
-        <div class="mt-1">
-          <app-node-type
-            *ngIf="shouldRenderComponent('node-type', pred)"
-            [typeId]="objValue"
-          >
-          </app-node-type>
+        <div class="mt-1" *ngIf="shouldRenderComponent('node-type', pred)">
+          <app-node-type [typeId]="objValue"> </app-node-type>
         </div>
+
+        <app-hop-link
+          *ngIf="shouldRenderComponent('hop-link', pred)"
+          [id]="objValue"
+          [hopPreds]="
+            renderComponent.getSettingByKey(
+              'hopPreds',
+              node,
+              RenderMode.ByPredicate,
+              [pred]
+            )
+          "
+        />
 
         <app-node-link
           [url]="objValue"
