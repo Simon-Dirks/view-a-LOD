@@ -6,6 +6,7 @@ import { RenderMode } from '../models/settings/render-component-settings.type';
 const imagePredicates: string[] = [
   'http://xmlns.com/foaf/0.1/depiction',
   'https://schema.org/thumbnail',
+  'https://schema.org/image',
 ];
 
 const typePredicates: string[] = [

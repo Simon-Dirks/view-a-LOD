@@ -4,9 +4,9 @@ import {
   isValidUrl,
   replacePrefixes,
 } from '../../../helpers/util.helper';
-import { JsonPipe, NgClass, NgIf } from '@angular/common';
+import { JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { CacheService } from '../../../services/cache.service';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { FilterService } from '../../../services/search/filter.service';
 import {
   featherExternalLink,
@@ -22,6 +22,7 @@ import {
   NgxFloatUiTriggers,
 } from 'ngx-float-ui';
 import { NodeLabelComponent } from '../node-label/node-label.component';
+import { FilterType } from '../../../models/filter.model';
 
 @Component({
   selector: 'app-node-link',
@@ -36,6 +37,7 @@ import { NodeLabelComponent } from '../node-label/node-label.component';
     NgxFloatUiDirective,
     NgxFloatUiModule,
     NodeLabelComponent,
+    NgForOf,
   ],
   templateUrl: './node-link.component.html',
   styleUrl: './node-link.component.scss',
@@ -50,7 +52,6 @@ export class NodeLinkComponent implements OnInit {
 
   constructor(
     public cache: CacheService,
-    public router: Router,
     public filters: FilterService,
   ) {}
 
@@ -82,7 +83,7 @@ export class NodeLinkComponent implements OnInit {
     event.preventDefault();
   }
 
-  onToggleFilterClicked(event: MouseEvent) {
+  onToggleFilterClicked(event: MouseEvent, type: FilterType) {
     this.preventDefault(event);
     if (!this.url) {
       return;
@@ -90,6 +91,7 @@ export class NodeLinkComponent implements OnInit {
 
     this.filters.toggle({
       id: this.url,
+      type: type,
     });
   }
 
@@ -98,4 +100,5 @@ export class NodeLinkComponent implements OnInit {
   protected readonly NgxFloatUiTriggers = NgxFloatUiTriggers;
   protected readonly featherExternalLink = featherExternalLink;
   protected readonly featherX = featherX;
+  protected readonly FilterType = FilterType;
 }

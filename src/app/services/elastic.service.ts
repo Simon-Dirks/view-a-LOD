@@ -3,8 +3,9 @@ import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Settings } from '../config/settings';
 import { ElasticNodeModel } from '../models/elastic/elastic-node.model';
-import { FilterModel } from '../models/filter.model';
+import { FilterModel, FilterType } from '../models/filter.model';
 import { ElasticSimpleQuery } from '../models/elastic/elastic-simple-query.type';
+import { ElasticFieldExistsQuery } from '../models/elastic/elastic-field-exists-query.type';
 
 @Injectable({
   providedIn: 'root',
@@ -12,10 +13,23 @@ import { ElasticSimpleQuery } from '../models/elastic/elastic-simple-query.type'
 export class ElasticService {
   constructor(private api: ApiService) {}
 
-  private _getSimpleQuery(query: string): ElasticSimpleQuery {
+  private _getSimpleQuery(query: string, boost?: number): ElasticSimpleQuery {
     return {
       simple_query_string: {
         query: query,
+        boost: boost,
+      },
+    };
+  }
+
+  private _getFieldExistsQuery(
+    query: string,
+    boost?: number,
+  ): ElasticFieldExistsQuery {
+    return {
+      exists: {
+        field: query,
+        boost: boost,
       },
     };
   }
@@ -26,9 +40,13 @@ export class ElasticService {
     size: number,
     filters: FilterModel[],
   ): Promise<estypes.SearchResponse<ElasticNodeModel>[]> {
-    const shouldQueries: ElasticSimpleQuery[] = filters.map((filter) => {
-      return this._getSimpleQuery(filter.id);
-    });
+    const shouldQueries: (ElasticSimpleQuery | ElasticFieldExistsQuery)[] =
+      filters.map((filter) => {
+        if (filter.type === FilterType.Field) {
+          return this._getFieldExistsQuery(filter.id);
+        }
+        return this._getSimpleQuery(filter.id);
+      });
 
     // shouldQueries.push(this._getSimpleQuery(query));
 
@@ -37,7 +55,7 @@ export class ElasticService {
       size: size,
       query: {
         bool: {
-          must: [this._getSimpleQuery(query)],
+          must: [this._getSimpleQuery(`\"${query}\"`)],
           should: shouldQueries,
         },
       },

@@ -4,6 +4,10 @@
     *ngFor="let filter of filters.all.value"
     class="badge badge-neutral gap-1 mr-1"
   >
-    <app-node-link [url]="filter.id" [allowLabelExpand]="false" />
+    <app-node-link [url]="filter.id" [allowLabelExpand]="false">
+      <span class="opacity-70">{{
+        filter.type === FilterType.Field ? "Field - " : ""
+      }}</span>
+    </app-node-link>
   </div>
 </div>

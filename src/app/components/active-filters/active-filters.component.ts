@@ -4,6 +4,7 @@ import { JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { NodeLinkComponent } from '../node/node-link/node-link.component';
 import { NgIcon } from '@ng-icons/core';
 import { featherFilter, featherX } from '@ng-icons/feather-icons';
+import { FilterType } from '../../models/filter.model';
 
 @Component({
   selector: 'app-active-filters',
@@ -17,4 +18,5 @@ export class ActiveFiltersComponent {
 
   protected readonly featherX = featherX;
   protected readonly featherFilter = featherFilter;
+  protected readonly FilterType = FilterType;
 }

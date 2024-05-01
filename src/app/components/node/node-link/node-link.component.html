@@ -3,13 +3,17 @@
     <a class="btn btn-sm mr-2" [href]="url" target="_blank">
       <ng-icon [svg]="featherExternalLink" /> Open link
     </a>
+
+    <!--    TODO: Depending on where this is presented, determine if the filter should be field or value-->
     <button
       class="btn btn-sm"
-      (click)="onToggleFilterClicked($event)"
+      (click)="onToggleFilterClicked($event, FilterType.Value)"
       *ngIf="url"
     >
-      <ng-icon [svg]="filters.has(url) ? featherX : featherFilter" />
-      {{ filters.has(url) ? "Remove filter" : "Add filter" }}
+      <ng-icon
+        [svg]="filters.has(url, FilterType.Value) ? featherX : featherFilter"
+      />
+      {{ filters.has(url, FilterType.Value) ? "Remove filter" : "Add filter" }}
     </button>
   </float-ui-content>
 
