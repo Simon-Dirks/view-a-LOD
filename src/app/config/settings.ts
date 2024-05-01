@@ -49,7 +49,6 @@ export const Settings = {
       'https://www.ica.org/standards/RiC/ontology#textualValue',
       'http://www.nationaalarchief.nl/mdto#naam',
       'http://www.nationaalarchief.nl/mdto#begripLabel',
-      'http://www.nationaalarchief.nl/mdto#dekkingInTijdBeginDatum',
       'http://www.nationaalarchief.nl/mdto#verwijzingNaam',
     ],
     type: typePredicates,
