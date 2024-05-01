@@ -111,7 +111,6 @@ export const Settings = {
       [ViewModeSetting.ShowTitle]: true,
       [ViewModeSetting.ShowDetails]: true,
     },
-    [ViewMode.Image]: {},
   },
   predicateVisibility: {
     [ViewMode.List]: {
