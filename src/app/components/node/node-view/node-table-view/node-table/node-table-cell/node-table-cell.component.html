@@ -4,30 +4,29 @@
   <ng-container *ngIf="show === TableCellShowOptions.Obj">
     <app-node-images
       [images]="nodes.getObjValues(node, Settings.predicates.images)"
-      *ngIf="
-        renderComponent.shouldShow(
-          node,
-          RenderMode.ByPredicate,
-          'node-images',
-          [pred]
-        )
-      "
+      *ngIf="shouldRenderComponent('node-images', pred)"
     />
 
     <!-- TODO: Retrieve and pass coordinates -->
-    <app-map-thumb
-      *ngIf="
-        renderComponent.shouldShow(node, RenderMode.ByPredicate, 'map-thumb', [
-          pred
-        ])
-      "
-    >
+    <app-map-thumb *ngIf="shouldRenderComponent('map-thumb', pred)">
     </app-map-thumb>
 
-    <!--    *ngIf="!renderComponent.isDefined(node, RenderMode.ByPredicate, [pred])"-->
     <ng-container>
       <div *ngFor="let objValue of objValuesToShow">
-        <app-node-link [url]="objValue">
+        <div class="mt-1">
+          <app-node-type
+            *ngIf="shouldRenderComponent('node-type', pred)"
+            [typeId]="objValue"
+          >
+          </app-node-type>
+        </div>
+
+        <app-node-link
+          [url]="objValue"
+          *ngIf="
+            !renderComponent.isDefined(node, RenderMode.ByPredicate, [pred])
+          "
+        >
           <ng-icon
             [svg]="featherArrowUpLeft"
             class="opacity-40"

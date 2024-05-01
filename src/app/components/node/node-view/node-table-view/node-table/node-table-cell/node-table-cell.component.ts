@@ -12,6 +12,7 @@ import { NodeImagesComponent } from '../../../../node-images/node-images.compone
 import { Settings } from '../../../../../../config/settings';
 import { MapThumbComponent } from '../../../../../map-thumb/map-thumb.component';
 import { featherArrowUpLeft } from '@ng-icons/feather-icons';
+import { NodeTypeComponent } from '../../../../node-types/node-type/node-type.component';
 
 export enum TableCellShowOptions {
   Pred,
@@ -29,6 +30,7 @@ export enum TableCellShowOptions {
     SdoPhotographComponent,
     NodeImagesComponent,
     MapThumbComponent,
+    NodeTypeComponent,
   ],
   templateUrl: './node-table-cell.component.html',
   styleUrl: './node-table-cell.component.scss',
@@ -71,6 +73,18 @@ export class NodeTableCellComponent {
 
   loadMoreObjValues() {
     this.numObjValuesToShow += Config.additionalNumObjValuesToShowOnClick;
+  }
+
+  shouldRenderComponent(componentId: string, pred: string) {
+    if (!this.node) {
+      return false;
+    }
+    return this.renderComponent.shouldShow(
+      this.node,
+      RenderMode.ByPredicate,
+      componentId,
+      [pred],
+    );
   }
 
   get showMoreLabel(): string {
