@@ -45,6 +45,7 @@ export const Settings = {
     ],
     type: [
       'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+      'https://www.ica.org/standards/RiC/ontology#hasRecordSetType',
       'https://schema.org/additionalType',
       'http://www.wikidata.org/entity/P31',
     ],
@@ -69,22 +70,18 @@ export const Settings = {
     [ViewMode.Grid]: {
       [ViewModeSetting.ShowTitle]: true,
       [ViewModeSetting.ShowDetails]: true,
+      [ViewModeSetting.ShowTypes]: true,
     },
     [ViewMode.Image]: {},
   },
   predicateVisibility: {
     [ViewMode.List]: {
-      [PredicateVisibility.Show]: ['*'],
-      [PredicateVisibility.Details]: [
-        'http://www.nationaalarchief.nl/mdto#waardering',
-        'https://www.ica.org/standards/RiC/ontology#hasRecordSetType',
-        'https://www.ica.org/standards/RiC/ontology#hasAccumulator',
-        'https://www.ica.org/standards/RiC/ontology#isAccumulatorOf',
-        'https://schema.org/numberOfPages',
-        'https://schema.org/size',
-        'http://www.nationaalarchief.nl/mdto#archiefvormer',
-        'http://www.nationaalarchief.nl/mdto#classificatie',
+      [PredicateVisibility.Show]: [
+        [...imagePredicates],
+        'https://schema.org/author',
+        'http://www.nationaalarchief.nl/mdto#omschrijving',
       ],
+      [PredicateVisibility.Details]: ['*'],
       [PredicateVisibility.Hide]: [],
     },
     [ViewMode.Grid]: {
@@ -93,22 +90,7 @@ export const Settings = {
       [PredicateVisibility.Hide]: [],
     },
   },
-  alwaysHidePredicates: [
-    'https://www.ica.org/standards/RiC/ontology#conditionsOfAccess',
-    'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
-    'https://schema.org/additionalType',
-    'http://www.wikidata.org/entity/P31',
-    'http://www.w3.org/2000/01/rdf-schema#label',
-    'https://schema.org/name',
-    'https://www.ica.org/standards/RiC/ontology#title',
-    'https://www.ica.org/standards/RiC/ontology#textualValue',
-    'https://www.ica.org/standards/RiC/ontology#isOrWasIncludedIn',
-    'https://www.ica.org/standards/RiC/ontology#hasOrHadIdentifier',
-    'https://schema.org/isPartOf',
-    'https://schema.org/identifier',
-    'https://schema.org/hadPrimarySource',
-    '@id',
-  ],
+  alwaysHidePredicates: [],
   namespacePrefixes: {
     'https://www.ica.org/standards/RiC/ontology#': 'rico:',
     'https://hetutrechtsarchief.nl/def/': 'def:',
@@ -126,5 +108,7 @@ export const Settings = {
     'http://www.nationaalarchief.nl/mdto#': 'mdto:',
     'https://test.data.razu.nl/Kasteel-Amerongen/PoC/': 'PoC:',
     'https://test.data.razu.nl/razu/': 'razu:',
+    'https://www.ica.org/standards/RiC/vocabularies/recordSetTypes#':
+      'ric-rst:',
   },
 };

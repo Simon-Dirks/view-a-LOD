@@ -35,7 +35,7 @@ export class SettingsService {
   }
 
   getPredicateVisibility(predicateId: string): PredicateVisibility {
-    if (Settings.alwaysHidePredicates.includes(predicateId)) {
+    if ((Settings.alwaysHidePredicates as string[]).includes(predicateId)) {
       return PredicateVisibility.Hide;
     }
 
