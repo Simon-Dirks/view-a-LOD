@@ -37,6 +37,10 @@ export const Settings = {
       sparql:
         'https://api.test.data.razu.nl/datasets/Gedeeld/actoren/services/actoren/sparql',
     },
+    {
+      sparql:
+        'https://api.test.data.razu.nl/datasets/Gedeeld/locaties/services/locaties/sparql',
+    },
   ],
   search: {
     resultsPerPagePerEndpoint: 10,
