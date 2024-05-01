@@ -2,7 +2,6 @@ import { ViewMode } from '../models/view-mode.enum';
 import { ViewModeSetting } from '../models/view-mode-setting.enum';
 import { PredicateVisibility } from '../models/predicate-visibility-settings.model';
 import { RenderMode } from '../models/settings/render-component-settings.type';
-import { Direction } from '../models/node.model';
 
 const imagePredicates: string[] = [
   'http://xmlns.com/foaf/0.1/depiction',
@@ -68,39 +67,31 @@ export const Settings = {
     [RenderMode.ByPredicate]: {
       'http://xmlns.com/foaf/0.1/depiction': {
         componentId: 'node-images',
-        direction: Direction.Outgoing,
       },
       'https://schema.org/contentLocation': {
         componentId: 'map-thumb',
-        direction: Direction.Outgoing,
       },
       'http://www.w3.org/1999/02/22-rdf-syntax-ns#type': {
         componentId: 'node-type',
-        direction: Direction.Outgoing,
       },
       'https://www.ica.org/standards/RiC/ontology#hasRecordSetType': {
         componentId: 'node-type',
-        direction: Direction.Outgoing,
       },
       'https://schema.org/additionalType': {
         componentId: 'node-type',
-        direction: Direction.Outgoing,
       },
       'http://www.wikidata.org/entity/P31': {
         componentId: 'node-type',
-        direction: Direction.Outgoing,
       },
       'http://www.nationaalarchief.nl/mdto#betrokkene': {
         componentId: 'hop-link',
         hopPreds: ['http://www.nationaalarchief.nl/mdto#Actor'],
-        direction: Direction.Outgoing,
       },
       'http://www.nationaalarchief.nl/mdto#gerelateerdInformatieobject': {
         componentId: 'hop-link',
         hopPreds: [
           'http://www.nationaalarchief.nl/mdto#gerelateerdInformatieobjectVerwijzing',
         ],
-        direction: Direction.Outgoing,
       },
     },
   },

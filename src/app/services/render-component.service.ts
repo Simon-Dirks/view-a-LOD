@@ -80,8 +80,14 @@ export class RenderComponentService {
     for (const [pred, setting] of Object.entries(
       Settings.renderComponents?.[mode] as unknown as RenderComponentSettings,
     )) {
-      const matchesDirection =
-        direction === undefined || direction === setting.direction;
+      if (direction === undefined) {
+        direction = Direction.Outgoing;
+      }
+      const settingsDirection =
+        setting.direction === undefined
+          ? Direction.Outgoing
+          : setting.direction;
+      const matchesDirection = direction === settingsDirection;
       if (nodePreds.includes(pred) && matchesDirection) {
         settings.push(setting);
       }
