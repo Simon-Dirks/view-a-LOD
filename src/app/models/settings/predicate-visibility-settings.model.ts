@@ -1,4 +1,4 @@
-import { ViewMode } from './view-mode.enum';
+import { ViewMode } from '../view-mode.enum';
 
 export type PredicateVisibilitySettings = {
   [v in ViewMode]: PredicateVisibilityEntries;

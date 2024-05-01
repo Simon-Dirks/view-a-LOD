@@ -9,7 +9,7 @@ import {
   TableCellShowOptions,
 } from './node-table-cell/node-table-cell.component';
 import { SettingsService } from '../../../../../services/settings.service';
-import { PredicateVisibility } from '../../../../../models/predicate-visibility-settings.model';
+import { PredicateVisibility } from '../../../../../models/settings/predicate-visibility-settings.model';
 
 @Component({
   selector: 'app-node-table',

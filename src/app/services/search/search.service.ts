@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { estypes } from '@elastic/elasticsearch';
 
 import { BehaviorSubject } from 'rxjs';
-import { SearchResultsModel } from '../../models/search-results.model';
+import { SearchResultsModel } from '../../models/elastic/search-results.model';
 import { ElasticService } from '../elastic.service';
 import { NodeModel } from '../../models/node.model';
 import { Settings } from '../../config/settings';

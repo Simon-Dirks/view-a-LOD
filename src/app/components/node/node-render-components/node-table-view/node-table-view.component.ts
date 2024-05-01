@@ -7,10 +7,10 @@ import { NodeTableComponent } from './node-table/node-table.component';
 import { NodeService } from '../../../../services/node.service';
 import { ViewMode } from '../../../../models/view-mode.enum';
 import { SettingsService } from '../../../../services/settings.service';
-import { ViewModeSetting } from '../../../../models/view-mode-setting.enum';
+import { ViewModeSetting } from '../../../../models/settings/view-mode-setting.enum';
 import { ViewModeService } from '../../../../services/view-mode.service';
 import { featherChevronDown, featherChevronUp } from '@ng-icons/feather-icons';
-import { PredicateVisibility } from '../../../../models/predicate-visibility-settings.model';
+import { PredicateVisibility } from '../../../../models/settings/predicate-visibility-settings.model';
 
 @Component({
   selector: 'app-node-table-view',

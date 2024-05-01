@@ -1,6 +1,6 @@
 import { ViewMode } from '../models/view-mode.enum';
-import { ViewModeSetting } from '../models/view-mode-setting.enum';
-import { PredicateVisibility } from '../models/predicate-visibility-settings.model';
+import { ViewModeSetting } from '../models/settings/view-mode-setting.enum';
+import { PredicateVisibility } from '../models/settings/predicate-visibility-settings.model';
 import { RenderMode } from '../models/settings/render-component-settings.type';
 
 const imagePredicates: string[] = [

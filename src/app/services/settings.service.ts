@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { ViewModeService } from './view-mode.service';
 import { Settings } from '../config/settings';
 import { ViewMode } from '../models/view-mode.enum';
-import { ViewModeSettings } from '../models/view-mode-settings.type';
-import { ViewModeSetting } from '../models/view-mode-setting.enum';
+import { ViewModeSettings } from '../models/settings/view-mode-settings.type';
+import { ViewModeSetting } from '../models/settings/view-mode-setting.enum';
 import {
   PredicateVisibility,
   PredicateVisibilityEntries,
   PredicateVisibilitySettings,
-} from '../models/predicate-visibility-settings.model';
+} from '../models/settings/predicate-visibility-settings.model';
 
 @Injectable({
   providedIn: 'root',
