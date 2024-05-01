@@ -8,6 +8,13 @@ const imagePredicates: string[] = [
   'https://schema.org/thumbnail',
 ];
 
+const typePredicates: string[] = [
+  'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+  'https://www.ica.org/standards/RiC/ontology#hasRecordSetType',
+  'https://schema.org/additionalType',
+  'http://www.wikidata.org/entity/P31',
+];
+
 export const Settings = {
   defaultSearchQuery: 'Margaretha',
   labelMaxChars: 100,
@@ -35,20 +42,17 @@ export const Settings = {
       'https://schema.org/hadPrimarySource',
       'http://www.nationaalarchief.nl/mdto#isOnderdeelVan',
     ],
-    title: [
+    label: [
       'http://www.w3.org/2000/01/rdf-schema#label',
       'https://schema.org/name',
       'https://www.ica.org/standards/RiC/ontology#title',
       'https://www.ica.org/standards/RiC/ontology#textualValue',
       'http://www.nationaalarchief.nl/mdto#naam',
       'http://www.nationaalarchief.nl/mdto#begripLabel',
+      'http://www.nationaalarchief.nl/mdto#dekkingInTijdBeginDatum',
+      'http://www.nationaalarchief.nl/mdto#verwijzingNaam',
     ],
-    type: [
-      'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
-      'https://www.ica.org/standards/RiC/ontology#hasRecordSetType',
-      'https://schema.org/additionalType',
-      'http://www.wikidata.org/entity/P31',
-    ],
+    type: typePredicates,
     images: imagePredicates,
   },
   renderComponents: {
@@ -58,6 +62,11 @@ export const Settings = {
     [RenderMode.ByPredicate]: {
       'http://xmlns.com/foaf/0.1/depiction': 'node-images',
       'https://schema.org/contentLocation': 'map-thumb',
+      'http://www.w3.org/1999/02/22-rdf-syntax-ns#type': 'node-type',
+      'https://www.ica.org/standards/RiC/ontology#hasRecordSetType':
+        'node-type',
+      'https://schema.org/additionalType': 'node-type',
+      'http://www.wikidata.org/entity/P31': 'node-type',
     },
   },
   viewModes: {
@@ -77,7 +86,8 @@ export const Settings = {
   predicateVisibility: {
     [ViewMode.List]: {
       [PredicateVisibility.Show]: [
-        [...imagePredicates],
+        ...imagePredicates,
+        ...typePredicates,
         'https://schema.org/author',
         'http://www.nationaalarchief.nl/mdto#omschrijving',
       ],
@@ -90,7 +100,7 @@ export const Settings = {
       [PredicateVisibility.Hide]: [],
     },
   },
-  alwaysHidePredicates: [],
+  alwaysHidePredicates: ['@id', 'http://www.nationaalarchief.nl/mdto#checksum'],
   namespacePrefixes: {
     'https://www.ica.org/standards/RiC/ontology#': 'rico:',
     'https://hetutrechtsarchief.nl/def/': 'def:',

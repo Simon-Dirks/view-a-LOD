@@ -78,13 +78,13 @@ limit 500`;
     const parentIris = Settings.predicates.parents.map((iri) =>
       wrapWithAngleBrackets(iri),
     );
-    const titleIris = Settings.predicates.title.map((iri) =>
+    const labelIris = Settings.predicates.label.map((iri) =>
       wrapWithAngleBrackets(iri),
     );
 
     const parentQueryTemplate = `
     <${node['@id'][0].value}> ${parentIris.join('*|')}* ?id .
-    OPTIONAL { ?id ${titleIris.join('|')} ?title . }
+    OPTIONAL { ?id ${labelIris.join('|')} ?title . }
     OPTIONAL { ?id ${parentIris.join('|')} ?parent . }`;
 
     const query = `
@@ -149,11 +149,14 @@ limit 500`;
 
   async getRdfsLabels(ids: string[]): Promise<ThingWithLabelModel[]> {
     const idIrisStr = ids.map((id) => wrapWithAngleBrackets(id)).join('\n');
+    const labelIrisStr = Settings.predicates.label
+      .map((iri) => wrapWithAngleBrackets(iri))
+      .join('|');
     const labelQueryTemplate = `
 VALUES ?s {
   ${idIrisStr}
 }
-?s <http://www.w3.org/2000/01/rdf-schema#label> ?label .`;
+?s ${labelIrisStr} ?label .`;
 
     const query = `
 SELECT DISTINCT ?s ?label WHERE {

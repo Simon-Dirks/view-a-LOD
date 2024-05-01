@@ -60,7 +60,7 @@ export class NodeComponent implements OnInit {
 
   get title(): string | undefined {
     const titles = this.nodes
-      .getObjValues(this.node, Settings.predicates.title)
+      .getObjValues(this.node, Settings.predicates.label)
       .map((title) => title.trim());
     if (!titles || titles.length === 0) {
       return undefined;
