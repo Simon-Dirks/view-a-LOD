@@ -25,7 +25,8 @@
               'hopPreds',
               node,
               RenderMode.ByPredicate,
-              [pred]
+              [pred],
+              direction
             )
           "
         />
@@ -33,7 +34,12 @@
         <app-node-link
           [url]="objValue"
           *ngIf="
-            !renderComponent.isDefined(node, RenderMode.ByPredicate, [pred])
+            !renderComponent.isDefined(
+              node,
+              RenderMode.ByPredicate,
+              [pred],
+              direction
+            )
           "
         >
           <ng-icon

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { NodeModel } from '../models/node.model';
+import { Direction, NodeModel } from '../models/node.model';
 import { Settings } from '../config/settings';
 import { NodeService } from './node.service';
 import {
@@ -20,12 +20,22 @@ export class RenderComponentService {
     mode: RenderMode,
     renderComponentId: string,
     predicates?: string[],
+    direction?: Direction,
   ) {
-    return this.getIds(node, mode, predicates).includes(renderComponentId);
+    return this.getIds(node, mode, predicates, direction).includes(
+      renderComponentId,
+    );
   }
 
-  getIds(node: NodeModel, mode: RenderMode, predicates?: string[]): string[] {
-    return this.getSettings(node, mode, predicates).map((r) => r.componentId);
+  getIds(
+    node: NodeModel,
+    mode: RenderMode,
+    predicates?: string[],
+    direction?: Direction,
+  ): string[] {
+    return this.getSettings(node, mode, predicates, direction).map(
+      (r) => r.componentId,
+    );
   }
 
   getSettingByKey(
@@ -33,10 +43,14 @@ export class RenderComponentService {
     node: NodeModel,
     mode: RenderMode,
     predicates?: string[],
+    direction?: Direction,
   ): string[] {
-    const settingsByKey = this.getSettings(node, mode, predicates).map(
-      (s) => s?.[settingKey],
-    );
+    const settingsByKey = this.getSettings(
+      node,
+      mode,
+      predicates,
+      direction,
+    ).map((s) => s?.[settingKey]);
     if (!settingsByKey || settingsByKey.length === 0) {
       return [];
     }
@@ -48,6 +62,7 @@ export class RenderComponentService {
     node: NodeModel,
     mode: RenderMode,
     predicates?: string[],
+    direction?: Direction,
   ): RenderComponentSetting[] {
     if (!node) {
       return [];
@@ -65,7 +80,9 @@ export class RenderComponentService {
     for (const [pred, setting] of Object.entries(
       Settings.renderComponents?.[mode] as unknown as RenderComponentSettings,
     )) {
-      if (nodePreds.includes(pred)) {
+      const matchesDirection =
+        direction === undefined || direction === setting.direction;
+      if (nodePreds.includes(pred) && matchesDirection) {
         settings.push(setting);
       }
     }
@@ -73,10 +90,15 @@ export class RenderComponentService {
     return settings;
   }
 
-  isDefined(node: NodeModel, mode: RenderMode, predicates?: string[]): boolean {
+  isDefined(
+    node: NodeModel,
+    mode: RenderMode,
+    predicates?: string[],
+    direction?: Direction,
+  ): boolean {
     return (
       this.getAll(mode).filter((c) =>
-        this.getIds(node, mode, predicates).includes(c.componentId),
+        this.getIds(node, mode, predicates, direction).includes(c.componentId),
       ).length > 0
     );
   }

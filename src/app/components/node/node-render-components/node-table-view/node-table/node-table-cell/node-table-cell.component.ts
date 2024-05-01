@@ -86,6 +86,7 @@ export class NodeTableCellComponent {
       RenderMode.ByPredicate,
       componentId,
       [pred],
+      this.direction,
     );
   }
 
