@@ -30,13 +30,14 @@ export class ElasticService {
       return this._getSimpleQuery(filter.id);
     });
 
-    shouldQueries.push(this._getSimpleQuery(query));
+    // shouldQueries.push(this._getSimpleQuery(query));
 
     const queryData: any = {
       from: from,
       size: size,
       query: {
         bool: {
+          must: [this._getSimpleQuery(query)],
           should: shouldQueries,
         },
       },
