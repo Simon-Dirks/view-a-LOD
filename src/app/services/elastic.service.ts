@@ -45,6 +45,9 @@ export class ElasticService {
 
     const searchPromises = [];
     for (const endpoint of Settings.endpoints) {
+      if (!endpoint.elastic) {
+        continue;
+      }
       const searchPromise = this.api.postData<
         estypes.SearchResponse<ElasticNodeModel>
       >(endpoint.elastic, queryData);

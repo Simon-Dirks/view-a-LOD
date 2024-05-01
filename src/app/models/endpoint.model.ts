@@ -1,4 +1,4 @@
 export interface EndpointModel {
-  elastic: string;
+  elastic?: string;
   sparql: string;
 }
