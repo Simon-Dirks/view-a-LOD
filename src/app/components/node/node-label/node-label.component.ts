@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { truncate } from '../../../helpers/util.helper';
 import { Settings } from '../../../config/settings';
 import { NgClass, NgIf } from '@angular/common';
+import striptags from 'striptags';
 
 @Component({
   selector: 'app-node-label',
@@ -28,7 +29,7 @@ export class NodeLabelComponent {
     if (this.shouldTruncate && this.showingTruncatedLabel) {
       return truncate(this.label, Settings.labelMaxChars);
     }
-    return this.label;
+    return striptags(this.label);
   }
 
   onEllipsisClick($event: MouseEvent) {
