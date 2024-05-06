@@ -40,7 +40,7 @@ export class ElasticService {
     size: number,
     filters: FilterModel[],
   ): Promise<estypes.SearchResponse<ElasticNodeModel>[]> {
-    const shouldQueries: (ElasticSimpleQuery | ElasticFieldExistsQuery)[] =
+    const mustQueries: (ElasticSimpleQuery | ElasticFieldExistsQuery)[] =
       filters.map((filter) => {
         if (filter.type === FilterType.Field) {
           return this._getFieldExistsQuery(filter.id);
@@ -48,15 +48,14 @@ export class ElasticService {
         return this._getSimpleQuery(filter.id);
       });
 
-    // shouldQueries.push(this._getSimpleQuery(query));
+    mustQueries.push(this._getSimpleQuery(query));
 
     const queryData: any = {
       from: from,
       size: size,
       query: {
         bool: {
-          must: [this._getSimpleQuery(`\"${query}\"`)],
-          should: shouldQueries,
+          must: mustQueries,
         },
       },
     };
