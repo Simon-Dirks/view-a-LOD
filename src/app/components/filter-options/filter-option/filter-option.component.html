@@ -1,0 +1,10 @@
+<div class="form-control direction flex-row" *ngFor="let valueId of valueIds">
+  <label class="label text-sm">
+    <input
+      type="checkbox"
+      checked="checked"
+      class="checkbox checkbox-sm mr-4"
+    />
+    <app-node-link [disabled]="true" [url]="valueId" class="text-left" />
+  </label>
+</div>
