@@ -1,7 +1,7 @@
 <app-node-table [node]="node" [visibility]="PredicateVisibility.Show" />
 
 <button
-  class="text-xs mt-4"
+  class="text-xs mt-4 clickable"
   (click)="showingDetails = !showingDetails"
   *ngIf="
     getNumOfPreds(PredicateVisibility.Details) > 0 &&

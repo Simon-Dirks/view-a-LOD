@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  .clickable {
+    @apply underline decoration-slate-300 cursor-pointer;
+  }
+}
+
 .float-ui-container {
   background: transparent !important;
   box-shadow: none !important;
