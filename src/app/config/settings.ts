@@ -19,6 +19,7 @@ const typePredicates: string[] = [
 export const Settings = {
   defaultSearchQuery: 'Margaretha',
   labelMaxChars: 100,
+  showFilterPanel: true,
   endpoints: [
     {
       elastic:

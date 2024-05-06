@@ -11,6 +11,7 @@ import { NodesMasonryGridComponent } from '../../nodes-masonry-grid/nodes-masonr
 import { ActiveFiltersComponent } from '../../active-filters/active-filters.component';
 import { NodesGridComponent } from '../../nodes-grid/nodes-grid.component';
 import { FilterOptionsComponent } from '../../filter-options/filter-options.component';
+import { Settings } from '../../../config/settings';
 
 @Component({
   selector: 'app-search',
@@ -51,4 +52,5 @@ export class SearchComponent implements OnInit {
   }
 
   protected readonly ViewMode = ViewMode;
+  protected readonly Settings = Settings;
 }
