@@ -10,6 +10,7 @@ import { ViewModeService } from '../../../services/view-mode.service';
 import { NodesMasonryGridComponent } from '../../nodes-masonry-grid/nodes-masonry-grid.component';
 import { ActiveFiltersComponent } from '../../active-filters/active-filters.component';
 import { NodesGridComponent } from '../../nodes-grid/nodes-grid.component';
+import { FilterOptionsComponent } from '../../filter-options/filter-options.component';
 
 @Component({
   selector: 'app-search',
@@ -27,6 +28,7 @@ import { NodesGridComponent } from '../../nodes-grid/nodes-grid.component';
     NodesMasonryGridComponent,
     ActiveFiltersComponent,
     NodesGridComponent,
+    FilterOptionsComponent,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',

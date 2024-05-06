@@ -1,22 +1,43 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { FilterModel, FilterType } from '../../models/filter.model';
+import {
+  FilterOptionModel,
+  FilterOptionsModel,
+} from '../../models/filter-option.model';
+import { Settings } from '../../config/settings';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FilterService {
-  all: BehaviorSubject<FilterModel[]> = new BehaviorSubject<FilterModel[]>([
+  enabled: BehaviorSubject<FilterModel[]> = new BehaviorSubject<FilterModel[]>([
     // { id: 'https://schema.org/Photograph', type: FilterType.Value },
     // { id: 'http://xmlns.com/foaf/0.1/depiction', type: FilterType.Field },
     // { id: 'https://schema.org/thumbnail', type: FilterType.Field },
     // { id: 'https://schema.org/image', type: FilterType.Field },
   ]);
+  options: BehaviorSubject<FilterOptionsModel> =
+    new BehaviorSubject<FilterOptionsModel>({
+      type: {
+        label: 'Type',
+        fieldIds: Settings.predicates.type,
+        valueIds: [
+          'https://schema.org/Article',
+          'http://www.w3.org/2004/02/skos/core#Concept',
+        ],
+      },
+      collection: {
+        label: 'Collectie',
+        fieldIds: Settings.predicates.type,
+        valueIds: ['Het Utrechts Archief', 'RAZU', 'Kasteel Amerongen'],
+      },
+    });
 
   constructor() {}
 
   toggle(filter: FilterModel) {
-    const filters = this.all.value;
+    const filters = this.enabled.value;
     const existingFilterIdx = filters.findIndex(
       (f) => f.id === filter.id && f.type === filter.type,
     );
@@ -26,12 +47,17 @@ export class FilterService {
     } else {
       filters.push(filter);
     }
-    this.all.next(filters);
+    this.enabled.next(filters);
   }
 
   has(id: string, type: FilterType): boolean {
     return (
-      this.all.value.find((f) => f.id === id && f.type === type) !== undefined
+      this.enabled.value.find((f) => f.id === id && f.type === type) !==
+      undefined
     );
+  }
+
+  getOptionById(filterId: string): FilterOptionModel {
+    return this.options.value?.[filterId];
   }
 }

@@ -8,25 +8,34 @@
     <app-active-filters />
   </div>
 
-  <div class="p-4 overflow-y-scroll flex-grow" (scroll)="onScroll($event)">
-    <!--    TODO: Bring back masonry grid-->
-    <!--    <app-nodes-masonry-grid-->
-    <!--      [nodes]="search.results.value.nodes"-->
-    <!--      *ngIf="viewModes.current.value === ViewMode.Grid"-->
-    <!--      class="w-full"-->
-    <!--    />-->
+  <div
+    class="p-4 overflow-y-scroll flex-grow grid grid-cols-6 gap-4"
+    (scroll)="onScroll($event)"
+  >
+    <div class="col-span-1">
+      <app-filter-options />
+    </div>
 
-    <app-nodes-grid
-      [nodes]="search.results.value.nodes"
-      *ngIf="viewModes.current.value === ViewMode.Grid"
-      class="w-full"
-    />
+    <div class="col-span-5">
+      <!--    TODO: Bring back masonry grid-->
+      <!--    <app-nodes-masonry-grid-->
+      <!--      [nodes]="search.results.value.nodes"-->
+      <!--      *ngIf="viewModes.current.value === ViewMode.Grid"-->
+      <!--      class="w-full"-->
+      <!--    />-->
 
-    <ng-container *ngIf="viewModes.current.value === ViewMode.List">
-      <app-node
-        *ngFor="let node of search.results.getValue()?.nodes"
-        [node]="node"
-      ></app-node>
-    </ng-container>
+      <app-nodes-grid
+        [nodes]="search.results.value.nodes"
+        *ngIf="viewModes.current.value === ViewMode.Grid"
+        class="w-full"
+      />
+
+      <ng-container *ngIf="viewModes.current.value === ViewMode.List">
+        <app-node
+          *ngFor="let node of search.results.getValue()?.nodes"
+          [node]="node"
+        ></app-node>
+      </ng-container>
+    </div>
   </div>
 </div>

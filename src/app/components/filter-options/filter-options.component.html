@@ -1,0 +1,32 @@
+<div *ngIf="filters.options.value" class="sticky top-0">
+  <div class="join join-vertical w-full">
+    <div
+      class="collapse collapse-arrow join-item bg-base-100 border"
+      *ngFor="let filterId of Object.keys(filters.options.value)"
+    >
+      <input type="checkbox" name="filter-accordion" />
+      <div class="collapse-title font-medium">
+        {{ filters.getOptionById(filterId).label }}
+      </div>
+      <div class="collapse-content">
+        <div
+          class="form-control direction flex-row"
+          *ngFor="let valueId of filters.getOptionById(filterId).valueIds"
+        >
+          <label class="label text-sm">
+            <input
+              type="checkbox"
+              checked="checked"
+              class="checkbox checkbox-sm mr-4"
+            />
+            <app-node-link
+              [disabled]="true"
+              [url]="valueId"
+              class="text-left"
+            />
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

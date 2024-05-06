@@ -1,7 +1,7 @@
 <!--<p>Filters: {{ filters.all.value | json }}</p>-->
 <div class="mt-2">
   <div
-    *ngFor="let filter of filters.all.value"
+    *ngFor="let filter of filters.enabled.value"
     class="badge badge-neutral gap-1 mr-1"
   >
     <app-node-link [url]="filter.id" [allowLabelExpand]="false">

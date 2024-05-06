@@ -32,7 +32,7 @@ export class SearchService {
   }
 
   initSearchOnFilterChange() {
-    this.filters.all.subscribe((f) => {
+    this.filters.enabled.subscribe((f) => {
       void this.execute(true);
     });
   }
@@ -54,7 +54,7 @@ export class SearchService {
           this.queryStr,
           this.page * Settings.search.resultsPerPagePerEndpoint,
           Settings.search.resultsPerPagePerEndpoint,
-          this.filters.all.value,
+          this.filters.enabled.value,
         );
 
       const hits: estypes.SearchHit<ElasticNodeModel>[] =

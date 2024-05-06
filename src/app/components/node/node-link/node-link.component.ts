@@ -85,7 +85,7 @@ export class NodeLinkComponent implements OnInit {
 
   onToggleFilterClicked(event: MouseEvent, type: FilterType) {
     this.preventDefault(event);
-    if (!this.url) {
+    if (!this.url || this.disabled) {
       return;
     }
 
