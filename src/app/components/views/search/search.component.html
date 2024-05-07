@@ -18,6 +18,7 @@
     </div>
 
     <div [ngClass]="[Settings.showFilterPanel ? 'col-span-5' : '']">
+      <p class="text-xl mb-4">{{ numberOfHitsStr }}</p>
       <!--    TODO: Bring back masonry grid-->
       <!--    <app-nodes-masonry-grid-->
       <!--      [nodes]="search.results.value.nodes"-->

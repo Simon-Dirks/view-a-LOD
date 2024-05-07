@@ -21,6 +21,8 @@ export class SearchService {
     new BehaviorSubject<SearchResultsModel>({});
   page: number = 0;
   isLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  numberOfHits: number = 0;
+  moreHitsAreAvailable: boolean = false;
 
   constructor(
     private elastic: ElasticService,
@@ -56,6 +58,14 @@ export class SearchService {
           Settings.search.resultsPerPagePerEndpoint,
           this.filters.enabled.value,
         );
+      this.numberOfHits = [...responses].reduce(
+        (acc, curr) => acc + (curr as any).hits.total.value,
+        0,
+      );
+      this.moreHitsAreAvailable =
+        [...responses].filter(
+          (response) => (response as any).hits.total.relation === 'gte',
+        ).length > 0;
 
       const hits: estypes.SearchHit<ElasticNodeModel>[] =
         this.hits.getFromSearchResponses(responses);

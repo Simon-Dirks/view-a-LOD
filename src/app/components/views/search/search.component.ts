@@ -51,6 +51,16 @@ export class SearchComponent implements OnInit {
     }
   }
 
+  get numberOfHitsStr(): string {
+    if (!this.search.numberOfHits) {
+      return 'Geen resultaten gevonden';
+    }
+    if (this.search.numberOfHits === 1) {
+      return '1 resultaat';
+    }
+    return `${this.search.numberOfHits}${this.search.moreHitsAreAvailable ? '+' : ''} resultaten`;
+  }
+
   protected readonly ViewMode = ViewMode;
   protected readonly Settings = Settings;
 }
