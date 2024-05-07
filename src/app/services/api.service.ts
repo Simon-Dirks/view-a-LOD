@@ -21,7 +21,7 @@ export class ApiService {
     url: string,
     data: any,
     maxRetries: number = 3,
-    retryInterval: number = 2000,
+    retryInterval: number = 1000,
   ): Promise<T> {
     let retries = 0;
     while (retries < maxRetries) {
