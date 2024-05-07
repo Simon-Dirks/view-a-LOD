@@ -1,6 +1,6 @@
 <span>{{ renderedLabel }}</span>
 <button
-  [ngClass]="allowLabelExpand ? 'text-primary' : ''"
+  [ngClass]="allowLabelExpand ? 'text-primary clickable' : ''"
   (click)="onEllipsisClick($event)"
   *ngIf="shouldTruncate && showingTruncatedLabel && labelIsTruncated"
 >
