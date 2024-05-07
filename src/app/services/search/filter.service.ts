@@ -20,38 +20,47 @@ export class FilterService {
   options: BehaviorSubject<FilterOptionsModel> =
     new BehaviorSubject<FilterOptionsModel>({
       type: {
-        label: 'Type',
+        label: 'Soort',
         fieldIds: Settings.predicates.type,
         valueIds: [
           'https://schema.org/Article',
           'https://schema.org/Photograph',
-          'https://schema.org/ArchiveComponent',
+          'https://schema.org/Book',
         ],
       },
-      collection: {
-        label: 'Collectie',
-        fieldIds: Settings.predicates.type,
-        valueIds: ['Het Utrechts Archief', 'RAZU', 'Kasteel Amerongen'],
+      parents: {
+        label: 'Is onderdeel van',
+        fieldIds: Settings.predicates.parents,
+        valueIds: [
+          'https://hetutrechtsarchief.nl/id/609C5B9970D04642E0534701000A17FD',
+        ],
       },
     });
 
   constructor() {}
 
-  toggle(filter: FilterModel) {
-    const filters = this.enabled.value;
-    const existingFilterIdx = filters.findIndex(
-      (f) =>
-        f.valueId === filter.valueId &&
-        f.fieldId === filter.fieldId &&
-        f.type === filter.type,
-    );
-    const filterAlreadyExists = existingFilterIdx > -1;
-    if (filterAlreadyExists) {
-      filters.splice(existingFilterIdx, 1);
-    } else {
-      filters.push(filter);
+  toggleMultiple(filters: FilterModel[]) {
+    const enabledFilters = this.enabled.value;
+    for (const filter of filters) {
+      const existingFilterIdx = enabledFilters.findIndex(
+        (f) =>
+          f.valueId === filter.valueId &&
+          f.fieldId === filter.fieldId &&
+          f.type === filter.type,
+      );
+      const filterAlreadyExists = existingFilterIdx > -1;
+      if (filterAlreadyExists) {
+        enabledFilters.splice(existingFilterIdx, 1);
+      } else {
+        enabledFilters.push(filter);
+      }
     }
-    this.enabled.next(filters);
+
+    this.enabled.next(enabledFilters);
+  }
+
+  toggle(filter: FilterModel) {
+    this.toggleMultiple([filter]);
   }
 
   has(id: string, type: FilterType): boolean {

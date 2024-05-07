@@ -3,8 +3,8 @@
     <input
       type="checkbox"
       class="checkbox checkbox-sm mr-4"
-      [checked]="filters.has(valueId, FilterType.Value)"
-      (click)="onFilterToggle($event, valueId)"
+      [checked]="filterService.has(valueId, FilterType.Value)"
+      (click)="onFilterToggle(valueId)"
     />
     <app-node-link [disabled]="true" [url]="valueId" />
   </label>

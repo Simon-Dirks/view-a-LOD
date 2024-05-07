@@ -17,7 +17,7 @@ const typePredicates: string[] = [
 ];
 
 export const Settings = {
-  defaultSearchQuery: 'Margaretha',
+  defaultSearchQuery: '',
   labelMaxChars: 100,
   showFilterPanel: true,
   endpoints: [

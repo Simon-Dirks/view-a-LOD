@@ -86,7 +86,7 @@ export class ElasticService {
         filter.fieldId,
       );
       const matchQuery: ElasticMatchQueries = {
-        match: { [fieldIdWithSpaces]: filter.valueId },
+        match_phrase: { [fieldIdWithSpaces]: filter.valueId },
       };
       matchQueries.push(matchQuery);
     });
@@ -103,18 +103,22 @@ export class ElasticService {
     const mustQueries: (ElasticSimpleQuery | ElasticFieldExistsQuery)[] =
       this._getMustQueries(filters);
 
-    const searchQuery = this._getSimpleQuery(query);
-    mustQueries.push(searchQuery);
+    if (query) {
+      const searchQuery = this._getSimpleQuery(query);
+      mustQueries.push(searchQuery);
+    }
 
     const matchQueries = this._getMatchQueries(filters);
 
+    const hasMatchQueries = matchQueries.length > 0;
     const queryData: any = {
       from: from,
       size: size,
       query: {
         bool: {
-          must: mustQueries,
+          must: [...mustQueries],
           should: [...matchQueries],
+          minimum_should_match: hasMatchQueries ? 1 : 0,
         },
       },
     };

@@ -29,7 +29,7 @@ export class SearchInputComponent implements OnInit {
         debounceTime(300),
         distinctUntilChanged(),
         tap((searchQuery) => {
-          if (!searchQuery) {
+          if (searchQuery === undefined) {
             return;
           }
 

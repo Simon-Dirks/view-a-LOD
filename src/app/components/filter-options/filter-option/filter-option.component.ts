@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgForOf } from '@angular/common';
 import { NodeLinkComponent } from '../../node/node-link/node-link.component';
 import { FilterService } from '../../../services/search/filter.service';
-import { FilterType } from '../../../models/filter.model';
+import { FilterModel, FilterType } from '../../../models/filter.model';
 
 @Component({
   selector: 'app-filter-option',
@@ -15,23 +15,24 @@ export class FilterOptionComponent implements OnInit {
   @Input() fieldIds?: string[];
   @Input() valueIds?: string[];
 
-  constructor(public filters: FilterService) {}
+  constructor(public filterService: FilterService) {}
 
   ngOnInit() {}
 
-  onFilterToggle($event: MouseEvent, valueId: string) {
-    // TODO: Filter on field and value combination
+  onFilterToggle(valueId: string) {
     if (!valueId || !this.fieldIds) {
       return;
     }
 
-    for (const fieldId of this.fieldIds) {
-      this.filters.toggle({
+    const filters: FilterModel[] = this.fieldIds.map((fieldId) => {
+      return {
         fieldId: fieldId,
         valueId: valueId,
         type: FilterType.FieldAndValue,
-      });
-    }
+      };
+    });
+
+    this.filterService.toggleMultiple(filters);
   }
 
   protected readonly FilterType = FilterType;
