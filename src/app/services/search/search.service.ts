@@ -42,6 +42,8 @@ export class SearchService {
   clearResults() {
     this.results.next({});
     this.page = 0;
+    this.numberOfHits = 0;
+    this.moreHitsAreAvailable = false;
   }
 
   async execute(clearResults = false) {
