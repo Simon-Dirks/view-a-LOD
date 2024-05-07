@@ -90,7 +90,7 @@ export class NodeLinkComponent implements OnInit {
     }
 
     this.filters.toggle({
-      id: this.url,
+      valueId: this.url,
       type: type,
     });
   }

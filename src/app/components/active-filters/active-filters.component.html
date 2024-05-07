@@ -1,13 +1,33 @@
-<!--<p>Filters: {{ filters.all.value | json }}</p>-->
+<!--<p>Filters: {{ filters.enabled.value | json }}</p>-->
 <div class="mt-2">
   <div
     *ngFor="let filter of filters.enabled.value"
     class="badge badge-neutral gap-1 mr-1"
   >
-    <app-node-link [url]="filter.id" [allowLabelExpand]="false">
-      <span class="opacity-70">{{
-        filter.type === FilterType.Field ? "Field - " : ""
-      }}</span>
+    <app-node-link
+      [url]="filter?.fieldId"
+      [allowLabelExpand]="false"
+      *ngIf="
+        filter.type === FilterType.Field ||
+        filter.type === FilterType.FieldAndValue
+      "
+    >
+      <!--      <span class="opacity-70">Veld </span>-->
+    </app-node-link>
+    <app-node-link
+      [url]="filter.valueId"
+      [allowLabelExpand]="false"
+      *ngIf="
+        filter.type === FilterType.Value ||
+        filter.type === FilterType.FieldAndValue
+      "
+    >
+      <span class="opacity-70" *ngIf="filter.type === FilterType.Value"
+        >Verwijzing naar
+      </span>
+      <span class="opacity-70" *ngIf="filter.type === FilterType.FieldAndValue"
+        >verwijst naar
+      </span>
     </app-node-link>
   </div>
 </div>

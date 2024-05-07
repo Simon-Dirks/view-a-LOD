@@ -24,7 +24,8 @@ export class FilterService {
         fieldIds: Settings.predicates.type,
         valueIds: [
           'https://schema.org/Article',
-          'http://www.w3.org/2004/02/skos/core#Concept',
+          'https://schema.org/Photograph',
+          'https://schema.org/ArchiveComponent',
         ],
       },
       collection: {
@@ -39,7 +40,10 @@ export class FilterService {
   toggle(filter: FilterModel) {
     const filters = this.enabled.value;
     const existingFilterIdx = filters.findIndex(
-      (f) => f.id === filter.id && f.type === filter.type,
+      (f) =>
+        f.valueId === filter.valueId &&
+        f.fieldId === filter.fieldId &&
+        f.type === filter.type,
     );
     const filterAlreadyExists = existingFilterIdx > -1;
     if (filterAlreadyExists) {
@@ -52,7 +56,7 @@ export class FilterService {
 
   has(id: string, type: FilterType): boolean {
     return (
-      this.enabled.value.find((f) => f.id === id && f.type === type) !==
+      this.enabled.value.find((f) => f.valueId === id && f.type === type) !==
       undefined
     );
   }

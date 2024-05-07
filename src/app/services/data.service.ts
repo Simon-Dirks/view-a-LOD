@@ -19,6 +19,10 @@ export class DataService {
       });
   }
 
+  replacePeriodsWithSpaces(s: string): string {
+    return s.replaceAll('.', ' ');
+  }
+
   getOrderedParentsFromSparqlResults(
     nodeId: string,
     sparqlParentsData: SparqlNodeParentModel[],

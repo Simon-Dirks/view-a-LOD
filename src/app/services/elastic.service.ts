@@ -6,32 +6,92 @@ import { ElasticNodeModel } from '../models/elastic/elastic-node.model';
 import { FilterModel, FilterType } from '../models/filter.model';
 import { ElasticSimpleQuery } from '../models/elastic/elastic-simple-query.type';
 import { ElasticFieldExistsQuery } from '../models/elastic/elastic-field-exists-query.type';
+import { DataService } from './data.service';
+import { ElasticMatchQueries } from '../models/elastic/elastic-match-queries.type';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ElasticService {
-  constructor(private api: ApiService) {}
+  constructor(
+    private api: ApiService,
+    private data: DataService,
+  ) {}
 
-  private _getSimpleQuery(query: string, boost?: number): ElasticSimpleQuery {
-    return {
+  private _getSimpleQuery(
+    query?: string,
+    field?: string,
+    boost?: number,
+  ): ElasticSimpleQuery {
+    if (!query) {
+      query = '';
+    }
+
+    const simpleQuery: ElasticSimpleQuery = {
       simple_query_string: {
         query: query,
         boost: boost,
       },
     };
+    if (field) {
+      simpleQuery.simple_query_string.fields = [field];
+    }
+    return simpleQuery;
   }
 
   private _getFieldExistsQuery(
-    query: string,
+    query?: string,
     boost?: number,
   ): ElasticFieldExistsQuery {
+    if (!query) {
+      query = '';
+    }
     return {
       exists: {
         field: query,
         boost: boost,
       },
     };
+  }
+
+  private _getMustQueries(
+    filters: FilterModel[],
+  ): (ElasticSimpleQuery | ElasticFieldExistsQuery)[] {
+    const fieldOrValueFilters = filters.filter(
+      (filter) =>
+        filter.type === FilterType.Value || filter.type === FilterType.Field,
+    );
+
+    return fieldOrValueFilters.map((filter) => {
+      if (filter.type === FilterType.Field) {
+        return this._getFieldExistsQuery(filter?.fieldId);
+      }
+      return this._getSimpleQuery(filter?.valueId);
+    });
+  }
+
+  private _getMatchQueries(filters: FilterModel[]): ElasticMatchQueries[] {
+    const fieldAndValueFilters = filters.filter(
+      (filter) =>
+        filter.type === FilterType.FieldAndValue &&
+        filter.fieldId !== undefined,
+    );
+
+    let matchQueries: ElasticMatchQueries[] = [];
+    fieldAndValueFilters.forEach((filter) => {
+      if (!filter.fieldId || !filter.valueId) {
+        return;
+      }
+      const fieldIdWithSpaces = this.data.replacePeriodsWithSpaces(
+        filter.fieldId,
+      );
+      const matchQuery: ElasticMatchQueries = {
+        match: { [fieldIdWithSpaces]: filter.valueId },
+      };
+      matchQueries.push(matchQuery);
+    });
+
+    return matchQueries;
   }
 
   async searchEntities(
@@ -41,14 +101,12 @@ export class ElasticService {
     filters: FilterModel[],
   ): Promise<estypes.SearchResponse<ElasticNodeModel>[]> {
     const mustQueries: (ElasticSimpleQuery | ElasticFieldExistsQuery)[] =
-      filters.map((filter) => {
-        if (filter.type === FilterType.Field) {
-          return this._getFieldExistsQuery(filter.id);
-        }
-        return this._getSimpleQuery(filter.id);
-      });
+      this._getMustQueries(filters);
 
-    mustQueries.push(this._getSimpleQuery(query));
+    const searchQuery = this._getSimpleQuery(query);
+    mustQueries.push(searchQuery);
+
+    const matchQueries = this._getMatchQueries(filters);
 
     const queryData: any = {
       from: from,
@@ -56,6 +114,7 @@ export class ElasticService {
       query: {
         bool: {
           must: mustQueries,
+          should: [...matchQueries],
         },
       },
     };
