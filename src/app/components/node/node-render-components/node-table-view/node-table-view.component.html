@@ -3,10 +3,7 @@
 <button
   class="text-xs mt-4 clickable"
   (click)="showingDetails = !showingDetails"
-  *ngIf="
-    getNumOfPreds(PredicateVisibility.Details) > 0 &&
-    settings.getViewModeSetting(ViewModeSetting.ShowDetails)
-  "
+  *ngIf="numOfDetailsPreds > 0 && canShowDetails"
 >
   <ng-icon
     [svg]="showingDetails ? featherChevronUp : featherChevronDown"
@@ -20,9 +17,5 @@
   [node]="node"
   [smallFontSize]="true"
   [visibility]="PredicateVisibility.Details"
-  *ngIf="
-    showingDetails &&
-    getNumOfPreds(PredicateVisibility.Details) > 0 &&
-    settings.getViewModeSetting(ViewModeSetting.ShowDetails)
-  "
+  *ngIf="showingDetails && numOfDetailsPreds > 0 && canShowDetails"
 />

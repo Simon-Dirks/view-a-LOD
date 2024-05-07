@@ -16,7 +16,7 @@ import {
 export class SettingsService {
   constructor(public viewModes: ViewModeService) {}
 
-  getViewModeSetting(viewModeSetting: ViewModeSetting): boolean {
+  hasViewModeSetting(viewModeSetting: ViewModeSetting): boolean {
     const currentViewMode: ViewMode = this.viewModes.current.value;
     if (currentViewMode === undefined) {
       return true;
@@ -56,17 +56,6 @@ export class SettingsService {
       (shouldShowAllPredsNotShownInDetails && !predIsShownInDetails) ||
       shouldShowPred
     ) {
-      if (
-        predicateId ===
-        'https://www.ica.org/standards/RiC/ontology#hasRecordSetType'
-      ) {
-        console.log(
-          'SHOWING',
-          shouldShowAllPredsNotShownInDetails,
-          predIsShownInDetails,
-          JSON.stringify(detailPreds),
-        );
-      }
       return PredicateVisibility.Show;
     }
 

@@ -10,8 +10,8 @@
       >
         <tr
           *ngIf="
-            settings.getPredicateVisibility(pred) === visibility &&
-            nodes.getObjValuesByDirection(node, [pred], direction).length > 0
+            predicateVisibilities[pred] === visibility &&
+            getNumPredValues(pred, direction) > 0
           "
         >
           <td class="w-1/2">

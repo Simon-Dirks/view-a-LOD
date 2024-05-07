@@ -15,9 +15,7 @@
   <!--  TODO: Show direction here? -->
   <app-node-link
     [url]="commentId"
-    *ngFor="
-      let commentId of nodes.getObjValues(node, ['https://schema.org/comment'])
-    "
+    *ngFor="let commentId of commentIds"
     [shouldTruncate]="false"
   />
 </div>

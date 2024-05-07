@@ -8,7 +8,6 @@ import { NodeService } from '../../../../services/node.service';
 import { ViewMode } from '../../../../models/view-mode.enum';
 import { SettingsService } from '../../../../services/settings.service';
 import { ViewModeSetting } from '../../../../models/settings/view-mode-setting.enum';
-import { ViewModeService } from '../../../../services/view-mode.service';
 import { featherChevronDown, featherChevronUp } from '@ng-icons/feather-icons';
 import { PredicateVisibility } from '../../../../models/settings/predicate-visibility-settings.model';
 
@@ -32,23 +31,28 @@ export class NodeTableViewComponent
   implements OnInit
 {
   showingDetails = false;
+  canShowDetails = false;
+  numOfDetailsPreds = 0;
 
   constructor(
     public settings: SettingsService,
-    public viewModes: ViewModeService,
     public override nodes: NodeService,
   ) {
     super(nodes);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.canShowDetails = this.settings.hasViewModeSetting(
+      ViewModeSetting.ShowDetails,
+    );
+    this.numOfDetailsPreds = this._getNumOfPreds(PredicateVisibility.Details);
+  }
 
-  getNumOfPreds(visibility: PredicateVisibility): number {
+  private _getNumOfPreds(visibility: PredicateVisibility): number {
     if (!this.node) {
       return 0;
     }
 
-    // TODO: Optimize (duplicate call given that table component checks getVisibility for each pred)
     const visiblePreds = Object.keys(
       Object.entries(this.node).filter(([pred, _]) => {
         return this.settings.getPredicateVisibility(pred) === visibility;

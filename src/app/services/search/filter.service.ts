@@ -55,6 +55,7 @@ export class FilterService {
   }
 
   has(id: string, type: FilterType): boolean {
+    // TODO: Reduce calls to this function if needed for performance reasons
     return (
       this.enabled.value.find((f) => f.valueId === id && f.type === type) !==
       undefined

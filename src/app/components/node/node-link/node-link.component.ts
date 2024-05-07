@@ -50,6 +50,8 @@ export class NodeLinkComponent implements OnInit {
   @Input() shouldTruncate = true;
   @Input() allowLabelExpand = true;
 
+  isClickableUrl = false;
+
   constructor(
     public cache: CacheService,
     public filters: FilterService,
@@ -59,6 +61,9 @@ export class NodeLinkComponent implements OnInit {
     if (!this.labelUrl) {
       this.labelUrl = this.url;
     }
+
+    const isValidAbsoluteUrl = this.url !== undefined && isValidUrl(this.url);
+    this.isClickableUrl = isValidAbsoluteUrl && !this.disabled;
   }
 
   get cachedLabel(): string | undefined {
@@ -72,11 +77,6 @@ export class NodeLinkComponent implements OnInit {
     }
 
     return this.url ? replacePrefixes(this.url) : undefined;
-  }
-
-  get isClickableUrl(): boolean {
-    const isValidAbsoluteUrl = this.url !== undefined && isValidUrl(this.url);
-    return isValidAbsoluteUrl && !this.disabled;
   }
 
   preventDefault(event: MouseEvent) {

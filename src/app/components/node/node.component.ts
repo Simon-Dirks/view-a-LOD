@@ -44,7 +44,13 @@ export class NodeComponent implements OnInit {
   @Input() node?: NodeModel;
   parents: ThingWithLabelModel[] = [];
 
-  protected readonly Settings = Settings;
+  id?: string;
+  title = '';
+  typeIds: string[] = [];
+
+  showTitle = this.settings.hasViewModeSetting(ViewModeSetting.ShowTitle);
+  showParents = this.settings.hasViewModeSetting(ViewModeSetting.ShowParents);
+  showTypes = this.settings.hasViewModeSetting(ViewModeSetting.ShowTypes);
 
   constructor(
     public nodes: NodeService,
@@ -56,20 +62,28 @@ export class NodeComponent implements OnInit {
 
   ngOnInit() {
     void this.retrieveParents();
+    this.initTitle();
+    this.initTypes();
+
+    if (!this.node) {
+      return;
+    }
+
+    this.id = this.nodes.getId(this.node);
   }
 
-  get title(): string | undefined {
+  initTitle() {
     const titles = this.nodes
       .getObjValues(this.node, Settings.predicates.label)
       .map((title) => title.trim());
     if (!titles || titles.length === 0) {
-      return undefined;
+      return;
     }
 
-    return titles[0];
+    this.title = titles[0];
   }
 
-  get types() {
+  initTypes() {
     // TODO: Render incoming types in the table view?
     const typeIds: string[] = this.nodes.getObjValues(
       this.node,
@@ -81,7 +95,7 @@ export class NodeComponent implements OnInit {
       void this.cache.cacheLabelForId(typeId);
     });
 
-    return typeIds;
+    this.typeIds = typeIds;
   }
 
   async retrieveParents() {
@@ -99,5 +113,5 @@ export class NodeComponent implements OnInit {
     );
   }
 
-  protected readonly ViewModeSetting = ViewModeSetting;
+  protected readonly Settings = Settings;
 }

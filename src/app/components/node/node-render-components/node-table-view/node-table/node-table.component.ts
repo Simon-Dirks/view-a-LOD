@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Direction, NodeModel } from '../../../../../models/node.model';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { NgIcon } from '@ng-icons/core';
@@ -25,15 +25,54 @@ import { PredicateVisibility } from '../../../../../models/settings/predicate-vi
   templateUrl: './node-table.component.html',
   styleUrl: './node-table.component.scss',
 })
-export class NodeTableComponent {
+export class NodeTableComponent implements OnInit {
   @Input() node?: NodeModel;
   @Input() smallFontSize = false;
   @Input() visibility!: PredicateVisibility;
+
+  predicateVisibilities: { [pred: string]: PredicateVisibility } = {};
+  numPredValues: {
+    [pred: string]: { [direction in Direction]: number };
+  } = {};
 
   constructor(
     public nodes: NodeService,
     public settings: SettingsService,
   ) {}
+
+  ngOnInit() {
+    this.initPredData();
+  }
+
+  initPredData() {
+    if (!this.node) {
+      return;
+    }
+    for (const pred of Object.keys(this.node)) {
+      this.predicateVisibilities[pred] =
+        this.settings.getPredicateVisibility(pred);
+
+      for (const direction of [Direction.Outgoing, Direction.Incoming]) {
+        if (!this.numPredValues[pred]) {
+          (this.numPredValues[pred] as any) = {};
+        }
+        this.numPredValues[pred][direction] =
+          this.nodes.getObjValuesByDirection(
+            this.node,
+            [pred],
+            direction,
+          ).length;
+      }
+    }
+  }
+
+  getNumPredValues(pred: string, direction: Direction) {
+    if (!pred || direction === undefined) {
+      return 0;
+    }
+
+    return this.numPredValues[pred][direction];
+  }
 
   protected readonly Direction = Direction;
   protected readonly Object = Object;

@@ -3,22 +3,25 @@
 
   <ng-container *ngIf="show === TableCellShowOptions.Obj">
     <app-node-images
-      [images]="nodes.getObjValues(node, Settings.predicates.images)"
-      *ngIf="shouldRenderComponent('node-images', pred)"
+      [images]="images"
+      *ngIf="shouldRenderComponentIds.includes('node-images')"
     />
 
     <!-- TODO: Retrieve and pass coordinates -->
-    <app-map-thumb *ngIf="shouldRenderComponent('map-thumb', pred)">
+    <app-map-thumb *ngIf="shouldRenderComponentIds.includes('map-thumb')">
     </app-map-thumb>
 
     <ng-container>
       <div *ngFor="let objValue of objValuesToShow">
-        <div class="mt-1" *ngIf="shouldRenderComponent('node-type', pred)">
+        <div
+          class="mt-1"
+          *ngIf="shouldRenderComponentIds.includes('node-type')"
+        >
           <app-node-type [typeId]="objValue"> </app-node-type>
         </div>
 
         <app-hop-link
-          *ngIf="shouldRenderComponent('hop-link', pred)"
+          *ngIf="shouldRenderComponentIds.includes('hop-link')"
           [id]="objValue"
           [hopPreds]="
             renderComponent.getSettingByKey(
@@ -31,17 +34,7 @@
           "
         />
 
-        <app-node-link
-          [url]="objValue"
-          *ngIf="
-            !renderComponent.isDefined(
-              node,
-              RenderMode.ByPredicate,
-              [pred],
-              direction
-            )
-          "
-        >
+        <app-node-link [url]="objValue" *ngIf="!renderComponentIsDefined">
           <ng-icon
             [svg]="featherArrowUpLeft"
             class="opacity-40"

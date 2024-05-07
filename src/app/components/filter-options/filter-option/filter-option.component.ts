@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgForOf } from '@angular/common';
 import { NodeLinkComponent } from '../../node/node-link/node-link.component';
 import { FilterService } from '../../../services/search/filter.service';
@@ -11,11 +11,13 @@ import { FilterType } from '../../../models/filter.model';
   templateUrl: './filter-option.component.html',
   styleUrl: './filter-option.component.scss',
 })
-export class FilterOptionComponent {
+export class FilterOptionComponent implements OnInit {
   @Input() fieldIds?: string[];
   @Input() valueIds?: string[];
 
   constructor(public filters: FilterService) {}
+
+  ngOnInit() {}
 
   onFilterToggle($event: MouseEvent, valueId: string) {
     // TODO: Filter on field and value combination

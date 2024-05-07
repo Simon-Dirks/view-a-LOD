@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { JsonPipe, NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
 import { NodeTableViewComponent } from '../node-render-components/node-table-view/node-table-view.component';
 import { NodeModel } from '../../../models/node.model';
@@ -22,13 +22,35 @@ import { RenderMode } from '../../../models/settings/render-component-settings.t
   templateUrl: './node-renderer.component.html',
   styleUrl: './node-renderer.component.scss',
 })
-export class NodeRendererComponent {
+export class NodeRendererComponent implements OnInit {
   @Input() node?: NodeModel;
+
+  renderComponentIdsToShow: string[] = [];
+  renderComponentIsDefined = false;
 
   constructor(
     public nodes: NodeService,
     public renderComponents: RenderComponentService,
   ) {}
+
+  ngOnInit() {
+    this.initRenderComponentIds();
+  }
+
+  initRenderComponentIds() {
+    if (!this.node) {
+      return;
+    }
+    this.renderComponentIdsToShow = this.renderComponents.getIdsToShow(
+      this.node,
+      RenderMode.ByType,
+    );
+
+    this.renderComponentIsDefined = this.renderComponents.isDefined(
+      this.node,
+      RenderMode.ByType,
+    );
+  }
 
   protected readonly Settings = Settings;
   protected readonly RenderMode = RenderMode;

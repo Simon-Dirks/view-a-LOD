@@ -33,7 +33,7 @@
 
       <ng-container *ngIf="viewModes.current.value === ViewMode.List">
         <app-node
-          *ngFor="let node of search.results.getValue()?.nodes"
+          *ngFor="let node of search.results.value?.nodes"
           [node]="node"
         ></app-node>
       </ng-container>

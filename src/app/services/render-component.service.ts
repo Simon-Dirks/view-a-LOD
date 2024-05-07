@@ -13,7 +13,43 @@ import {
   providedIn: 'root',
 })
 export class RenderComponentService {
+  private _getAllIds(): string[] {
+    let renderComponentIds: string[] = [];
+    // TODO: Iterate over render modes dynamically
+    for (const mode of [RenderMode.ByType, RenderMode.ByPredicate]) {
+      const renderComponentIdsForMode = Object.values(
+        Settings.renderComponents[mode],
+      ).map((r) => r.componentId);
+      renderComponentIds = renderComponentIds.concat(renderComponentIdsForMode);
+    }
+    const uniqueRenderComponentIds = Array.from(new Set(renderComponentIds));
+    return uniqueRenderComponentIds;
+  }
+
   constructor(public nodes: NodeService) {}
+
+  getIdsToShow(
+    node: NodeModel,
+    mode: RenderMode,
+    predicates?: string[],
+    direction?: Direction,
+  ): string[] {
+    const idsToShow: string[] = [];
+    for (const renderComponentId of this._getAllIds()) {
+      const shouldShow = this.shouldShow(
+        node,
+        mode,
+        renderComponentId,
+        predicates,
+        direction,
+      );
+      if (shouldShow) {
+        idsToShow.push(renderComponentId);
+      }
+    }
+
+    return idsToShow;
+  }
 
   shouldShow(
     node: NodeModel,
@@ -45,6 +81,7 @@ export class RenderComponentService {
     predicates?: string[],
     direction?: Direction,
   ): string[] {
+    // TODO: Reduce calls to this function if needed for performance reasons
     const settingsByKey = this.getSettings(
       node,
       mode,

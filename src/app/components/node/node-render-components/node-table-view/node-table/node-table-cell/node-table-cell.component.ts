@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Direction, NodeModel } from '../../../../../../models/node.model';
-import { NgForOf, NgIf } from '@angular/common';
+import { JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { NgIcon } from '@ng-icons/core';
 import { NodeLinkComponent } from '../../../../node-link/node-link.component';
 import { NodeService } from '../../../../../../services/node.service';
@@ -33,38 +33,77 @@ export enum TableCellShowOptions {
     MapThumbComponent,
     NodeTypeComponent,
     HopLinkComponent,
+    JsonPipe,
   ],
   templateUrl: './node-table-cell.component.html',
   styleUrl: './node-table-cell.component.scss',
 })
-export class NodeTableCellComponent {
+export class NodeTableCellComponent implements OnInit {
   @Input() pred?: string;
   @Input() node?: NodeModel;
   @Input() direction?: Direction;
   @Input() show?: TableCellShowOptions;
 
   numObjValuesToShow = Config.numObjValuesToShowDefault;
+  shouldRenderComponentIds: string[] = [];
+  renderComponentIsDefined = false;
+
+  images: string[] = [];
+  objValues: string[] = [];
 
   constructor(
     public nodes: NodeService,
     public renderComponent: RenderComponentService,
   ) {}
 
-  get isIncoming() {
-    return this.direction === Direction.Incoming;
+  ngOnInit() {
+    this.initRenderComponentIds();
+    this.initObjValues();
+
+    this.images = this.nodes.getObjValues(
+      this.node,
+      Settings.predicates.images,
+    );
   }
 
-  get objValues(): string[] {
+  initObjValues() {
     if (this.direction === undefined || !this.pred) {
-      return [];
+      return;
     }
 
-    return this.nodes.getObjValuesByDirection(
+    this.objValues = this.nodes.getObjValuesByDirection(
       this.node,
       [this.pred],
       this.direction,
     );
   }
+
+  initRenderComponentIds() {
+    if (!this.node) {
+      return;
+    }
+
+    const preds = this.pred ? [this.pred] : [];
+
+    this.shouldRenderComponentIds = this.renderComponent.getIdsToShow(
+      this.node,
+      RenderMode.ByPredicate,
+      preds,
+      this.direction,
+    );
+
+    this.renderComponentIsDefined = this.renderComponent.isDefined(
+      this.node,
+      RenderMode.ByPredicate,
+      preds,
+      this.direction,
+    );
+  }
+
+  get isIncoming() {
+    return this.direction === Direction.Incoming;
+  }
+
   get objValuesToShow(): string[] {
     return this.objValues.slice(0, this.numObjValuesToShow);
   }
@@ -75,19 +114,6 @@ export class NodeTableCellComponent {
 
   loadMoreObjValues() {
     this.numObjValuesToShow += Config.additionalNumObjValuesToShowOnClick;
-  }
-
-  shouldRenderComponent(componentId: string, pred: string) {
-    if (!this.node) {
-      return false;
-    }
-    return this.renderComponent.shouldShow(
-      this.node,
-      RenderMode.ByPredicate,
-      componentId,
-      [pred],
-      this.direction,
-    );
   }
 
   get showMoreLabel(): string {
