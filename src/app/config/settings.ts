@@ -31,7 +31,7 @@ export const Settings = {
       elastic:
         'https://test.data.razu.nl/_api/datasets/Kasteel-Amerongen/PoC/services/PoC-2/_search',
       sparql:
-        'https://api.test.data.razu.nl/datasets/Kasteel-Amerongen/PoC/services/PoC/sparql',
+        'https://api.test.data.razu.nl/datasets/Kasteel-Amerongen/PoC/sparql',
     },
     {
       elastic:
