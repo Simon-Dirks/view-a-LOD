@@ -6,38 +6,85 @@ import {
   FilterOptionsModel,
 } from '../../models/filter-option.model';
 import { Settings } from '../../config/settings';
+import { SearchResponse } from '@elastic/elasticsearch/lib/api/types';
+import { FieldDocCountsModel } from '../../models/elastic/field-doc-counts.model';
+import { ElasticAggregationModel } from '../../models/elastic/elastic-aggregation.model';
+import { ElasticService } from '../elastic.service';
+import { DataService } from '../data.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FilterService {
-  enabled: BehaviorSubject<FilterModel[]> = new BehaviorSubject<FilterModel[]>([
-    // { id: 'https://schema.org/Photograph', type: FilterType.Value },
-    // { id: 'http://xmlns.com/foaf/0.1/depiction', type: FilterType.Field },
-    // { id: 'https://schema.org/thumbnail', type: FilterType.Field },
-    // { id: 'https://schema.org/image', type: FilterType.Field },
-  ]);
+  enabled: BehaviorSubject<FilterModel[]> = new BehaviorSubject<FilterModel[]>(
+    [],
+  );
   options: BehaviorSubject<FilterOptionsModel> =
     new BehaviorSubject<FilterOptionsModel>({
       type: {
         label: 'Soort',
         fieldIds: Settings.predicates.type,
-        valueIds: [
-          'https://schema.org/Article',
-          'https://schema.org/Photograph',
-          'https://schema.org/Book',
-        ],
+        valueIds: [],
       },
       parents: {
         label: 'Is onderdeel van',
         fieldIds: Settings.predicates.parents,
-        valueIds: [
-          'https://hetutrechtsarchief.nl/id/609C5B9970D04642E0534701000A17FD',
-        ],
+        valueIds: [],
       },
     });
 
-  constructor() {}
+  constructor(
+    public elastic: ElasticService,
+    public data: DataService,
+  ) {}
+
+  private _getFieldDocCountsFromResponses(
+    responses: SearchResponse<any>[],
+  ): FieldDocCountsModel {
+    const docCountsByFieldId: FieldDocCountsModel = {};
+
+    for (const response of responses) {
+      const aggregations = response.aggregations;
+      if (!aggregations) {
+        continue;
+      }
+
+      for (const [elasticFieldId, aggregationsAggregate] of Object.entries(
+        aggregations,
+      )) {
+        const aggregationsData =
+          aggregationsAggregate as ElasticAggregationModel;
+        for (const docCount of aggregationsData.buckets) {
+          if (!(elasticFieldId in docCountsByFieldId)) {
+            docCountsByFieldId[elasticFieldId] = [];
+          }
+          docCountsByFieldId[elasticFieldId].push(docCount);
+        }
+      }
+    }
+    return docCountsByFieldId;
+  }
+
+  async updateFilterOptionValues(query: string) {
+    const allFilterFieldIds: string[] = Object.values(
+      this.options.value,
+    ).flatMap((filterOption) => filterOption.fieldIds);
+
+    const responses: SearchResponse<any>[] =
+      await this.elastic.getFilterOptions(allFilterFieldIds, query);
+    const docCounts = this._getFieldDocCountsFromResponses(responses);
+
+    for (const [_, filter] of Object.entries(this.options.value)) {
+      const filterValueIds: string[] = filter.fieldIds.flatMap((fieldId) => {
+        const elasticFieldId = this.data.replacePeriodsWithSpaces(fieldId);
+        // TODO: Save counts here as well, instead of only keys
+        const valueIdsForField =
+          docCounts?.[elasticFieldId]?.map((d) => d.key) ?? [];
+        return valueIdsForField;
+      });
+      filter.valueIds = filterValueIds;
+    }
+  }
 
   toggleMultiple(filters: FilterModel[]) {
     const enabledFilters = this.enabled.value;

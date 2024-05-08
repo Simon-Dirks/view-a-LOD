@@ -1,4 +1,3 @@
-import { estypes } from '@elastic/elasticsearch';
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
 import { Settings } from '../config/settings';
@@ -8,6 +7,7 @@ import { ElasticSimpleQuery } from '../models/elastic/elastic-simple-query.type'
 import { ElasticFieldExistsQuery } from '../models/elastic/elastic-field-exists-query.type';
 import { DataService } from './data.service';
 import { ElasticMatchQueries } from '../models/elastic/elastic-match-queries.type';
+import { SearchResponse } from '@elastic/elasticsearch/lib/api/types';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +17,10 @@ export class ElasticService {
     private api: ApiService,
     private data: DataService,
   ) {}
+
+  private _getSearchQuery(query: string): ElasticSimpleQuery {
+    return this._getSimpleQuery(query);
+  }
 
   private _getSimpleQuery(
     query?: string,
@@ -54,7 +58,7 @@ export class ElasticService {
     };
   }
 
-  private _getMustQueries(
+  private _getMustFilterQueries(
     filters: FilterModel[],
   ): (ElasticSimpleQuery | ElasticFieldExistsQuery)[] {
     const fieldOrValueFilters = filters.filter(
@@ -70,7 +74,9 @@ export class ElasticService {
     });
   }
 
-  private _getMatchQueries(filters: FilterModel[]): ElasticMatchQueries[] {
+  private _getMatchFilterQueries(
+    filters: FilterModel[],
+  ): ElasticMatchQueries[] {
     const fieldAndValueFilters = filters.filter(
       (filter) =>
         filter.type === FilterType.FieldAndValue &&
@@ -94,48 +100,80 @@ export class ElasticService {
     return matchQueries;
   }
 
+  async getFilterOptions(
+    filterFieldIds: string[],
+    query: string,
+  ): Promise<SearchResponse<any>[]> {
+    const aggs = filterFieldIds.reduce((result: any, fieldId) => {
+      const elasticFieldId = this.data.replacePeriodsWithSpaces(fieldId);
+      result[elasticFieldId] = {
+        terms: {
+          field: elasticFieldId + '.keyword',
+          min_doc_count: Settings.minNumOfValuesForFilterOptionToAppear,
+        },
+      };
+      return result;
+    }, {});
+
+    const queryData: any = {
+      size: 0,
+      aggs: { ...aggs },
+    };
+
+    if (query) {
+      const searchQuery = this._getSearchQuery(query);
+      queryData.query = { bool: { must: [searchQuery] } };
+    }
+
+    return await this.searchEndpoints(queryData);
+  }
+
+  async searchEndpoints<T>(queryData: any): Promise<SearchResponse<T>[]> {
+    const searchPromises = [];
+    for (const endpoint of Settings.endpoints) {
+      if (!endpoint.elastic) {
+        continue;
+      }
+      const searchPromise: Promise<SearchResponse<T>> = this.api.postData<
+        SearchResponse<T>
+      >(endpoint.elastic, queryData);
+      searchPromises.push(searchPromise);
+    }
+    const searchResults: SearchResponse<T>[] =
+      await Promise.all(searchPromises);
+
+    return searchResults;
+  }
+
   async searchEntities(
     query: string,
     from: number,
     size: number,
     filters: FilterModel[],
-  ): Promise<estypes.SearchResponse<ElasticNodeModel>[]> {
+  ): Promise<SearchResponse<ElasticNodeModel>[]> {
     const mustQueries: (ElasticSimpleQuery | ElasticFieldExistsQuery)[] =
-      this._getMustQueries(filters);
+      this._getMustFilterQueries(filters);
 
     if (query) {
-      const searchQuery = this._getSimpleQuery(query);
+      const searchQuery = this._getSearchQuery(query);
       mustQueries.push(searchQuery);
     }
 
-    const matchQueries = this._getMatchQueries(filters);
+    const filterQueries = this._getMatchFilterQueries(filters);
 
-    const hasMatchQueries = matchQueries.length > 0;
+    const hasFilterQueries = filterQueries.length > 0;
     const queryData: any = {
       from: from,
       size: size,
       query: {
         bool: {
           must: [...mustQueries],
-          should: [...matchQueries],
-          minimum_should_match: hasMatchQueries ? 1 : 0,
+          should: [...filterQueries],
+          minimum_should_match: hasFilterQueries ? 1 : 0,
         },
       },
     };
 
-    const searchPromises = [];
-    for (const endpoint of Settings.endpoints) {
-      if (!endpoint.elastic) {
-        continue;
-      }
-      const searchPromise = this.api.postData<
-        estypes.SearchResponse<ElasticNodeModel>
-      >(endpoint.elastic, queryData);
-      searchPromises.push(searchPromise);
-    }
-    const searchResults: estypes.SearchResponse<ElasticNodeModel>[] =
-      await Promise.all(searchPromises);
-
-    return searchResults;
+    return await this.searchEndpoints<ElasticNodeModel>(queryData);
   }
 }

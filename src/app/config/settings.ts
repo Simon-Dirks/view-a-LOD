@@ -20,6 +20,7 @@ export const Settings = {
   defaultSearchQuery: '',
   labelMaxChars: 100,
   showFilterPanel: true,
+  minNumOfValuesForFilterOptionToAppear: 1,
   endpoints: [
     {
       elastic:

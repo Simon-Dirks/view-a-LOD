@@ -35,7 +35,7 @@ export class SearchInputComponent implements OnInit {
 
           this.search.queryStr = searchQuery;
 
-          void this.search.execute(true);
+          void this.search.execute(true, true);
         }),
       )
       .subscribe();

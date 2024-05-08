@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { estypes } from '@elastic/elasticsearch';
 import { Direction, NodeModel } from '../../models/node.model';
 import { DataService } from '../data.service';
 import { ElasticNodeModel } from '../../models/elastic/elastic-node.model';
+import {
+  SearchHit,
+  SearchResponse,
+} from '@elastic/elasticsearch/lib/api/types';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +13,7 @@ import { ElasticNodeModel } from '../../models/elastic/elastic-node.model';
 export class SearchHitsService {
   constructor(private data: DataService) {}
 
-  parseToNodes(hits: estypes.SearchHit<ElasticNodeModel>[]): NodeModel[] {
+  parseToNodes(hits: SearchHit<ElasticNodeModel>[]): NodeModel[] {
     return hits
       .sort((a, b) => {
         return (a._source as any)?.['_score'] - (b._source as any)?.['_score'];
@@ -36,12 +39,13 @@ export class SearchHitsService {
   }
 
   getFromSearchResponses(
-    searchResponses: estypes.SearchResponse<ElasticNodeModel>[],
-  ): estypes.SearchHit<ElasticNodeModel>[] {
-    const mergedHits: estypes.SearchHit<ElasticNodeModel>[] =
-      searchResponses.flatMap((searchResponse) => {
+    searchResponses: SearchResponse<ElasticNodeModel>[],
+  ): SearchHit<ElasticNodeModel>[] {
+    const mergedHits: SearchHit<ElasticNodeModel>[] = searchResponses.flatMap(
+      (searchResponse) => {
         return searchResponse?.hits?.hits ?? [];
-      });
+      },
+    );
 
     return mergedHits;
   }
