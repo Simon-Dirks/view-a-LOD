@@ -131,8 +131,13 @@ export const Settings = {
         ...imagePredicates,
         'https://schema.org/author',
         'http://www.nationaalarchief.nl/mdto#omschrijving',
+        'http://www.nationaalarchief.nl/mdto#dekkingInRuimte',
+        'http://www.nationaalarchief.nl/mdto#dekkingInTijd',
       ],
-      [PredicateVisibility.Details]: ['*'],
+      [PredicateVisibility.Details]: [
+        'http://www.nationaalarchief.nl/mdto#naam',
+        '*',
+      ],
       [PredicateVisibility.Hide]: [],
     },
     [ViewMode.Grid]: {
@@ -141,7 +146,11 @@ export const Settings = {
       [PredicateVisibility.Hide]: [],
     },
   },
-  alwaysHidePredicates: ['@id', 'http://www.nationaalarchief.nl/mdto#checksum'],
+  alwaysHidePredicates: [
+    '@id',
+    'http://www.nationaalarchief.nl/mdto#checksum',
+    'http://www.nationaalarchief.nl/mdto#waardering',
+  ],
   namespacePrefixes: {
     'https://www.ica.org/standards/RiC/ontology#': 'rico:',
     'https://hetutrechtsarchief.nl/def/': 'def:',
