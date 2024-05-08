@@ -3,5 +3,5 @@ export const Config = {
   numObjValuesToShowDefault: 5,
   additionalNumObjValuesToShowOnClick: 5,
   labelFetchIntervalMs: 100,
-  maxNumOfFilterOptionsPerField: 1000,
+  maxNumOfFilterOptionsPerField: 10,
 };
