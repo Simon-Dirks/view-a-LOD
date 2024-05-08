@@ -128,7 +128,6 @@ export const Settings = {
     [ViewMode.List]: {
       [PredicateVisibility.Show]: [
         ...imagePredicates,
-        ...typePredicates,
         'https://schema.org/author',
         'http://www.nationaalarchief.nl/mdto#omschrijving',
       ],
