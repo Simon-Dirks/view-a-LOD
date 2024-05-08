@@ -20,6 +20,7 @@ export class FilterService {
   enabled: BehaviorSubject<FilterModel[]> = new BehaviorSubject<FilterModel[]>(
     [],
   );
+  // TODO: Move default filter options to settings
   options: BehaviorSubject<FilterOptionsModel> =
     new BehaviorSubject<FilterOptionsModel>({
       type: {
@@ -29,7 +30,10 @@ export class FilterService {
       },
       parents: {
         label: 'Is onderdeel van',
-        fieldIds: Settings.predicates.parents,
+        fieldIds: [
+          ...Settings.predicates.parents,
+          'https://hetutrechtsarchief.nl/def/isDescendentOf',
+        ],
         values: [],
       },
     });
