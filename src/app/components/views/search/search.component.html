@@ -19,10 +19,7 @@
 
     <div [ngClass]="[Settings.showFilterPanel ? 'col-span-5' : '']">
       <p class="text-xl mb-4">
-        <span
-          *ngIf="search.isLoading.value"
-          class="loading loading-spinner loading"
-        >
+        <span *ngIf="search.isLoading.value" class="loading loading-spinner">
         </span>
         <span *ngIf="!search.isLoading.value">{{ numberOfHitsStr }}</span>
       </p>
