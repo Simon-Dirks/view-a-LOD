@@ -27,7 +27,7 @@ export class NodeLabelComponent {
     }
 
     if (this.shouldTruncate && this.showingTruncatedLabel) {
-      return truncate(this.label, Settings.labelMaxChars);
+      return truncate(striptags(this.label), Settings.labelMaxChars);
     }
     return striptags(this.label);
   }
