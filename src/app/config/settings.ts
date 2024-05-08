@@ -110,6 +110,9 @@ export const Settings = {
           'http://www.nationaalarchief.nl/mdto#gerelateerdInformatieobjectVerwijzing',
         ],
       },
+      'http://www.nationaalarchief.nl/mdto#dekkingInTijd': {
+        componentId: 'mdto-dekking-in-tijd',
+      },
     },
   },
   viewModes: {

@@ -14,6 +14,7 @@ import { featherArrowUpLeft } from '@ng-icons/feather-icons';
 import { NodeTypeComponent } from '../../../../node-types/node-type/node-type.component';
 import { HopLinkComponent } from '../../../predicate-render-components/hop-link/hop-link.component';
 import { RenderMode } from '../../../../../../models/settings/render-component-settings.type';
+import { MdtoDekkingInTijdComponent } from '../../../predicate-render-components/mdto-dekking-in-tijd/mdto-dekking-in-tijd.component';
 
 export enum TableCellShowOptions {
   Pred,
@@ -34,6 +35,7 @@ export enum TableCellShowOptions {
     NodeTypeComponent,
     HopLinkComponent,
     JsonPipe,
+    MdtoDekkingInTijdComponent,
   ],
   templateUrl: './node-table-cell.component.html',
   styleUrl: './node-table-cell.component.scss',

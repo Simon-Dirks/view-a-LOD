@@ -34,6 +34,11 @@
           "
         />
 
+        <app-mdto-dekking-in-tijd
+          *ngIf="shouldRenderComponentIds.includes('mdto-dekking-in-tijd')"
+          [id]="objValue"
+        />
+
         <app-node-link [url]="objValue" *ngIf="!renderComponentIsDefined">
           <ng-icon
             [svg]="featherArrowUpLeft"
