@@ -162,5 +162,6 @@ export const Settings = {
     'https://www.ica.org/standards/RiC/vocabularies/recordSetTypes#':
       'ric-rst:',
     'https://data.cbg.nl/pico-terms#': 'picot:',
+    'http://www.nationaalarchief.nl/mdto-shacl#': 'mdto-shacl:',
   },
 };
