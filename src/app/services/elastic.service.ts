@@ -8,6 +8,7 @@ import { ElasticFieldExistsQuery } from '../models/elastic/elastic-field-exists-
 import { DataService } from './data.service';
 import { ElasticMatchQueries } from '../models/elastic/elastic-match-queries.type';
 import { SearchResponse } from '@elastic/elasticsearch/lib/api/types';
+import { Config } from '../config/config';
 
 @Injectable({
   providedIn: 'root',
@@ -110,6 +111,7 @@ export class ElasticService {
         terms: {
           field: elasticFieldId + '.keyword',
           min_doc_count: Settings.minNumOfValuesForFilterOptionToAppear,
+          size: Config.maxNumOfFilterOptionsPerField,
         },
       };
       return result;
