@@ -43,8 +43,6 @@ export const Settings = {
             'https://api.test.data.razu.nl/datasets/Kasteel-Amerongen/PoC/sparql',
         },
         {
-          elastic:
-            'https://api.test.data.razu.nl/datasets/Gedeeld/actoren/services/actoren-1/_search',
           sparql:
             'https://api.test.data.razu.nl/datasets/Gedeeld/actoren/services/actoren/sparql',
         },
