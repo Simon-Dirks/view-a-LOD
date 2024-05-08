@@ -4,6 +4,7 @@ import { FilterModel, FilterType } from '../../models/filter.model';
 import {
   FilterOptionModel,
   FilterOptionsModel,
+  FilterOptionValueModel,
 } from '../../models/filter-option.model';
 import { Settings } from '../../config/settings';
 import { SearchResponse } from '@elastic/elasticsearch/lib/api/types';
@@ -24,12 +25,12 @@ export class FilterService {
       type: {
         label: 'Soort',
         fieldIds: Settings.predicates.type,
-        valueIds: [],
+        values: [],
       },
       parents: {
         label: 'Is onderdeel van',
         fieldIds: Settings.predicates.parents,
-        valueIds: [],
+        values: [],
       },
     });
 
@@ -75,14 +76,17 @@ export class FilterService {
     const docCounts = this._getFieldDocCountsFromResponses(responses);
 
     for (const [_, filter] of Object.entries(this.options.value)) {
-      const filterValueIds: string[] = filter.fieldIds.flatMap((fieldId) => {
-        const elasticFieldId = this.data.replacePeriodsWithSpaces(fieldId);
-        // TODO: Save counts here as well, instead of only keys
-        const valueIdsForField =
-          docCounts?.[elasticFieldId]?.map((d) => d.key) ?? [];
-        return valueIdsForField;
-      });
-      filter.valueIds = filterValueIds;
+      const filterValues: FilterOptionValueModel[] = filter.fieldIds.flatMap(
+        (fieldId) => {
+          const elasticFieldId = this.data.replacePeriodsWithSpaces(fieldId);
+          const valuesForField =
+            docCounts?.[elasticFieldId]?.map((d) => {
+              return { id: d.key, count: d.doc_count };
+            }) ?? [];
+          return valuesForField;
+        },
+      );
+      filter.values = filterValues;
     }
   }
 
@@ -120,5 +124,10 @@ export class FilterService {
 
   getOptionById(filterId: string): FilterOptionModel {
     return this.options.value?.[filterId];
+  }
+
+  getOptionValueIds(filterId: string): string[] {
+    // TODO: Reduce number of calls if necessary for performance reasons
+    return this.getOptionById(filterId).values.map((v) => v.id);
   }
 }

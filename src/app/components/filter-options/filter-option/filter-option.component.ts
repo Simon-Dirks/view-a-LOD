@@ -1,19 +1,20 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { NgForOf } from '@angular/common';
+import { JsonPipe, NgForOf } from '@angular/common';
 import { NodeLinkComponent } from '../../node/node-link/node-link.component';
 import { FilterService } from '../../../services/search/filter.service';
 import { FilterModel, FilterType } from '../../../models/filter.model';
+import { FilterOptionValueModel } from '../../../models/filter-option.model';
 
 @Component({
   selector: 'app-filter-option',
   standalone: true,
-  imports: [NgForOf, NodeLinkComponent],
+  imports: [NgForOf, NodeLinkComponent, JsonPipe],
   templateUrl: './filter-option.component.html',
   styleUrl: './filter-option.component.scss',
 })
 export class FilterOptionComponent implements OnInit {
   @Input() fieldIds?: string[];
-  @Input() valueIds?: string[];
+  @Input() values?: FilterOptionValueModel[];
 
   constructor(public filterService: FilterService) {}
 

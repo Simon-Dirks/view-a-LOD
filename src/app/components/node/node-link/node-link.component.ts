@@ -49,6 +49,7 @@ export class NodeLinkComponent implements OnInit {
   @Input() disabled?: boolean;
   @Input() shouldTruncate = true;
   @Input() allowLabelExpand = true;
+  @Input() suffixStr = '';
 
   isClickableUrl = false;
 

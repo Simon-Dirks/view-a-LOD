@@ -5,5 +5,10 @@ export interface FilterOptionsModel {
 export interface FilterOptionModel {
   label: string;
   fieldIds: string[];
-  valueIds: string[];
+  values: FilterOptionValueModel[];
+}
+
+export interface FilterOptionValueModel {
+  id: string;
+  count: number;
 }

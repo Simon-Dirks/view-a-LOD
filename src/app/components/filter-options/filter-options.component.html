@@ -3,7 +3,7 @@
     <ng-container *ngFor="let filterId of Object.keys(filters.options.value)">
       <div
         class="collapse collapse-arrow join-item bg-base-100 border"
-        *ngIf="filters.getOptionById(filterId).valueIds.length > 0"
+        *ngIf="filters.getOptionValueIds(filterId).length > 0"
       >
         <input type="checkbox" name="filter-accordion" />
         <div class="collapse-title font-medium">
@@ -14,7 +14,7 @@
           class="collapse-content max-h-48 overflow-y-scroll overflow-x-hidden"
         >
           <app-filter-option
-            [valueIds]="filters.getOptionById(filterId).valueIds"
+            [values]="filters.getOptionById(filterId).values"
             [fieldIds]="filters.getOptionById(filterId).fieldIds"
           />
         </div>

@@ -1,11 +1,16 @@
-<div class="form-control direction flex-row" *ngFor="let valueId of valueIds">
+<div class="form-control flex-row" *ngFor="let value of values">
   <label class="label text">
     <input
       type="checkbox"
       class="checkbox checkbox-sm mr-4"
-      [checked]="filterService.has(valueId, FilterType.Value)"
-      (click)="onFilterToggle(valueId)"
+      [checked]="filterService.has(value.id, FilterType.FieldAndValue)"
+      (click)="onFilterToggle(value.id)"
     />
-    <app-node-link [disabled]="true" [url]="valueId" />
+    <app-node-link
+      [disabled]="true"
+      [url]="value.id"
+      [suffixStr]="' (' + value.count.toString() + ')'"
+    >
+    </app-node-link>
   </label>
 </div>
