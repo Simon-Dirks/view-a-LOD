@@ -77,7 +77,7 @@ export class SearchService {
       void this.execute(true);
     });
     this.endpoints.enabledIds.subscribe((_) => {
-      void this.execute(true);
+      void this.execute(true, true);
     });
   }
 
