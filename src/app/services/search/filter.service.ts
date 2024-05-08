@@ -75,7 +75,8 @@ export class FilterService {
       await this.elastic.getFilterOptions(allFilterFieldIds, query);
     const docCounts = this._getFieldDocCountsFromResponses(responses);
 
-    for (const [_, filter] of Object.entries(this.options.value)) {
+    const filterOptions = this.options.value;
+    for (const [_, filter] of Object.entries(filterOptions)) {
       const filterValues: FilterOptionValueModel[] = filter.fieldIds.flatMap(
         (fieldId) => {
           const elasticFieldId = this.data.replacePeriodsWithSpaces(fieldId);
@@ -88,6 +89,7 @@ export class FilterService {
       );
       filter.values = filterValues;
     }
+    this.options.next(filterOptions);
   }
 
   toggleMultiple(filters: FilterModel[]) {

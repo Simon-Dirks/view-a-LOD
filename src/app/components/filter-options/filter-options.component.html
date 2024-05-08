@@ -1,5 +1,5 @@
-<div *ngIf="filters.options.value" class="sticky top-0">
-  <div class="join join-vertical w-full">
+<ng-container *ngIf="filters.options.value && hasOptionsToShow">
+  <div class="join join-vertical w-full mb-4">
     <ng-container *ngFor="let filterId of Object.keys(filters.options.value)">
       <div
         class="collapse collapse-arrow join-item bg-base-100 border"
@@ -21,4 +21,4 @@
       </div>
     </ng-container>
   </div>
-</div>
+</ng-container>

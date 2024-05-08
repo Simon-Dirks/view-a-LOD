@@ -12,7 +12,27 @@ import { FilterOptionComponent } from './filter-option/filter-option.component';
   styleUrl: './filter-options.component.scss',
 })
 export class FilterOptionsComponent {
+  hasOptionsToShow = false;
+
   constructor(public filters: FilterService) {}
+
+  ngOnInit() {
+    this.initHasOptionsToShow();
+  }
+
+  initHasOptionsToShow() {
+    this.filters.options.subscribe((options) => {
+      this.hasOptionsToShow = false;
+      for (let filterId of Object.keys(options)) {
+        const filterIdHasValuesToShow =
+          this.filters.getOptionValueIds(filterId).length > 0;
+        if (filterIdHasValuesToShow) {
+          this.hasOptionsToShow = true;
+          return;
+        }
+      }
+    });
+  }
 
   protected readonly Object = Object;
 }

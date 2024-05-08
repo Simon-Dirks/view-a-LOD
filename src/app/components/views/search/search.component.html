@@ -14,7 +14,10 @@
     (scroll)="onScroll($event)"
   >
     <div class="col-span-1" *ngIf="Settings.showFilterPanel">
-      <app-filter-options />
+      <div class="sticky top-0">
+        <app-filter-options />
+        <app-endpoints />
+      </div>
     </div>
 
     <div [ngClass]="[Settings.showFilterPanel ? 'col-span-5' : '']">

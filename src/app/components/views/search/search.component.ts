@@ -12,6 +12,7 @@ import { ActiveFiltersComponent } from '../../active-filters/active-filters.comp
 import { NodesGridComponent } from '../../nodes-grid/nodes-grid.component';
 import { FilterOptionsComponent } from '../../filter-options/filter-options.component';
 import { Settings } from '../../../config/settings';
+import { EndpointsComponent } from '../../endpoints/endpoints.component';
 
 @Component({
   selector: 'app-search',
@@ -30,6 +31,7 @@ import { Settings } from '../../../config/settings';
     ActiveFiltersComponent,
     NodesGridComponent,
     FilterOptionsComponent,
+    EndpointsComponent,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',

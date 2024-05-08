@@ -14,6 +14,7 @@ import {
   SearchResponse,
 } from '@elastic/elasticsearch/lib/api/types';
 import { DataService } from '../data.service';
+import { EndpointService } from '../endpoint.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +35,7 @@ export class SearchService {
     private nodes: NodeService,
     private filters: FilterService,
     private data: DataService,
+    private endpoints: EndpointService,
   ) {
     this.initSearchOnFilterChange();
     void this.execute(true);
@@ -71,7 +73,10 @@ export class SearchService {
   }
 
   initSearchOnFilterChange() {
-    this.filters.enabled.subscribe((f) => {
+    this.filters.enabled.subscribe((_) => {
+      void this.execute(true);
+    });
+    this.endpoints.enabledIds.subscribe((_) => {
       void this.execute(true);
     });
   }

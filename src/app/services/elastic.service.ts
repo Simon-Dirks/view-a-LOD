@@ -9,6 +9,8 @@ import { DataService } from './data.service';
 import { ElasticMatchQueries } from '../models/elastic/elastic-match-queries.type';
 import { SearchResponse } from '@elastic/elasticsearch/lib/api/types';
 import { Config } from '../config/config';
+import { SettingsService } from './settings.service';
+import { EndpointService } from './endpoint.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +19,8 @@ export class ElasticService {
   constructor(
     private api: ApiService,
     private data: DataService,
+    private settings: SettingsService,
+    private endpoints: EndpointService,
   ) {}
 
   private _getSearchQuery(query: string): ElasticSimpleQuery {
@@ -132,7 +136,7 @@ export class ElasticService {
 
   async searchEndpoints<T>(queryData: any): Promise<SearchResponse<T>[]> {
     const searchPromises = [];
-    for (const endpoint of Settings.endpoints) {
+    for (const endpoint of this.endpoints.getAllUrls()) {
       if (!endpoint.elastic) {
         continue;
       }

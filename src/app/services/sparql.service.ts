@@ -6,29 +6,38 @@ import { wrapWithAngleBrackets } from '../helpers/util.helper';
 import { SparqlIncomingRelationModel } from '../models/sparql/sparql-incoming-relation.model';
 import { SparqlNodeParentModel } from '../models/sparql/sparql-node-parent.model';
 import { ThingWithLabelModel } from '../models/thing-with-label.model';
+import { SettingsService } from './settings.service';
+import { EndpointService } from './endpoint.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SparqlService {
-  constructor(private api: ApiService) {}
+  constructor(
+    private api: ApiService,
+    private settings: SettingsService,
+    private endpoints: EndpointService,
+  ) {}
 
   private _getFederatedQuery(queryTemplate: string): string {
     const firstServiceQuery = `
 {
-  SERVICE <${Settings.endpoints[0].sparql}> {
+  SERVICE <${this.endpoints.getFirstUrls().sparql}> {
       ${queryTemplate}
   }
 }`;
 
-    const unionServiceQueries = Settings.endpoints.slice(1).map(
-      (endpoint) => `
+    const unionServiceQueries = this.endpoints
+      .getAllUrls()
+      .slice(1)
+      .map(
+        (endpoint) => `
 UNION {
     SERVICE <${endpoint.sparql}> {
         ${queryTemplate}
     }
 }`,
-    );
+      );
 
     return `${firstServiceQuery}\n${unionServiceQueries.join('\n')}`;
   }
@@ -44,7 +53,7 @@ UNION {
   }
 
   private _ensureEndpointsExist(): void {
-    if (Settings.endpoints.length === 0) {
+    if (Object.keys(Settings.endpoints).length === 0) {
       throw new Error('No endpoints defined');
     }
   }
@@ -64,7 +73,7 @@ SELECT DISTINCT ?sub ?pred WHERE {
 limit 500`;
 
     return await this.api.postData<SparqlIncomingRelationModel[]>(
-      Settings.endpoints[0].sparql,
+      this.endpoints.getFirstUrls().sparql,
       {
         query: query,
       },
@@ -95,7 +104,7 @@ SELECT DISTINCT ?id ?title ?parent WHERE {
 limit 500`;
 
     return await this.api.postData<SparqlNodeParentModel[]>(
-      Settings.endpoints[0].sparql,
+      this.endpoints.getFirstUrls().sparql,
       {
         query: query,
       },
@@ -166,7 +175,7 @@ LIMIT 10000`;
 
     const response: { s: string; label: string }[] = await this.api.postData<
       { s: string; label: string }[]
-    >(Settings.endpoints[0].sparql, {
+    >(this.endpoints.getFirstUrls().sparql, {
       query: query,
     });
     const labels: ThingWithLabelModel[] = response.map(({ s, label }) => {
@@ -197,7 +206,7 @@ SELECT DISTINCT ?o WHERE {
 LIMIT 10000`;
 
     const response: { o: string }[] = await this.api.postData<{ o: string }[]>(
-      Settings.endpoints[0].sparql,
+      this.endpoints.getFirstUrls().sparql,
       {
         query: query,
       },

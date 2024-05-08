@@ -21,30 +21,40 @@ export const Settings = {
   labelMaxChars: 100,
   showFilterPanel: true,
   minNumOfValuesForFilterOptionToAppear: 1,
-  endpoints: [
-    {
-      elastic:
-        'https://api.data.netwerkdigitaalerfgoed.nl/datasets/hetutrechtsarchief/Test-Amerongen/services/Zoeken/_search',
-      sparql:
-        'https://api.data.netwerkdigitaalerfgoed.nl/datasets/hetutrechtsarchief/Test-Amerongen/sparql',
+  endpoints: {
+    hua: {
+      label: 'Het Utrechts Archief',
+      endpointUrls: [
+        {
+          elastic:
+            'https://api.data.netwerkdigitaalerfgoed.nl/datasets/hetutrechtsarchief/Test-Amerongen/services/Zoeken/_search',
+          sparql:
+            'https://api.data.netwerkdigitaalerfgoed.nl/datasets/hetutrechtsarchief/Test-Amerongen/sparql',
+        },
+      ],
     },
-    {
-      elastic:
-        'https://test.data.razu.nl/_api/datasets/Kasteel-Amerongen/PoC/services/PoC-2/_search',
-      sparql:
-        'https://api.test.data.razu.nl/datasets/Kasteel-Amerongen/PoC/sparql',
+    razu: {
+      label: 'RAZU',
+      endpointUrls: [
+        {
+          elastic:
+            'https://test.data.razu.nl/_api/datasets/Kasteel-Amerongen/PoC/services/PoC-2/_search',
+          sparql:
+            'https://api.test.data.razu.nl/datasets/Kasteel-Amerongen/PoC/sparql',
+        },
+        {
+          elastic:
+            'https://api.test.data.razu.nl/datasets/Gedeeld/actoren/services/actoren-1/_search',
+          sparql:
+            'https://api.test.data.razu.nl/datasets/Gedeeld/actoren/services/actoren/sparql',
+        },
+        {
+          sparql:
+            'https://api.test.data.razu.nl/datasets/Gedeeld/locaties/services/locaties/sparql',
+        },
+      ],
     },
-    {
-      elastic:
-        'https://api.test.data.razu.nl/datasets/Gedeeld/actoren/services/actoren-1/_search',
-      sparql:
-        'https://api.test.data.razu.nl/datasets/Gedeeld/actoren/services/actoren/sparql',
-    },
-    {
-      sparql:
-        'https://api.test.data.razu.nl/datasets/Gedeeld/locaties/services/locaties/sparql',
-    },
-  ],
+  },
   search: {
     resultsPerPagePerEndpoint: 10,
   },
