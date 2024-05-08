@@ -72,9 +72,6 @@ export class SearchService {
 
   initSearchOnFilterChange() {
     this.filters.enabled.subscribe((f) => {
-      if (!f || f.length === 0) {
-        return;
-      }
       void this.execute(true);
     });
   }
