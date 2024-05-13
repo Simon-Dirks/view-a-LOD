@@ -39,6 +39,12 @@
           [id]="objValue"
         />
 
+        <app-mdto-url-bestand
+          *ngIf="shouldRenderComponentIds.includes('mdto-url-bestand')"
+          [nodeId]="nodes.getId(node)"
+          [fileUrl]="objValue"
+        />
+
         <app-node-link [url]="objValue" *ngIf="!renderComponentIsDefined">
           <ng-icon
             [svg]="featherArrowUpLeft"

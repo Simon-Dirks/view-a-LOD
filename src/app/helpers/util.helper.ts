@@ -53,3 +53,7 @@ const stripBeforeStr = (inputStr: string, stripStr: string): string => {
   }
   return inputStr;
 };
+
+export const intersects = (first: any[], second: any[]): boolean => {
+  return first.some((item) => second.includes(item));
+};

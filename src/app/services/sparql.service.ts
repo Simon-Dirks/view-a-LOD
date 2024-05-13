@@ -8,6 +8,7 @@ import { SparqlNodeParentModel } from '../models/sparql/sparql-node-parent.model
 import { ThingWithLabelModel } from '../models/thing-with-label.model';
 import { SettingsService } from './settings.service';
 import { EndpointService } from './endpoint.service';
+import { EndpointUrlsModel } from '../models/endpoint.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,25 +20,31 @@ export class SparqlService {
     private endpoints: EndpointService,
   ) {}
 
-  private _getFederatedQuery(queryTemplate: string): string {
+  getFederatedQuery(
+    queryTemplate: string,
+    queryEndpoints?: EndpointUrlsModel[],
+  ): string {
+    const firstEndpoint = queryEndpoints
+      ? queryEndpoints[0].sparql
+      : this.endpoints.getFirstUrls().sparql;
     const firstServiceQuery = `
 {
-  SERVICE <${this.endpoints.getFirstUrls().sparql}> {
+  SERVICE <${firstEndpoint}> {
       ${queryTemplate}
   }
 }`;
 
-    const unionServiceQueries = this.endpoints
-      .getAllUrls()
-      .slice(1)
-      .map(
-        (endpoint) => `
+    const unionEndpoints = queryEndpoints
+      ? queryEndpoints.slice(1)
+      : this.endpoints.getAllUrls().slice(1);
+    const unionServiceQueries = unionEndpoints.map(
+      (endpoint) => `
 UNION {
     SERVICE <${endpoint.sparql}> {
         ${queryTemplate}
     }
 }`,
-      );
+    );
 
     return `${firstServiceQuery}\n${unionServiceQueries.join('\n')}`;
   }
@@ -67,7 +74,7 @@ UNION {
     const incomingRelationsQueryTemplate = `?sub ?pred <${node['@id'][0].value}>`;
     const query = `
 SELECT DISTINCT ?sub ?pred WHERE {
- ${this._getFederatedQuery(incomingRelationsQueryTemplate)}
+ ${this.getFederatedQuery(incomingRelationsQueryTemplate)}
 }
 
 limit 500`;
@@ -98,7 +105,7 @@ limit 500`;
 
     const query = `
 SELECT DISTINCT ?id ?title ?parent WHERE {
-  ${this._getFederatedQuery(parentQueryTemplate)}
+  ${this.getFederatedQuery(parentQueryTemplate)}
 }
 
 limit 500`;
@@ -169,7 +176,7 @@ VALUES ?s {
 
     const query = `
 SELECT DISTINCT ?s ?label WHERE {
-    ${this._getFederatedQuery(labelQueryTemplate)}
+    ${this.getFederatedQuery(labelQueryTemplate)}
 }
 LIMIT 10000`;
 
@@ -201,7 +208,7 @@ LIMIT 10000`;
 
     const query = `
 SELECT DISTINCT ?o WHERE {
-    ${this._getFederatedQuery(queryTemplate)}
+    ${this.getFederatedQuery(queryTemplate)}
 }
 LIMIT 10000`;
 

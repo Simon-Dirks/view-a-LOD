@@ -146,6 +146,9 @@ export const Settings = {
       'http://www.nationaalarchief.nl/mdto#dekkingInTijd': {
         componentId: 'mdto-dekking-in-tijd',
       },
+      'http://www.nationaalarchief.nl/mdto#URLBestand': {
+        componentId: 'mdto-url-bestand',
+      },
     },
   },
   viewModes: {
