@@ -9,6 +9,7 @@ export interface FilterOptionModel {
 }
 
 export interface FilterOptionValueModel {
-  id: string;
+  ids: string[];
+  label?: string;
   count: number;
 }

@@ -3,13 +3,15 @@
     <input
       type="checkbox"
       class="checkbox checkbox-sm mr-4"
-      [checked]="filterService.has(value.id, FilterType.FieldAndValue)"
-      (click)="onFilterToggle(value.id)"
+      [checked]="filterService.has(value.ids, FilterType.FieldAndValue)"
+      (click)="onFilterToggle(value.ids)"
     />
     <app-node-link
       [disabled]="true"
-      [url]="value.id"
+      [label]="value.label"
+      [url]="!value.label ? value.ids[0] : undefined"
       [suffixStr]="' (' + value.count.toString() + ')'"
+      *ngIf="value.ids"
     >
     </app-node-link>
   </label>

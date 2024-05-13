@@ -6,12 +6,13 @@ import {
   FilterOptionsModel,
   FilterOptionValueModel,
 } from '../../models/filter-option.model';
-import { Settings } from '../../config/settings';
 import { SearchResponse } from '@elastic/elasticsearch/lib/api/types';
 import { FieldDocCountsModel } from '../../models/elastic/field-doc-counts.model';
 import { ElasticAggregationModel } from '../../models/elastic/elastic-aggregation.model';
 import { ElasticService } from '../elastic.service';
 import { DataService } from '../data.service';
+import { Settings } from '../../config/settings';
+import { ClusterFilterOptionValuesSettingsModel } from '../../models/settings/cluster-filter-option-values-settings.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,23 +21,8 @@ export class FilterService {
   enabled: BehaviorSubject<FilterModel[]> = new BehaviorSubject<FilterModel[]>(
     [],
   );
-  // TODO: Move default filter options to settings
   options: BehaviorSubject<FilterOptionsModel> =
-    new BehaviorSubject<FilterOptionsModel>({
-      type: {
-        label: 'Soort',
-        fieldIds: Settings.predicates.type,
-        values: [],
-      },
-      parents: {
-        label: 'Is onderdeel van',
-        fieldIds: [
-          ...Settings.predicates.parents,
-          'https://hetutrechtsarchief.nl/def/isDescendentOf',
-        ],
-        values: [],
-      },
-    });
+    new BehaviorSubject<FilterOptionsModel>(Settings.filterOptions);
 
   constructor(
     public elastic: ElasticService,
@@ -70,6 +56,56 @@ export class FilterService {
     return docCountsByFieldId;
   }
 
+  private _clusterFilterOptionValues(
+    filterOptionValues: FilterOptionValueModel[],
+  ): FilterOptionValueModel[] {
+    const clusteredFilterOptionValues: {
+      [clusterId: string]: FilterOptionValueModel;
+    } = {};
+    const nonClusteredFilterOptionValues: FilterOptionValueModel[] = [];
+
+    for (const [clusterId, clusterSettings] of Object.entries(
+      Settings.clusterFilterOptionValues as ClusterFilterOptionValuesSettingsModel,
+    )) {
+      let clusterFilterOptionValue: FilterOptionValueModel = {
+        ids: [],
+        label: clusterSettings.label,
+        count: 0,
+      };
+      const existingClusterFilterOptionValue =
+        clusteredFilterOptionValues[clusterId];
+      if (existingClusterFilterOptionValue) {
+        clusterFilterOptionValue = existingClusterFilterOptionValue;
+      }
+
+      for (const filterOptionValue of filterOptionValues) {
+        const shouldBeClustered =
+          filterOptionValue.ids.filter((id) =>
+            clusterSettings.valueIds.includes(id),
+          ).length > 0;
+        if (shouldBeClustered) {
+          clusterFilterOptionValue.ids = [
+            ...clusterFilterOptionValue.ids,
+            ...filterOptionValue.ids,
+          ];
+          clusterFilterOptionValue.count += filterOptionValue.count;
+          clusteredFilterOptionValues[clusterId] = clusterFilterOptionValue;
+        } else {
+          nonClusteredFilterOptionValues.push(filterOptionValue);
+        }
+      }
+    }
+
+    const allFilterOptionValues = [
+      ...Object.values(clusteredFilterOptionValues),
+      ...nonClusteredFilterOptionValues,
+    ];
+    const sortedFilterOptionValues = allFilterOptionValues.sort(
+      (a, b) => b.count - a.count,
+    );
+    return sortedFilterOptionValues;
+  }
+
   async updateFilterOptionValues(query: string) {
     const allFilterFieldIds: string[] = Object.values(
       this.options.value,
@@ -86,12 +122,18 @@ export class FilterService {
           const elasticFieldId = this.data.replacePeriodsWithSpaces(fieldId);
           const valuesForField =
             docCounts?.[elasticFieldId]?.map((d) => {
-              return { id: d.key, count: d.doc_count };
+              return {
+                ids: [d.key],
+                count: d.doc_count,
+              };
             }) ?? [];
           return valuesForField;
         },
       );
-      filter.values = filterValues;
+
+      const clusteredFilterValues =
+        this._clusterFilterOptionValues(filterValues);
+      filter.values = clusteredFilterValues;
     }
     this.options.next(filterOptions);
   }
@@ -120,11 +162,12 @@ export class FilterService {
     this.toggleMultiple([filter]);
   }
 
-  has(id: string, type: FilterType): boolean {
+  has(ids: string[], type: FilterType): boolean {
     // TODO: Reduce calls to this function if needed for performance reasons
     return (
-      this.enabled.value.find((f) => f.valueId === id && f.type === type) !==
-      undefined
+      this.enabled.value.find(
+        (f) => f.valueId && ids.includes(f.valueId) && f.type === type,
+      ) !== undefined
     );
   }
 
@@ -134,6 +177,6 @@ export class FilterService {
 
   getOptionValueIds(filterId: string): string[] {
     // TODO: Reduce number of calls if necessary for performance reasons
-    return this.getOptionById(filterId).values.map((v) => v.id);
+    return this.getOptionById(filterId).values.flatMap((v) => v.ids);
   }
 }

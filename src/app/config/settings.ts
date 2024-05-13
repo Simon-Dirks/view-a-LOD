@@ -16,10 +16,42 @@ const typePredicates: string[] = [
   'http://www.wikidata.org/entity/P31',
 ];
 
+const parentPredicates: string[] = [
+  'https://www.ica.org/standards/RiC/ontology#isOrWasIncludedIn',
+  'https://schema.org/isPartOf',
+  'https://schema.org/hadPrimarySource',
+  'http://www.nationaalarchief.nl/mdto#isOnderdeelVan',
+];
+
 export const Settings = {
   defaultSearchQuery: '',
   labelMaxChars: 100,
   showFilterPanel: true,
+  clusterFilterOptionValues: {
+    images: {
+      label: 'Afbeelding',
+      valueIds: [
+        'https://schema.org/Photograph',
+        'https://schema.org/ImageObject',
+        'https://schema.org/Drawing',
+      ],
+    },
+  },
+  filterOptions: {
+    type: {
+      label: 'Soort',
+      fieldIds: typePredicates,
+      values: [],
+    },
+    parents: {
+      label: 'Is onderdeel van',
+      fieldIds: [
+        ...parentPredicates,
+        'https://hetutrechtsarchief.nl/def/isDescendentOf',
+      ],
+      values: [],
+    },
+  },
   minNumOfValuesForFilterOptionToAppear: 1,
   endpoints: {
     hua: {
@@ -57,12 +89,7 @@ export const Settings = {
     resultsPerPagePerEndpoint: 10,
   },
   predicates: {
-    parents: [
-      'https://www.ica.org/standards/RiC/ontology#isOrWasIncludedIn',
-      'https://schema.org/isPartOf',
-      'https://schema.org/hadPrimarySource',
-      'http://www.nationaalarchief.nl/mdto#isOnderdeelVan',
-    ],
+    parents: parentPredicates,
     label: [
       'http://www.w3.org/2000/01/rdf-schema#label',
       'https://schema.org/name',

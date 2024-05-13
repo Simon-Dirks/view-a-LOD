@@ -11,9 +11,11 @@
       *ngIf="url"
     >
       <ng-icon
-        [svg]="filters.has(url, FilterType.Value) ? featherX : featherFilter"
+        [svg]="filters.has([url], FilterType.Value) ? featherX : featherFilter"
       />
-      {{ filters.has(url, FilterType.Value) ? "Remove filter" : "Add filter" }}
+      {{
+        filters.has([url], FilterType.Value) ? "Remove filter" : "Add filter"
+      }}
     </button>
   </float-ui-content>
 
