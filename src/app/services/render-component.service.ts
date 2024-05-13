@@ -80,7 +80,7 @@ export class RenderComponentService {
     mode: RenderMode,
     predicates?: string[],
     direction?: Direction,
-  ): string[] {
+  ): any {
     // TODO: Reduce calls to this function if needed for performance reasons
     const settingsByKey = this.getSettings(
       node,
@@ -88,6 +88,7 @@ export class RenderComponentService {
       predicates,
       direction,
     ).map((s) => s?.[settingKey]);
+
     if (!settingsByKey || settingsByKey.length === 0) {
       return [];
     }

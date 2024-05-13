@@ -5,8 +5,8 @@
   *ngFor="let hopObjId of hopObjIds"
   class="inline"
 >
-  <div class="inline text-xs opacity-70">
-    <div *ngFor="let hopPred of hopPreds" class="inline-block">
+  <div class="inline text-xs opacity-70" *ngIf="showHops">
+    <div *ngFor="let hopPred of settings?.preds" class="inline-block">
       <app-node-link
         [url]="hopPred"
         [disabled]="true"

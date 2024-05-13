@@ -130,13 +130,18 @@ export const Settings = {
       },
       'http://www.nationaalarchief.nl/mdto#betrokkene': {
         componentId: 'hop-link',
-        hopPreds: ['http://www.nationaalarchief.nl/mdto#Actor'],
+        hopLinkSettings: {
+          preds: ['http://www.nationaalarchief.nl/mdto#Actor'],
+        },
       },
       'http://www.nationaalarchief.nl/mdto#gerelateerdInformatieobject': {
         componentId: 'hop-link',
-        hopPreds: [
-          'http://www.nationaalarchief.nl/mdto#gerelateerdInformatieobjectVerwijzing',
-        ],
+        hopLinkSettings: {
+          preds: [
+            'http://www.nationaalarchief.nl/mdto#gerelateerdInformatieobjectVerwijzing',
+          ],
+          showHops: false,
+        },
       },
       'http://www.nationaalarchief.nl/mdto#dekkingInTijd': {
         componentId: 'mdto-dekking-in-tijd',

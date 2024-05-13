@@ -3,14 +3,9 @@ import { JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { SparqlService } from '../../../../../services/sparql.service';
 import { NodeLinkComponent } from '../../../node-link/node-link.component';
 import { NgIcon } from '@ng-icons/core';
-import {
-  featherAlertCircle,
-  featherAlertTriangle,
-  featherArrowUpRight,
-  featherChevronRight,
-  featherLink,
-} from '@ng-icons/feather-icons';
+import { featherChevronRight } from '@ng-icons/feather-icons';
 import { NodeLabelComponent } from '../../../node-label/node-label.component';
+import { HopLinkSettingsModel } from '../../../../../models/settings/hop-link-settings.model';
 
 @Component({
   selector: 'app-hop-link',
@@ -28,7 +23,8 @@ import { NodeLabelComponent } from '../../../node-label/node-label.component';
 })
 export class HopLinkComponent implements OnInit {
   @Input() id?: string;
-  @Input() hopPreds?: string[];
+  @Input() settings?: HopLinkSettingsModel;
+
   hopObjIds: string[] = [];
   loading = false;
 
@@ -39,21 +35,24 @@ export class HopLinkComponent implements OnInit {
   }
 
   async initObjIdsForHop() {
-    if (!this.id || !this.hopPreds) {
+    if (!this.id || !this.settings?.preds) {
       return;
     }
 
     this.loading = true;
     this.hopObjIds = await this.sparql
-      .getObjIds(this.id, this.hopPreds)
+      .getObjIds(this.id, this.settings?.preds)
       .finally(() => {
         this.loading = false;
       });
   }
 
-  protected readonly featherLink = featherLink;
-  protected readonly featherAlertTriangle = featherAlertTriangle;
-  protected readonly featherArrowUpRight = featherArrowUpRight;
-  protected readonly featherAlertCircle = featherAlertCircle;
+  get showHops(): boolean {
+    if (!this.settings || this.settings.showHops === undefined) {
+      return true;
+    }
+    return this.settings.showHops;
+  }
+
   protected readonly featherChevronRight = featherChevronRight;
 }

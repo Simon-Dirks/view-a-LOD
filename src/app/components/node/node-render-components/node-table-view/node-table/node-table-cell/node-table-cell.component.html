@@ -23,9 +23,9 @@
         <app-hop-link
           *ngIf="shouldRenderComponentIds.includes('hop-link')"
           [id]="objValue"
-          [hopPreds]="
+          [settings]="
             renderComponent.getSettingByKey(
-              'hopPreds',
+              'hopLinkSettings',
               node,
               RenderMode.ByPredicate,
               [pred],
