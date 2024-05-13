@@ -34,7 +34,7 @@ export const Settings = {
       ],
     },
     razu: {
-      label: 'RAZU',
+      label: 'Regionaal Archief Zuid-Utrecht',
       endpointUrls: [
         {
           elastic:
@@ -117,7 +117,7 @@ export const Settings = {
     [ViewMode.List]: {
       [ViewModeSetting.ShowDetails]: true,
       [ViewModeSetting.ShowParents]: true,
-      [ViewModeSetting.ShowTypes]: false,
+      [ViewModeSetting.ShowTypes]: true,
       [ViewModeSetting.ShowTitle]: true,
     },
     [ViewMode.Grid]: {
