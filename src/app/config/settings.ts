@@ -171,6 +171,7 @@ export const Settings = {
         'http://www.nationaalarchief.nl/mdto#omschrijving',
         'http://www.nationaalarchief.nl/mdto#dekkingInRuimte',
         'http://www.nationaalarchief.nl/mdto#dekkingInTijd',
+        'http://www.nationaalarchief.nl/mdto#URLBestand',
       ],
       [PredicateVisibility.Details]: [
         'http://www.nationaalarchief.nl/mdto#naam',
