@@ -39,12 +39,14 @@ export class NodeService {
     node: NodeModel | undefined,
     preds: string[],
     direction: Direction | undefined = undefined,
+    returnUniqueValues = false,
   ) {
     let objs = this.getObjs(node, preds);
     if (direction !== undefined) {
       objs = objs.filter((obj) => obj.direction === direction);
     }
-    return objs.map((o) => o.value);
+    const objValues = objs.map((o) => o.value);
+    return returnUniqueValues ? Array.from(new Set(objValues)) : objValues;
   }
 
   getObjValuesByDirection(

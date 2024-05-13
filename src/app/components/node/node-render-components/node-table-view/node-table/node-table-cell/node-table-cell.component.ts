@@ -65,6 +65,8 @@ export class NodeTableCellComponent implements OnInit {
     this.images = this.nodes.getObjValues(
       this.node,
       Settings.predicates.images,
+      undefined,
+      true,
     );
   }
 
