@@ -49,10 +49,17 @@ export class SearchService {
       (acc, curr) => acc + (curr as any).hits.total.value,
       0,
     );
+
     this.moreHitsAreAvailable =
       [...responses].filter(
         (response) => (response as any).hits.total.relation === 'gte',
       ).length > 0;
+
+    // TODO: Move 10000 max to config/settings file
+    if (this.numberOfHits > 10000) {
+      this.numberOfHits = 10000;
+      this.moreHitsAreAvailable = true;
+    }
   }
 
   private _updateResultsFromSearchResponses(
