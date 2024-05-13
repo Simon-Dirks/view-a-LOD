@@ -33,10 +33,12 @@ export const Settings = {
       valueIds: [
         'https://schema.org/Photograph',
         'https://schema.org/ImageObject',
-        'https://schema.org/Drawing',
       ],
     },
   },
+  hideFilterOptionValueIds: [
+    'http://www.nationaalarchief.nl/mdto#ChecksumGegevens',
+  ],
   filterOptions: {
     type: {
       label: 'Soort',

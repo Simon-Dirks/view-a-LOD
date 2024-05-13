@@ -8,7 +8,10 @@ import {
 } from '../../models/filter-option.model';
 import { SearchResponse } from '@elastic/elasticsearch/lib/api/types';
 import { FieldDocCountsModel } from '../../models/elastic/field-doc-counts.model';
-import { ElasticAggregationModel } from '../../models/elastic/elastic-aggregation.model';
+import {
+  DocCountModel,
+  ElasticAggregationModel,
+} from '../../models/elastic/elastic-aggregation.model';
 import { ElasticService } from '../elastic.service';
 import { DataService } from '../data.service';
 import { Settings } from '../../config/settings';
@@ -120,8 +123,13 @@ export class FilterService {
       const filterValues: FilterOptionValueModel[] = filter.fieldIds.flatMap(
         (fieldId) => {
           const elasticFieldId = this.data.replacePeriodsWithSpaces(fieldId);
+          const docCountsForField: DocCountModel[] =
+            docCounts?.[elasticFieldId] ?? [];
+          const docCountsToShow: DocCountModel[] = docCountsForField.filter(
+            (d) => !Settings.hideFilterOptionValueIds.includes(d.key),
+          );
           const valuesForField =
-            docCounts?.[elasticFieldId]?.map((d) => {
+            docCountsToShow.map((d) => {
               return {
                 ids: [d.key],
                 count: d.doc_count,
