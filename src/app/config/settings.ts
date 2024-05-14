@@ -25,48 +25,6 @@ const parentPredicates: string[] = [
 
 export const Settings = {
   defaultSearchQuery: '',
-  labelMaxChars: 100,
-  showFilterPanel: true,
-  clustering: {
-    filterOptionValues: {
-      images: {
-        label: 'Afbeelding',
-        valueIds: [
-          'https://schema.org/Photograph',
-          'https://schema.org/ImageObject',
-        ],
-      },
-    },
-    types: {
-      recordSet: {
-        label: 'RecordSet',
-        valueIds: [
-          'https://www.ica.org/standards/RiC/ontology#RecordSet',
-          'https://www.ica.org/standards/RiC/vocabularies/recordSetTypes#File',
-        ],
-      },
-    },
-  },
-  hideFilterOptionValueIds: [
-    'http://www.nationaalarchief.nl/mdto#ChecksumGegevens',
-    'http://www.w3.org/ns/shacl#NodeShape',
-  ],
-  filterOptions: {
-    type: {
-      label: 'Soort',
-      fieldIds: typePredicates,
-      values: [],
-    },
-    parents: {
-      label: 'Is onderdeel van',
-      fieldIds: [
-        ...parentPredicates,
-        'https://hetutrechtsarchief.nl/def/isDescendentOf',
-      ],
-      values: [],
-    },
-  },
-  minNumOfValuesForFilterOptionToAppear: 1,
   endpoints: {
     hua: {
       label: 'Het Utrechts Archief',
@@ -99,9 +57,53 @@ export const Settings = {
       ],
     },
   },
+  filtering: {
+    showFilterPanel: true,
+    minNumOfValuesForFilterOptionToAppear: 1,
+    filterOptions: {
+      type: {
+        label: 'Soort',
+        fieldIds: typePredicates,
+        values: [],
+      },
+      parents: {
+        label: 'Is onderdeel van',
+        fieldIds: [
+          ...parentPredicates,
+          'https://hetutrechtsarchief.nl/def/isDescendentOf',
+        ],
+        values: [],
+      },
+    },
+    hideFilterOptionValueIds: [
+      'http://www.nationaalarchief.nl/mdto#ChecksumGegevens',
+      'http://www.w3.org/ns/shacl#NodeShape',
+    ],
+  },
+  clustering: {
+    filterOptionValues: {
+      images: {
+        label: 'Afbeelding',
+        valueIds: [
+          'https://schema.org/Photograph',
+          'https://schema.org/ImageObject',
+        ],
+      },
+    },
+    types: {
+      recordSet: {
+        label: 'RecordSet',
+        valueIds: [
+          'https://www.ica.org/standards/RiC/ontology#RecordSet',
+          'https://www.ica.org/standards/RiC/vocabularies/recordSetTypes#File',
+        ],
+      },
+    },
+  },
   search: {
     resultsPerPagePerEndpoint: 10,
   },
+  labelMaxChars: 100,
   predicates: {
     parents: parentPredicates,
     label: [

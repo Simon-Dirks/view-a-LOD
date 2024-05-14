@@ -25,7 +25,7 @@ export class FilterService {
     [],
   );
   options: BehaviorSubject<FilterOptionsModel> =
-    new BehaviorSubject<FilterOptionsModel>(Settings.filterOptions);
+    new BehaviorSubject<FilterOptionsModel>(Settings.filtering.filterOptions);
 
   constructor(
     public elastic: ElasticService,
@@ -77,7 +77,7 @@ export class FilterService {
           const docCountsForField: DocCountModel[] =
             docCounts?.[elasticFieldId] ?? [];
           const docCountsToShow: DocCountModel[] = docCountsForField.filter(
-            (d) => !Settings.hideFilterOptionValueIds.includes(d.key),
+            (d) => !Settings.filtering.hideFilterOptionValueIds.includes(d.key),
           );
           const valuesForField =
             docCountsToShow.map((d) => {

@@ -114,7 +114,8 @@ export class ElasticService {
       result[elasticFieldId] = {
         terms: {
           field: elasticFieldId + '.keyword',
-          min_doc_count: Settings.minNumOfValuesForFilterOptionToAppear,
+          min_doc_count:
+            Settings.filtering.minNumOfValuesForFilterOptionToAppear,
           size: Config.maxNumOfFilterOptionsPerField,
         },
       };
