@@ -66,12 +66,6 @@ export class SettingsService {
       (shouldShowRemainingPredsInDetails && !predIsAlreadyShown) ||
       shouldShowDetailPred
     ) {
-      if (
-        predicateId ===
-        'https://www.ica.org/standards/RiC/ontology#hasRecordSetType'
-      ) {
-        console.log('DETAILS');
-      }
       return PredicateVisibility.Details;
     }
 
