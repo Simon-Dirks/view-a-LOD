@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Direction, NodeModel } from '../../../../../models/node.model';
-import { NgClass, NgForOf, NgIf } from '@angular/common';
+import { JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { NgIcon } from '@ng-icons/core';
 import { NodeLinkComponent } from '../../../node-link/node-link.component';
 import { NodeService } from '../../../../../services/node.service';
@@ -10,6 +10,7 @@ import {
 } from './node-table-cell/node-table-cell.component';
 import { SettingsService } from '../../../../../services/settings.service';
 import { PredicateVisibility } from '../../../../../models/settings/predicate-visibility-settings.model';
+import { sortByArrayOrder } from '../../../../../helpers/util.helper';
 
 @Component({
   selector: 'app-node-table',
@@ -21,6 +22,7 @@ import { PredicateVisibility } from '../../../../../models/settings/predicate-vi
     NodeLinkComponent,
     NgClass,
     NodeTableCellComponent,
+    JsonPipe,
   ],
   templateUrl: './node-table.component.html',
   styleUrl: './node-table.component.scss',
@@ -30,6 +32,7 @@ export class NodeTableComponent implements OnInit {
   @Input() smallFontSize = false;
   @Input() visibility!: PredicateVisibility;
 
+  nodePreds: string[] = [];
   predicateVisibilities: { [pred: string]: PredicateVisibility } = {};
   numPredValues: {
     [pred: string]: { [direction in Direction]: number };
@@ -42,6 +45,19 @@ export class NodeTableComponent implements OnInit {
 
   ngOnInit() {
     this.initPredData();
+    this.initNodePreds();
+  }
+
+  initNodePreds() {
+    if (!this.node) {
+      return;
+    }
+    const nodePreds = Object.keys(this.node);
+    const sortedNodePreds = sortByArrayOrder(
+      nodePreds,
+      this.settings.getVisiblePredicates()[this.visibility],
+    );
+    this.nodePreds = sortedNodePreds;
   }
 
   initPredData() {

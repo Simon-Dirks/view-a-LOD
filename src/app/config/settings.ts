@@ -188,6 +188,7 @@ export const Settings = {
       ],
       [PredicateVisibility.Details]: [
         'http://www.nationaalarchief.nl/mdto#naam',
+        ...typePredicates,
         '*',
       ],
       [PredicateVisibility.Hide]: [],

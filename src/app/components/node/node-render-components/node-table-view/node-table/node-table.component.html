@@ -4,7 +4,7 @@
   *ngIf="node"
 >
   <tbody>
-    <ng-container *ngFor="let pred of Object.keys(node)">
+    <ng-container *ngFor="let pred of nodePreds">
       <ng-container
         *ngFor="let direction of [Direction.Outgoing, Direction.Incoming]"
       >

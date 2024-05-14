@@ -57,3 +57,26 @@ const stripBeforeStr = (inputStr: string, stripStr: string): string => {
 export const intersects = (first: any[], second: any[]): boolean => {
   return first.some((item) => second.includes(item));
 };
+
+export const sortByArrayOrder = (
+  mainArray: string[],
+  orderArray: string[],
+): string[] => {
+  const orderMap = new Map<string, number>();
+  orderArray.forEach((item, index) => orderMap.set(item, index));
+
+  return mainArray.sort((a, b) => {
+    const indexA = orderMap.has(a) ? orderMap.get(a) : Infinity;
+    const indexB = orderMap.has(b) ? orderMap.get(b) : Infinity;
+
+    if (indexA === undefined && indexB === undefined) {
+      return 0;
+    } else if (indexA === undefined) {
+      return 1;
+    } else if (indexB === undefined) {
+      return -1;
+    }
+
+    return indexA - indexB;
+  });
+};
