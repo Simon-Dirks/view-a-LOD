@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { SparqlService } from '../../../../../services/sparql.service';
 import { NodeLinkComponent } from '../../../node-link/node-link.component';
@@ -24,6 +24,7 @@ import { HopLinkSettingsModel } from '../../../../../models/settings/hop-link-se
 export class HopLinkComponent implements OnInit {
   @Input() id?: string;
   @Input() settings?: HopLinkSettingsModel;
+  @Output() hopObjIdsRetrieved = new EventEmitter<string[]>();
 
   hopObjIds: string[] = [];
   loading = false;
@@ -45,6 +46,8 @@ export class HopLinkComponent implements OnInit {
       .finally(() => {
         this.loading = false;
       });
+
+    this.hopObjIdsRetrieved.emit(this.hopObjIds);
   }
 
   get showHops(): boolean {

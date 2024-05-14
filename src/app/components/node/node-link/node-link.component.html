@@ -1,5 +1,5 @@
 <ng-container>
-  <float-ui-content #popupContent>
+  <float-ui-content #popupContent class="inline">
     <a class="btn btn-sm mr-2" [href]="url" target="_blank">
       <ng-icon [svg]="featherExternalLink" /> Open link
     </a>
@@ -19,7 +19,7 @@
     </button>
   </float-ui-content>
 
-  <div class="inline-block">
+  <div class="inline">
     <ng-content></ng-content>
 
     <div

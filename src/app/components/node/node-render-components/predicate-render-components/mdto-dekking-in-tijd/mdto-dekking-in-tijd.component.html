@@ -1,21 +1,33 @@
 <app-hop-link
   [id]="id"
   [settings]="{
-    preds: ['http://www.nationaalarchief.nl/mdto#dekkingInTijdBeginDatum']
+    preds: ['http://www.nationaalarchief.nl/mdto#dekkingInTijdBeginDatum'],
+    showHops: false
   }"
-  class="block"
+  (hopObjIdsRetrieved)="this.hasBeginDate = $event.length > 0"
 />
-<app-hop-link
-  [id]="id"
-  [settings]="{
-    preds: ['http://www.nationaalarchief.nl/mdto#dekkingInTijdEindDatum']
-  }"
-  class="block"
-/>
-<app-hop-link
-  [id]="id"
-  [settings]="{
-    preds: ['http://www.nationaalarchief.nl/mdto#dekkingInTijdType']
-  }"
-  class="block"
-/>
+
+<div class="inline">
+  <span *ngIf="hasBeginDate && hasEndDate"> - </span>
+  <app-hop-link
+    [id]="id"
+    [settings]="{
+      preds: ['http://www.nationaalarchief.nl/mdto#dekkingInTijdEindDatum'],
+      showHops: false
+    }"
+    (hopObjIdsRetrieved)="this.hasEndDate = $event.length > 0"
+  />
+</div>
+
+<div class="inline">
+  <span *ngIf="hasBeginDate || hasEndDate"> (</span>
+  <app-hop-link
+    [id]="id"
+    [settings]="{
+      preds: ['http://www.nationaalarchief.nl/mdto#dekkingInTijdType'],
+      showHops: false
+    }"
+    (hopObjIdsRetrieved)="this.hasType = $event.length > 0"
+  />
+  <span *ngIf="hasBeginDate || hasEndDate">)</span>
+</div>

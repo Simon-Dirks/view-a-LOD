@@ -1,10 +1,6 @@
 <span class="loading loading-spinner loading-xs" *ngIf="loading"></span>
 
-<app-node-link
-  [url]="hopObjId"
-  *ngFor="let hopObjId of hopObjIds"
-  class="inline"
->
+<app-node-link [url]="hopObjId" *ngFor="let hopObjId of hopObjIds">
   <div class="inline text-xs opacity-70" *ngIf="showHops">
     <div *ngFor="let hopPred of settings?.preds" class="inline-block">
       <app-node-link
