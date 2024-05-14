@@ -1,4 +1,10 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { truncate } from '../../../helpers/util.helper';
 import { Settings } from '../../../config/settings';
 import { NgClass, NgIf } from '@angular/common';
@@ -11,25 +17,68 @@ import striptags from 'striptags';
   templateUrl: './node-label.component.html',
   styleUrl: './node-label.component.scss',
 })
-export class NodeLabelComponent {
+export class NodeLabelComponent implements OnInit, OnChanges {
   @Input() label?: string;
   @Input() shouldTruncate = true;
   @Input() allowLabelExpand = true;
+  @Input() highlightStr?: string;
   showingTruncatedLabel = true;
 
-  get labelIsTruncated(): boolean {
-    return this.renderedLabel.length !== this.label?.length;
+  renderedLabelHtml = '';
+
+  constructor() {}
+
+  ngOnInit() {
+    this.updateRenderedLabelHtml();
   }
 
-  get renderedLabel(): string {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['label'] || changes['highlightStr']) {
+      this.updateRenderedLabelHtml();
+    }
+  }
+
+  get labelIsTruncated(): boolean {
     if (!this.label) {
-      return '';
+      return false;
     }
 
-    if (this.shouldTruncate && this.showingTruncatedLabel) {
-      return truncate(striptags(this.label), Settings.labelMaxChars);
+    const strippedLabel = striptags(this.label);
+    const labelWithHighlightsHtml: string = this.getLabelWithHighlightsHtml(
+      strippedLabel,
+      this.highlightStr ?? '',
+    );
+    return this.renderedLabelHtml.length !== labelWithHighlightsHtml.length;
+  }
+
+  getLabelWithHighlightsHtml(input: string, searchString: string): string {
+    if (!searchString) {
+      return input;
     }
-    return striptags(this.label);
+
+    const regex = new RegExp(searchString, 'gi');
+    return input.replace(
+      regex,
+      (match) => `<span class="bg-accent">${match}</span>`,
+    );
+  }
+
+  updateRenderedLabelHtml(): void {
+    if (!this.label) {
+      this.renderedLabelHtml = '';
+      return;
+    }
+
+    const strippedLabel = striptags(this.label);
+    let labelToHighlight = strippedLabel;
+    if (this.shouldTruncate && this.showingTruncatedLabel) {
+      labelToHighlight = truncate(strippedLabel, Settings.labelMaxChars);
+    }
+    const labelWithHighlightsHtml: string = this.getLabelWithHighlightsHtml(
+      labelToHighlight,
+      this.highlightStr ?? '',
+    );
+    this.renderedLabelHtml = labelWithHighlightsHtml;
   }
 
   onEllipsisClick($event: MouseEvent) {
@@ -38,6 +87,7 @@ export class NodeLabelComponent {
 
     if (this.allowLabelExpand) {
       this.showingTruncatedLabel = !this.showingTruncatedLabel;
+      this.updateRenderedLabelHtml();
     }
   }
 }

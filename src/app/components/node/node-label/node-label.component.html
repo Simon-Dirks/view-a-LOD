@@ -1,4 +1,4 @@
-<span>{{ renderedLabel }}</span>
+<span [innerHTML]="renderedLabelHtml"></span>
 <button
   [ngClass]="allowLabelExpand ? 'text-primary clickable' : ''"
   (click)="onEllipsisClick($event)"

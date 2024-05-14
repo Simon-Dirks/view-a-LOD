@@ -43,6 +43,7 @@
           [label]="cachedLabel ?? url"
           [shouldTruncate]="shouldTruncate"
           [allowLabelExpand]="allowLabelExpand"
+          [highlightStr]="shouldHighlight ? search.queryStr : undefined"
         />
       </a>
 
@@ -51,6 +52,7 @@
           [label]="cachedLabel ?? url"
           [shouldTruncate]="shouldTruncate"
           [allowLabelExpand]="allowLabelExpand"
+          [highlightStr]="shouldHighlight ? search.queryStr : undefined"
         />
       </span>
     </div>

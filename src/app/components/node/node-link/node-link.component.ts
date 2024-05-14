@@ -23,6 +23,7 @@ import {
 } from 'ngx-float-ui';
 import { NodeLabelComponent } from '../node-label/node-label.component';
 import { FilterType } from '../../../models/filter.model';
+import { SearchService } from '../../../services/search/search.service';
 
 @Component({
   selector: 'app-node-link',
@@ -50,12 +51,14 @@ export class NodeLinkComponent implements OnInit {
   @Input() shouldTruncate = true;
   @Input() allowLabelExpand = true;
   @Input() suffixStr = '';
+  @Input() shouldHighlight = true;
 
   isClickableUrl = false;
 
   constructor(
     public cache: CacheService,
     public filters: FilterService,
+    public search: SearchService,
   ) {}
 
   ngOnInit() {

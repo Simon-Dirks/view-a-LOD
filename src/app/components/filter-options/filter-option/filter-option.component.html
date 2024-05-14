@@ -11,6 +11,7 @@
       [label]="value.label"
       [url]="!value.label ? value.ids[0] : undefined"
       [suffixStr]="' (' + value.count.toString() + ')'"
+      [shouldHighlight]="false"
       *ngIf="value.ids"
     >
     </app-node-link>
