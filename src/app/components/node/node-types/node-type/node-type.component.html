@@ -1,3 +1,7 @@
 <div class="badge badge-primary mr-1">
-  <app-node-link [url]="typeId" [shouldHighlight]="false" />
+  <app-node-link
+    [url]="type?.id"
+    [label]="type?.label"
+    [shouldHighlight]="false"
+  />
 </div>

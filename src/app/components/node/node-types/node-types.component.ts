@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { NgForOf, NgIf } from '@angular/common';
-import { CacheService } from '../../../services/cache.service';
-import { replacePrefixes } from '../../../helpers/util.helper';
 import { NodeLinkComponent } from '../node-link/node-link.component';
 import { NodeTypeComponent } from './node-type/node-type.component';
+import { ClusterService } from '../../../services/cluster.service';
+import { Settings } from '../../../config/settings';
+import { TypeModel } from '../../../models/type.model';
 
 @Component({
   selector: 'app-node-types',
@@ -13,11 +14,22 @@ import { NodeTypeComponent } from './node-type/node-type.component';
   styleUrl: './node-types.component.scss',
 })
 export class NodeTypesComponent {
-  @Input() typeIds?: string[];
+  @Input() types?: TypeModel[];
+  clusteredTypes: TypeModel[] = [];
 
-  constructor(public cache: CacheService) {}
+  constructor(public clusters: ClusterService) {}
 
-  getLabel(typeId: string) {
-    return this.cache.labels?.[typeId] ?? replacePrefixes(typeId);
+  ngOnInit() {
+    this.initClusteredTypes();
+  }
+
+  initClusteredTypes() {
+    if (!this.types) {
+      return;
+    }
+    this.clusteredTypes = this.clusters.clusterTypes(
+      this.types,
+      Settings.clustering.types,
+    );
   }
 }

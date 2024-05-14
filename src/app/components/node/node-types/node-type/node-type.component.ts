@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NodeLinkComponent } from '../../node-link/node-link.component';
+import { TypeModel } from '../../../../models/type.model';
 
 @Component({
   selector: 'app-node-type',
@@ -9,5 +10,5 @@ import { NodeLinkComponent } from '../../node-link/node-link.component';
   styleUrl: './node-type.component.scss',
 })
 export class NodeTypeComponent {
-  @Input() typeId?: string;
+  @Input() type?: TypeModel;
 }

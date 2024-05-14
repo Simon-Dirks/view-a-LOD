@@ -1,5 +1,5 @@
-<ng-container *ngFor="let typeId of typeIds">
-  <ng-container *ngIf="typeId">
-    <app-node-type [typeId]="typeId"
-  /></ng-container>
+<ng-container *ngFor="let type of clusteredTypes">
+  <ng-container *ngIf="type">
+    <app-node-type [type]="type" />
+  </ng-container>
 </ng-container>

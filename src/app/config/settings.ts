@@ -27,13 +27,24 @@ export const Settings = {
   defaultSearchQuery: '',
   labelMaxChars: 100,
   showFilterPanel: true,
-  clusterFilterOptionValues: {
-    images: {
-      label: 'Afbeelding',
-      valueIds: [
-        'https://schema.org/Photograph',
-        'https://schema.org/ImageObject',
-      ],
+  clustering: {
+    filterOptionValues: {
+      images: {
+        label: 'Afbeelding',
+        valueIds: [
+          'https://schema.org/Photograph',
+          'https://schema.org/ImageObject',
+        ],
+      },
+    },
+    types: {
+      recordSet: {
+        label: 'RecordSet',
+        valueIds: [
+          'https://www.ica.org/standards/RiC/ontology#RecordSet',
+          'https://www.ica.org/standards/RiC/vocabularies/recordSetTypes#File',
+        ],
+      },
     },
   },
   hideFilterOptionValueIds: [

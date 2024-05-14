@@ -15,7 +15,7 @@ import {
 import { ElasticService } from '../elastic.service';
 import { DataService } from '../data.service';
 import { Settings } from '../../config/settings';
-import { ClusterFilterOptionValuesSettingsModel } from '../../models/settings/cluster-filter-option-values-settings.model';
+import { ClusterService } from '../cluster.service';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +30,7 @@ export class FilterService {
   constructor(
     public elastic: ElasticService,
     public data: DataService,
+    public clusters: ClusterService,
   ) {}
 
   private _getFieldDocCountsFromResponses(
@@ -57,56 +58,6 @@ export class FilterService {
       }
     }
     return docCountsByFieldId;
-  }
-
-  private _clusterFilterOptionValues(
-    filterOptionValues: FilterOptionValueModel[],
-  ): FilterOptionValueModel[] {
-    const clusteredFilterOptionValues: {
-      [clusterId: string]: FilterOptionValueModel;
-    } = {};
-    const nonClusteredFilterOptionValues: FilterOptionValueModel[] = [];
-
-    for (const [clusterId, clusterSettings] of Object.entries(
-      Settings.clusterFilterOptionValues as ClusterFilterOptionValuesSettingsModel,
-    )) {
-      let clusterFilterOptionValue: FilterOptionValueModel = {
-        ids: [],
-        label: clusterSettings.label,
-        count: 0,
-      };
-      const existingClusterFilterOptionValue =
-        clusteredFilterOptionValues[clusterId];
-      if (existingClusterFilterOptionValue) {
-        clusterFilterOptionValue = existingClusterFilterOptionValue;
-      }
-
-      for (const filterOptionValue of filterOptionValues) {
-        const shouldBeClustered =
-          filterOptionValue.ids.filter((id) =>
-            clusterSettings.valueIds.includes(id),
-          ).length > 0;
-        if (shouldBeClustered) {
-          clusterFilterOptionValue.ids = [
-            ...clusterFilterOptionValue.ids,
-            ...filterOptionValue.ids,
-          ];
-          clusterFilterOptionValue.count += filterOptionValue.count;
-          clusteredFilterOptionValues[clusterId] = clusterFilterOptionValue;
-        } else {
-          nonClusteredFilterOptionValues.push(filterOptionValue);
-        }
-      }
-    }
-
-    const allFilterOptionValues = [
-      ...Object.values(clusteredFilterOptionValues),
-      ...nonClusteredFilterOptionValues,
-    ];
-    const sortedFilterOptionValues = allFilterOptionValues.sort(
-      (a, b) => b.count - a.count,
-    );
-    return sortedFilterOptionValues;
   }
 
   async updateFilterOptionValues(query: string) {
@@ -140,7 +91,7 @@ export class FilterService {
       );
 
       const clusteredFilterValues =
-        this._clusterFilterOptionValues(filterValues);
+        this.clusters.clusterFilterOptionValues(filterValues);
       filter.values = clusteredFilterValues;
     }
     this.options.next(filterOptions);

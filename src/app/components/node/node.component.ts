@@ -21,6 +21,7 @@ import { NodeRendererComponent } from './node-renderer/node-renderer.component';
 import { SparqlNodeParentModel } from '../../models/sparql/sparql-node-parent.model';
 import { SettingsService } from '../../services/settings.service';
 import { ViewModeSetting } from '../../models/settings/view-mode-setting.enum';
+import { TypeModel } from '../../models/type.model';
 
 @Component({
   selector: 'app-node',
@@ -46,7 +47,7 @@ export class NodeComponent implements OnInit {
 
   id?: string;
   title = '';
-  typeIds: string[] = [];
+  types: TypeModel[] = [];
 
   showTitle = this.settings.hasViewModeSetting(ViewModeSetting.ShowTitle);
   showParents = this.settings.hasViewModeSetting(ViewModeSetting.ShowParents);
@@ -85,17 +86,17 @@ export class NodeComponent implements OnInit {
 
   initTypes() {
     // TODO: Render incoming types in the table view?
-    const typeIds: string[] = this.nodes.getObjValues(
-      this.node,
-      Settings.predicates.type,
-      Direction.Outgoing,
-    );
+    const types: TypeModel[] = this.nodes
+      .getObjValues(this.node, Settings.predicates.type, Direction.Outgoing)
+      .map((typeId) => {
+        return { id: typeId };
+      });
 
-    typeIds.forEach((typeId) => {
-      void this.cache.cacheLabelForId(typeId);
+    types.forEach((type) => {
+      void this.cache.cacheLabelForId(type.id);
     });
 
-    this.typeIds = typeIds;
+    this.types = types;
   }
 
   async retrieveParents() {
