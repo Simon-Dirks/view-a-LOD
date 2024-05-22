@@ -11,7 +11,7 @@
   <div
     class="p-4 overflow-y-scroll flex-grow"
     [ngClass]="[
-      Settings.filtering.showFilterPanel ? 'grid grid-cols-6 gap-4' : ''
+      Settings.filtering.showFilterPanel ? 'grid grid-cols-5 gap-4' : ''
     ]"
     (scroll)="onScroll($event)"
   >
@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <div [ngClass]="[Settings.filtering.showFilterPanel ? 'col-span-5' : '']">
+    <div [ngClass]="[Settings.filtering.showFilterPanel ? 'col-span-4' : '']">
       <p class="text-xl mb-4">
         <span *ngIf="search.isLoading.value" class="loading loading-spinner">
         </span>
