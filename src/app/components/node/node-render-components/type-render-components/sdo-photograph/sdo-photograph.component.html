@@ -13,11 +13,20 @@
   <!--  {{ node | json }}-->
 
   <!--  TODO: Show direction here? -->
-  <app-node-link
-    [url]="commentId"
-    *ngFor="let commentId of commentIds"
-    [shouldTruncate]="false"
-  />
+  <p class="mt-2" *ngIf="commentIds && commentIds.length > 0">Opmerking:</p>
+  <div *ngFor="let id of commentIds">
+    <app-node-link [url]="id" [shouldTruncate]="false"> </app-node-link>
+  </div>
+
+  <p class="mt-2" *ngIf="dates && dates.length > 0">Tijdsperiode:</p>
+  <div *ngFor="let id of dates">
+    <app-node-link [url]="id" [shouldTruncate]="false"> </app-node-link>
+  </div>
+
+  <p class="mt-2" *ngIf="creators && creators.length > 0">Maker:</p>
+  <div *ngFor="let id of creators">
+    <app-node-link [url]="id" [shouldTruncate]="false"></app-node-link>
+  </div>
 </div>
 
 <!-- TODO: Bring back, causes generic type error for some reason -->
