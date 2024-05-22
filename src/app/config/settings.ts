@@ -78,6 +78,15 @@ export const Settings = {
     hideFilterOptionValueIds: [
       'http://www.nationaalarchief.nl/mdto#ChecksumGegevens',
       'http://www.w3.org/ns/shacl#NodeShape',
+      'http://www.w3.org/2002/07/owl#Ontology',
+      'http://www.nationaalarchief.nl/mdto#begripBegrippenlijst',
+      'http://www.nationaalarchief.nl/mdto#verwijzingIdentificatie',
+      'http://www.nationaalarchief.nl/mdto#GerelateerdInformatieobjectGegevens',
+      'http://www.nationaalarchief.nl/mdto#Object',
+      'http://www.nationaalarchief.nl/mdto#DekkingInTijdGegevens',
+      'http://www.nationaalarchief.nl/mdto#VerwijzingGegevens',
+      'http://www.nationaalarchief.nl/mdto#BegripGegevens',
+      'http://www.nationaalarchief.nl/mdto#IdentificatieGegevens',
     ],
   },
   clustering: {
