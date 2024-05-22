@@ -174,6 +174,7 @@ export const Settings = {
     [ViewMode.Grid]: {
       [ViewModeSetting.ShowTitle]: true,
       [ViewModeSetting.ShowDetails]: true,
+      [ViewModeSetting.ShowTypes]: true,
     },
   },
   predicateVisibility: {
