@@ -3,4 +3,5 @@ export enum ViewModeSetting {
   ShowParents,
   ShowTitle,
   ShowTypes,
+  ShowLargeImage,
 }

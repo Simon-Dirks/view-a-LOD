@@ -48,10 +48,14 @@ export class NodeComponent implements OnInit {
   id?: string;
   title = '';
   types: TypeModel[] = [];
+  images: string[] = [];
 
   showTitle = this.settings.hasViewModeSetting(ViewModeSetting.ShowTitle);
   showParents = this.settings.hasViewModeSetting(ViewModeSetting.ShowParents);
   showTypes = this.settings.hasViewModeSetting(ViewModeSetting.ShowTypes);
+  showLargeImages = this.settings.hasViewModeSetting(
+    ViewModeSetting.ShowLargeImage,
+  );
 
   constructor(
     public nodes: NodeService,
@@ -65,6 +69,7 @@ export class NodeComponent implements OnInit {
     void this.retrieveParents();
     this.initTitle();
     this.initTypes();
+    this.initImages();
 
     if (!this.node) {
       return;
@@ -82,6 +87,13 @@ export class NodeComponent implements OnInit {
     }
 
     this.title = titles[0];
+  }
+
+  initImages() {
+    this.images = this.nodes.getObjValues(
+      this.node,
+      Settings.predicates.images,
+    );
   }
 
   initTypes() {

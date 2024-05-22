@@ -8,6 +8,13 @@
 
     <app-node-types [types]="types" *ngIf="showTypes" />
 
+    <app-node-images
+      [images]="images"
+      [width]="Settings.largeImagePercentageWidthOfContainer + '%'"
+      *ngIf="showLargeImages && images && images.length > 0"
+      class="mt-4"
+    />
+
     <app-node-renderer [node]="node" />
   </div>
 </div>

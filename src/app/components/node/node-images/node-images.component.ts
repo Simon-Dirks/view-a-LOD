@@ -10,4 +10,5 @@ import { JsonPipe, NgForOf, NgIf } from '@angular/common';
 })
 export class NodeImagesComponent {
   @Input() images?: string[];
+  @Input() width = '5rem';
 }

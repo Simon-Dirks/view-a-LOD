@@ -120,7 +120,7 @@ export const Settings = {
   },
   renderComponents: {
     [RenderMode.ByType]: {
-      'https://schema.org/Photograph': { componentId: 'sdo-photograph' },
+      // 'https://schema.org/Photograph': { componentId: 'sdo-photograph' },
     },
     [RenderMode.ByPredicate]: {
       'http://xmlns.com/foaf/0.1/depiction': {
@@ -170,6 +170,7 @@ export const Settings = {
       [ViewModeSetting.ShowParents]: true,
       [ViewModeSetting.ShowTypes]: true,
       [ViewModeSetting.ShowTitle]: true,
+      [ViewModeSetting.ShowLargeImage]: true,
     },
     [ViewMode.Grid]: {
       [ViewModeSetting.ShowTitle]: true,
@@ -177,15 +178,18 @@ export const Settings = {
       [ViewModeSetting.ShowTypes]: true,
     },
   },
+  largeImagePercentageWidthOfContainer: 50,
   predicateVisibility: {
     [ViewMode.List]: {
       [PredicateVisibility.Show]: [
-        ...imagePredicates,
+        // ...imagePredicates,
         'https://schema.org/author',
         'http://www.nationaalarchief.nl/mdto#omschrijving',
         'http://www.nationaalarchief.nl/mdto#dekkingInRuimte',
         'http://www.nationaalarchief.nl/mdto#dekkingInTijd',
         'http://www.nationaalarchief.nl/mdto#URLBestand',
+        'https://www.ica.org/standards/RiC/ontology#expressedDateValue',
+        'https://www.ica.org/standards/RiC/ontology#hasCreator',
       ],
       [PredicateVisibility.Details]: [
         'http://www.nationaalarchief.nl/mdto#naam',
