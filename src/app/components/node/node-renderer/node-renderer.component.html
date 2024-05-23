@@ -4,5 +4,10 @@
     *ngIf="renderComponentIdsToShow.includes('sdo-photograph')"
   />
 
+  <app-gescand-inventarisnummer
+    [node]="node"
+    *ngIf="renderComponentIdsToShow.includes('gescand-inventarisnummer')"
+  />
+
   <app-node-table-view [node]="node" *ngIf="!renderComponentIsDefined" />
 </ng-container>

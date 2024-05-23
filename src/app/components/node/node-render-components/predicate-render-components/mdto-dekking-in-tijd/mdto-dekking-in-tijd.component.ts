@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { HopLinkComponent } from '../hop-link/hop-link.component';
+import { HopLinkComponent } from '../hop-components/hop-link/hop-link.component';
 import { NgIf } from '@angular/common';
 
 @Component({

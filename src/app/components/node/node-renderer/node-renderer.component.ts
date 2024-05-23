@@ -7,6 +7,7 @@ import { Settings } from '../../../config/settings';
 import { RenderComponentService } from '../../../services/render-component.service';
 import { SdoPhotographComponent } from '../node-render-components/type-render-components/sdo-photograph/sdo-photograph.component';
 import { RenderMode } from '../../../models/settings/render-component-settings.type';
+import { GescandInventarisnummerComponent } from '../node-render-components/type-render-components/gescand-inventarisnummer/gescand-inventarisnummer.component';
 
 @Component({
   selector: 'app-node-renderer',
@@ -18,6 +19,7 @@ import { RenderMode } from '../../../models/settings/render-component-settings.t
     NgSwitchCase,
     SdoPhotographComponent,
     JsonPipe,
+    GescandInventarisnummerComponent,
   ],
   templateUrl: './node-renderer.component.html',
   styleUrl: './node-renderer.component.scss',

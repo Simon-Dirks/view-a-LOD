@@ -1,27 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { JsonPipe, NgForOf, NgIf } from '@angular/common';
-import { SparqlService } from '../../../../../services/sparql.service';
-import { NodeLinkComponent } from '../../../node-link/node-link.component';
-import { NgIcon } from '@ng-icons/core';
-import { featherChevronRight } from '@ng-icons/feather-icons';
-import { NodeLabelComponent } from '../../../node-label/node-label.component';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { HopLinkSettingsModel } from '../../../../../models/settings/hop-link-settings.model';
+import { SparqlService } from '../../../../../services/sparql.service';
 
 @Component({
-  selector: 'app-hop-link',
+  selector: 'app-hop-component',
   standalone: true,
-  imports: [
-    NgIf,
-    JsonPipe,
-    NodeLinkComponent,
-    NgForOf,
-    NgIcon,
-    NodeLabelComponent,
-  ],
-  templateUrl: './hop-link.component.html',
-  styleUrl: './hop-link.component.scss',
+  imports: [],
+  template: ``,
 })
-export class HopLinkComponent implements OnInit {
+export class HopComponent {
   @Input() id?: string;
   @Input() settings?: HopLinkSettingsModel;
   @Output() hopObjIdsRetrieved = new EventEmitter<string[]>();
@@ -56,6 +43,4 @@ export class HopLinkComponent implements OnInit {
     }
     return this.settings.showHops;
   }
-
-  protected readonly featherChevronRight = featherChevronRight;
 }

@@ -1,0 +1,12 @@
+<div class="w-full carousel mt-2">
+  <div *ngFor="let imgUrl of images" class="carousel-item">
+    <app-hop-image
+      [id]="imgUrl"
+      [settings]="{
+        preds: ['http://xmlns.com/foaf/0.1/depiction']
+      }"
+    />
+  </div>
+</div>
+
+<app-node-table-view [node]="node" class="opacity-75" />

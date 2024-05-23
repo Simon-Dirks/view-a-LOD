@@ -130,6 +130,9 @@ export const Settings = {
   renderComponents: {
     [RenderMode.ByType]: {
       // 'https://schema.org/Photograph': { componentId: 'sdo-photograph' },
+      'https://hetutrechtsarchief.nl/id/aet/scnni': {
+        componentId: 'gescand-inventarisnummer',
+      },
     },
     [RenderMode.ByPredicate]: {
       'http://xmlns.com/foaf/0.1/depiction': {

@@ -12,7 +12,7 @@ import { Settings } from '../../../../../../config/settings';
 import { MapThumbComponent } from '../../../predicate-render-components/map-thumb/map-thumb.component';
 import { featherArrowUpLeft } from '@ng-icons/feather-icons';
 import { NodeTypeComponent } from '../../../../node-types/node-type/node-type.component';
-import { HopLinkComponent } from '../../../predicate-render-components/hop-link/hop-link.component';
+import { HopLinkComponent } from '../../../predicate-render-components/hop-components/hop-link/hop-link.component';
 import { RenderMode } from '../../../../../../models/settings/render-component-settings.type';
 import { MdtoDekkingInTijdComponent } from '../../../predicate-render-components/mdto-dekking-in-tijd/mdto-dekking-in-tijd.component';
 import { MdtoUrlBestandComponent } from '../../../predicate-render-components/mdto-url-bestand/mdto-url-bestand.component';
