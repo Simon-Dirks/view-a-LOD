@@ -182,19 +182,20 @@ export const Settings = {
       [ViewModeSetting.ShowParents]: true,
       [ViewModeSetting.ShowTypes]: true,
       [ViewModeSetting.ShowTitle]: true,
-      [ViewModeSetting.ShowLargeImage]: true,
+      [ViewModeSetting.ShowLargeImage]: false,
     },
     [ViewMode.Grid]: {
       [ViewModeSetting.ShowTitle]: true,
       [ViewModeSetting.ShowDetails]: true,
       [ViewModeSetting.ShowTypes]: true,
+      [ViewModeSetting.ShowLargeImage]: true,
     },
   },
   largeImagePercentageWidthOfContainer: 50,
   predicateVisibility: {
     [ViewMode.List]: {
       [PredicateVisibility.Show]: [
-        // ...imagePredicates,
+        ...imagePredicates,
         'https://schema.org/author',
         'http://www.nationaalarchief.nl/mdto#omschrijving',
         'http://www.nationaalarchief.nl/mdto#dekkingInRuimte',
@@ -211,7 +212,7 @@ export const Settings = {
       [PredicateVisibility.Hide]: [],
     },
     [ViewMode.Grid]: {
-      [PredicateVisibility.Show]: [...imagePredicates],
+      [PredicateVisibility.Show]: [],
       [PredicateVisibility.Details]: ['*'],
       [PredicateVisibility.Hide]: [],
     },
