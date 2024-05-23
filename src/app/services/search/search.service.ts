@@ -62,6 +62,27 @@ export class SearchService {
     }
   }
 
+  private _mergeNodesById(
+    nodes: NodeModel[],
+    otherNodes: NodeModel[],
+  ): NodeModel[] {
+    const nodesMap = new Map<string, any>();
+    nodes.forEach((node) => {
+      nodesMap.set(node['@id'][0].value, node);
+    });
+
+    otherNodes.forEach((otherNode) => {
+      const id = otherNode['@id'][0].value;
+      if (nodesMap.has(id)) {
+        Object.assign(nodesMap.get(id), otherNode);
+      } else {
+        nodes.push(otherNode);
+      }
+    });
+
+    return nodes;
+  }
+
   private async _updateResultsFromSearchResponses(
     responses: SearchResponse<ElasticNodeModel>[],
   ) {
@@ -77,8 +98,12 @@ export class SearchService {
     if (hasHits) {
       this.page++;
     }
+
     this.results.next({
-      nodes: [...(this.results.value.nodes ?? []), ...enrichedNodes],
+      nodes: this._mergeNodesById(
+        this.results.value.nodes ?? [],
+        enrichedNodes,
+      ),
     });
   }
 
