@@ -68,31 +68,38 @@ export class NodeService {
   }
 
   async enrichWithIncomingRelations(nodes: NodeModel[]): Promise<NodeModel[]> {
+    const promises: Promise<void>[] = [];
+
     for (const node of nodes) {
-      this.sparql.getIncomingRelations(node).then((sparqlIncomingRelations) => {
-        for (const sparqlIncomingRelation of sparqlIncomingRelations) {
-          const pred = sparqlIncomingRelation.pred;
-          if (!(pred in node)) {
-            node[pred] = [];
+      const promise: Promise<void> = this.sparql
+        .getIncomingRelations(node)
+        .then((sparqlIncomingRelations) => {
+          for (const sparqlIncomingRelation of sparqlIncomingRelations) {
+            const pred = sparqlIncomingRelation.pred;
+            if (!(pred in node)) {
+              node[pred] = [];
+            }
+
+            const existingValues: string[] = this.getObjValues(node, [pred]);
+            const relationIsAlreadySaved = existingValues.includes(
+              sparqlIncomingRelation.sub,
+            );
+            if (relationIsAlreadySaved) {
+              continue;
+            }
+
+            const incomingRelation: NodeObj = {
+              value: sparqlIncomingRelation.sub,
+              direction: Direction.Incoming,
+            };
+
+            node[pred].push(incomingRelation);
           }
-
-          const existingValues: string[] = this.getObjValues(node, [pred]);
-          const relationIsAlreadySaved = existingValues.includes(
-            sparqlIncomingRelation.sub,
-          );
-          if (relationIsAlreadySaved) {
-            continue;
-          }
-
-          const incomingRelation: NodeObj = {
-            value: sparqlIncomingRelation.sub,
-            direction: Direction.Incoming,
-          };
-
-          node[pred].push(incomingRelation);
-        }
-      });
+        });
+      promises.push(promise);
     }
+
+    await Promise.all(promises);
 
     return nodes;
   }

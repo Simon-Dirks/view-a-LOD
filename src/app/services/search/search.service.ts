@@ -62,20 +62,23 @@ export class SearchService {
     }
   }
 
-  private _updateResultsFromSearchResponses(
+  private async _updateResultsFromSearchResponses(
     responses: SearchResponse<ElasticNodeModel>[],
   ) {
     const hits: SearchHit<ElasticNodeModel>[] =
       this.hits.getFromSearchResponses(responses);
 
     const hitNodes: NodeModel[] = this.hits.parseToNodes(hits);
-    void this.nodes.enrichWithIncomingRelations(hitNodes);
-    const hasHits = hitNodes && hitNodes.length > 0;
+    // TODO: Run async, show initial hits in the meanwhile
+    const enrichedNodes =
+      await this.nodes.enrichWithIncomingRelations(hitNodes);
+
+    const hasHits = enrichedNodes && enrichedNodes.length > 0;
     if (hasHits) {
       this.page++;
     }
     this.results.next({
-      nodes: [...(this.results.value.nodes ?? []), ...hitNodes],
+      nodes: [...(this.results.value.nodes ?? []), ...enrichedNodes],
     });
   }
 
@@ -120,7 +123,7 @@ export class SearchService {
       ]);
 
       this._updateNumberOfHitsFromSearchResponses(responses);
-      this._updateResultsFromSearchResponses(responses);
+      await this._updateResultsFromSearchResponses(responses);
     } catch (error) {
       console.error('Error searching:', error);
     } finally {
