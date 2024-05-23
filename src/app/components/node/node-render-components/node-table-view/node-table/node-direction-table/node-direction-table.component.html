@@ -1,0 +1,51 @@
+<ng-container *ngIf="node">
+  <div
+    class="mt-6"
+    *ngIf="
+      direction === Direction.Incoming &&
+      hasPredsToShow(Direction.Incoming, visibility)
+    "
+  >
+    <span [ngClass]="[smallFontSize ? 'text-sm' : '']"
+      >Objecten die verwijzen naar <app-node-link [url]="nodes.getId(node)"
+    /></span>
+  </div>
+
+  <table class="table break-all" [ngClass]="[smallFontSize ? 'text-xs' : '']">
+    <tbody>
+      <ng-container *ngFor="let pred of nodePreds">
+        <tr
+          *ngIf="
+            predicateVisibilities[pred] === visibility &&
+            getNumPredValues(pred, direction) > 0
+          "
+        >
+          <td class="w-1/2">
+            <app-node-table-cell
+              [node]="node"
+              [direction]="direction"
+              [pred]="pred"
+              [show]="
+                direction === Direction.Incoming
+                  ? TableCellShowOptions.Obj
+                  : TableCellShowOptions.Pred
+              "
+            />
+          </td>
+          <td class="w-1/2">
+            <app-node-table-cell
+              [node]="node"
+              [direction]="direction"
+              [pred]="pred"
+              [show]="
+                direction === Direction.Incoming
+                  ? TableCellShowOptions.Pred
+                  : TableCellShowOptions.Obj
+              "
+            />
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</ng-container>

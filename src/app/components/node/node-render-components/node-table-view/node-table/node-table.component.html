@@ -1,45 +1,13 @@
-<table
-  class="table break-all"
-  [ngClass]="[smallFontSize ? 'text-xs' : '']"
-  *ngIf="node"
->
-  <tbody>
-    <ng-container *ngFor="let pred of nodePreds">
-      <ng-container
-        *ngFor="let direction of [Direction.Outgoing, Direction.Incoming]"
-      >
-        <tr
-          *ngIf="
-            predicateVisibilities[pred] === visibility &&
-            getNumPredValues(pred, direction) > 0
-          "
-        >
-          <td class="w-1/2">
-            <app-node-table-cell
-              [node]="node"
-              [direction]="direction"
-              [pred]="pred"
-              [show]="
-                direction === Direction.Incoming
-                  ? TableCellShowOptions.Obj
-                  : TableCellShowOptions.Pred
-              "
-            />
-          </td>
-          <td class="w-1/2">
-            <app-node-table-cell
-              [node]="node"
-              [direction]="direction"
-              [pred]="pred"
-              [show]="
-                direction === Direction.Incoming
-                  ? TableCellShowOptions.Pred
-                  : TableCellShowOptions.Obj
-              "
-            />
-          </td>
-        </tr>
-      </ng-container>
-    </ng-container>
-  </tbody>
-</table>
+<ng-container *ngIf="node">
+  <app-node-direction-table
+    [direction]="Direction.Outgoing"
+    [node]="node"
+    [visibility]="visibility"
+  />
+
+  <app-node-direction-table
+    [direction]="Direction.Incoming"
+    [node]="node"
+    [visibility]="visibility"
+  />
+</ng-container>
