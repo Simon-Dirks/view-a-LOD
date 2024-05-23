@@ -4,7 +4,6 @@ import { FilterModel, FilterType } from '../../models/filter.model';
 import {
   FilterOptionModel,
   FilterOptionsModel,
-  FilterOptionValueModel,
 } from '../../models/filter-option.model';
 import { SearchResponse } from '@elastic/elasticsearch/lib/api/types';
 import { FieldDocCountsModel } from '../../models/elastic/field-doc-counts.model';
@@ -71,24 +70,30 @@ export class FilterService {
 
     const filterOptions = this.options.value;
     for (const [_, filter] of Object.entries(filterOptions)) {
-      const filterValues: FilterOptionValueModel[] = filter.fieldIds.flatMap(
-        (fieldId) => {
-          const elasticFieldId = this.data.replacePeriodsWithSpaces(fieldId);
-          const docCountsForField: DocCountModel[] =
-            docCounts?.[elasticFieldId] ?? [];
-          const docCountsToShow: DocCountModel[] = docCountsForField.filter(
-            (d) => !Settings.filtering.hideFilterOptionValueIds.includes(d.key),
-          );
-          const valuesForField =
-            docCountsToShow.map((d) => {
-              return {
-                ids: [d.key],
-                count: d.doc_count,
-              };
-            }) ?? [];
-          return valuesForField;
-        },
-      );
+      const filterValuesMap = new Map<string, number>();
+
+      filter.fieldIds.forEach((fieldId) => {
+        const elasticFieldId = this.data.replacePeriodsWithSpaces(fieldId);
+        const docCountsForField: DocCountModel[] =
+          docCounts?.[elasticFieldId] ?? [];
+        const docCountsToShow: DocCountModel[] = docCountsForField.filter(
+          (d) => !Settings.filtering.hideFilterOptionValueIds.includes(d.key),
+        );
+        docCountsToShow.forEach((d) => {
+          const id = d.key;
+          const count = d.doc_count;
+
+          if (filterValuesMap.has(id)) {
+            filterValuesMap.set(id, filterValuesMap.get(id)! + count);
+          } else {
+            filterValuesMap.set(id, count);
+          }
+        });
+      });
+      const filterValues = Array.from(filterValuesMap).map(([id, count]) => ({
+        ids: [id],
+        count: count,
+      }));
 
       const clusteredFilterValues =
         this.clusters.clusterFilterOptionValues(filterValues);
