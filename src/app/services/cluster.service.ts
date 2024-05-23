@@ -3,6 +3,7 @@ import { ClusterValuesSettingsModel } from '../models/settings/cluster-values-se
 import { TypeModel } from '../models/type.model';
 import { FilterOptionValueModel } from '../models/filter-option.model';
 import { Settings } from '../config/settings';
+import { intersects } from '../helpers/util.helper';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,14 @@ export class ClusterService {
     const clusteredFilterOptionValues: {
       [clusterId: string]: FilterOptionValueModel;
     } = {};
-    const nonClusteredFilterOptionValues: FilterOptionValueModel[] = [];
+
+    const allValueIdsToCluster = Object.values(
+      Settings.clustering.filterOptionValues as ClusterValuesSettingsModel,
+    ).flatMap((v) => v.valueIds);
+    const nonClusteredFilterOptionValues: FilterOptionValueModel[] =
+      filterOptionValues.filter(
+        (optionValue) => !intersects(optionValue.ids, allValueIdsToCluster),
+      );
 
     for (const [clusterId, clusterSettings] of Object.entries(
       Settings.clustering.filterOptionValues as ClusterValuesSettingsModel,
@@ -49,8 +57,6 @@ export class ClusterService {
           ];
           clusterFilterOptionValue.count += filterOptionValue.count;
           clusteredFilterOptionValues[clusterId] = clusterFilterOptionValue;
-        } else {
-          nonClusteredFilterOptionValues.push(filterOptionValue);
         }
       }
     }
