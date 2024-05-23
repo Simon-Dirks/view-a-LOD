@@ -42,9 +42,9 @@ export const Settings = {
       endpointUrls: [
         {
           elastic:
-            'https://test.data.razu.nl/_api/datasets/Kasteel-Amerongen/PoC/services/PoC-2/_search',
+            'https://data.razu.nl/_api/datasets/razu/PoCAmerongen2024/services/PoCAmerongen2024/_search',
           sparql:
-            'https://api.test.data.razu.nl/datasets/Kasteel-Amerongen/PoC/sparql',
+            'https://api.data.razu.nl/datasets/razu/PoCAmerongen2024/sparql',
         },
         {
           sparql:
@@ -53,6 +53,17 @@ export const Settings = {
         {
           sparql:
             'https://api.test.data.razu.nl/datasets/Gedeeld/locaties/services/locaties/sparql',
+        },
+      ],
+    },
+    kasteelAmerongen: {
+      label: 'Kasteel Amerongen',
+      endpointUrls: [
+        {
+          elastic:
+            'https://data.razu.nl/_api/datasets/Kasteel-Amerongen/PoC2024/services/PoC2024-SKA/_search',
+          sparql:
+            'https://api.data.razu.nl/datasets/Kasteel-Amerongen/PoC2024/sparql',
         },
       ],
     },
