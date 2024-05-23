@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { JsonPipe, NgForOf, NgIf } from '@angular/common';
+import { Config } from '../../../config/config';
 
 @Component({
   selector: 'app-node-images',
@@ -11,4 +12,5 @@ import { JsonPipe, NgForOf, NgIf } from '@angular/common';
 export class NodeImagesComponent {
   @Input() images?: string[];
   @Input() width = '5rem';
+  protected readonly Config = Config;
 }

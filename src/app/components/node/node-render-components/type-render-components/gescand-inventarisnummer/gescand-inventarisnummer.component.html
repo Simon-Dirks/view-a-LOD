@@ -1,5 +1,8 @@
 <div class="w-full carousel mt-2">
-  <div *ngFor="let imgUrl of images" class="carousel-item">
+  <div
+    *ngFor="let imgUrl of images.slice(0, Config.maxImagesToShow)"
+    class="carousel-item"
+  >
     <app-hop-image
       [id]="imgUrl"
       [settings]="{

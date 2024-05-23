@@ -6,6 +6,7 @@ import { JsonPipe, NgForOf } from '@angular/common';
 import { NodeLinkComponent } from '../../../node-link/node-link.component';
 import { HopLinkComponent } from '../../predicate-render-components/hop-components/hop-link/hop-link.component';
 import { HopImageComponent } from '../../predicate-render-components/hop-components/hop-image/hop-image.component';
+import { Config } from '../../../../../config/config';
 
 @Component({
   selector: 'app-gescand-inventarisnummer',
@@ -31,4 +32,6 @@ export class GescandInventarisnummerComponent extends NodeRenderComponent {
       Direction.Incoming,
     );
   }
+
+  protected readonly Config = Config;
 }
