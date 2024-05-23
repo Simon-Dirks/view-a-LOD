@@ -45,7 +45,7 @@ ${wrapWithAngleBrackets(this.nodeId)} <http://www.nationaalarchief.nl/mdto#besta
 
     const query = `
 SELECT ?bestandsformaat WHERE {
-  ${this.sparql.getFederatedQuery(queryTemplate, Settings.endpoints.razu.endpointUrls)}
+  ${this.sparql.getFederatedQuery(queryTemplate, [...Settings.endpoints.razu.endpointUrls, ...Settings.endpoints.kasteelAmerongen.endpointUrls])}
 } LIMIT 100`;
 
     const response = await this.api.postData<{ bestandsformaat: string }[]>(
