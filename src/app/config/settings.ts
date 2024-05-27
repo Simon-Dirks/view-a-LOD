@@ -51,6 +51,8 @@ export const Settings = {
             'https://api.test.data.razu.nl/datasets/Gedeeld/actoren/services/actoren/sparql',
         },
         {
+          elastic:
+            'https://data.razu.nl/_api/datasets/razu/locaties/services/locaties-1/_search',
           sparql:
             'https://api.test.data.razu.nl/datasets/Gedeeld/locaties/services/locaties/sparql',
         },
@@ -145,6 +147,7 @@ export const Settings = {
       'https://web.maisflexis.nl/rdf/INV',
       'https://web.maisflexis.nl/rdf/INL',
       'https://web.maisflexis.nl/rdf/EB',
+      'http://dbpedia.org/ontology/Place',
     ],
   },
   clustering: {
