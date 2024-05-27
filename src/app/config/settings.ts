@@ -156,6 +156,11 @@ export const Settings = {
         values: [],
         hideValueIds: [...hideFilterOptionValueIds],
       },
+      license: {
+        label: 'Licentie',
+        fieldIds: ['https://schema.org/license'],
+        values: [],
+      },
     },
   },
   clustering: {
