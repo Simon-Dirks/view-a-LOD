@@ -77,7 +77,15 @@ export class FilterService {
         const docCountsForField: DocCountModel[] =
           docCounts?.[elasticFieldId] ?? [];
         const docCountsToShow: DocCountModel[] = docCountsForField.filter(
-          (d) => !Settings.filtering.hideFilterOptionValueIds.includes(d.key),
+          (d) => {
+            const valueId = d.key;
+            const shouldHideValueId = filter.hideValueIds?.includes(valueId);
+            if (!filter.showOnlyValueIds) {
+              return !shouldHideValueId;
+            }
+
+            return filter.showOnlyValueIds.includes(valueId);
+          },
         );
         docCountsToShow.forEach((d) => {
           const id = d.key;
