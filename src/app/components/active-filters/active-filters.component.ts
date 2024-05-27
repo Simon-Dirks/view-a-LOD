@@ -15,7 +15,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './active-filters.component.scss',
 })
 export class ActiveFiltersComponent {
-  isShown: boolean = true;
+  isShown: boolean = false;
 
   constructor(public filters: FilterService) {}
 
