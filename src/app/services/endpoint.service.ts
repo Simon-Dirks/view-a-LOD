@@ -8,9 +8,7 @@ import { SettingsService } from './settings.service';
   providedIn: 'root',
 })
 export class EndpointService {
-  enabledIds: BehaviorSubject<string[]> = new BehaviorSubject<string[]>(
-    Object.keys(Settings.endpoints),
-  );
+  enabledIds: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
 
   constructor(public settings: SettingsService) {}
 
@@ -28,7 +26,7 @@ export class EndpointService {
     this.enabledIds.next(enabledIds);
   }
 
-  isEnabled(endpointId: string) {
+  isEnabled(endpointId: string): boolean {
     return this.enabledIds.value.includes(endpointId);
   }
 
@@ -37,8 +35,17 @@ export class EndpointService {
   }
 
   getAllUrls(): EndpointUrlsModel[] {
-    return Object.entries(Settings.endpoints as EndpointsModel)
-      .filter(([endpointId, _]) => this.isEnabled(endpointId))
+    const allUrls = Object.entries(Settings.endpoints as EndpointsModel)
+      .filter(([endpointId, _]) => {
+        const noFilterEnabled =
+          !this.enabledIds.value || this.enabledIds.value.length === 0;
+        if (noFilterEnabled) {
+          return true;
+        }
+        return this.isEnabled(endpointId);
+      })
       .flatMap(([_, endpoint]) => endpoint.endpointUrls);
+
+    return allUrls;
   }
 }
