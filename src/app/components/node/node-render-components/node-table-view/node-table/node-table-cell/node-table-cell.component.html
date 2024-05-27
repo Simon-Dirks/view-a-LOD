@@ -20,6 +20,20 @@
           <app-node-type [type]="{ id: objValue }"> </app-node-type>
         </div>
 
+        <app-hop-image
+          *ngIf="shouldRenderComponentIds.includes('hop-image')"
+          [id]="objValue"
+          [settings]="
+            renderComponent.getSettingByKey(
+              'hopLinkSettings',
+              node,
+              RenderMode.ByPredicate,
+              [pred],
+              direction
+            )
+          "
+        />
+
         <app-hop-link
           *ngIf="shouldRenderComponentIds.includes('hop-link')"
           [id]="objValue"

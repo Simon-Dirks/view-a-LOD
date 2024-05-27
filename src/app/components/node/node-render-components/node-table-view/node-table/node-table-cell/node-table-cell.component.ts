@@ -16,6 +16,7 @@ import { HopLinkComponent } from '../../../predicate-render-components/hop-compo
 import { RenderMode } from '../../../../../../models/settings/render-component-settings.type';
 import { MdtoDekkingInTijdComponent } from '../../../predicate-render-components/mdto-dekking-in-tijd/mdto-dekking-in-tijd.component';
 import { MdtoUrlBestandComponent } from '../../../predicate-render-components/mdto-url-bestand/mdto-url-bestand.component';
+import { HopImageComponent } from '../../../predicate-render-components/hop-components/hop-image/hop-image.component';
 
 export enum TableCellShowOptions {
   Pred,
@@ -38,6 +39,7 @@ export enum TableCellShowOptions {
     JsonPipe,
     MdtoDekkingInTijdComponent,
     MdtoUrlBestandComponent,
+    HopImageComponent,
   ],
   templateUrl: './node-table-cell.component.html',
   styleUrl: './node-table-cell.component.scss',

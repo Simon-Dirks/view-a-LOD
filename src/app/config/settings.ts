@@ -303,6 +303,16 @@ export const Settings = {
           showHops: false,
         },
       },
+      'http://www.nationaalarchief.nl/mdto#heeftRepresentatie': {
+        componentId: 'hop-image',
+        hopLinkSettings: {
+          preds: [
+            'http://www.nationaalarchief.nl/mdto#identificatie',
+            'http://www.nationaalarchief.nl/mdto#identificatieKenmerk',
+            'http://www.nationaalarchief.nl/mdto#URLBestand',
+          ],
+        },
+      },
       'http://www.nationaalarchief.nl/mdto#dekkingInTijd': {
         componentId: 'mdto-dekking-in-tijd',
       },
@@ -336,6 +346,7 @@ export const Settings = {
         'http://www.nationaalarchief.nl/mdto#dekkingInRuimte',
         'http://www.nationaalarchief.nl/mdto#dekkingInTijd',
         'http://www.nationaalarchief.nl/mdto#URLBestand',
+        'http://www.nationaalarchief.nl/mdto#heeftRepresentatie',
         'https://www.ica.org/standards/RiC/ontology#expressedDateValue',
         'https://www.ica.org/standards/RiC/ontology#hasCreator',
       ],
