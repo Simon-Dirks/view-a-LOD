@@ -1,4 +1,7 @@
-<div class="badge badge-primary mr-1">
+<div
+  class="badge mr-1"
+  [ngClass]="showNeutralColor ? 'badge-neutral' : 'badge-primary'"
+>
   <app-node-link
     [url]="type?.id"
     [label]="type?.label"
