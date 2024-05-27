@@ -5,15 +5,18 @@ import { NodeLinkComponent } from '../node/node-link/node-link.component';
 import { NgIcon } from '@ng-icons/core';
 import { featherFilter, featherX } from '@ng-icons/feather-icons';
 import { FilterType } from '../../models/filter.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-active-filters',
   standalone: true,
-  imports: [JsonPipe, NgForOf, NodeLinkComponent, NgIcon, NgIf],
+  imports: [JsonPipe, NgForOf, NodeLinkComponent, NgIcon, NgIf, FormsModule],
   templateUrl: './active-filters.component.html',
   styleUrl: './active-filters.component.scss',
 })
 export class ActiveFiltersComponent {
+  isShown: boolean = true;
+
   constructor(public filters: FilterService) {}
 
   protected readonly featherX = featherX;

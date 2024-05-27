@@ -1,5 +1,19 @@
 <!--<p>Filters: {{ filters.enabled.value | json }}</p>-->
-<div class="mt-2">
+<div
+  class="form-control w-[12rem] opacity-25 hover:opacity-90 transition-opacity"
+>
+  <label class="label cursor-pointer">
+    <input
+      type="checkbox"
+      class="toggle toggle-sm"
+      [checked]="isShown"
+      [(ngModel)]="isShown"
+    />
+    <span class="label-text">Toon debug filter info</span>
+  </label>
+</div>
+
+<div class="mt-2 max-h-16 overflow-y-scroll fade-bottom pb-2" *ngIf="isShown">
   <div
     *ngFor="let filter of filters.enabled.value"
     class="badge badge-neutral gap-1 mr-1"
