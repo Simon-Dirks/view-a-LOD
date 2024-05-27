@@ -1,23 +1,21 @@
-<div class="join join-vertical w-full">
-  <div class="collapse collapse-arrow join-item bg-base-100 border">
-    <input type="checkbox" name="filter-accordion" />
-    <div class="collapse-title font-medium">Organisaties</div>
+<div class="collapse collapse-arrow join-item bg-base-100 border">
+  <input type="checkbox" name="filter-accordion" />
+  <div class="collapse-title font-medium">Organisaties</div>
 
-    <div class="collapse-content max-h-48 overflow-y-scroll overflow-x-hidden">
-      <div
-        class="form-control flex-row"
-        *ngFor="let endpointId of Object.keys(Settings.endpoints)"
-      >
-        <label class="label text">
-          <input
-            type="checkbox"
-            class="checkbox checkbox-sm mr-4"
-            [checked]="endpoints.isEnabled(endpointId)"
-            (click)="endpoints.toggle(endpointId)"
-          />
-          {{ getEndpointData(endpointId).label }}
-        </label>
-      </div>
+  <div class="collapse-content max-h-48 overflow-y-scroll overflow-x-hidden">
+    <div
+      class="form-control flex-row"
+      *ngFor="let endpointId of Object.keys(Settings.endpoints)"
+    >
+      <label class="label text">
+        <input
+          type="checkbox"
+          class="checkbox checkbox-sm mr-4"
+          [checked]="endpoints.isEnabled(endpointId)"
+          (click)="endpoints.toggle(endpointId)"
+        />
+        {{ getEndpointData(endpointId).label }}
+      </label>
     </div>
   </div>
 </div>

@@ -3,11 +3,19 @@ import { FilterService } from '../../services/search/filter.service';
 import { JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { NodeLinkComponent } from '../node/node-link/node-link.component';
 import { FilterOptionComponent } from './filter-option/filter-option.component';
+import { EndpointsComponent } from '../endpoints/endpoints.component';
 
 @Component({
   selector: 'app-filter-options',
   standalone: true,
-  imports: [NgIf, NgForOf, JsonPipe, NodeLinkComponent, FilterOptionComponent],
+  imports: [
+    NgIf,
+    NgForOf,
+    JsonPipe,
+    NodeLinkComponent,
+    FilterOptionComponent,
+    EndpointsComponent,
+  ],
   templateUrl: './filter-options.component.html',
   styleUrl: './filter-options.component.scss',
 })
