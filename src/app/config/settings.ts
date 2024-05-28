@@ -323,6 +323,13 @@ export const Settings = {
           ],
         },
       },
+      'http://www.w3.org/ns/prov#hadPrimarySource': {
+        componentId: 'hop-image',
+        hopLinkSettings: {
+          preds: ['http://xmlns.com/foaf/0.1/depiction'],
+          showOriginalLink: true,
+        },
+      },
       'http://www.nationaalarchief.nl/mdto#dekkingInTijd': {
         componentId: 'mdto-dekking-in-tijd',
       },

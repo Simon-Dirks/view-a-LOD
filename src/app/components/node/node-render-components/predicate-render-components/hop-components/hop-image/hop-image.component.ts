@@ -12,4 +12,8 @@ import { NodeImagesComponent } from '../../../../node-images/node-images.compone
   templateUrl: './hop-image.component.html',
   styleUrl: './hop-image.component.scss',
 })
-export class HopImageComponent extends HopComponent {}
+export class HopImageComponent extends HopComponent {
+  get hasHopHits(): boolean {
+    return this.hopObjIds && this.hopObjIds.length > 0;
+  }
+}
