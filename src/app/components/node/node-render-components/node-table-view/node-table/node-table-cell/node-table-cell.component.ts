@@ -17,6 +17,7 @@ import { RenderMode } from '../../../../../../models/settings/render-component-s
 import { MdtoDekkingInTijdComponent } from '../../../predicate-render-components/mdto-dekking-in-tijd/mdto-dekking-in-tijd.component';
 import { MdtoUrlBestandComponent } from '../../../predicate-render-components/mdto-url-bestand/mdto-url-bestand.component';
 import { HopImageComponent } from '../../../predicate-render-components/hop-components/hop-image/hop-image.component';
+import { RicoIdentifierComponent } from '../../../predicate-render-components/rico-identifier/rico-identifier.component';
 
 export enum TableCellShowOptions {
   Pred,
@@ -40,6 +41,7 @@ export enum TableCellShowOptions {
     MdtoDekkingInTijdComponent,
     MdtoUrlBestandComponent,
     HopImageComponent,
+    RicoIdentifierComponent,
   ],
   templateUrl: './node-table-cell.component.html',
   styleUrl: './node-table-cell.component.scss',

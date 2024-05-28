@@ -175,7 +175,7 @@ export const Settings = {
         ],
       },
       archive: {
-        label: 'Archief',
+        label: 'Archieven',
         valueIds: [
           'https://data.cbg.nl/pico-terms#doopinschrijving',
           'https://data.cbg.nl/pico-terms#dtb_begraven',
@@ -201,6 +201,8 @@ export const Settings = {
           'https://schema.org/ArchiveComponent',
           'https://schema.org/SheetMusic',
           'https://www.ica.org/standards/RiC/ontology#Record',
+          'http://www.nationaalarchief.nl/mdto#Bestand',
+          'http://www.nationaalarchief.nl/mdto#Informatieobject'
         ],
       },
       locations: {
@@ -210,10 +212,19 @@ export const Settings = {
           'https://schema.org/Place',
           'https://schema.org/PostalAddress',
           'https://www.ica.org/standards/RiC/ontology#Place',
+          'http://www.nationaalarchief.nl/mdto#dekkingInRuimte'
         ],
       },
+      publicDomain: {
+        label: 'Publiek Domein',
+        valueIds: [
+          'https://hetutrechtsarchief.nl/id/630EAF2CCA826B2DE0534701000AE1E2',
+          'https://hetutrechtsarchief.nl/id/609C5BCA906D4642E0534701000A17FD',
+          'https://hetutrechtsarchief.nl/id/630EAF2CCA806B2DE0534701000AE1E2',
+        ]
+      },
       subject: {
-        label: 'Onderwerp',
+        label: 'Onderwerpen',
         valueIds: [
           'http://www.w3.org/2004/02/skos/core#Concept',
           'https://hetutrechtsarchief.nl/def/trefwoord_tst_107',
@@ -225,7 +236,7 @@ export const Settings = {
         valueIds: peopleFilterOptionValueIds,
       },
       publication: {
-        label: 'Publicatie',
+        label: 'Publicaties',
         valueIds: [
           'https://hetutrechtsarchief.nl/def/Band',
           'https://hetutrechtsarchief.nl/id/aet/hasc',
@@ -333,6 +344,12 @@ export const Settings = {
       },
       'http://www.nationaalarchief.nl/mdto#URLBestand': {
         componentId: 'mdto-url-bestand',
+      },
+      'https://www.ica.org/standards/RiC/ontology#hasOrHadIdentifier': {
+        componentId: 'rico-identifier',
+      },
+      'https://schema.org/identifier': {
+        componentId: 'rico-identifier',
       },
     },
   },

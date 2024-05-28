@@ -59,6 +59,12 @@
           [fileUrl]="objValue"
         />
 
+        <app-rico-identifier
+          *ngIf="shouldRenderComponentIds.includes('rico-identifier')"
+          [id]="objValue"
+        />
+
+
         <app-node-link [url]="objValue" *ngIf="!renderComponentIsDefined">
           <ng-icon
             [svg]="featherArrowUpLeft"
