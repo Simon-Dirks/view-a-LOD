@@ -1,0 +1,9 @@
+<div
+  class="badge badge-neutral badge-outline mr-1 inline-block font-medium"
+  *ngIf="endpointId"
+>
+  <app-node-link
+    [label]="endpoints.getById(endpointId).label"
+    [shouldHighlight]="false"
+  />
+</div>

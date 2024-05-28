@@ -63,6 +63,10 @@ export class NodeService {
     return this.getObjValues(node, ['@id'])[0];
   }
 
+  getEndpointId(node: NodeModel) {
+    return this.getObjValues(node, ['endpointId'])[0];
+  }
+
   getPredicates(node: NodeModel): string[] {
     return Object.keys(node);
   }

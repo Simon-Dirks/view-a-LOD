@@ -22,6 +22,7 @@ import { SparqlNodeParentModel } from '../../models/sparql/sparql-node-parent.mo
 import { SettingsService } from '../../services/settings.service';
 import { ViewModeSetting } from '../../models/settings/view-mode-setting.enum';
 import { TypeModel } from '../../models/type.model';
+import { NodeEndpointComponent } from './node-endpoint/node-endpoint.component';
 
 @Component({
   selector: 'app-node',
@@ -37,6 +38,7 @@ import { TypeModel } from '../../models/type.model';
     KeyValuePipe,
     NodeLinkComponent,
     NodeRendererComponent,
+    NodeEndpointComponent,
   ],
   templateUrl: './node.component.html',
   styleUrl: './node.component.scss',

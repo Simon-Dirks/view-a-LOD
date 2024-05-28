@@ -16,6 +16,10 @@ export class EndpointService {
 
   constructor(public settings: SettingsService) {}
 
+  getById(endpointId: string): EndpointModel {
+    return (Settings.endpoints as EndpointsModel)[endpointId];
+  }
+
   toggle(endpointId: string) {
     const enabledIds = this.enabledIds.value;
     const existingEndpointIdx = enabledIds.findIndex(

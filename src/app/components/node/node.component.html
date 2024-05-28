@@ -2,6 +2,10 @@
   <div class="card-body">
     <div class="card-title text-lg" *ngIf="showTitle">
       <app-node-link [url]="id" [label]="title" />
+      <app-node-endpoint
+        [endpointId]="nodes.getEndpointId(node)"
+        class="ml-2"
+      />
     </div>
 
     <app-node-hierarchy [nodes]="parents" *ngIf="showParents" />
