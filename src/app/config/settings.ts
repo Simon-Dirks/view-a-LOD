@@ -114,14 +114,12 @@ export const Settings = {
             'https://api.data.razu.nl/datasets/razu/PoCAmerongen2024/sparql',
         },
         {
-          sparql:
-            'https://api.test.data.razu.nl/datasets/Gedeeld/actoren/services/actoren/sparql',
+          sparql: 'https://api.data.razu.nl/datasets/gedeeld/actoren/sparql',
         },
         {
           elastic:
             'https://data.razu.nl/_api/datasets/razu/locaties/services/locaties-1/_search',
-          sparql:
-            'https://api.test.data.razu.nl/datasets/Gedeeld/locaties/services/locaties/sparql',
+          sparql: 'https://api.data.razu.nl/datasets/gedeeld/locaties/sparql',
         },
       ],
     },
