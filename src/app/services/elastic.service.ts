@@ -11,6 +11,7 @@ import { SearchResponse } from '@elastic/elasticsearch/lib/api/types';
 import { Config } from '../config/config';
 import { SettingsService } from './settings.service';
 import { EndpointService } from './endpoint.service';
+import { ElasticEndpointSearchResponse } from '../models/elastic/elastic-endpoint-search-response.type';
 
 @Injectable({
   providedIn: 'root',
@@ -135,8 +136,13 @@ export class ElasticService {
     return await this.searchEndpoints(queryData);
   }
 
-  async searchEndpoints<T>(queryData: any): Promise<SearchResponse<T>[]> {
-    const searchPromises = [];
+  async searchEndpoints<T>(
+    queryData: any,
+  ): Promise<ElasticEndpointSearchResponse<T>[]> {
+    const searchPromisesAndEndpoints: {
+      promise: Promise<SearchResponse<T>>;
+      endpointId: string;
+    }[] = [];
     for (const endpoint of this.endpoints.getAllUrls()) {
       if (!endpoint.elastic) {
         continue;
@@ -144,12 +150,24 @@ export class ElasticService {
       const searchPromise: Promise<SearchResponse<T>> = this.api.postData<
         SearchResponse<T>
       >(endpoint.elastic, queryData);
-      searchPromises.push(searchPromise);
+
+      searchPromisesAndEndpoints.push({
+        promise: searchPromise,
+        endpointId: endpoint?.id ?? 'N/A',
+      });
     }
+
+    const searchPromises: Promise<SearchResponse<T>>[] =
+      searchPromisesAndEndpoints.map((s) => s.promise);
     const searchResults: SearchResponse<T>[] =
       await Promise.all(searchPromises);
 
-    return searchResults;
+    const searchResultsWithEndpointIds: ElasticEndpointSearchResponse<T>[] =
+      searchResults.map((searchResult, index) => ({
+        ...searchResult,
+        endpointId: searchPromisesAndEndpoints[index].endpointId,
+      }));
+    return searchResultsWithEndpointIds;
   }
 
   async searchEntities(
@@ -157,7 +175,7 @@ export class ElasticService {
     from: number,
     size: number,
     filters: FilterModel[],
-  ): Promise<SearchResponse<ElasticNodeModel>[]> {
+  ): Promise<ElasticEndpointSearchResponse<ElasticNodeModel>[]> {
     const mustQueries: (ElasticSimpleQuery | ElasticFieldExistsQuery)[] =
       this._getMustFilterQueries(filters);
 

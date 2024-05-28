@@ -380,6 +380,7 @@ export const Settings = {
   },
   alwaysHidePredicates: [
     '@id',
+    'endpointId',
     'http://www.nationaalarchief.nl/mdto#checksum',
     'http://www.nationaalarchief.nl/mdto#waardering',
   ],

@@ -4,6 +4,7 @@ export interface EndpointModel {
 }
 
 export interface EndpointUrlsModel {
+  id?: string;
   sparql: string;
   elastic?: string;
 }

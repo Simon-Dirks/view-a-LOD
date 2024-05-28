@@ -15,6 +15,7 @@ import {
 } from '@elastic/elasticsearch/lib/api/types';
 import { DataService } from '../data.service';
 import { EndpointService } from '../endpoint.service';
+import { ElasticEndpointSearchResponse } from '../../models/elastic/elastic-endpoint-search-response.type';
 
 @Injectable({
   providedIn: 'root',
@@ -84,7 +85,7 @@ export class SearchService {
   }
 
   private async _updateResultsFromSearchResponses(
-    responses: SearchResponse<ElasticNodeModel>[],
+    responses: ElasticEndpointSearchResponse<ElasticNodeModel>[],
   ) {
     const hits: SearchHit<ElasticNodeModel>[] =
       this.hits.getFromSearchResponses(responses);

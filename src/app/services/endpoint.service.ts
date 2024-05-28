@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { EndpointsModel, EndpointUrlsModel } from '../models/endpoint.model';
+import {
+  EndpointModel,
+  EndpointsModel,
+  EndpointUrlsModel,
+} from '../models/endpoint.model';
 import { Settings } from '../config/settings';
 import { BehaviorSubject } from 'rxjs';
 import { SettingsService } from './settings.service';
@@ -34,18 +38,28 @@ export class EndpointService {
     return this.getAllUrls()[0];
   }
 
-  getAllUrls(): EndpointUrlsModel[] {
-    const allUrls = Object.entries(Settings.endpoints as EndpointsModel)
-      .filter(([endpointId, _]) => {
-        const noFilterEnabled =
-          !this.enabledIds.value || this.enabledIds.value.length === 0;
-        if (noFilterEnabled) {
-          return true;
-        }
-        return this.isEnabled(endpointId);
-      })
-      .flatMap(([_, endpoint]) => endpoint.endpointUrls);
+  getAll(): EndpointsModel {
+    const all: [string, EndpointModel][] = Object.entries(
+      Settings.endpoints as EndpointsModel,
+    ).filter(([endpointId, _]) => {
+      const noFilterEnabled =
+        !this.enabledIds.value || this.enabledIds.value.length === 0;
+      if (noFilterEnabled) {
+        return true;
+      }
+      return this.isEnabled(endpointId);
+    });
 
+    return Object.fromEntries(all);
+  }
+
+  getAllUrls(): EndpointUrlsModel[] {
+    const allUrls = Object.entries(this.getAll()).flatMap(
+      ([endpointId, endpoint]) => {
+        endpoint.endpointUrls.forEach((u) => (u.id = endpointId));
+        return endpoint.endpointUrls;
+      },
+    );
     return allUrls;
   }
 }

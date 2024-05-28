@@ -1,5 +1,6 @@
 export interface NodeModel {
   '@id': NodeObj[];
+  endpointId: NodeObj[];
   [pred: string]: NodeObj[];
 }
 
