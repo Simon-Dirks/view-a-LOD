@@ -4,6 +4,7 @@ import { NodeLinkComponent } from '../../node/node-link/node-link.component';
 import { FilterService } from '../../../services/search/filter.service';
 import { FilterModel, FilterType } from '../../../models/filter.model';
 import { FilterOptionValueModel } from '../../../models/filter-option.model';
+import { formatNumber } from '../../../helpers/util.helper';
 
 @Component({
   selector: 'app-filter-option',
@@ -39,4 +40,5 @@ export class FilterOptionComponent implements OnInit {
   }
 
   protected readonly FilterType = FilterType;
+  protected readonly formatNumber = formatNumber;
 }

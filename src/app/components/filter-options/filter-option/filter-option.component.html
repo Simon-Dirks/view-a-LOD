@@ -10,7 +10,7 @@
       [disabled]="true"
       [label]="value.label"
       [url]="!value.label ? value.ids[0] : undefined"
-      [suffixStr]="' (' + value.count.toString() + ')'"
+      [suffixStr]="' (' + formatNumber(value.count) + ')'"
       [shouldHighlight]="false"
       *ngIf="value.ids"
     >

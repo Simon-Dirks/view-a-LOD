@@ -13,6 +13,7 @@ import { NodesGridComponent } from '../../nodes-grid/nodes-grid.component';
 import { FilterOptionsComponent } from '../../filter-options/filter-options.component';
 import { Settings } from '../../../config/settings';
 import { EndpointsComponent } from '../../endpoints/endpoints.component';
+import { formatNumber } from '../../../helpers/util.helper';
 
 @Component({
   selector: 'app-search',
@@ -60,7 +61,7 @@ export class SearchComponent implements OnInit {
     if (this.search.numberOfHits === 1) {
       return '1 resultaat';
     }
-    return `${this.search.numberOfHits}${this.search.moreHitsAreAvailable ? '+' : ''} resultaten`;
+    return `${formatNumber(this.search.numberOfHits)}${this.search.moreHitsAreAvailable ? '+' : ''} resultaten`;
   }
 
   protected readonly ViewMode = ViewMode;

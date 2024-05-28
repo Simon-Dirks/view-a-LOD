@@ -58,6 +58,10 @@ export const intersects = (first: any[], second: any[]): boolean => {
   return first.some((item) => second.includes(item));
 };
 
+export const formatNumber = (n: number): string => {
+  return n.toLocaleString('nl-NL');
+};
+
 export const sortByArrayOrder = (
   mainArray: string[],
   orderArray: string[],
