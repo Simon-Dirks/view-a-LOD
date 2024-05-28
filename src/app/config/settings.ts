@@ -115,6 +115,8 @@ export const Settings = {
         },
         {
           sparql: 'https://api.data.razu.nl/datasets/gedeeld/actoren/sparql',
+          elastic:
+            'https://data.razu.nl/_api/datasets/razu/actoren/services/actoren/_search',
         },
         {
           elastic:
