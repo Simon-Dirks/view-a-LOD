@@ -1,4 +1,5 @@
 # View-a-LOD
+![view-a-lod](https://github.com/Simon-Dirks/view-a-LOD/assets/2639851/7e364a60-8a2e-4ff1-b0cc-a4f535484aa3)
 
 > [!WARNING]  
 > This project is currently in early stage development, and not yet ready for production.
@@ -6,6 +7,7 @@
 A **flexible and configurable Linked Open Data viewer** using SPARQL and Elastic endpoints, currently built on [Triply](https://triply.cc/) infrastructure.
 
 This project is a collaboration between [Het Utrechts Archief](https://hetutrechtsarchief.nl/), [Regionaal Archief Zuid-Holland](https://www.razu.nl/) and [Kasteel Amerongen](https://www.kasteelamerongen.nl/), actively being developed by Simon Dirks (mail@simondirks.com).
+
 
 ## Adding endpoints
 
