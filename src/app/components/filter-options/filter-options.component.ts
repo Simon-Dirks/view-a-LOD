@@ -4,6 +4,8 @@ import { JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { NodeLinkComponent } from '../node/node-link/node-link.component';
 import { FilterOptionComponent } from './filter-option/filter-option.component';
 import { EndpointsComponent } from '../endpoints/endpoints.component';
+import { FilterType } from '../../models/filter.model';
+import { FilterCountComponent } from './filter-count/filter-count.component';
 
 @Component({
   selector: 'app-filter-options',
@@ -15,6 +17,7 @@ import { EndpointsComponent } from '../endpoints/endpoints.component';
     NodeLinkComponent,
     FilterOptionComponent,
     EndpointsComponent,
+    FilterCountComponent,
   ],
   templateUrl: './filter-options.component.html',
   styleUrl: './filter-options.component.scss',
@@ -43,4 +46,5 @@ export class FilterOptionsComponent {
   }
 
   protected readonly Object = Object;
+  protected readonly FilterType = FilterType;
 }

@@ -4,6 +4,7 @@ import { FilterModel, FilterType } from '../../models/filter.model';
 import {
   FilterOptionModel,
   FilterOptionsModel,
+  FilterOptionValueModel,
 } from '../../models/filter-option.model';
 import { SearchResponse } from '@elastic/elasticsearch/lib/api/types';
 import { FieldDocCountsModel } from '../../models/elastic/field-doc-counts.model';
@@ -150,5 +151,25 @@ export class FilterService {
   getOptionValueIds(filterId: string): string[] {
     // TODO: Reduce number of calls if necessary for performance reasons
     return this.getOptionById(filterId).values.flatMap((v) => v.ids);
+  }
+
+  getOptionEnabledFiltersCount(
+    filterId: string,
+    type: FilterType,
+  ): string | undefined {
+    const optionValues: FilterOptionValueModel[] =
+      this.getOptionById(filterId).values;
+    const count = optionValues.reduce(
+      (acc, optionValue) => acc + (this.has(optionValue.ids, type) ? 1 : 0),
+      0,
+    );
+
+    if (count > 1) {
+      return `${count} filters`;
+    }
+    if (count === 1) {
+      return `${count} filter`;
+    }
+    return undefined;
   }
 }
