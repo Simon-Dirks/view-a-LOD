@@ -14,16 +14,12 @@
       class="form-control flex-row"
       *ngFor="let endpointId of Object.keys(Settings.endpoints)"
     >
-      <label
-        class="label text"
-        [ngClass]="[search.isLoading.value ? 'opacity-50' : '']"
-      >
+      <label class="label text">
         <input
           type="checkbox"
           class="checkbox checkbox-sm mr-4"
           [checked]="endpoints.isEnabled(endpointId)"
           (click)="endpoints.toggle(endpointId)"
-          [disabled]="search.isLoading.value"
         />
         {{ endpoints.getById(endpointId).label }}
       </label>

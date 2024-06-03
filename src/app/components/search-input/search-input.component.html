@@ -1,19 +1,18 @@
-<label class="flex items-center gap-2">
+<label class="flex input input-bordered items-center gap-2">
   <input
     type="text"
-    class="grow input input-bordered"
+    class="grow"
     placeholder="Zoeken"
     (input)="onSearchInputChange($event)"
     value="{{ search.queryStr }}"
-    [disabled]="search.isLoading.value"
   />
   <span
     class="loading loading-spinner loading-xs opacity-70"
     *ngIf="search.isLoading.value"
   ></span>
-  <!--  <ng-icon-->
-  <!--    [svg]="featherSearch"-->
-  <!--    class="opacity-70"-->
-  <!--    *ngIf="!search.isLoading.value"-->
-  <!--  />-->
+  <ng-icon
+    [svg]="featherSearch"
+    class="opacity-70"
+    *ngIf="!search.isLoading.value"
+  />
 </label>
