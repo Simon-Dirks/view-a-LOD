@@ -9,5 +9,7 @@
     *ngIf="renderComponentIdsToShow.includes('gescand-inventarisnummer')"
   />
 
+  <app-hua-rubriek [node]="node" *ngIf="renderComponentIdsToShow.includes('hua-rubriek')"/>
+
   <app-node-table-view [node]="node" *ngIf="!renderComponentIsDefined" />
 </ng-container>

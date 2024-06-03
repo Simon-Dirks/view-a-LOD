@@ -292,6 +292,9 @@ export const Settings = {
       'https://hetutrechtsarchief.nl/id/aet/scnni': {
         componentId: 'gescand-inventarisnummer',
       },
+      'https://hetutrechtsarchief.nl/id/aet/rub': { 
+        componentId: 'hua-rubriek' 
+      },
     },
     [RenderMode.ByPredicate]: {
       'http://xmlns.com/foaf/0.1/depiction': {

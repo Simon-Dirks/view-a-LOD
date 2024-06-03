@@ -8,19 +8,21 @@ import { RenderComponentService } from '../../../services/render-component.servi
 import { SdoPhotographComponent } from '../node-render-components/type-render-components/sdo-photograph/sdo-photograph.component';
 import { RenderMode } from '../../../models/settings/render-component-settings.type';
 import { GescandInventarisnummerComponent } from '../node-render-components/type-render-components/gescand-inventarisnummer/gescand-inventarisnummer.component';
+import {HuaRubriekComponent} from "../node-render-components/type-render-components/hua-rubriek/hua-rubriek.component";
 
 @Component({
   selector: 'app-node-renderer',
   standalone: true,
-  imports: [
-    NodeTableViewComponent,
-    NgIf,
-    NgSwitch,
-    NgSwitchCase,
-    SdoPhotographComponent,
-    JsonPipe,
-    GescandInventarisnummerComponent,
-  ],
+    imports: [
+        NodeTableViewComponent,
+        NgIf,
+        NgSwitch,
+        NgSwitchCase,
+        SdoPhotographComponent,
+        JsonPipe,
+        GescandInventarisnummerComponent,
+        HuaRubriekComponent,
+    ],
   templateUrl: './node-renderer.component.html',
   styleUrl: './node-renderer.component.scss',
 })
