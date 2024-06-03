@@ -88,6 +88,8 @@ const hideFilterOptionValueIds = [
 const peopleFilterOptionValueIds = [
   'https://schema.org/Person',
   'https://data.cbg.nl/pico#PersonObservation',
+  'http://xmlns.com/foaf/0.1/Agent',
+  'http://www.nationaalarchief.nl/mdto#archiefvormer',
 ];
 
 export const Settings = {
@@ -204,7 +206,7 @@ export const Settings = {
           'https://schema.org/SheetMusic',
           'https://www.ica.org/standards/RiC/ontology#Record',
           'http://www.nationaalarchief.nl/mdto#Bestand',
-          'http://www.nationaalarchief.nl/mdto#Informatieobject'
+          'http://www.nationaalarchief.nl/mdto#Informatieobject',
         ],
       },
       locations: {
@@ -214,7 +216,8 @@ export const Settings = {
           'https://schema.org/Place',
           'https://schema.org/PostalAddress',
           'https://www.ica.org/standards/RiC/ontology#Place',
-          'http://www.nationaalarchief.nl/mdto#dekkingInRuimte'
+          'http://www.nationaalarchief.nl/mdto#dekkingInRuimte',
+          'http://www.opengis.net/ont/geosparql#Geometry',
         ],
       },
       publicDomain: {
@@ -223,7 +226,7 @@ export const Settings = {
           'https://hetutrechtsarchief.nl/id/630EAF2CCA826B2DE0534701000AE1E2',
           'https://hetutrechtsarchief.nl/id/609C5BCA906D4642E0534701000A17FD',
           'https://hetutrechtsarchief.nl/id/630EAF2CCA806B2DE0534701000AE1E2',
-        ]
+        ],
       },
       subject: {
         label: 'Onderwerpen',
