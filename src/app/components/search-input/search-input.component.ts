@@ -6,6 +6,7 @@ import { SearchService } from '../../services/search/search.service';
 import { debounceTime, distinctUntilChanged, Subject, tap } from 'rxjs';
 import { Settings } from '../../config/settings';
 import { featherSearch } from '@ng-icons/feather-icons';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-input',
@@ -17,7 +18,10 @@ import { featherSearch } from '@ng-icons/feather-icons';
 export class SearchInputComponent implements OnInit {
   private readonly _searchSubject = new Subject<string | undefined>();
 
-  constructor(public search: SearchService) {}
+  constructor(
+    public search: SearchService,
+    public router: Router,
+  ) {}
 
   ngOnInit() {
     this.initDebouncedSearch();
@@ -33,9 +37,11 @@ export class SearchInputComponent implements OnInit {
             return;
           }
 
-          this.search.queryStr = searchQuery;
+          const queryParams: NavigationExtras = {
+            queryParams: { q: searchQuery },
+          };
 
-          void this.search.execute(true, true);
+          void this.router.navigate([''], queryParams);
         }),
       )
       .subscribe();

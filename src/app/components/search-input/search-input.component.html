@@ -4,7 +4,7 @@
     class="grow input input-bordered"
     placeholder="Zoeken"
     (input)="onSearchInputChange($event)"
-    value="{{ Settings.defaultSearchQuery }}"
+    value="{{ search.queryStr }}"
     [disabled]="search.isLoading.value"
   />
   <span
