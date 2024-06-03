@@ -153,6 +153,16 @@ export class FilterService {
     return this.getOptionById(filterId).values.flatMap((v) => v.ids);
   }
 
+  getEnabledFiltersCountStr(count: number): string | undefined {
+    if (count > 1) {
+      return `${count} filters`;
+    }
+    if (count === 1) {
+      return `${count} filter`;
+    }
+    return undefined;
+  }
+
   getOptionEnabledFiltersCount(
     filterId: string,
     type: FilterType,
@@ -164,12 +174,6 @@ export class FilterService {
       0,
     );
 
-    if (count > 1) {
-      return `${count} filters`;
-    }
-    if (count === 1) {
-      return `${count} filter`;
-    }
-    return undefined;
+    return this.getEnabledFiltersCountStr(count);
   }
 }

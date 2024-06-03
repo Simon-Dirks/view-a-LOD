@@ -1,18 +1,29 @@
 <div class="collapse collapse-arrow join-item bg-base-100 border">
   <input type="checkbox" name="filter-accordion" />
-  <div class="collapse-title font-medium">Organisaties</div>
+  <div class="collapse-title font-medium">
+    <span>Organisaties</span>
+    <app-filter-count
+      [count]="
+        filters.getEnabledFiltersCountStr(endpoints.enabledIds.value.length)
+      "
+    />
+  </div>
 
   <div class="collapse-content max-h-48 overflow-y-scroll overflow-x-hidden">
     <div
       class="form-control flex-row"
       *ngFor="let endpointId of Object.keys(Settings.endpoints)"
     >
-      <label class="label text">
+      <label
+        class="label text"
+        [ngClass]="[search.isLoading.value ? 'opacity-50' : '']"
+      >
         <input
           type="checkbox"
           class="checkbox checkbox-sm mr-4"
           [checked]="endpoints.isEnabled(endpointId)"
           (click)="endpoints.toggle(endpointId)"
+          [disabled]="search.isLoading.value"
         />
         {{ endpoints.getById(endpointId).label }}
       </label>
