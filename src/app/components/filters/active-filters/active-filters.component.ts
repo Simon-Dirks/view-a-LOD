@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { FilterService } from '../../services/search/filter.service';
+import { FilterService } from '../../../services/search/filter.service';
 import { JsonPipe, NgForOf, NgIf } from '@angular/common';
-import { NodeLinkComponent } from '../node/node-link/node-link.component';
+import { NodeLinkComponent } from '../../node/node-link/node-link.component';
 import { NgIcon } from '@ng-icons/core';
 import { featherFilter, featherX } from '@ng-icons/feather-icons';
-import { FilterType } from '../../models/filter.model';
+import { FilterType } from '../../../models/filter.model';
 import { FormsModule } from '@angular/forms';
 
 @Component({

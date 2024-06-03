@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { FilterOptionComponent } from '../filter-options/filter-option/filter-option.component';
 import { JsonPipe, NgForOf } from '@angular/common';
-import { Settings } from '../../config/settings';
-import { NodeLinkComponent } from '../node/node-link/node-link.component';
-import { EndpointService } from '../../services/endpoint.service';
+import { Settings } from '../../../config/settings';
+import { NodeLinkComponent } from '../../node/node-link/node-link.component';
+import { EndpointService } from '../../../services/endpoint.service';
 
 @Component({
   selector: 'app-endpoints',

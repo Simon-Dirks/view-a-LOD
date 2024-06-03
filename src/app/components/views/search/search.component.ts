@@ -8,11 +8,11 @@ import { ViewMode } from '../../../models/view-mode.enum';
 import { NgxMasonryModule } from 'ngx-masonry';
 import { ViewModeService } from '../../../services/view-mode.service';
 import { NodesMasonryGridComponent } from '../../nodes-masonry-grid/nodes-masonry-grid.component';
-import { ActiveFiltersComponent } from '../../active-filters/active-filters.component';
+import { ActiveFiltersComponent } from '../../filters/active-filters/active-filters.component';
 import { NodesGridComponent } from '../../nodes-grid/nodes-grid.component';
-import { FilterOptionsComponent } from '../../filter-options/filter-options.component';
+import { FilterOptionsComponent } from '../../filters/filter-options/filter-options.component';
 import { Settings } from '../../../config/settings';
-import { EndpointsComponent } from '../../endpoints/endpoints.component';
+import { EndpointsComponent } from '../../filters/endpoints/endpoints.component';
 import { formatNumber } from '../../../helpers/util.helper';
 
 @Component({

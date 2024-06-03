@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FilterType } from '../../../models/filter.model';
+import { FilterType } from '../../../../models/filter.model';
 import { NgIf } from '@angular/common';
 
 @Component({

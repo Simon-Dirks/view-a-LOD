@@ -1,11 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
-import { NodeLinkComponent } from '../../node/node-link/node-link.component';
-import { FilterService } from '../../../services/search/filter.service';
-import { FilterModel, FilterType } from '../../../models/filter.model';
-import { FilterOptionValueModel } from '../../../models/filter-option.model';
-import { formatNumber } from '../../../helpers/util.helper';
-import { SearchService } from '../../../services/search/search.service';
+import { NodeLinkComponent } from '../../../node/node-link/node-link.component';
+import { FilterService } from '../../../../services/search/filter.service';
+import { FilterModel, FilterType } from '../../../../models/filter.model';
+import { FilterOptionValueModel } from '../../../../models/filter-option.model';
+import { formatNumber } from '../../../../helpers/util.helper';
+import { SearchService } from '../../../../services/search/search.service';
 
 @Component({
   selector: 'app-filter-option',

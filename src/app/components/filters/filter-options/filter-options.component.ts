@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { FilterService } from '../../services/search/filter.service';
+import { FilterService } from '../../../services/search/filter.service';
 import { JsonPipe, NgForOf, NgIf } from '@angular/common';
-import { NodeLinkComponent } from '../node/node-link/node-link.component';
+import { NodeLinkComponent } from '../../node/node-link/node-link.component';
 import { FilterOptionComponent } from './filter-option/filter-option.component';
 import { EndpointsComponent } from '../endpoints/endpoints.component';
-import { FilterType } from '../../models/filter.model';
+import { FilterType } from '../../../models/filter.model';
 import { FilterCountComponent } from './filter-count/filter-count.component';
 
 @Component({
