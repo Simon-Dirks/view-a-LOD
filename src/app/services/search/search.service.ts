@@ -31,6 +31,8 @@ export class SearchService {
   numberOfHits: number = 0;
   moreHitsAreAvailable: boolean = false;
 
+  private _searchQueryId = 0;
+
   constructor(
     private elastic: ElasticService,
     private hits: SearchHitsService,
@@ -135,6 +137,8 @@ export class SearchService {
   }
 
   async execute(clearResults = false, clearFilters = false) {
+    this._searchQueryId++;
+
     console.log('SEARCH', this.queryStr);
     if (clearResults) {
       this.clearResults();
@@ -145,6 +149,7 @@ export class SearchService {
 
     this.isLoading.next(true);
     try {
+      const searchQueryIdOfRequest = this._searchQueryId;
       const searchPromise = this.elastic.searchEntities(
         this.queryStr,
         this.page * Settings.search.resultsPerPagePerEndpoint,
@@ -154,11 +159,18 @@ export class SearchService {
       const filterOptionsPromise = this.filters.updateFilterOptionValues(
         this.queryStr,
       );
+
       const [responses, _] = await Promise.all([
         searchPromise,
         filterOptionsPromise,
       ]);
 
+      // TODO: Cancel requests if we know there's a new request already (note: cancelling promises not easily supported at the moment)
+      const responsesAreOutdated =
+        this._searchQueryId !== searchQueryIdOfRequest;
+      if (responsesAreOutdated) {
+        return;
+      }
       this._updateNumberOfHitsFromSearchResponses(responses);
       await this._updateResultsFromSearchResponses(responses);
     } catch (error) {
