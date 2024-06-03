@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgIcon } from '@ng-icons/core';
-import { NgIf } from '@angular/common';
+import { NgClass, NgIf } from '@angular/common';
 import { SearchService } from '../../services/search/search.service';
 import { debounceTime, distinctUntilChanged, Subject, tap } from 'rxjs';
 import { Settings } from '../../config/settings';
@@ -10,7 +10,7 @@ import { featherSearch } from '@ng-icons/feather-icons';
 @Component({
   selector: 'app-search-input',
   standalone: true,
-  imports: [FormsModule, NgIcon, NgIf],
+  imports: [FormsModule, NgIcon, NgIf, NgClass],
   templateUrl: './search-input.component.html',
   styleUrl: './search-input.component.scss',
 })

@@ -1,10 +1,14 @@
 <div class="form-control flex-row" *ngFor="let value of values">
-  <label class="label text">
+  <label
+    class="label text"
+    [ngClass]="[search.isLoading.value ? 'opacity-50' : '']"
+  >
     <input
       type="checkbox"
       class="checkbox checkbox-sm mr-4"
       [checked]="filterService.has(value.ids, FilterType.FieldAndValue)"
       (click)="onFilterToggle(value.ids)"
+      [disabled]="search.isLoading.value"
     />
     <app-node-link
       [disabled]="true"
