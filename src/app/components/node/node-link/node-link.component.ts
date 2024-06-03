@@ -3,6 +3,7 @@ import {
   isValidHttpUrl,
   isValidUrl,
   replacePrefixes,
+  wrapWithDoubleQuotes,
 } from '../../../helpers/util.helper';
 import { JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { CacheService } from '../../../services/cache.service';
@@ -11,6 +12,7 @@ import { FilterService } from '../../../services/search/filter.service';
 import {
   featherExternalLink,
   featherFilter,
+  featherSearch,
   featherX,
 } from '@ng-icons/feather-icons';
 import { NgIcon } from '@ng-icons/core';
@@ -105,4 +107,6 @@ export class NodeLinkComponent implements OnInit {
   protected readonly featherExternalLink = featherExternalLink;
   protected readonly featherX = featherX;
   protected readonly FilterType = FilterType;
+  protected readonly featherSearch = featherSearch;
+  protected readonly wrapWithDoubleQuotes = wrapWithDoubleQuotes;
 }

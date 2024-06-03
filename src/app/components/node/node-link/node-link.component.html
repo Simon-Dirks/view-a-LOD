@@ -4,22 +4,31 @@
       <ng-icon [svg]="featherExternalLink" /> Open link
     </a>
 
-    <!--    TODO: Depending on where this is presented, determine if the filter should be field or value-->
-    <button
-      class="btn btn-sm"
-      (click)="onToggleFilterClicked($event, FilterType.Value)"
-      [disabled]="true"
-      *ngIf="url"
+    <a
+      class="btn btn-sm mr-2"
+      [routerLink]="['']"
+      [queryParams]="{ q: wrapWithDoubleQuotes(url) }"
+      target="_blank"
     >
-      <ng-icon
-        [svg]="filters.has([url], FilterType.Value) ? featherX : featherFilter"
-      />
-      {{
-        filters.has([url], FilterType.Value)
-          ? "[TODO] Remove filter"
-          : "[TODO] Add filter"
-      }}
-    </button>
+      <ng-icon [svg]="featherSearch" /> Search
+    </a>
+
+    <!--    TODO: Depending on where this is presented, determine if the filter should be field or value-->
+    <!--    <button-->
+    <!--      class="btn btn-sm"-->
+    <!--      (click)="onToggleFilterClicked($event, FilterType.Value)"-->
+    <!--      [disabled]="true"-->
+    <!--      *ngIf="url"-->
+    <!--    >-->
+    <!--      <ng-icon-->
+    <!--        [svg]="filters.has([url], FilterType.Value) ? featherX : featherFilter"-->
+    <!--      />-->
+    <!--      {{-->
+    <!--        filters.has([url], FilterType.Value)-->
+    <!--          ? "[TODO] Remove filter"-->
+    <!--          : "[TODO] Add filter"-->
+    <!--      }}-->
+    <!--    </button>-->
   </float-ui-content>
 
   <div class="inline">

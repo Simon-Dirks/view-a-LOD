@@ -13,6 +13,10 @@ export const wrapWithAngleBrackets = (s: string): string => {
   return `<${s}>`;
 };
 
+export const wrapWithDoubleQuotes = (s?: string): string => {
+  return `"${s}"`;
+};
+
 export const truncate = (
   s: string,
   maxCharacters: number,
