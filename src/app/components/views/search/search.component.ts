@@ -49,7 +49,7 @@ export class SearchComponent implements OnInit {
     const hasReachedEnd =
       $event.target.offsetHeight + $event.target.scrollTop >=
       $event.target.scrollHeight;
-    if (hasReachedEnd) {
+    if (hasReachedEnd && !this.search.isLoading.value) {
       void this.search.execute();
     }
   }
