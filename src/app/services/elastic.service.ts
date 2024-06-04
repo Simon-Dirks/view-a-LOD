@@ -53,21 +53,21 @@ export class ElasticService {
   }
 
   private _getFieldExistsQuery(
-    query?: string,
+    fieldId?: string,
     boost?: number,
   ): ElasticFieldExistsQuery {
-    if (!query) {
-      query = '';
+    if (!fieldId) {
+      fieldId = '';
     }
     return {
       exists: {
-        field: query,
+        field: this.data.replacePeriodsWithSpaces(fieldId),
         boost: boost,
       },
     };
   }
 
-  private _getMustFilterQueries(
+  private _getFieldOrValueFilterQueries(
     filters: FilterModel[],
   ): (ElasticSimpleQuery | ElasticFieldExistsQuery)[] {
     const fieldOrValueFilters = filters.filter(
@@ -83,7 +83,7 @@ export class ElasticService {
     });
   }
 
-  private _getMatchFilterQueries(
+  private getFieldAndValueFilterQueries(
     filters: FilterModel[],
   ): ElasticShouldMatchQueries[] {
     const fieldAndValueFilters = filters.filter(
@@ -201,27 +201,41 @@ export class ElasticService {
     size: number,
     filters: FilterModel[],
   ): Promise<ElasticEndpointSearchResponse<ElasticNodeModel>[]> {
-    const mustQueries: (ElasticSimpleQuery | ElasticFieldExistsQuery)[] =
-      this._getMustFilterQueries(filters);
-
-    if (query) {
-      const searchQuery = this._getSearchQuery(query);
-      mustQueries.push(searchQuery);
-    }
-
-    const filterQueries = this._getMatchFilterQueries(filters);
-
-    const hasFilterQueries = filterQueries.length > 0;
     const queryData: any = {
       from: from,
       size: size,
       query: {
-        bool: {
-          must: [...mustQueries, ...filterQueries],
-          // minimum_should_match: hasFilterQueries ? 1 : 0,
-        },
+        bool: {},
       },
     };
+
+    let searchFilters: FilterModel[] = filters;
+    const isHomePageQuery = !query;
+    const hasNoFiltersYet = !filters || filters.length === 0;
+    if (isHomePageQuery && hasNoFiltersYet) {
+      searchFilters = Settings.filtersForEmptySearch as FilterModel[];
+    }
+
+    const fieldOrValueFilterQueries: (
+      | ElasticSimpleQuery
+      | ElasticFieldExistsQuery
+    )[] = this._getFieldOrValueFilterQueries(searchFilters);
+
+    if (query) {
+      const searchQuery = this._getSearchQuery(query);
+      fieldOrValueFilterQueries.push(searchQuery);
+    }
+
+    const fieldAndValueFilterQueries =
+      this.getFieldAndValueFilterQueries(searchFilters);
+
+    const mustQueries = [
+      ...fieldOrValueFilterQueries,
+      ...fieldAndValueFilterQueries,
+    ];
+    if (mustQueries && mustQueries.length > 0) {
+      queryData.query.bool.must = mustQueries;
+    }
 
     return await this.searchEndpoints<ElasticNodeModel>(queryData);
   }

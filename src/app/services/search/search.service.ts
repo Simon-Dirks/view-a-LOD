@@ -22,7 +22,7 @@ import { ActivatedRoute } from '@angular/router';
   providedIn: 'root',
 })
 export class SearchService {
-  queryStr: string = Settings.defaultSearchQuery;
+  queryStr: string = '';
 
   results: BehaviorSubject<SearchResultsModel> =
     new BehaviorSubject<SearchResultsModel>({});

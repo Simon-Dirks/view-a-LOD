@@ -2,8 +2,9 @@ import { ViewMode } from '../models/view-mode.enum';
 import { ViewModeSetting } from '../models/settings/view-mode-setting.enum';
 import { PredicateVisibility } from '../models/settings/predicate-visibility-settings.model';
 import { RenderMode } from '../models/settings/render-component-settings.type';
+import { FilterType } from '../models/filter.model';
 
-const imagePredicates: string[] = [
+export const imagePredicates: string[] = [
   'http://xmlns.com/foaf/0.1/depiction',
   'https://schema.org/thumbnail',
   'https://schema.org/image',
@@ -103,7 +104,18 @@ const peopleFilterOptionValueIds = [
 ];
 
 export const Settings = {
-  defaultSearchQuery: '',
+  filtersForEmptySearch: [
+    {
+      fieldId: 'http://www.w3.org/2000/01/rdf-schema#label',
+      type: FilterType.Field,
+    },
+    { fieldId: 'http://xmlns.com/foaf/0.1/depiction', type: FilterType.Field },
+    // {
+    //   fieldId: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
+    //   valueId: 'https://schema.org/ArchiveComponent',
+    //   type: FilterType.FieldAndValue,
+    // },
+  ],
   endpoints: {
     hua: {
       label: 'Het Utrechts Archief',
