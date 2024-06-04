@@ -32,6 +32,7 @@ export const labelPredicates: string[] = [
   'http://www.nationaalarchief.nl/mdto#naam',
   'http://www.nationaalarchief.nl/mdto#begripLabel',
   'http://www.nationaalarchief.nl/mdto#verwijzingNaam',
+  'http://www.nationaalarchief.nl/mdto#identificatieKenmerk',
 ];
 
 const hideFilterOptionValueIds = [
@@ -138,14 +139,15 @@ export const Settings = {
             'https://api.data.razu.nl/datasets/razu/PoCAmerongen2024/sparql',
         },
         {
-          sparql: 'https://api.data.razu.nl/datasets/gedeeld/actoren/sparql',
+          sparql: 'https://api.data.razu.nl/datasets/razu/actoren/sparql',
           elastic:
             'https://data.razu.nl/_api/datasets/razu/actoren/services/actoren/_search',
         },
         {
+          sparql:
+            'https://api.data.razu.nl/datasets/razu/locaties/services/locaties/sparql',
           elastic:
             'https://data.razu.nl/_api/datasets/razu/locaties/services/locaties-1/_search',
-          sparql: 'https://api.data.razu.nl/datasets/gedeeld/locaties/sparql',
         },
       ],
     },
