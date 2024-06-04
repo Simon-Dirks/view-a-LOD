@@ -22,6 +22,7 @@
           class="collapse-content max-h-64 overflow-y-scroll overflow-x-hidden"
         >
           <app-filter-option
+            [filterId]="filterId"
             [values]="filters.getOptionById(filterId).values"
             [fieldIds]="filters.getOptionById(filterId).fieldIds"
           />

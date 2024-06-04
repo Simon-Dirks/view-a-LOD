@@ -16,6 +16,7 @@ import { Config } from '../../../../config/config';
   styleUrl: './filter-option.component.scss',
 })
 export class FilterOptionComponent implements OnInit {
+  @Input() filterId?: string;
   @Input() fieldIds?: string[];
   @Input() values?: FilterOptionValueModel[];
 
@@ -34,6 +35,7 @@ export class FilterOptionComponent implements OnInit {
     const filters: FilterModel[] = this.fieldIds.flatMap((fieldId) => {
       return valueIds.map((valueId) => {
         return {
+          filterId: this.filterId,
           fieldId: fieldId,
           valueId: valueId,
           type: FilterType.FieldAndValue,

@@ -6,7 +6,10 @@ import { FilterModel, FilterType } from '../models/filter.model';
 import { ElasticSimpleQuery } from '../models/elastic/elastic-simple-query.type';
 import { ElasticFieldExistsQuery } from '../models/elastic/elastic-field-exists-query.type';
 import { DataService } from './data.service';
-import { ElasticMatchQueries } from '../models/elastic/elastic-match-queries.type';
+import {
+  ElasticMatchQueries,
+  ElasticShouldMatchQueries,
+} from '../models/elastic/elastic-match-queries.type';
 import { SearchResponse } from '@elastic/elasticsearch/lib/api/types';
 import { Config } from '../config/config';
 import { SettingsService } from './settings.service';
@@ -82,14 +85,14 @@ export class ElasticService {
 
   private _getMatchFilterQueries(
     filters: FilterModel[],
-  ): ElasticMatchQueries[] {
+  ): ElasticShouldMatchQueries[] {
     const fieldAndValueFilters = filters.filter(
       (filter) =>
         filter.type === FilterType.FieldAndValue &&
         filter.fieldId !== undefined,
     );
 
-    let matchQueries: ElasticMatchQueries[] = [];
+    let matchQueries: { [filterId: string]: ElasticMatchQueries[] } = {};
     fieldAndValueFilters.forEach((filter) => {
       if (!filter.fieldId || !filter.valueId) {
         return;
@@ -100,10 +103,19 @@ export class ElasticService {
       const matchQuery: ElasticMatchQueries = {
         match_phrase: { [fieldIdWithSpaces]: filter.valueId },
       };
-      matchQueries.push(matchQuery);
+      const filterId = filter?.filterId ?? 'Filter';
+      if (!(filterId in matchQueries)) {
+        matchQueries[filterId] = [];
+      }
+      matchQueries[filterId].push(matchQuery);
     });
 
-    return matchQueries;
+    const shouldMatchQueries: ElasticShouldMatchQueries[] = Object.values(
+      matchQueries,
+    ).map((queries) => {
+      return { bool: { should: queries } };
+    });
+    return shouldMatchQueries;
   }
 
   async getFilterOptions(
@@ -159,6 +171,7 @@ export class ElasticService {
       if (!endpoint.elastic) {
         continue;
       }
+
       const searchPromise: Promise<SearchResponse<T>> = this.api.postData<
         SearchResponse<T>
       >(endpoint.elastic, queryData);
@@ -204,9 +217,8 @@ export class ElasticService {
       size: size,
       query: {
         bool: {
-          must: [...mustQueries],
-          should: [...filterQueries],
-          minimum_should_match: hasFilterQueries ? 1 : 0,
+          must: [...mustQueries, ...filterQueries],
+          // minimum_should_match: hasFilterQueries ? 1 : 0,
         },
       },
     };

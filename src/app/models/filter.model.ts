@@ -1,4 +1,5 @@
 export interface FilterModel {
+  filterId?: string;
   fieldId?: string;
   valueId?: string;
   type: FilterType;
