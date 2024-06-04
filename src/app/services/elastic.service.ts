@@ -6,15 +6,13 @@ import { FilterModel, FilterType } from '../models/filter.model';
 import { ElasticSimpleQuery } from '../models/elastic/elastic-simple-query.type';
 import { ElasticFieldExistsQuery } from '../models/elastic/elastic-field-exists-query.type';
 import { DataService } from './data.service';
-import {
-  ElasticMatchQueries,
-  ElasticShouldMatchQueries,
-} from '../models/elastic/elastic-match-queries.type';
+import { ElasticMatchQueries } from '../models/elastic/elastic-match-queries.type';
 import { SearchResponse } from '@elastic/elasticsearch/lib/api/types';
 import { Config } from '../config/config';
 import { SettingsService } from './settings.service';
 import { EndpointService } from './endpoint.service';
 import { ElasticEndpointSearchResponse } from '../models/elastic/elastic-endpoint-search-response.type';
+import { ElasticShouldQueries } from '../models/elastic/elastic-should-queries.type';
 
 @Injectable({
   providedIn: 'root',
@@ -85,7 +83,7 @@ export class ElasticService {
 
   private getFieldAndValueFilterQueries(
     filters: FilterModel[],
-  ): ElasticShouldMatchQueries[] {
+  ): ElasticShouldQueries[] {
     const fieldAndValueFilters = filters.filter(
       (filter) =>
         filter.type === FilterType.FieldAndValue &&
@@ -110,7 +108,7 @@ export class ElasticService {
       matchQueries[filterId].push(matchQuery);
     });
 
-    const shouldMatchQueries: ElasticShouldMatchQueries[] = Object.values(
+    const shouldMatchQueries: ElasticShouldQueries[] = Object.values(
       matchQueries,
     ).map((queries) => {
       return { bool: { should: queries } };
@@ -231,10 +229,11 @@ export class ElasticService {
     const fieldAndValueFilterQueries =
       this.getFieldAndValueFilterQueries(searchFilters);
 
-    const mustQueries = [
-      ...fieldOrValueFilterQueries,
-      ...fieldAndValueFilterQueries,
-    ];
+    const mustQueries: ElasticShouldQueries[] = [...fieldAndValueFilterQueries];
+    if (fieldOrValueFilterQueries && fieldOrValueFilterQueries.length > 0) {
+      mustQueries.push({ bool: { should: fieldOrValueFilterQueries } });
+    }
+
     if (mustQueries && mustQueries.length > 0) {
       queryData.query.bool.must = mustQueries;
     }
