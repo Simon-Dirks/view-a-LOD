@@ -13,5 +13,5 @@ export interface FilterOptionModel {
 export interface FilterOptionValueModel {
   ids: string[];
   label?: string;
-  count: number;
+  filterHitIds: string[];
 }

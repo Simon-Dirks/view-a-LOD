@@ -10,7 +10,7 @@
       [disabled]="true"
       [label]="value.label"
       [url]="!value.label ? value.ids[0] : undefined"
-      [suffixStr]="' (' + formatNumber(value.count) + ')'"
+      [suffixStr]="getFilterOptionCountStr(value.filterHitIds.length)"
       [shouldHighlight]="false"
       *ngIf="value.ids"
     >

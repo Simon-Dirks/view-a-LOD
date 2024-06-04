@@ -112,12 +112,24 @@ export class ElasticService {
   ): Promise<SearchResponse<any>[]> {
     const aggs = filterFieldIds.reduce((result: any, fieldId) => {
       const elasticFieldId = this.data.replacePeriodsWithSpaces(fieldId);
+
+      // TODO: Find way to retrieve ALL hit IDs here if we want to show the full count for the filter options
+      //  Now using top_hits to prevent many separate requests
+      //  Relatively easy fix: update [index.max_inner_result_window] on elastic to 10.000"
       result[elasticFieldId] = {
         terms: {
           field: elasticFieldId + '.keyword',
           min_doc_count:
             Settings.filtering.minNumOfValuesForFilterOptionToAppear,
           size: Config.maxNumOfFilterOptionsPerField,
+        },
+        aggs: {
+          field_hits: {
+            top_hits: {
+              size: Config.elasticTopHitsMax,
+              _source: '',
+            },
+          },
         },
       };
       return result;

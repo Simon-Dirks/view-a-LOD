@@ -5,4 +5,5 @@ export const Config = {
   labelFetchIntervalMs: 100,
   maxNumOfFilterOptionsPerField: 30,
   maxImagesToShow: 10,
+  elasticTopHitsMax: 100,
 };

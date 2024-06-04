@@ -4,6 +4,12 @@ export interface ElasticAggregationModel {
 }
 
 export interface DocCountModel {
-  doc_count: number;
+  field_hits?: {
+    hits?: {
+      hits?: { _id: string }[];
+    };
+  };
+  hitIds: string[];
+  // doc_count: number;
   key: string;
 }

@@ -50,6 +50,9 @@ export class FilterService {
         const aggregationsData =
           aggregationsAggregate as ElasticAggregationModel;
         for (const docCount of aggregationsData.buckets) {
+          const hitIds = docCount?.field_hits?.hits?.hits?.map((h) => h?._id);
+          docCount.hitIds = hitIds ?? [];
+
           if (!(elasticFieldId in docCountsByFieldId)) {
             docCountsByFieldId[elasticFieldId] = [];
           }
@@ -67,11 +70,12 @@ export class FilterService {
 
     const responses: SearchResponse<any>[] =
       await this.elastic.getFilterOptions(allFilterFieldIds, query);
-    const docCounts = this._getFieldDocCountsFromResponses(responses);
+    const docCounts: FieldDocCountsModel =
+      this._getFieldDocCountsFromResponses(responses);
 
     const filterOptions = this.options.value;
     for (const [_, filter] of Object.entries(filterOptions)) {
-      const filterValuesMap = new Map<string, number>();
+      const filterValuesMap = new Map<string, string[]>();
 
       filter.fieldIds.forEach((fieldId) => {
         const elasticFieldId = this.data.replacePeriodsWithSpaces(fieldId);
@@ -90,18 +94,20 @@ export class FilterService {
         );
         docCountsToShow.forEach((d) => {
           const id = d.key;
-          const count = d.doc_count;
+          const hitIds = d.hitIds;
 
           if (filterValuesMap.has(id)) {
-            filterValuesMap.set(id, filterValuesMap.get(id)! + count);
+            filterValuesMap.set(id, filterValuesMap.get(id)!.concat(hitIds));
           } else {
-            filterValuesMap.set(id, count);
+            filterValuesMap.set(id, hitIds);
           }
         });
       });
-      const filterValues = Array.from(filterValuesMap).map(([id, count]) => ({
+      const filterValues: FilterOptionValueModel[] = Array.from(
+        filterValuesMap,
+      ).map(([id, filterHitIds]) => ({
         ids: [id],
-        count: count,
+        filterHitIds: filterHitIds,
       }));
 
       const clusteredFilterValues =

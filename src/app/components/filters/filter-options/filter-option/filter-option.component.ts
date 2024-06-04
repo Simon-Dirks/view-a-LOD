@@ -6,6 +6,7 @@ import { FilterModel, FilterType } from '../../../../models/filter.model';
 import { FilterOptionValueModel } from '../../../../models/filter-option.model';
 import { formatNumber } from '../../../../helpers/util.helper';
 import { SearchService } from '../../../../services/search/search.service';
+import { Config } from '../../../../config/config';
 
 @Component({
   selector: 'app-filter-option',
@@ -41,6 +42,14 @@ export class FilterOptionComponent implements OnInit {
     });
 
     this.filterService.toggleMultiple(filters);
+  }
+
+  getFilterOptionCountStr(count: number): string {
+    if (count >= Config.elasticTopHitsMax) {
+      return ` (${Config.elasticTopHitsMax}+)`;
+    }
+
+    return ` (${count})`;
   }
 
   protected readonly FilterType = FilterType;
