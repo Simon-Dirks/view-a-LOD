@@ -1,13 +1,5 @@
-<p>hua-rubriek works!</p>
-
-<ul>
-<ng-container *ngFor="let child of children">
-  <li><app-node-link [url]="child"/></li>
-</ng-container>
+<ul class="mt-2">
+  <li *ngFor="let child of children">
+    <app-node-link [url]="child.subject" />
+  </li>
 </ul>
-
-<!--<app-node-link *ngFor="let child of children" [url]="child"/>-->
-
-
-
-

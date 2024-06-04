@@ -23,6 +23,16 @@ const parentPredicates: string[] = [
   'http://www.nationaalarchief.nl/mdto#isOnderdeelVan',
 ];
 
+export const labelPredicates: string[] = [
+  'http://www.w3.org/2000/01/rdf-schema#label',
+  'https://schema.org/name',
+  'https://www.ica.org/standards/RiC/ontology#title',
+  'https://www.ica.org/standards/RiC/ontology#textualValue',
+  'http://www.nationaalarchief.nl/mdto#naam',
+  'http://www.nationaalarchief.nl/mdto#begripLabel',
+  'http://www.nationaalarchief.nl/mdto#verwijzingNaam',
+];
+
 const hideFilterOptionValueIds = [
   'http://www.nationaalarchief.nl/mdto#ChecksumGegevens',
   'http://www.w3.org/ns/shacl#NodeShape',
@@ -274,15 +284,7 @@ export const Settings = {
   labelMaxChars: 100,
   predicates: {
     parents: parentPredicates,
-    label: [
-      'http://www.w3.org/2000/01/rdf-schema#label',
-      'https://schema.org/name',
-      'https://www.ica.org/standards/RiC/ontology#title',
-      'https://www.ica.org/standards/RiC/ontology#textualValue',
-      'http://www.nationaalarchief.nl/mdto#naam',
-      'http://www.nationaalarchief.nl/mdto#begripLabel',
-      'http://www.nationaalarchief.nl/mdto#verwijzingNaam',
-    ],
+    label: labelPredicates,
     type: typePredicates,
     images: imagePredicates,
   },
@@ -292,8 +294,8 @@ export const Settings = {
       'https://hetutrechtsarchief.nl/id/aet/scnni': {
         componentId: 'gescand-inventarisnummer',
       },
-      'https://hetutrechtsarchief.nl/id/aet/rub': { 
-        componentId: 'hua-rubriek' 
+      'https://hetutrechtsarchief.nl/id/aet/rub': {
+        componentId: 'hua-rubriek',
       },
     },
     [RenderMode.ByPredicate]: {

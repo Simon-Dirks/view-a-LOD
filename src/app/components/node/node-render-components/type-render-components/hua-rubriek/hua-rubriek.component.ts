@@ -1,27 +1,22 @@
 import { Component } from '@angular/core';
-import {NodeRenderComponent} from "../../node-render.component";
-import {JsonPipe, NgForOf} from "@angular/common";
-import {ApiService} from "../../../../../services/api.service";
-import {SparqlService} from "../../../../../services/sparql.service";
-import {NodeService} from "../../../../../services/node.service";
-import {wrapWithAngleBrackets} from "../../../../../helpers/util.helper";
-import {Settings} from "../../../../../config/settings";
-import {NodeLinkComponent} from "../../../node-link/node-link.component";
+import { NodeRenderComponent } from '../../node-render.component';
+import { JsonPipe, NgForOf } from '@angular/common';
+import { ApiService } from '../../../../../services/api.service';
+import { SparqlService } from '../../../../../services/sparql.service';
+import { NodeService } from '../../../../../services/node.service';
+import { labelPredicates, Settings } from '../../../../../config/settings';
+import { NodeLinkComponent } from '../../../node-link/node-link.component';
+import { wrapWithAngleBrackets } from '../../../../../helpers/util.helper';
 
 @Component({
   selector: 'app-hua-rubriek',
   standalone: true,
-  imports: [
-    JsonPipe,
-    NodeLinkComponent,
-    NgForOf
-  ],
+  imports: [JsonPipe, NodeLinkComponent, NgForOf],
   templateUrl: './hua-rubriek.component.html',
-  styleUrl: './hua-rubriek.component.scss'
+  styleUrl: './hua-rubriek.component.scss',
 })
 export class HuaRubriekComponent extends NodeRenderComponent {
-
-  children: string[] = [];
+  children: { subject: string; subjectLabel: string }[] = [];
 
   constructor(
     public api: ApiService,
@@ -40,18 +35,17 @@ export class HuaRubriekComponent extends NodeRenderComponent {
       return;
     }
 
-    console.log("hoi");
-
     const query = `
 prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 prefix rico: <https://www.ica.org/standards/RiC/ontology#>
-SELECT ?subject
+SELECT ?subject ?subjectLabel
 WHERE {
   ?subject rico:isOrWasIncludedIn <${this.nodes.getId(this.node)}> .
-}`
+  ?subject ${labelPredicates.map((p) => wrapWithAngleBrackets(p)).join('|')} ?subjectLabel .
+}`;
 
     const response = await this.api.postData<
-      { subject: string }[]
+      { subject: string; subjectLabel: string }[]
     >(Settings.endpoints.hua.endpointUrls[0].sparql, {
       query: query,
     });
@@ -60,7 +54,8 @@ WHERE {
       return;
     }
 
-    this.children = response.map((e)=>e.subject)
+    this.children = response.sort((a, b) => {
+      return ('' + a.subjectLabel).localeCompare(b.subjectLabel);
+    });
   }
-
 }
