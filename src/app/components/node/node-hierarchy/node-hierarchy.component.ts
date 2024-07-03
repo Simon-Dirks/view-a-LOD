@@ -18,7 +18,7 @@ import { Settings } from '../../../config/settings';
 })
 export class NodeHierarchyComponent {
   @Input() nodes: ThingWithLabelModel[] = [];
-  collapsed = true;
+  collapsed = false;
 
   constructor(
     public nodeService: NodeService,

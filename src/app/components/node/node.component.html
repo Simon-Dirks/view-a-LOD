@@ -1,16 +1,8 @@
 <div class="card w-full bg-base-100 border mb-4" *ngIf="node">
   <div class="card-body">
     <div class="card-title text-lg" *ngIf="showTitle">
-      <app-node-link [url]="id" [label]="title" class="w-3/4" />
-      <app-node-endpoint
-        [endpointId]="nodes.getEndpointId(node)"
-        class="w-1/4"
-      />
+      <app-node-link [url]="id" [label]="title" />
     </div>
-
-    <app-node-hierarchy [nodes]="parents" *ngIf="showParents" />
-
-    <app-node-types [types]="types" *ngIf="showTypes" />
 
     <app-node-images
       [images]="images"
@@ -18,6 +10,18 @@
       *ngIf="showLargeImages && images && images.length > 0"
       class="mt-4"
     />
+
+    <div class="w-full px-4">
+      <app-node-table-row [label]="'Onderdeel van'" *ngIf="showParents">
+        <app-node-hierarchy [nodes]="parents" />
+      </app-node-table-row>
+      <app-node-table-row [label]="'Soort'" *ngIf="showTypes">
+        <app-node-types [types]="types" />
+      </app-node-table-row>
+      <app-node-table-row [label]="'Organisatie'">
+        <app-node-endpoint [endpointId]="nodes.getEndpointId(node)" />
+      </app-node-table-row>
+    </div>
 
     <app-node-renderer [node]="node" />
   </div>

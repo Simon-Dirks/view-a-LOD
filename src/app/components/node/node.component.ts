@@ -23,6 +23,7 @@ import { SettingsService } from '../../services/settings.service';
 import { ViewModeSetting } from '../../models/settings/view-mode-setting.enum';
 import { TypeModel } from '../../models/type.model';
 import { NodeEndpointComponent } from './node-endpoint/node-endpoint.component';
+import { NodeTableRowComponent } from './node-table-row/node-table-row.component';
 
 @Component({
   selector: 'app-node',
@@ -39,6 +40,7 @@ import { NodeEndpointComponent } from './node-endpoint/node-endpoint.component';
     NodeLinkComponent,
     NodeRendererComponent,
     NodeEndpointComponent,
+    NodeTableRowComponent,
   ],
   templateUrl: './node.component.html',
   styleUrl: './node.component.scss',

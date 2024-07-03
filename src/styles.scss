@@ -3,7 +3,10 @@
 @tailwind utilities;
 
 /* == Theme, see tailwind.config.js for remaining tweaks == */
+
+// Import fonts
 @import url("https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
 // Update colors
 *,
@@ -22,9 +25,14 @@
   }
 }
 
-// Increase badge padding (used for node type)
+// Style badge
 .badge-md {
   height: 1.5rem;
+}
+
+.badge {
+  @apply rounded-full;
+  @apply font-mono;
 }
 
 // Tweak filter box heights
@@ -38,9 +46,13 @@
   top: 1rem;
 }
 
-// Hide table border
+// Style table
 tr {
   border: none;
+}
+
+.table :where(th, td) {
+  padding: 0.25rem 0;
 }
 
 // Style checkbox

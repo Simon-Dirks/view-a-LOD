@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["Familjen Grotesk", "sans-serif"],
+        mono: ["Space Mono", "monospace"],
       },
     },
   },
