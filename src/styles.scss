@@ -37,6 +37,11 @@
   top: 1rem;
 }
 
+// Hide table border
+tr {
+  border: none;
+}
+
 /* == Other == */
 
 @layer base {
