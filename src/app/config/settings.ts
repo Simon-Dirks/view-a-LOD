@@ -6,7 +6,7 @@ import { FilterModel, FilterType } from '../models/filter.model';
 
 export const imagePredicates: string[] = [
   'http://xmlns.com/foaf/0.1/depiction',
-  'https://schema.org/thumbnail',
+  // 'https://schema.org/thumbnail',
   'https://schema.org/image',
 ];
 
@@ -324,6 +324,9 @@ export const Settings = {
     },
     [RenderMode.ByPredicate]: {
       'http://xmlns.com/foaf/0.1/depiction': {
+        componentId: 'node-images',
+      },
+      'https://schema.org/thumbnail': {
         componentId: 'node-images',
       },
       'https://schema.org/contentLocation': {
