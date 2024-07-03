@@ -1,8 +1,12 @@
-<ng-container *ngIf="filters.options.value">
-  <div class="join join-vertical w-full mb-4">
-    <ng-container *ngFor="let filterId of Object.keys(filters.options.value)">
+<div
+  class="flex flex-row gap-4 mb-8 items-center"
+  *ngIf="filters.options.value"
+>
+  <p>Filter op:</p>
+  <ng-container *ngFor="let filterId of Object.keys(filters.options.value)">
+    <div>
       <div
-        class="collapse collapse-arrow join-item bg-base-100 border"
+        class="collapse collapse-arrow bg-primary text-white border"
         *ngIf="filters.getOptionValueIds(filterId).length > 0"
       >
         <input type="checkbox" name="filter-accordion" />
@@ -28,8 +32,56 @@
           />
         </div>
       </div>
-    </ng-container>
+    </div>
+  </ng-container>
 
-    <app-endpoints />
-  </div>
-</ng-container>
+  <app-endpoints />
+
+  <!--  <ng-container *ngFor="let filterId of Object.keys(filters.options.value)">-->
+  <!--    <details class="dropdown">-->
+  <!--      <summary class="btn m-1">-->
+  <!--        {{ filters.getOptionById(filterId).label }}-->
+  <!--      </summary>-->
+  <!--      <ul-->
+  <!--        class="menu dropdown-content bg-base-100 rounded-box z-[1] w-52 p-2 shadow"-->
+  <!--      >-->
+  <!--        <li><a>Item 1</a></li>-->
+  <!--        <li><a>Item 2</a></li>-->
+  <!--      </ul>-->
+  <!--    </details>-->
+  <!--  </ng-container>-->
+
+  <!--    <div class="join join-vertical w-full mb-4">-->
+  <!--      <ng-container *ngFor="let filterId of Object.keys(filters.options.value)">-->
+  <!--        <div-->
+  <!--          class="collapse collapse-arrow join-item bg-base-100 border"-->
+  <!--          *ngIf="filters.getOptionValueIds(filterId).length > 0"-->
+  <!--        >-->
+  <!--          <input type="checkbox" name="filter-accordion" />-->
+  <!--          <div class="collapse-title font-medium">-->
+  <!--            <span>{{ filters.getOptionById(filterId).label }}</span>-->
+  <!--            <app-filter-count-->
+  <!--              [count]="-->
+  <!--                filters.getOptionEnabledFiltersCount(-->
+  <!--                  filterId,-->
+  <!--                  FilterType.FieldAndValue-->
+  <!--                )-->
+  <!--              "-->
+  <!--            />-->
+  <!--          </div>-->
+
+  <!--          <div-->
+  <!--            class="collapse-content max-h-64 overflow-y-scroll overflow-x-hidden"-->
+  <!--          >-->
+  <!--            <app-filter-option-->
+  <!--              [filterId]="filterId"-->
+  <!--              [values]="filters.getOptionById(filterId).values"-->
+  <!--              [fieldIds]="filters.getOptionById(filterId).fieldIds"-->
+  <!--            />-->
+  <!--          </div>-->
+  <!--        </div>-->
+  <!--      </ng-container>-->
+
+  <!--      <app-endpoints />-->
+  <!--    </div>-->
+</div>

@@ -13,27 +13,14 @@
     <app-active-filters />
   </div>
 
-  <div
-    class="p-4 overflow-y-scroll flex-grow"
-    [ngClass]="[
-      Settings.filtering.showFilterPanel ? 'grid grid-cols-5 gap-4' : ''
-    ]"
-    (scroll)="onScroll($event)"
-  >
-    <div
-      class="col-span-5 lg:col-span-1"
-      *ngIf="Settings.filtering.showFilterPanel"
-    >
+  <div class="p-4 overflow-y-scroll flex-grow" (scroll)="onScroll($event)">
+    <div class="w-full" *ngIf="Settings.filtering.showFilterPanel">
       <div class="sticky top-0">
         <app-filter-options />
       </div>
     </div>
 
-    <div
-      [ngClass]="[
-        Settings.filtering.showFilterPanel ? 'col-span-5 lg:col-span-4' : ''
-      ]"
-    >
+    <div>
       <p class="text-xl mb-4 font-bold">
         <span *ngIf="search.isLoading.value" class="loading loading-spinner">
         </span>
