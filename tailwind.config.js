@@ -2,7 +2,11 @@
 module.exports = {
   content: ["./src/**/*.{html,ts}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ["Familjen Grotesk", "sans-serif"],
+      },
+    },
   },
   plugins: [require("daisyui")],
   daisyui: {
