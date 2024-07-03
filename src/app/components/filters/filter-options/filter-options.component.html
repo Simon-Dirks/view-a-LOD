@@ -11,7 +11,9 @@
       >
         <input type="checkbox" name="filter-accordion" />
         <div class="collapse-title font-medium">
-          <span>{{ filters.getOptionById(filterId).label }}</span>
+          <span>
+            {{ filters.getOptionById(filterId).label }}
+          </span>
           <app-filter-count
             [count]="
               filters.getOptionEnabledFiltersCount(

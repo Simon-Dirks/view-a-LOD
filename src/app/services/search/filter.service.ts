@@ -160,12 +160,16 @@ export class FilterService {
   }
 
   getEnabledFiltersCountStr(count: number): string | undefined {
-    if (count > 1) {
-      return `${count} filters`;
+    if (count >= 1) {
+      return count.toString();
     }
-    if (count === 1) {
-      return `${count} filter`;
-    }
+    //
+    // if (count > 1) {
+    //   return `${count} filters`;
+    // }
+    // if (count === 1) {
+    //   return `${count} filter`;
+    // }
     return undefined;
   }
 
