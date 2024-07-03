@@ -11,44 +11,40 @@
     /></span>
   </div>
 
-  <table
-    class="table mx-4 break-all"
-    [ngClass]="[smallFontSize ? 'text-xs' : '']"
-  >
-    <tbody>
-      <ng-container *ngFor="let pred of nodePreds">
-        <tr
-          *ngIf="
-            predicateVisibilities[pred] === visibility &&
-            getNumPredValues(pred, direction) > 0
-          "
-        >
-          <td class="w-1/3">
-            <app-node-table-cell
-              [node]="node"
-              [direction]="direction"
-              [pred]="pred"
-              [show]="
-                direction === Direction.Incoming
-                  ? TableCellShowOptions.Obj
-                  : TableCellShowOptions.Pred
-              "
-            />
-          </td>
-          <td class="w-2/3">
-            <app-node-table-cell
-              [node]="node"
-              [direction]="direction"
-              [pred]="pred"
-              [show]="
-                direction === Direction.Incoming
-                  ? TableCellShowOptions.Pred
-                  : TableCellShowOptions.Obj
-              "
-            />
-          </td>
-        </tr>
-      </ng-container>
-    </tbody>
-  </table>
+  <div class="break-all" [ngClass]="[smallFontSize ? 'text-xs' : '']">
+    <ng-container *ngFor="let pred of nodePreds">
+      <div
+        class="flex px-4 my-2"
+        *ngIf="
+          predicateVisibilities[pred] === visibility &&
+          getNumPredValues(pred, direction) > 0
+        "
+      >
+        <div class="w-1/3">
+          <app-node-table-cell
+            [node]="node"
+            [direction]="direction"
+            [pred]="pred"
+            [show]="
+              direction === Direction.Incoming
+                ? TableCellShowOptions.Obj
+                : TableCellShowOptions.Pred
+            "
+          />
+        </div>
+        <td class="w-2/3">
+          <app-node-table-cell
+            [node]="node"
+            [direction]="direction"
+            [pred]="pred"
+            [show]="
+              direction === Direction.Incoming
+                ? TableCellShowOptions.Pred
+                : TableCellShowOptions.Obj
+            "
+          />
+        </td>
+      </div>
+    </ng-container>
+  </div>
 </ng-container>

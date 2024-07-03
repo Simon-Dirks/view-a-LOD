@@ -3,6 +3,7 @@ import {
   AsyncPipe,
   JsonPipe,
   KeyValuePipe,
+  NgClass,
   NgForOf,
   NgIf,
 } from '@angular/common';
@@ -41,6 +42,7 @@ import { NodeTableRowComponent } from './node-table-row/node-table-row.component
     NodeRendererComponent,
     NodeEndpointComponent,
     NodeTableRowComponent,
+    NgClass,
   ],
   templateUrl: './node.component.html',
   styleUrl: './node.component.scss',
@@ -130,6 +132,10 @@ export class NodeComponent implements OnInit {
       this.nodes.getId(this.node),
       response,
     );
+  }
+
+  shouldShowLargeImages(): boolean {
+    return this.showLargeImages && this.images && this.images.length > 0;
   }
 
   protected readonly Settings = Settings;

@@ -1,6 +1,11 @@
-<div [style.width]="width">
+<div [style.width]="width" class="h-full">
   <ng-container *ngFor="let image of images?.slice(0, Config.maxImagesToShow)">
     <!-- TODO: Use image label as alt here-->
-    <img [src]="image" alt="Object image" class="w-full" *ngIf="image" />
+    <img
+      [src]="image"
+      alt="Object image"
+      class="w-full h-full object-cover"
+      *ngIf="image"
+    />
   </ng-container>
 </div>

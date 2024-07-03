@@ -1,21 +1,30 @@
-<div class="card w-full bg-base-100 border mb-4" *ngIf="node">
-  <div class="card-body">
-    <div class="card-title text-lg" *ngIf="showTitle">
+<div
+  class="w-full bg-base-100 border mb-4"
+  *ngIf="node"
+  [ngClass]="shouldShowLargeImages() ? 'p-0 flex' : 'p-6'"
+>
+  <app-node-images
+    [images]="images"
+    [width]="Settings.largeImagePercentageWidthOfContainer + '%'"
+    *ngIf="shouldShowLargeImages()"
+  />
+
+  <div [ngClass]="shouldShowLargeImages() ? 'p-6' : 'p-0'" class="flex-grow">
+    <div class="text-lg" *ngIf="showTitle">
       <app-node-link [url]="id" [label]="title" />
     </div>
 
-    <app-node-images
-      [images]="images"
-      [width]="Settings.largeImagePercentageWidthOfContainer + '%'"
-      *ngIf="showLargeImages && images && images.length > 0"
-      class="mt-4"
-    />
-
     <div class="w-full px-4">
-      <app-node-table-row [label]="'Onderdeel van'" *ngIf="showParents">
+      <app-node-table-row
+        [label]="'Onderdeel van'"
+        *ngIf="showParents && parents.length > 0"
+      >
         <app-node-hierarchy [nodes]="parents" />
       </app-node-table-row>
-      <app-node-table-row [label]="'Soort'" *ngIf="showTypes">
+      <app-node-table-row
+        [label]="'Soort'"
+        *ngIf="showTypes && types.length > 0"
+      >
         <app-node-types [types]="types" />
       </app-node-table-row>
       <app-node-table-row [label]="'Organisatie'">

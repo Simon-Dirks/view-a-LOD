@@ -399,7 +399,7 @@ export const Settings = {
       [ViewModeSetting.ShowParents]: true,
       [ViewModeSetting.ShowTypes]: true,
       [ViewModeSetting.ShowTitle]: true,
-      [ViewModeSetting.ShowLargeImage]: false,
+      [ViewModeSetting.ShowLargeImage]: true,
     },
     [ViewMode.Grid]: {
       [ViewModeSetting.ShowTitle]: true,
@@ -408,11 +408,10 @@ export const Settings = {
       [ViewModeSetting.ShowLargeImage]: true,
     },
   },
-  largeImagePercentageWidthOfContainer: 50,
+  largeImagePercentageWidthOfContainer: 100,
   predicateVisibility: {
     [ViewMode.List]: {
       [PredicateVisibility.Show]: [
-        ...imagePredicates,
         'https://schema.org/author',
         'http://www.nationaalarchief.nl/mdto#omschrijving',
         'http://www.nationaalarchief.nl/mdto#dekkingInRuimte',
@@ -423,6 +422,7 @@ export const Settings = {
         'https://www.ica.org/standards/RiC/ontology#hasCreator',
       ],
       [PredicateVisibility.Details]: [
+        ...imagePredicates,
         'http://www.nationaalarchief.nl/mdto#naam',
         ...typePredicates,
         '*',
@@ -440,6 +440,9 @@ export const Settings = {
     'endpointId',
     'http://www.nationaalarchief.nl/mdto#checksum',
     'http://www.nationaalarchief.nl/mdto#waardering',
+    'https://schema.org/breadcrumb',
+    'https://hetutrechtsarchief.nl/def/isDescendentOf',
+    'https://hetutrechtsarchief.nl/def/isDescendantOf',
   ],
   namespacePrefixes: {
     'https://www.ica.org/standards/RiC/ontology#': 'rico:',
