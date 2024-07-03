@@ -2,10 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  .clickable {
-    @apply underline decoration-slate-300 cursor-pointer;
+/* Theme, see tailwind.config.js for remaining tweaks */
+*,
+::before,
+::after {
+  //border: none;
+  border-color: theme("colors.primary");
+}
+
+.input-bordered {
+  border-color: theme("colors.primary");
+  outline: none !important;
+
+  &:focus-within {
+    border-color: theme("colors.primary");
   }
+}
+
+/* Other */
+
+@layer base {
+  //.clickable {
+  //  @apply underline decoration-slate-300 cursor-pointer;
+  //}
 }
 
 .float-ui-container {

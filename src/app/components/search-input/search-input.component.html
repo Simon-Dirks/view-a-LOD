@@ -1,18 +1,25 @@
-<label class="flex input input-bordered items-center gap-2">
+<label class="flex input input-bordered items-center gap-2 rounded-full">
   <input
     type="text"
     class="grow"
     placeholder="Zoeken"
-    (input)="onSearchInputChange($event)"
     value="{{ search.queryStr }}"
+    (input)="onSearchInputChange($event)"
   />
-  <span
-    class="loading loading-spinner loading-xs opacity-70"
-    *ngIf="search.isLoading.value"
-  ></span>
-  <ng-icon
-    [svg]="featherSearch"
-    class="opacity-70"
-    *ngIf="!search.isLoading.value"
-  />
+
+  <button class="btn btn-primary btn-sm rounded-full text-white">
+    <img src="assets/icons/search.svg" alt="Zoek icoon" class="h-4" />
+    <!--    <ng-icon [svg]="featherSearch" />-->
+    <span>Zoek</span>
+  </button>
+
+  <!--  <span-->
+  <!--    class="loading loading-spinner loading-xs opacity-70"-->
+  <!--    *ngIf="search.isLoading.value"-->
+  <!--  ></span>-->
+  <!--  <ng-icon-->
+  <!--    [svg]="featherSearch"-->
+  <!--    class="opacity-70"-->
+  <!--    *ngIf="!search.isLoading.value"-->
+  <!--  />-->
 </label>

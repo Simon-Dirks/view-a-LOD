@@ -1,11 +1,6 @@
 <div [style.width]="width">
   <ng-container *ngFor="let image of images?.slice(0, Config.maxImagesToShow)">
     <!-- TODO: Use image label as alt here-->
-    <img
-      [src]="image"
-      alt="Object image"
-      class="rounded-lg w-full"
-      *ngIf="image"
-    />
+    <img [src]="image" alt="Object image" class="w-full" *ngIf="image" />
   </ng-container>
 </div>
