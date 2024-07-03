@@ -2,7 +2,7 @@ import { ViewMode } from '../models/view-mode.enum';
 import { ViewModeSetting } from '../models/settings/view-mode-setting.enum';
 import { PredicateVisibility } from '../models/settings/predicate-visibility-settings.model';
 import { RenderMode } from '../models/settings/render-component-settings.type';
-import { FilterModel, FilterType } from '../models/filter.model';
+import { FilterModel } from '../models/filter.model';
 
 export const imagePredicates: string[] = [
   'http://xmlns.com/foaf/0.1/depiction',
@@ -105,16 +105,16 @@ const peopleFilterOptionValueIds = [
 ];
 
 const filtersForEmptySearch: FilterModel[] = [
-  ...imagePredicates.map((imagePredicate) => {
-    return {
-      fieldId: imagePredicate,
-      type: FilterType.Field,
-    };
-  }),
-  {
-    fieldId: 'http://www.nationaalarchief.nl/mdto#heeftRepresentatie',
-    type: FilterType.Field,
-  },
+  // ...imagePredicates.map((imagePredicate) => {
+  //   return {
+  //     fieldId: imagePredicate,
+  //     type: FilterType.Field,
+  //   };
+  // }),
+  // {
+  //   fieldId: 'http://www.nationaalarchief.nl/mdto#heeftRepresentatie',
+  //   type: FilterType.Field,
+  // },
 ];
 //
 // const filtersForEmptySearch = [
