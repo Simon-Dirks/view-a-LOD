@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Theme, see tailwind.config.js for remaining tweaks */
+/* == Theme, see tailwind.config.js for remaining tweaks == */
+
+// Update colors
 *,
 ::before,
 ::after {
@@ -19,7 +21,23 @@
   }
 }
 
-/* Other */
+// Increase badge padding (used for node type)
+.badge-md {
+  height: 1.5rem;
+}
+
+// Tweak filter box heights
+.collapse-title,
+:where(.collapse > input[type="checkbox"]),
+:where(.collapse > input[type="radio"]) {
+  padding: 0.25rem 1rem;
+  min-height: 0.5rem;
+}
+.collapse-arrow > .collapse-title::after {
+  top: 1rem;
+}
+
+/* == Other == */
 
 @layer base {
   //.clickable {
