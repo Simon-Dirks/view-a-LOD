@@ -42,6 +42,16 @@ tr {
   border: none;
 }
 
+// Style checkbox
+.checkbox {
+  @apply border-white;
+  --chkbg: white;
+  --chkfg: theme("colors.primary");
+  //&.checked {
+  //  @apply border-white;
+  //}
+}
+
 /* == Other == */
 
 @layer base {
