@@ -18,6 +18,7 @@ module.exports = {
           // primary: "#0084CA",
           primary: "#FF5D63",
           neutral: "#393939",
+          accent: "#ffa0a3",
           "primary-content": "white",
           // background: "white",
           background: "#FBEBE4",
