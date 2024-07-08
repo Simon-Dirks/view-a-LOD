@@ -4,22 +4,24 @@
     class="grow"
     placeholder="Zoeken"
     value="{{ search.queryStr }}"
-    (input)="onSearchInputChange($event)"
+    [(ngModel)]="searchInput"
+    (keyup.enter)="onSearch()"
   />
 
   <button
     class="btn btn-primary btn-sm rounded-full text-white"
-    [disabled]="!search.queryStr"
+    [disabled]="!searchInput"
+    (click)="onSearch()"
   >
     <img
       [src]="
-        !search.queryStr
+        !searchInput
           ? 'assets/icons/search-black.svg'
           : 'assets/icons/search.svg'
       "
       alt="Zoek icoon"
       class="h-4"
-      [ngClass]="[!search.queryStr ? 'opacity-15' : '']"
+      [ngClass]="[!searchInput ? 'opacity-15' : '']"
     />
     <!--    <ng-icon [svg]="featherSearch" />-->
     <span>Zoek</span>
