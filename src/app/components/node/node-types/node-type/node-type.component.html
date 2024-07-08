@@ -1,6 +1,10 @@
 <div
   class="badge badge-md mr-1"
-  [ngClass]="showNeutralColors ? 'badge-neutral opacity-30' : 'badge-primary'"
+  [ngClass]="
+    showNeutralColors
+      ? 'badge-neutral bg-opacity-10 text-[rgba(0,0,0,0.6)] border-none'
+      : 'badge-primary'
+  "
 >
   <app-node-link
     [url]="type?.id"
