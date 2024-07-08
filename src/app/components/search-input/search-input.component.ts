@@ -28,9 +28,9 @@ export class SearchInputComponent implements OnInit {
   protected readonly featherSearch = featherSearch;
 
   onSearch() {
-    if (!this.searchInput) {
-      return;
-    }
+    // if (!this.searchInput) {
+    //   return;
+    // }
 
     const queryParams: NavigationExtras = {
       queryParams: { q: this.searchInput },

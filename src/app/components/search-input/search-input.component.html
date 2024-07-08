@@ -10,7 +10,7 @@
 
   <button
     class="btn btn-primary btn-sm rounded-full text-white"
-    [disabled]="!searchInput || search.isLoading.value"
+    [disabled]="search.isLoading.value"
     (click)="onSearch()"
   >
     <span
@@ -19,14 +19,9 @@
     ></span>
 
     <img
-      [src]="
-        !searchInput
-          ? 'assets/icons/search-black.svg'
-          : 'assets/icons/search.svg'
-      "
+      src="assets/icons/search.svg"
       alt="Zoek icoon"
       class="h-4"
-      [ngClass]="[!searchInput ? 'opacity-15' : '']"
       *ngIf="!search.isLoading.value"
     />
     <!--    <ng-icon [svg]="featherSearch" />-->

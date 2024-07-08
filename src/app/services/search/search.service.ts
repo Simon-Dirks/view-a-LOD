@@ -146,9 +146,9 @@ export class SearchService {
   }
 
   async execute(clearResults = false, clearFilters = false) {
-    if (this.queryStr === '') {
-      return;
-    }
+    // if (this.queryStr === '') {
+    //   return;
+    // }
 
     this._searchQueryId++;
 
