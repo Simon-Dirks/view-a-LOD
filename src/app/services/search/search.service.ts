@@ -115,6 +115,13 @@ export class SearchService {
     });
   }
 
+  get hasResults() {
+    if (!this.results.value.nodes) {
+      return false;
+    }
+    return this.results.value.nodes.length > 0;
+  }
+
   initSearchOnFilterChange() {
     this.filters.enabled.subscribe((_) => {
       void this.execute(true);

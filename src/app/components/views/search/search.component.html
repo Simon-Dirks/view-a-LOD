@@ -14,7 +14,6 @@
 
   <div
     class="p-4 overflow-y-scroll flex-grow"
-    (scroll)="onScroll($event)"
     [ngClass]="[shouldShowHomeIntro ? 'hidden' : '']"
   >
     <div class="w-full" *ngIf="Settings.filtering.showFilterPanel">
@@ -48,6 +47,21 @@
           [node]="node"
         ></app-node>
       </ng-container>
+    </div>
+
+    <div>
+      <button
+        class="btn btn-primary"
+        (click)="loadMore()"
+        [disabled]="search.isLoading.value"
+        *ngIf="search.hasResults"
+      >
+        <span
+          class="loading loading-spinner loading-xs"
+          *ngIf="search.isLoading.value"
+        ></span>
+        Laad meer resultaten
+      </button>
     </div>
   </div>
 </app-view-container>
