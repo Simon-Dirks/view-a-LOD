@@ -2,23 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-// Update colors based on tailwind.config.js configuration
-*,
-::before,
-::after {
-  //border: none;
-  border-color: theme("colors.primary");
-}
-
-.input-bordered {
-  border-color: theme("colors.primary");
-  outline: none !important;
-
-  &:focus-within {
-    border-color: theme("colors.primary");
-  }
-}
-
 // Hide scrollbar (e.g., in horizontally scrolling collapsed tree view)
 .scrollbar-hide::-webkit-scrollbar {
   display: none;

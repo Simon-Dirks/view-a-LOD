@@ -59,3 +59,27 @@ tr {
   //  @apply border-white;
   //}
 }
+
+// Remove borders
+.border {
+  border: none;
+}
+
+// Update colors based on tailwind.config.js configuration
+*,
+::before,
+::after {
+  //border: none;
+  border-color: theme("colors.primary");
+}
+
+.input-bordered {
+  //border-color: theme("colors.primary");
+  border: none;
+  outline: none !important;
+
+  &:focus-within {
+    //border-color: theme("colors.primary");
+    border: none;
+  }
+}
