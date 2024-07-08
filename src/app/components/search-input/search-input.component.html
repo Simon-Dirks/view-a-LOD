@@ -7,8 +7,20 @@
     (input)="onSearchInputChange($event)"
   />
 
-  <button class="btn btn-primary btn-sm rounded-full text-white">
-    <img src="assets/icons/search.svg" alt="Zoek icoon" class="h-4" />
+  <button
+    class="btn btn-primary btn-sm rounded-full text-white"
+    [disabled]="!search.queryStr"
+  >
+    <img
+      [src]="
+        !search.queryStr
+          ? 'assets/icons/search-black.svg'
+          : 'assets/icons/search.svg'
+      "
+      alt="Zoek icoon"
+      class="h-4"
+      [ngClass]="[!search.queryStr ? 'opacity-15' : '']"
+    />
     <!--    <ng-icon [svg]="featherSearch" />-->
     <span>Zoek</span>
   </button>

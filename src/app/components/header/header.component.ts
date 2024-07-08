@@ -25,7 +25,7 @@ export class HeaderComponent {
     if (this.view === HeaderView.ShowingSearch) {
       return 'colofon';
     }
-    return '/';
+    return 'home';
   }
 
   protected readonly featherSearch = featherSearch;

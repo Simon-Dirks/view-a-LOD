@@ -15,6 +15,9 @@ import { Settings } from '../../../config/settings';
 import { EndpointsComponent } from '../../filters/endpoints/endpoints.component';
 import { formatNumber } from '../../../helpers/util.helper';
 import { HeaderComponent } from '../../header/header.component';
+import { ViewContainerComponent } from '../view-container/view-container.component';
+import { HomeIntroComponent } from '../../home-intro/home-intro.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -35,6 +38,8 @@ import { HeaderComponent } from '../../header/header.component';
     FilterOptionsComponent,
     EndpointsComponent,
     HeaderComponent,
+    ViewContainerComponent,
+    HomeIntroComponent,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
@@ -43,6 +48,7 @@ export class SearchComponent implements OnInit {
   constructor(
     public search: SearchService,
     public viewModes: ViewModeService,
+    public router: Router,
   ) {}
 
   ngOnInit() {}
@@ -64,6 +70,14 @@ export class SearchComponent implements OnInit {
       return '1 resultaat';
     }
     return `${formatNumber(this.search.numberOfHits)}${this.search.moreHitsAreAvailable ? '+' : ''} resultaten`;
+  }
+
+  get shouldShowHomeIntro(): boolean {
+    if (this.router.url.includes('home')) {
+      return true;
+    }
+
+    return !this.search.hasDoneInitialSearch && this.search.queryStr === '';
   }
 
   protected readonly ViewMode = ViewMode;

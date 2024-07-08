@@ -31,6 +31,8 @@ export class SearchService {
   numberOfHits: number = 0;
   moreHitsAreAvailable: boolean = false;
 
+  hasDoneInitialSearch: boolean = false;
+
   private _searchQueryId = 0;
 
   constructor(
@@ -137,7 +139,15 @@ export class SearchService {
   }
 
   async execute(clearResults = false, clearFilters = false) {
+    if (this.queryStr === '') {
+      return;
+    }
+
     this._searchQueryId++;
+
+    if (this.queryStr !== '') {
+      this.hasDoneInitialSearch = true;
+    }
 
     console.log('SEARCH', this.queryStr);
     if (clearResults) {

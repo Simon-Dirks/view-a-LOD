@@ -1,7 +1,9 @@
-<div class="flex flex-col h-screen max-w-[100rem] mx-auto">
+<app-view-container>
   <app-header />
 
-  <div class="flex-grow-0 p-4 pb-0">
+  <app-home-intro *ngIf="shouldShowHomeIntro" />
+
+  <div class="flex-grow-0 p-4 pb-2">
     <div class="flex flex-row items-center">
       <app-search-input class="flex-grow" />
       <!--      <app-view-mode-select class="flex-grow-0 ml-8" />-->
@@ -10,7 +12,11 @@
     <app-active-filters />
   </div>
 
-  <div class="p-4 overflow-y-scroll flex-grow" (scroll)="onScroll($event)">
+  <div
+    class="p-4 overflow-y-scroll flex-grow"
+    (scroll)="onScroll($event)"
+    [ngClass]="[shouldShowHomeIntro ? 'hidden' : '']"
+  >
     <div class="w-full" *ngIf="Settings.filtering.showFilterPanel">
       <div class="sticky top-0">
         <app-filter-options />
@@ -44,4 +50,4 @@
       </ng-container>
     </div>
   </div>
-</div>
+</app-view-container>
