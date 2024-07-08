@@ -1,5 +1,7 @@
 <div [style.width]="width" class="h-full">
-  <ng-container *ngFor="let image of images?.slice(0, Config.maxImagesToShow)">
+  <ng-container
+    *ngFor="let image of processedImageUrls?.slice(0, Config.maxImagesToShow)"
+  >
     <!-- TODO: Use image label as alt here-->
     <img
       [src]="image"

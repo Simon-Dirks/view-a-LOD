@@ -1,13 +1,13 @@
 <ng-container>
   <float-ui-content #popupContent class="inline">
-    <a class="btn btn-sm mr-2 !font-sans" [href]="url" target="_blank">
+    <a class="btn btn-sm mr-2 !font-sans" [href]="processedUrl" target="_blank">
       <ng-icon [svg]="featherExternalLink" /> Open link
     </a>
 
     <a
       class="btn btn-sm mr-2 !font-sans"
       [routerLink]="['']"
-      [queryParams]="{ q: wrapWithDoubleQuotes(url) }"
+      [queryParams]="{ q: wrapWithDoubleQuotes(processedUrl) }"
       target="_blank"
     >
       <ng-icon [svg]="featherSearch" /> Search
@@ -18,13 +18,13 @@
     <!--      class="btn btn-sm"-->
     <!--      (click)="onToggleFilterClicked($event, FilterType.Value)"-->
     <!--      [disabled]="true"-->
-    <!--      *ngIf="url"-->
+    <!--      *ngIf="processedUrl"-->
     <!--    >-->
     <!--      <ng-icon-->
-    <!--        [svg]="filters.has([url], FilterType.Value) ? featherX : featherFilter"-->
+    <!--        [svg]="filters.has([processedUrl], FilterType.Value) ? featherX : featherFilter"-->
     <!--      />-->
     <!--      {{-->
-    <!--        filters.has([url], FilterType.Value)-->
+    <!--        filters.has([processedUrl], FilterType.Value)-->
     <!--          ? "[TODO] Remove filter"-->
     <!--          : "[TODO] Add filter"-->
     <!--      }}-->
@@ -46,13 +46,13 @@
       [positionFixed]="true"
     >
       <a
-        [href]="url"
+        [href]="processedUrl"
         target="_blank'"
         (click)="preventDefault($event)"
         *ngIf="isClickableUrl"
       >
         <app-node-label
-          [label]="cachedLabel ?? url"
+          [label]="cachedLabel ?? processedUrl"
           [shouldTruncate]="shouldTruncate"
           [allowLabelExpand]="allowLabelExpand"
           [highlightStr]="shouldHighlight ? search.queryStr : undefined"
@@ -61,7 +61,7 @@
 
       <span *ngIf="!isClickableUrl">
         <app-node-label
-          [label]="cachedLabel ?? url"
+          [label]="cachedLabel ?? processedUrl"
           [shouldTruncate]="shouldTruncate"
           [allowLabelExpand]="allowLabelExpand"
           [highlightStr]="shouldHighlight ? search.queryStr : undefined"

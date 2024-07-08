@@ -4,7 +4,7 @@
   [ngClass]="shouldShowLargeImages() ? 'p-0 flex' : 'p-6'"
 >
   <app-node-images
-    [images]="images"
+    [imageUrls]="images"
     [width]="Settings.largeImagePercentageWidthOfContainer + '%'"
     *ngIf="shouldShowLargeImages()"
   />

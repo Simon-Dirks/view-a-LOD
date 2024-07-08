@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import {
   isValidHttpUrl,
   isValidUrl,
@@ -26,6 +32,7 @@ import {
 import { NodeLabelComponent } from '../node-label/node-label.component';
 import { FilterType } from '../../../models/filter.model';
 import { SearchService } from '../../../services/search/search.service';
+import { CdnService } from '../../../services/cdn.service';
 
 @Component({
   selector: 'app-node-link',
@@ -45,8 +52,9 @@ import { SearchService } from '../../../services/search/search.service';
   templateUrl: './node-link.component.html',
   styleUrl: './node-link.component.scss',
 })
-export class NodeLinkComponent implements OnInit {
+export class NodeLinkComponent implements OnInit, OnChanges {
   @Input() url?: string;
+  processedUrl?: string = this.url;
   @Input() label?: string;
   @Input() labelUrl?: string;
   @Input() disabled?: boolean;
@@ -61,6 +69,7 @@ export class NodeLinkComponent implements OnInit {
     public cache: CacheService,
     public filters: FilterService,
     public search: SearchService,
+    public cdn: CdnService,
   ) {}
 
   ngOnInit() {
@@ -68,8 +77,25 @@ export class NodeLinkComponent implements OnInit {
       this.labelUrl = this.url;
     }
 
-    const isValidAbsoluteUrl = this.url !== undefined && isValidUrl(this.url);
+    this.processUrl();
+
+    const isValidAbsoluteUrl =
+      this.processedUrl !== undefined && isValidUrl(this.processedUrl);
     this.isClickableUrl = isValidAbsoluteUrl && !this.disabled;
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['url']) {
+      this.processUrl();
+    }
+  }
+
+  processUrl() {
+    if (!this.url) {
+      return;
+    }
+
+    this.processedUrl = this.cdn.processUrl(this.url);
   }
 
   get cachedLabel(): string | undefined {
@@ -82,7 +108,7 @@ export class NodeLinkComponent implements OnInit {
       return this.cache.labels?.[this.labelUrl];
     }
 
-    return this.url ? replacePrefixes(this.url) : undefined;
+    return this.processedUrl ? replacePrefixes(this.processedUrl) : undefined;
   }
 
   preventDefault(event: MouseEvent) {
