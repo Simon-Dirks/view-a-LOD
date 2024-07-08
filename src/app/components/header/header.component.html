@@ -5,7 +5,7 @@
     <div class="text-sm sm:text-base">Prototype Zoekomgeving</div>
     <button
       (click)="router.navigateByUrl('home')"
-      class="font-bold text-lg sm:text-2xl"
+      class="font-bold text-lg sm:text-2xl clickable"
     >
       Kasteel Amerongen
     </button>
@@ -15,6 +15,11 @@
     <button
       class="btn btn-primary btn-xs rounded-full text-center inline-block w-9 sm:w-10 h-9 sm:h-10 float-right"
       (click)="router.navigateByUrl(buttonUrl)"
+      [attr.aria-label]="
+        view === HeaderView.ShowingColofon
+          ? 'Ga naar zoeken'
+          : 'Ga naar colofon'
+      "
     >
       <span class="text-lg sm:text-2xl font-light">
         <ng-icon
