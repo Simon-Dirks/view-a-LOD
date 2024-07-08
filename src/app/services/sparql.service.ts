@@ -14,6 +14,7 @@ import { EndpointUrlsModel } from '../models/endpoint.model';
   providedIn: 'root',
 })
 export class SparqlService {
+  // TODO: Use library for this (e.g., N3.js)
   constructor(
     private api: ApiService,
     private settings: SettingsService,
