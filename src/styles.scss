@@ -2,13 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-/* == Theme, see tailwind.config.js for remaining tweaks == */
-
-// Import fonts
-@import url("https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap");
-
-// Update colors
+// Update colors based on tailwind.config.js configuration
 *,
 ::before,
 ::after {
@@ -25,62 +19,7 @@
   }
 }
 
-// Style badge
-.badge-md {
-  height: 1.5rem;
-}
-
-.badge {
-  @apply rounded-full;
-  @apply font-mono;
-}
-
-// Tweak filter box heights
-.collapse-title,
-:where(.collapse > input[type="checkbox"]),
-:where(.collapse > input[type="radio"]) {
-  padding: 0.25rem 1rem;
-  min-height: 0.5rem;
-}
-.collapse-arrow > .collapse-title::after {
-  top: 1rem;
-}
-
-// Style table
-tr {
-  border: none;
-}
-
-.table :where(th, td) {
-  padding: 0.25rem 0;
-}
-
-// Style checkbox
-.checkbox {
-  @apply border-white;
-  --chkbg: white;
-  --chkfg: theme("colors.primary");
-  //&.checked {
-  //  @apply border-white;
-  //}
-}
-
-/* == Other == */
-
-@layer base {
-  //.clickable {
-  //  @apply underline decoration-slate-300 cursor-pointer;
-  //}
-}
-
-.float-ui-container {
-  background: transparent !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-  border: none !important;
-  max-width: 300px !important;
-}
-
+// Hide scrollbar (e.g., in horizontally scrolling collapsed tree view)
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }

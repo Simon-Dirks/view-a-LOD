@@ -12,5 +12,4 @@ import { NgClass } from '@angular/common';
 })
 export class NodeTypeComponent {
   @Input() type?: TypeModel;
-  @Input() showNeutralColor = false;
 }

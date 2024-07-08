@@ -17,8 +17,6 @@ module.exports = {
           ...require("daisyui/src/theming/themes")["light"],
           primary: "#0084CA",
           "primary-content": "white",
-          neutral: "#0084CA",
-          "neutral-content": "white",
           background: "white",
           "--rounded-box": "0rem",
           "--rounded-btn": "0rem",

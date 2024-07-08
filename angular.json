@@ -26,6 +26,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles.scss",
+              "src/theme.scss",
               "node_modules/leaflet/dist/leaflet.css",
               "node_modules/ngx-float-ui/css/theme-white.css"
             ],
@@ -82,6 +83,7 @@
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
               "src/styles.scss",
+              "src/theme.scss",
               "node_modules/leaflet/dist/leaflet.css",
               "node_modules/ngx-float-ui/css/theme-white.css"
             ],
