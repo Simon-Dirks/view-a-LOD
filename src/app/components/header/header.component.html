@@ -1,0 +1,29 @@
+<div
+  class="bg-neutral rounded-b-lg py-3 px-6 text-white w-64 sm:w-96 mx-auto mb-8 flex items-center"
+>
+  <div>
+    <div class="text-sm sm:text-base">Prototype Zoekomgeving</div>
+    <div class="font-bold text-lg sm:text-2xl">Kasteel Amerongen</div>
+  </div>
+
+  <div class="flex-grow">
+    <button
+      class="btn btn-primary btn-xs rounded-full text-center inline-block w-9 sm:w-10 h-9 sm:h-10 float-right"
+      (click)="router.navigateByUrl(buttonUrl)"
+    >
+      <span class="text-lg sm:text-2xl font-light">
+        <ng-icon
+          [svg]="featherX"
+          *ngIf="view === HeaderView.ShowingColofon"
+          class="relative top-[0.1rem] sm:top-[0.2rem]"
+        />
+        <span
+          *ngIf="view === HeaderView.ShowingSearch"
+          class="relative bottom-[0.1rem]"
+        >
+          ?
+        </span>
+      </span>
+    </button>
+  </div>
+</div>

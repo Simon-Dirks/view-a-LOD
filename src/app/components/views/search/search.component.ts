@@ -14,6 +14,7 @@ import { FilterOptionsComponent } from '../../filters/filter-options/filter-opti
 import { Settings } from '../../../config/settings';
 import { EndpointsComponent } from '../../filters/endpoints/endpoints.component';
 import { formatNumber } from '../../../helpers/util.helper';
+import { HeaderComponent } from '../../header/header.component';
 
 @Component({
   selector: 'app-search',
@@ -33,6 +34,7 @@ import { formatNumber } from '../../../helpers/util.helper';
     NodesGridComponent,
     FilterOptionsComponent,
     EndpointsComponent,
+    HeaderComponent,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
