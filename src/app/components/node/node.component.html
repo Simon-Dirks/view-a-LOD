@@ -21,6 +21,8 @@
       >
         <app-node-hierarchy [nodes]="parents" />
       </app-node-table-row>
+
+      <!-- TODO: Check if there any clustered types to show here (especially if only showing clustered types) -->
       <app-node-table-row
         [label]="'Soort'"
         *ngIf="showTypes && types.length > 0"

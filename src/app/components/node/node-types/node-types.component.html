@@ -4,8 +4,8 @@
   </ng-container>
 </ng-container>
 
-<!--<ng-container *ngFor="let type of clusteredTypes">-->
-<!--  <ng-container *ngIf="type">-->
-<!--    <app-node-type [type]="type" />-->
-<!--  </ng-container>-->
-<!--</ng-container>-->
+<ng-container *ngFor="let type of clusteredTypes">
+  <ng-container *ngIf="type">
+    <app-node-type [type]="type" [showNeutralColors]="true" />
+  </ng-container>
+</ng-container>

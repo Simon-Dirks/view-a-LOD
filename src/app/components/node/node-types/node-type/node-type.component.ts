@@ -11,5 +11,6 @@ import { NgClass } from '@angular/common';
   styleUrl: './node-type.component.scss',
 })
 export class NodeTypeComponent {
+  @Input() showNeutralColors = false;
   @Input() type?: TypeModel;
 }
