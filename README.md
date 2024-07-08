@@ -1,5 +1,5 @@
 # View-a-LOD
-![view-a-lod](https://github.com/Simon-Dirks/view-a-LOD/assets/2639851/7e364a60-8a2e-4ff1-b0cc-a4f535484aa3)
+![image](https://github.com/Simon-Dirks/view-a-LOD/assets/2639851/712363a1-c3f2-4287-bfb4-0056019fabfb)
 
 > [!WARNING]  
 > This project is currently in early stage development, and not yet ready for production.
