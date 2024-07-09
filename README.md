@@ -10,7 +10,7 @@ This project is a collaboration between [Het Utrechts Archief](https://hetutrech
 
 ## Dev
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.1.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.1, and uses [Tailwind CSS](https://tailwindcss.com/) for styling.
 
 Run `ng serve` for a dev server. Run `ng build` to build the project.
 
