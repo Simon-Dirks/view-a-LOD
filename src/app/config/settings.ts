@@ -126,7 +126,6 @@ const filtersForEmptySearch: FilterModel[] = [
 // ];
 
 export const Settings = {
-  filtersForEmptySearch: filtersForEmptySearch,
   endpoints: {
     hua: {
       label: 'Het Utrechts Archief',
@@ -467,4 +466,5 @@ export const Settings = {
     'http://www.nationaalarchief.nl/mdto-shacl#': 'mdto-sh:',
     'http://www.w3.org/ns/shacl#': 'sh:',
   },
+  filtersForEmptySearch: filtersForEmptySearch,
 };

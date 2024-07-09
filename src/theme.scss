@@ -73,6 +73,10 @@ tr {
   border-color: theme("colors.primary");
 }
 
+.font-mono {
+  font-variant-ligatures: none;
+}
+
 .input-bordered {
   //border-color: theme("colors.primary");
   border: none;
