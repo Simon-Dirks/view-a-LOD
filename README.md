@@ -8,7 +8,7 @@ A **flexible and configurable Linked Open Data viewer** using SPARQL and Elastic
 
 For technical documentation, please check the [project wiki](https://github.com/Simon-Dirks/view-a-LOD/wiki).
 
-This project is a collaboration between [Het Utrechts Archief](https://hetutrechtsarchief.nl/), [Regionaal Archief Zuid-Holland](https://www.razu.nl/) and [Kasteel Amerongen](https://www.kasteelamerongen.nl/), actively being developed by Simon Dirks (mail@simondirks.com).
+This project is a collaboration between [Het Utrechts Archief](https://hetutrechtsarchief.nl/), [Regionaal Archief Zuid-Utrecht](https://www.razu.nl/) and [Kasteel Amerongen](https://www.kasteelamerongen.nl/), actively being developed by Simon Dirks (mail@simondirks.com).
 
 ## Dev
 
