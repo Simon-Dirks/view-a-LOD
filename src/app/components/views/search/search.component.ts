@@ -18,6 +18,8 @@ import { HeaderComponent } from '../../header/header.component';
 import { ViewContainerComponent } from '../view-container/view-container.component';
 import { HomeIntroComponent } from '../../home-intro/home-intro.component';
 import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { DrawerComponent } from '../drawer/drawer.component';
 
 @Component({
   selector: 'app-search',
@@ -40,7 +42,9 @@ import { Router } from '@angular/router';
     HeaderComponent,
     ViewContainerComponent,
     HomeIntroComponent,
-  ],
+    CommonModule,
+    DrawerComponent
+],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
 })

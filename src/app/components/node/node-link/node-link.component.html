@@ -12,7 +12,13 @@
     >
       <ng-icon [svg]="featherSearch" /> Search
     </a>
-
+    
+    <a
+    class="btn btn-sm mr-2 !font-sans"
+    (click)="openDrawer(processedUrl)"
+  >
+    <ng-icon [svg]="featherSearch" /> Open
+  </a>
     <!--    TODO: Depending on where this is presented, determine if the filter should be field or value-->
     <!--    <button-->
     <!--      class="btn btn-sm"-->

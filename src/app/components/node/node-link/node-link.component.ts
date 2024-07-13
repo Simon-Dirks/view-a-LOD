@@ -33,6 +33,7 @@ import { NodeLabelComponent } from '../node-label/node-label.component';
 import { FilterType } from '../../../models/filter.model';
 import { SearchService } from '../../../services/search/search.service';
 import { CdnService } from '../../../services/cdn.service';
+import { DrawerService } from '../../../services/drawer.service';
 
 @Component({
   selector: 'app-node-link',
@@ -70,6 +71,7 @@ export class NodeLinkComponent implements OnInit, OnChanges {
     public filters: FilterService,
     public search: SearchService,
     public cdn: CdnService,
+    private drawer: DrawerService,
   ) {}
 
   ngOnInit() {
@@ -88,6 +90,11 @@ export class NodeLinkComponent implements OnInit, OnChanges {
     if (changes['url']) {
       this.processUrl();
     }
+  }
+
+  openDrawer(processedUrl: any): void {
+    const dynamicContent = [processedUrl]; // Dynamic content here
+    this.drawer.setDrawerItems(dynamicContent);
   }
 
   processUrl() {
@@ -126,6 +133,8 @@ export class NodeLinkComponent implements OnInit, OnChanges {
       type: type,
     });
   }
+
+
 
   protected readonly featherFilter = featherFilter;
   protected readonly NgxFloatUiPlacements = NgxFloatUiPlacements;
