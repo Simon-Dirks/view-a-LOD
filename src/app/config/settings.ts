@@ -104,7 +104,8 @@ const peopleFilterOptionValueIds = [
   'http://www.nationaalarchief.nl/mdto#archiefvormer',
 ];
 
-const filtersForEmptySearch: FilterModel[] = [
+ const filtersForEmptySearch: FilterModel[] = [
+  
   // ...imagePredicates.map((imagePredicate) => {
   //   return {
   //     fieldId: imagePredicate,
@@ -115,7 +116,7 @@ const filtersForEmptySearch: FilterModel[] = [
   //   fieldId: 'http://www.nationaalarchief.nl/mdto#heeftRepresentatie',
   //   type: FilterType.Field,
   // },
-];
+ ];
 //
 // const filtersForEmptySearch = [
 //   {
@@ -148,15 +149,15 @@ export const Settings = {
             'https://api.data.razu.nl/datasets/razu/PoCAmerongen2024/sparql',
         },
         {
-          sparql: 'https://api.data.razu.nl/datasets/razu/actoren/sparql',
+          sparql: 'https://api.data.razu.nl/datasets/gedeeld/actoren/sparql',
           elastic:
-            'https://data.razu.nl/_api/datasets/razu/actoren/services/actoren/_search',
+            'https://data.razu.nl/_api/datasets/gedeeld/actoren/services/actoren/_search',
         },
         {
           sparql:
-            'https://api.data.razu.nl/datasets/razu/locaties/services/locaties/sparql',
+            'https://api.data.razu.nl/datasets/gedeeld/locaties/sparql',
           elastic:
-            'https://data.razu.nl/_api/datasets/razu/locaties/services/locaties-1/_search',
+            'https://api.data.razu.nl/datasets/gedeeld/locaties/services/locaties/_search',
         },
       ],
     },
@@ -458,8 +459,8 @@ export const Settings = {
     'https://w3id.org/pnv#': 'pnv:',
     'http://xmlns.com/foaf/0.1/': 'foaf:',
     'http://www.nationaalarchief.nl/mdto#': 'mdto:',
-    'https://test.data.razu.nl/Kasteel-Amerongen/PoC/': 'PoC:',
-    'https://test.data.razu.nl/razu/': 'razu:',
+    'https://data.razu.nl/Kasteel-Amerongen/': 'ska:',
+    'https://data.razu.nl/razu/': 'razu:',
     'https://www.ica.org/standards/RiC/vocabularies/recordSetTypes#':
       'ric-rst:',
     'https://data.cbg.nl/pico-terms#': 'picot:',
