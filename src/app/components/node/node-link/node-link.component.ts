@@ -20,6 +20,7 @@ import {
   featherFilter,
   featherSearch,
   featherX,
+  featherMaximize2
 } from '@ng-icons/feather-icons';
 import { NgIcon } from '@ng-icons/core';
 import {
@@ -141,6 +142,7 @@ export class NodeLinkComponent implements OnInit, OnChanges {
   protected readonly NgxFloatUiTriggers = NgxFloatUiTriggers;
   protected readonly featherExternalLink = featherExternalLink;
   protected readonly featherX = featherX;
+  protected readonly featherMaximize2 = featherMaximize2;
   protected readonly FilterType = FilterType;
   protected readonly featherSearch = featherSearch;
   protected readonly wrapWithDoubleQuotes = wrapWithDoubleQuotes;
