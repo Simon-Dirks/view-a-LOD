@@ -30,7 +30,20 @@ export class CdnService {
     if (!url.includes('opslag.razu.nl')) {
       return of(url);
     }
-
+    // temporary dev-mode section to bypass a dedicated JWT-token server. DO NOT USE IN PRODUCTION.
+    // Token will be invalidated after the PoC is finished.
+    const devmode = false;
+    if (url.includes('opslag.razu.nl') && devmode) {
+      console.log("JWT-token generation bypassed.")
+      url = this._addParamToUrl(
+        url,
+        'token',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTE3MDY0NjQsIm5iZiI6MTcxMTcwNjQ2NCwiZXhwIjoxNzQzMjQyNDY0fQ.ViNS0wWml0EwkF0z75G4cNZxKupYQMLiVB_PQ5kNQm8',
+      );
+      return of(url);
+    }
+    // end of bypass
+    
     const domain = this.extractDomain(url);
     const filename = this.extractFilename(url);
 
