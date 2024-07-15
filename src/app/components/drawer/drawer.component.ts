@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { DrawerService } from '../../../services/drawer.service';
+import { DrawerService } from '../../services/drawer.service';
 import { NgIcon } from '@ng-icons/core';
 import { NgIf } from '@angular/common';
 import { CommonModule } from '@angular/common';
@@ -17,6 +17,7 @@ import '@ulb-darmstadt/shacl-form';
 export class DrawerComponent implements OnInit, OnDestroy {
   drawerItems: string[] = [];
   drawerSubscription: Subscription = new Subscription();
+  opened = false;
 
   constructor(private drawerService: DrawerService) { }
 
@@ -36,10 +37,7 @@ export class DrawerComponent implements OnInit, OnDestroy {
   }
 
   openDrawer(): void {
-    const drawerCheckbox = document.getElementById('my-drawer-4') as HTMLInputElement;
-    if (drawerCheckbox) {
-      drawerCheckbox.checked = true;
-    }
+    this.opened = true;
   }
 }
 

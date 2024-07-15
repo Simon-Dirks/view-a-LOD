@@ -19,7 +19,7 @@ import { ViewContainerComponent } from '../view-container/view-container.compone
 import { HomeIntroComponent } from '../../home-intro/home-intro.component';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { DrawerComponent } from '../drawer/drawer.component';
+import { DrawerComponent } from '../../drawer/drawer.component';
 
 @Component({
   selector: 'app-search',
