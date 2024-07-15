@@ -95,7 +95,18 @@ export class NodeLinkComponent implements OnInit, OnChanges {
       return;
     }
 
-    this.processedUrl = this.cdn.processUrl(this.url);
+    this.cdn.processUrl(this.url).subscribe(
+    processedUrl => {
+      this.processedUrl = processedUrl;
+      const isValidAbsoluteUrl = isValidUrl(this.processedUrl);
+      this.isClickableUrl = isValidAbsoluteUrl && !this.disabled;
+    },
+    error => {
+      console.error('Error processing URL:', error);
+      this.processedUrl = this.url; // Fallback to original URL
+      this.isClickableUrl = false;
+    }
+  );
   }
 
   get cachedLabel(): string | undefined {
