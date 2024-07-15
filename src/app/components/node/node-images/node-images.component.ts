@@ -39,7 +39,15 @@ export class NodeImagesComponent implements OnInit, OnChanges {
       return;
     }
 
-    this.processedImageUrls = this.cdn.processUrls(this.imageUrls);
+    
+  this.cdn.processUrls(this.imageUrls).subscribe(
+    processedUrls => {
+      this.processedImageUrls = processedUrls;
+    },
+    error => {
+      console.error('Error processing image URLs:', error);
+    }
+  );
   }
 
   protected readonly Config = Config;
