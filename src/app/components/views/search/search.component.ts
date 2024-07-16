@@ -90,7 +90,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   get shouldShowHomeIntro(): boolean {
-    if (this.router.url.includes('home')) {
+    if (this.router.url === '' || this.router.url === '/') {
       return true;
     }
 
