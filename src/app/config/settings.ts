@@ -406,7 +406,7 @@ export const Settings = {
       [ViewModeSetting.ShowImageNextToTable]: true,
     },
   },
-  largeImageWidth: { search: '30%', details: '50%' },
+  largeImageWidth: { search: '30%', details: '40%' },
   imageForWhenLoadingFails: '/assets/img/image-load-fail.png',
   predicateVisibility: {
     [ViewMode.List]: {
