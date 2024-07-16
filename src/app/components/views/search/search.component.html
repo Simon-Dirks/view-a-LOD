@@ -13,8 +13,9 @@
   </div>
 
   <div
-    class="p-4 overflow-y-scroll flex-grow"
+    class="p-4 overflow-y-scroll flex-grow scroll-smooth"
     [ngClass]="[shouldShowHomeIntro ? 'hidden' : '']"
+    #scrollContainer
   >
     <div class="w-full" *ngIf="Settings.filtering.showFilterPanel">
       <div class="sticky top-0">
@@ -26,7 +27,7 @@
       <p class="text-xl mb-4 font-bold">
         <span *ngIf="search.isLoading.value" class="loading loading-spinner">
         </span>
-        <span *ngIf="!search.isLoading.value && !nodes.isShowingDetails">{{
+        <span *ngIf="!search.isLoading.value && !details.isShowing">{{
           numberOfHitsStr
         }}</span>
       </p>
@@ -45,12 +46,15 @@
 
       <ng-container *ngIf="viewModes.current.value === ViewMode.List">
         <ng-container *ngFor="let node of search.results.value?.nodes">
-          <app-node [node]="node" *ngIf="nodes.shouldShow(node)"></app-node>
+          <app-node
+            [node]="node"
+            *ngIf="details.shouldShowNode(node)"
+          ></app-node>
         </ng-container>
       </ng-container>
     </div>
 
-    <div *ngIf="!nodes.isShowingDetails">
+    <div *ngIf="!details.isShowing">
       <button
         class="btn btn-primary"
         (click)="loadMore()"

@@ -31,6 +31,7 @@ import {
   featherChevronRight,
 } from '@ng-icons/feather-icons';
 import { NgIcon } from '@ng-icons/core';
+import { DetailsService } from '../../services/details.service';
 
 @Component({
   selector: 'app-node',
@@ -76,6 +77,7 @@ export class NodeComponent implements OnInit {
     public data: DataService,
     public cache: CacheService,
     public settings: SettingsService,
+    public details: DetailsService,
   ) {}
 
   ngOnInit() {
@@ -151,7 +153,7 @@ export class NodeComponent implements OnInit {
     if (!this.node) {
       return;
     }
-    this.nodes.showDetails(this.node);
+    this.details.show(this.node);
   }
 
   protected readonly Settings = Settings;

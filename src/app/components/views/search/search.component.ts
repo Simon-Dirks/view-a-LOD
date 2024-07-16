@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { NodeComponent } from '../../node/node.component';
 import { JsonPipe, NgClass, NgForOf, NgIf, NgStyle } from '@angular/common';
 import { SearchInputComponent } from '../../search-input/search-input.component';
@@ -19,6 +25,8 @@ import { ViewContainerComponent } from '../view-container/view-container.compone
 import { HomeIntroComponent } from '../../home-intro/home-intro.component';
 import { Router } from '@angular/router';
 import { NodeService } from '../../../services/node.service';
+import { ScrollService } from '../../../services/scroll.service';
+import { DetailsService } from '../../../services/details.service';
 
 @Component({
   selector: 'app-search',
@@ -45,15 +53,23 @@ import { NodeService } from '../../../services/node.service';
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, AfterViewInit {
+  @ViewChild('scrollContainer') scrollContainer!: ElementRef;
+
   constructor(
     public search: SearchService,
     public viewModes: ViewModeService,
     public router: Router,
     public nodes: NodeService,
+    public scroll: ScrollService,
+    public details: DetailsService,
   ) {}
 
   ngOnInit() {}
+
+  ngAfterViewInit() {
+    this.scroll.initScrollContainer(this.scrollContainer);
+  }
 
   loadMore() {
     if (!this.search.isLoading.value) {

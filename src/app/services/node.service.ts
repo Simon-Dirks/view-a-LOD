@@ -1,55 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Direction, NodeModel, NodeObj } from '../models/node.model';
 import { SparqlService } from './sparql.service';
-import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NodeService {
-  showingDetailsForId: BehaviorSubject<string | undefined> =
-    new BehaviorSubject<string | undefined>(undefined);
-
   constructor(private sparql: SparqlService) {}
-
-  get isShowingDetails(): boolean {
-    return !!this.showingDetailsForId.value;
-  }
-
-  showDetails(node: NodeModel) {
-    const nodeId = this.getId(node);
-    this.showingDetailsForId.next(nodeId);
-  }
-
-  stopShowingDetails() {
-    this.showingDetailsForId.next(undefined);
-  }
-
-  shouldShow(node: NodeModel | undefined): boolean {
-    if (!node) {
-      return false;
-    }
-    const showingDetailsForId = this.showingDetailsForId.value;
-    const shouldShowAllNodes = !showingDetailsForId;
-    if (shouldShowAllNodes) {
-      return true;
-    }
-
-    return this.showingDetails(node);
-  }
-
-  showingDetails(node: NodeModel | undefined): boolean {
-    if (!node) {
-      return false;
-    }
-
-    const nodeId = this.getId(node);
-    const showingDetailsForId = this.showingDetailsForId.value;
-    if (!showingDetailsForId) {
-      return false;
-    }
-    return nodeId === this.showingDetailsForId.value;
-  }
 
   getObjs(node: NodeModel | undefined, preds: string[]): NodeObj[] {
     if (!node) {
