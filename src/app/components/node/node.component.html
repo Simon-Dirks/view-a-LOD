@@ -16,11 +16,22 @@
     !details.showing(node) ? 'max-w-[50rem]' : ''
   ]"
 >
-  <button (click)="details.show(node)" *ngIf="shouldShowImageNextToTable()">
-    <app-node-images
-      [imageUrls]="images"
-      [width]="Settings.largeImagePercentageWidthOfContainer + '%'"
-    />
+  <button
+    (click)="details.show(node)"
+    *ngIf="shouldShowImageNextToTable()"
+    class="inline-block"
+    [style.width]="
+      details.isShowing
+        ? Settings.largeImageWidth.details
+        : Settings.largeImageWidth.search
+    "
+    [style.min-width]="
+      details.isShowing
+        ? Settings.largeImageWidth.details
+        : Settings.largeImageWidth.search
+    "
+  >
+    <app-node-images [imageUrls]="images" [width]="'100%'" />
   </button>
 
   <div

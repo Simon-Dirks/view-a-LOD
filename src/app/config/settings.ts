@@ -406,7 +406,7 @@ export const Settings = {
       [ViewModeSetting.ShowImageNextToTable]: true,
     },
   },
-  largeImagePercentageWidthOfContainer: 100,
+  largeImageWidth: { search: '30%', details: '50%' },
   predicateVisibility: {
     [ViewMode.List]: {
       [PredicateVisibility.Show]: [],
