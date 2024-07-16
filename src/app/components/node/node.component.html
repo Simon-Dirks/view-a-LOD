@@ -1,7 +1,10 @@
 <div
   class="w-full bg-base-100 border mb-4"
   *ngIf="node"
-  [ngClass]="shouldShowLargeImages() ? 'p-0 flex' : 'p-6'"
+  [ngClass]="[
+    shouldShowLargeImages() ? 'p-0 flex' : 'p-6',
+    !nodes.shouldShowDetails(node) ? 'max-w-[50rem]' : ''
+  ]"
 >
   <app-node-images
     [imageUrls]="images"
