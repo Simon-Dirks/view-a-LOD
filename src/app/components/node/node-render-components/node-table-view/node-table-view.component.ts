@@ -30,7 +30,6 @@ export class NodeTableViewComponent
   extends NodeRenderComponent
   implements OnInit
 {
-  showingDetails = false;
   canShowDetails = false;
   numOfDetailsPreds = 0;
 
@@ -39,6 +38,15 @@ export class NodeTableViewComponent
     public override nodes: NodeService,
   ) {
     super(nodes);
+  }
+
+  get shouldShowDetails(): boolean {
+    const showingDetailsForId = this.nodes.showingDetailsForId.value;
+    if (!this.node || !showingDetailsForId) {
+      return false;
+    }
+    const nodeId = this.nodes.getId(this.node);
+    return showingDetailsForId === nodeId;
   }
 
   ngOnInit() {

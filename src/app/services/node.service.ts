@@ -1,11 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Direction, NodeModel, NodeObj } from '../models/node.model';
 import { SparqlService } from './sparql.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NodeService {
+  showingDetailsForId: BehaviorSubject<string | undefined> =
+    new BehaviorSubject<string | undefined>(undefined);
+
   constructor(private sparql: SparqlService) {}
 
   getObjs(node: NodeModel | undefined, preds: string[]): NodeObj[] {
