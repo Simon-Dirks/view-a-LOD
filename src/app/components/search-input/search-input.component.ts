@@ -36,6 +36,6 @@ export class SearchInputComponent implements OnInit {
       queryParams: { q: this.searchInput },
     };
 
-    void this.router.navigate([''], queryParams);
+    void this.router.navigate(['search'], queryParams);
   }
 }

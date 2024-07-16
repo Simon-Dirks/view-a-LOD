@@ -19,7 +19,8 @@ export class NodeService {
         continue;
       }
       for (const obj of node[pred]) {
-        const noObjFoundForThisPred = !obj || obj?.value.length === 0;
+        const noObjFoundForThisPred =
+          !obj || !obj.value || obj?.value.length === 0;
         if (noObjFoundForThisPred) {
           continue;
         }

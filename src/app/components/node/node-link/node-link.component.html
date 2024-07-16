@@ -1,5 +1,5 @@
 <ng-container>
-  <float-ui-content #popupContent class="inline">
+  <float-ui-content #popupContent class="inline hidden">
     <a class="btn btn-sm mr-2 !font-sans" [href]="processedUrl" target="_blank">
       <ng-icon [svg]="featherExternalLink" /> Open link
     </a>
@@ -40,22 +40,25 @@
   <div class="inline">
     <ng-content></ng-content>
 
-    <div
-      class="inline"
-      [ngClass]="[isClickableUrl ? 'clickable' : '']"
-      [floatUi]="popupContent"
-      [disabled]="!isClickableUrl"
-      [hideOnClickOutside]="true"
-      [showOnStart]="false"
-      [showTrigger]="NgxFloatUiTriggers.click"
-      [placement]="NgxFloatUiPlacements.TOP"
-      [positionFixed]="true"
-    >
+    <!--    <div-->
+    <!--      class="inline"-->
+    <!--      [ngClass]="[isClickableUrl ? 'clickable' : '']"-->
+    <!--      [floatUi]="popupContent"-->
+    <!--      [disabled]="!isClickableUrl"-->
+    <!--      [hideOnClickOutside]="true"-->
+    <!--      [showOnStart]="false"-->
+    <!--      [showTrigger]="NgxFloatUiTriggers.click"-->
+    <!--      [placement]="NgxFloatUiPlacements.TOP"-->
+    <!--      [positionFixed]="true"-->
+    <!--    >-->
+    <div class="inline">
+      <!--  TODO: If clicked is observed (and perhaps the event is canceled), remove the href or use a button instead?  -->
       <a
+        *ngIf="clicked.observed || isClickableUrl"
         [href]="processedUrl"
-        target="_blank'"
-        (click)="preventDefault($event)"
-        *ngIf="isClickableUrl"
+        target="_blank"
+        (click)="onUrlClicked($event)"
+        class="clickable"
       >
         <app-node-label
           [label]="cachedLabel ?? processedUrl"
@@ -65,7 +68,7 @@
         />
       </a>
 
-      <span *ngIf="!isClickableUrl">
+      <span *ngIf="!clicked.observed && !isClickableUrl">
         <app-node-label
           [label]="cachedLabel ?? processedUrl"
           [shouldTruncate]="shouldTruncate"

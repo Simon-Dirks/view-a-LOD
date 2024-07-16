@@ -10,6 +10,7 @@ import { SettingsService } from '../../../../services/settings.service';
 import { ViewModeSetting } from '../../../../models/settings/view-mode-setting.enum';
 import { featherChevronDown, featherChevronUp } from '@ng-icons/feather-icons';
 import { PredicateVisibility } from '../../../../models/settings/predicate-visibility-settings.model';
+import { DetailsService } from '../../../../services/details.service';
 
 @Component({
   selector: 'app-node-table-view',
@@ -30,13 +31,13 @@ export class NodeTableViewComponent
   extends NodeRenderComponent
   implements OnInit
 {
-  showingDetails = false;
   canShowDetails = false;
   numOfDetailsPreds = 0;
 
   constructor(
     public settings: SettingsService,
     public override nodes: NodeService,
+    public details: DetailsService,
   ) {
     super(nodes);
   }

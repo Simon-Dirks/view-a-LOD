@@ -104,8 +104,7 @@ const peopleFilterOptionValueIds = [
   'http://www.nationaalarchief.nl/mdto#archiefvormer',
 ];
 
- const filtersForEmptySearch: FilterModel[] = [
-  
+const filtersForEmptySearch: FilterModel[] = [
   // ...imagePredicates.map((imagePredicate) => {
   //   return {
   //     fieldId: imagePredicate,
@@ -116,7 +115,7 @@ const peopleFilterOptionValueIds = [
   //   fieldId: 'http://www.nationaalarchief.nl/mdto#heeftRepresentatie',
   //   type: FilterType.Field,
   // },
- ];
+];
 //
 // const filtersForEmptySearch = [
 //   {
@@ -154,8 +153,7 @@ export const Settings = {
             'https://data.razu.nl/_api/datasets/gedeeld/actoren/services/actoren/_search',
         },
         {
-          sparql:
-            'https://api.data.razu.nl/datasets/gedeeld/locaties/sparql',
+          sparql: 'https://api.data.razu.nl/datasets/gedeeld/locaties/sparql',
           elastic:
             'https://api.data.razu.nl/datasets/gedeeld/locaties/services/locaties/_search',
         },
@@ -329,9 +327,9 @@ export const Settings = {
       'https://schema.org/thumbnail': {
         componentId: 'node-images',
       },
-      'https://schema.org/contentLocation': {
-        componentId: 'map-thumb',
-      },
+      // 'https://schema.org/contentLocation': {
+      //   componentId: 'map-thumb',
+      // },
       'http://www.w3.org/1999/02/22-rdf-syntax-ns#type': {
         componentId: 'node-type',
       },
@@ -399,19 +397,24 @@ export const Settings = {
       [ViewModeSetting.ShowParents]: true,
       [ViewModeSetting.ShowTypes]: true,
       [ViewModeSetting.ShowTitle]: true,
-      [ViewModeSetting.ShowLargeImage]: true,
+      [ViewModeSetting.ShowImageNextToTable]: true,
     },
     [ViewMode.Grid]: {
       [ViewModeSetting.ShowTitle]: true,
       [ViewModeSetting.ShowDetails]: true,
       [ViewModeSetting.ShowTypes]: true,
-      [ViewModeSetting.ShowLargeImage]: true,
+      [ViewModeSetting.ShowImageNextToTable]: true,
     },
   },
-  largeImagePercentageWidthOfContainer: 100,
+  largeImageWidth: { search: '30%', details: '40%' },
+  imageForWhenLoadingFails: '/assets/img/image-load-fail.png',
   predicateVisibility: {
     [ViewMode.List]: {
-      [PredicateVisibility.Show]: [
+      [PredicateVisibility.Show]: [],
+      [PredicateVisibility.Details]: [
+        ...imagePredicates,
+        'http://www.nationaalarchief.nl/mdto#naam',
+        // ...typePredicates,
         'https://schema.org/author',
         'http://www.nationaalarchief.nl/mdto#omschrijving',
         'http://www.nationaalarchief.nl/mdto#dekkingInRuimte',
@@ -420,14 +423,9 @@ export const Settings = {
         'http://www.nationaalarchief.nl/mdto#heeftRepresentatie',
         'https://www.ica.org/standards/RiC/ontology#expressedDateValue',
         'https://www.ica.org/standards/RiC/ontology#hasCreator',
-      ],
-      [PredicateVisibility.Details]: [
-        ...imagePredicates,
-        'http://www.nationaalarchief.nl/mdto#naam',
-        ...typePredicates,
         '*',
       ],
-      [PredicateVisibility.Hide]: [],
+      [PredicateVisibility.Hide]: [...typePredicates],
     },
     [ViewMode.Grid]: {
       [PredicateVisibility.Show]: [],

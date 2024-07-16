@@ -1,9 +1,9 @@
 <div
   class="bg-neutral rounded-b-lg py-3 px-6 text-white w-64 sm:w-96 mx-auto mb-8 flex items-center"
 >
-  <button class="text-left" (click)="router.navigateByUrl('home')">
-    <div class="text-sm sm:text-base">Prototype Zoekomgeving</div>
-    <div class="font-bold text-lg sm:text-2xl">Kasteel Amerongen</div>
+  <button class="text-left" (click)="router.navigateByUrl('')">
+    <!--    <div class="text-sm sm:text-base">Prototype Zoekomgeving</div>-->
+    <div class="font-semibold text-lg sm:text-2xl mb-2">Kasteel Amerongen</div>
   </button>
 
   <div class="flex-grow">
@@ -20,7 +20,7 @@
         <ng-icon
           [svg]="featherX"
           *ngIf="view === HeaderView.ShowingColofon"
-          class="relative top-[0.1rem] sm:top-[0.15rem]"
+          class="relative top-[0.125rem] sm:right-[0.05rem] sm:top-[0.15rem]"
         />
         <span
           *ngIf="view === HeaderView.ShowingSearch"

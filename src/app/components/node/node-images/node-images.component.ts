@@ -8,6 +8,7 @@ import {
 import { JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { Config } from '../../../config/config';
 import { CdnService } from '../../../services/cdn.service';
+import { Settings } from '../../../config/settings';
 
 @Component({
   selector: 'app-node-images',
@@ -43,4 +44,8 @@ export class NodeImagesComponent implements OnInit, OnChanges {
   }
 
   protected readonly Config = Config;
+
+  onImageLoadError($event: ErrorEvent) {
+    ($event.target as any).src = Settings.imageForWhenLoadingFails;
+  }
 }

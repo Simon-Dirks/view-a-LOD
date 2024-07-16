@@ -1,20 +1,53 @@
+<button
+  (click)="details.stopShowing()"
+  *ngIf="details.isShowing"
+  class="mb-4 text-lg font-bold"
+>
+  <ng-icon [svg]="featherArrowLeft" class="relative top-[0.15rem] mr-2" />
+
+  <span>Terug naar zoekresultaten</span>
+</button>
+
 <div
   class="w-full bg-base-100 border mb-4"
   *ngIf="node"
-  [ngClass]="shouldShowLargeImages() ? 'p-0 flex' : 'p-6'"
+  [ngClass]="[
+    shouldShowImageNextToTable() ? 'p-0 flex' : 'p-6',
+    !details.showing(node) ? 'max-w-[50rem]' : ''
+  ]"
 >
-  <app-node-images
-    [imageUrls]="images"
-    [width]="Settings.largeImagePercentageWidthOfContainer + '%'"
-    *ngIf="shouldShowLargeImages()"
-  />
+  <button
+    *ngIf="shouldShowImageNextToTable()"
+    (click)="details.show(node)"
+    class="inline-block"
+    [ngClass]="[details.isShowing ? 'cursor-default' : '']"
+    [style.width]="
+      details.isShowing
+        ? Settings.largeImageWidth.details
+        : Settings.largeImageWidth.search
+    "
+    [style.min-width]="
+      details.isShowing
+        ? Settings.largeImageWidth.details
+        : Settings.largeImageWidth.search
+    "
+  >
+    <app-node-images [imageUrls]="images" [width]="'100%'" />
+  </button>
 
-  <div [ngClass]="shouldShowLargeImages() ? 'p-6' : 'p-0'" class="flex-grow">
+  <div
+    [ngClass]="shouldShowImageNextToTable() ? 'p-6' : 'p-0'"
+    class="flex-grow relative"
+  >
     <div class="text-lg" *ngIf="showTitle">
-      <app-node-link [url]="id" [label]="title" />
+      <app-node-link
+        [url]="id"
+        [label]="title"
+        (clicked)="onTitleClicked($event)"
+      />
     </div>
 
-    <div class="w-full px-4">
+    <div class="w-full sm:px-4">
       <app-node-table-row
         [label]="'Onderdeel van'"
         *ngIf="showParents && parents.length > 0"
@@ -29,11 +62,22 @@
       >
         <app-node-types [types]="types" />
       </app-node-table-row>
-      <app-node-table-row [label]="'Organisatie'">
+      <app-node-table-row [label]="'Organisatie'" *ngIf="details.showing(node)">
         <app-node-endpoint [endpointId]="nodes.getEndpointId(node)" />
       </app-node-table-row>
     </div>
 
     <app-node-renderer [node]="node" />
+
+    <button
+      class="absolute leading-none"
+      [ngClass]="[
+        shouldShowImageNextToTable() ? 'right-6 bottom-6' : 'right-0 bottom-0'
+      ]"
+      (click)="details.show(node)"
+      *ngIf="!details.showing(node)"
+    >
+      <ng-icon [svg]="featherArrowRight" class="text-xl" />
+    </button>
   </div>
 </div>

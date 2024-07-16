@@ -1,20 +1,19 @@
 <app-node-table [node]="node" [visibility]="PredicateVisibility.Show" />
 
-<button
-  class="text-xs mt-4 clickable"
-  (click)="showingDetails = !showingDetails"
-  *ngIf="numOfDetailsPreds > 0 && canShowDetails"
->
-  <ng-icon
-    [svg]="showingDetails ? featherChevronUp : featherChevronDown"
-    class="relative top-[0.1rem]"
-  />
-  <!--  TODO: Add translation -->
-  {{ showingDetails ? "Verberg details" : "Toon details" }}
-</button>
+<!--<button-->
+<!--  class="text-xs mt-4 clickable"-->
+<!--  *ngIf="numOfDetailsPreds > 0 && canShowDetails"-->
+<!--&gt;-->
+<!--  <ng-icon-->
+<!--    [svg]="shouldShowDetails ? featherChevronUp : featherChevronDown"-->
+<!--    class="relative top-[0.1rem]"-->
+<!--  />-->
+<!--  &lt;!&ndash;  TODO: Add translation &ndash;&gt;-->
+<!--  {{ shouldShowDetails ? "Verberg details" : "Toon details" }}-->
+<!--</button>-->
 
 <app-node-table
   [node]="node"
   [visibility]="PredicateVisibility.Details"
-  *ngIf="showingDetails && numOfDetailsPreds > 0 && canShowDetails"
+  *ngIf="details.showing(node) && numOfDetailsPreds > 0 && canShowDetails"
 />
