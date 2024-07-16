@@ -8,8 +8,9 @@ import { NodeService } from './node.service';
   providedIn: 'root',
 })
 export class DetailsService {
-  showingDetailsForNodeId: BehaviorSubject<string | undefined> =
+  private _showingForNodeId: BehaviorSubject<string | undefined> =
     new BehaviorSubject<string | undefined>(undefined);
+  showingForNodeId = this._showingForNodeId.asObservable();
 
   constructor(
     private search: SearchService,
@@ -25,23 +26,23 @@ export class DetailsService {
   }
 
   get isShowing(): boolean {
-    return !!this.showingDetailsForNodeId.value;
+    return !!this._showingForNodeId.value;
   }
 
   show(node: NodeModel) {
     const nodeId = this.nodes.getId(node);
-    this.showingDetailsForNodeId.next(nodeId);
+    this._showingForNodeId.next(nodeId);
   }
 
   stopShowing() {
-    this.showingDetailsForNodeId.next(undefined);
+    this._showingForNodeId.next(undefined);
   }
 
   shouldShowNode(node: NodeModel | undefined): boolean {
     if (!node) {
       return false;
     }
-    const showingDetailsForId = this.showingDetailsForNodeId.value;
+    const showingDetailsForId = this._showingForNodeId.value;
     const shouldShowAllNodes = !showingDetailsForId;
     if (shouldShowAllNodes) {
       return true;
@@ -56,10 +57,10 @@ export class DetailsService {
     }
 
     const nodeId = this.nodes.getId(node);
-    const showingDetailsForId = this.showingDetailsForNodeId.value;
+    const showingDetailsForId = this._showingForNodeId.value;
     if (!showingDetailsForId) {
       return false;
     }
-    return nodeId === this.showingDetailsForNodeId.value;
+    return nodeId === this._showingForNodeId.value;
   }
 }

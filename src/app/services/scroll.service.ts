@@ -20,7 +20,7 @@ export class ScrollService {
   }
 
   initScrollOnDetailsViewChange() {
-    this.details.showingDetailsForNodeId.subscribe((nodeId) => {
+    this.details.showingForNodeId.subscribe((nodeId) => {
       const isShowingDetails = !!nodeId;
       if (isShowingDetails) {
         this.scrollToTop();
