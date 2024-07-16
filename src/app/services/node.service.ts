@@ -17,12 +17,16 @@ export class NodeService {
   }
 
   toggleShowingDetails(node: NodeModel) {
-    if (this.shouldShowDetails(node)) {
-      this.showingDetailsForId.next(undefined);
+    if (this.showingDetails(node)) {
+      this.stopShowingDetails();
       return;
     }
     const nodeId = this.getId(node);
     this.showingDetailsForId.next(nodeId);
+  }
+
+  stopShowingDetails() {
+    this.showingDetailsForId.next(undefined);
   }
 
   shouldShow(node: NodeModel | undefined): boolean {
@@ -35,10 +39,10 @@ export class NodeService {
       return true;
     }
 
-    return this.shouldShowDetails(node);
+    return this.showingDetails(node);
   }
 
-  shouldShowDetails(node: NodeModel | undefined): boolean {
+  showingDetails(node: NodeModel | undefined): boolean {
     if (!node) {
       return false;
     }

@@ -46,6 +46,7 @@
     <!--      [positionFixed]="true"-->
     <!--    >-->
     <div class="inline">
+      <!--  TODO: If clicked is observed (and perhaps the event is canceled), remove the href or use a button instead?  -->
       <a
         *ngIf="clicked.observed || isClickableUrl"
         [href]="processedUrl"

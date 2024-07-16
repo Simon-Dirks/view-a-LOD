@@ -25,6 +25,12 @@ import { ViewModeSetting } from '../../models/settings/view-mode-setting.enum';
 import { TypeModel } from '../../models/type.model';
 import { NodeEndpointComponent } from './node-endpoint/node-endpoint.component';
 import { NodeTableRowComponent } from './node-table-row/node-table-row.component';
+import {
+  featherArrowLeft,
+  featherArrowRight,
+  featherChevronRight,
+} from '@ng-icons/feather-icons';
+import { NgIcon } from '@ng-icons/core';
 
 @Component({
   selector: 'app-node',
@@ -43,6 +49,7 @@ import { NodeTableRowComponent } from './node-table-row/node-table-row.component
     NodeEndpointComponent,
     NodeTableRowComponent,
     NgClass,
+    NgIcon,
   ],
   templateUrl: './node.component.html',
   styleUrl: './node.component.scss',
@@ -148,4 +155,7 @@ export class NodeComponent implements OnInit {
   }
 
   protected readonly Settings = Settings;
+  protected readonly featherChevronRight = featherChevronRight;
+  protected readonly featherArrowRight = featherArrowRight;
+  protected readonly featherArrowLeft = featherArrowLeft;
 }
