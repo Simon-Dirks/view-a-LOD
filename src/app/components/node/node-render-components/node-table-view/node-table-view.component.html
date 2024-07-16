@@ -15,5 +15,7 @@
 <app-node-table
   [node]="node"
   [visibility]="PredicateVisibility.Details"
-  *ngIf="shouldShowDetails && numOfDetailsPreds > 0 && canShowDetails"
+  *ngIf="
+    nodes.shouldShowDetails(node) && numOfDetailsPreds > 0 && canShowDetails
+  "
 />

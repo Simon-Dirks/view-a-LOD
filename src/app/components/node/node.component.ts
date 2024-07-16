@@ -144,8 +144,7 @@ export class NodeComponent implements OnInit {
     if (!this.node) {
       return;
     }
-    const nodeId = this.nodes.getId(this.node);
-    this.nodes.showingDetailsForId.next(nodeId);
+    this.nodes.toggleShowingDetails(this.node);
   }
 
   protected readonly Settings = Settings;

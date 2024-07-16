@@ -18,6 +18,7 @@ import { HeaderComponent } from '../../header/header.component';
 import { ViewContainerComponent } from '../view-container/view-container.component';
 import { HomeIntroComponent } from '../../home-intro/home-intro.component';
 import { Router } from '@angular/router';
+import { NodeService } from '../../../services/node.service';
 
 @Component({
   selector: 'app-search',
@@ -49,6 +50,7 @@ export class SearchComponent implements OnInit {
     public search: SearchService,
     public viewModes: ViewModeService,
     public router: Router,
+    public nodes: NodeService,
   ) {}
 
   ngOnInit() {}

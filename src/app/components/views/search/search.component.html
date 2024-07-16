@@ -26,7 +26,9 @@
       <p class="text-xl mb-4 font-bold">
         <span *ngIf="search.isLoading.value" class="loading loading-spinner">
         </span>
-        <span *ngIf="!search.isLoading.value">{{ numberOfHitsStr }}</span>
+        <span *ngIf="!search.isLoading.value && !nodes.isShowingDetails">{{
+          numberOfHitsStr
+        }}</span>
       </p>
       <!--    TODO: Bring back masonry grid-->
       <!--    <app-nodes-masonry-grid-->
@@ -42,14 +44,13 @@
       />
 
       <ng-container *ngIf="viewModes.current.value === ViewMode.List">
-        <app-node
-          *ngFor="let node of search.results.value?.nodes"
-          [node]="node"
-        ></app-node>
+        <ng-container *ngFor="let node of search.results.value?.nodes">
+          <app-node [node]="node" *ngIf="nodes.shouldShow(node)"></app-node>
+        </ng-container>
       </ng-container>
     </div>
 
-    <div>
+    <div *ngIf="!nodes.isShowingDetails">
       <button
         class="btn btn-primary"
         (click)="loadMore()"

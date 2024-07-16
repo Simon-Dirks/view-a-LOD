@@ -12,6 +12,45 @@ export class NodeService {
 
   constructor(private sparql: SparqlService) {}
 
+  get isShowingDetails(): boolean {
+    return !!this.showingDetailsForId.value;
+  }
+
+  toggleShowingDetails(node: NodeModel) {
+    if (this.shouldShowDetails(node)) {
+      this.showingDetailsForId.next(undefined);
+      return;
+    }
+    const nodeId = this.getId(node);
+    this.showingDetailsForId.next(nodeId);
+  }
+
+  shouldShow(node: NodeModel | undefined): boolean {
+    if (!node) {
+      return false;
+    }
+    const showingDetailsForId = this.showingDetailsForId.value;
+    const shouldShowAllNodes = !showingDetailsForId;
+    if (shouldShowAllNodes) {
+      return true;
+    }
+
+    return this.shouldShowDetails(node);
+  }
+
+  shouldShowDetails(node: NodeModel | undefined): boolean {
+    if (!node) {
+      return false;
+    }
+
+    const nodeId = this.getId(node);
+    const showingDetailsForId = this.showingDetailsForId.value;
+    if (!showingDetailsForId) {
+      return false;
+    }
+    return nodeId === this.showingDetailsForId.value;
+  }
+
   getObjs(node: NodeModel | undefined, preds: string[]): NodeObj[] {
     if (!node) {
       return [];

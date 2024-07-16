@@ -40,15 +40,6 @@ export class NodeTableViewComponent
     super(nodes);
   }
 
-  get shouldShowDetails(): boolean {
-    const showingDetailsForId = this.nodes.showingDetailsForId.value;
-    if (!this.node || !showingDetailsForId) {
-      return false;
-    }
-    const nodeId = this.nodes.getId(this.node);
-    return showingDetailsForId === nodeId;
-  }
-
   ngOnInit() {
     this.canShowDetails = this.settings.hasViewModeSetting(
       ViewModeSetting.ShowDetails,
