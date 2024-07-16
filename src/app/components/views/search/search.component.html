@@ -12,6 +12,8 @@
     <app-active-filters />
   </div>
 
+  <app-home-intro-below-search *ngIf="shouldShowHomeIntro" />
+
   <div
     class="p-4 overflow-y-scroll flex-grow scroll-smooth"
     [ngClass]="[shouldShowHomeIntro ? 'hidden' : '']"

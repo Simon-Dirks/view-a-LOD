@@ -27,6 +27,7 @@ import { Router } from '@angular/router';
 import { NodeService } from '../../../services/node.service';
 import { ScrollService } from '../../../services/scroll.service';
 import { DetailsService } from '../../../services/details.service';
+import { HomeIntroBelowSearchComponent } from '../../home-intro/home-intro-below-search/home-intro-below-search.component';
 
 @Component({
   selector: 'app-search',
@@ -49,6 +50,7 @@ import { DetailsService } from '../../../services/details.service';
     HeaderComponent,
     ViewContainerComponent,
     HomeIntroComponent,
+    HomeIntroBelowSearchComponent,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
