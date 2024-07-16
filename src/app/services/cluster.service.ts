@@ -88,27 +88,29 @@ export class ClusterService {
     }
 
     const clusteredTypes: { [clusterId: string]: TypeModel } = {};
-    let nonClusteredTypes: TypeModel[] = [];
+    const nonClusteredTypes: TypeModel[] = [];
+    const processedTypes = new Set<string>();
+
     for (const [clusterId, cluster] of Object.entries(clusters)) {
-      const typesThatShouldNotBeClustered = types.filter(
-        (type) => !cluster.valueIds.includes(type.id),
+      const typesToBeClustered = types.filter((type) =>
+        cluster.valueIds.includes(type.id),
       );
-      nonClusteredTypes = [
-        ...nonClusteredTypes,
-        ...typesThatShouldNotBeClustered,
-      ];
-      const hasIdsToCluster =
-        typesThatShouldNotBeClustered.length < types.length;
-      if (hasIdsToCluster) {
+
+      if (typesToBeClustered.length > 0) {
         const clusteredType = {
           id: clusterId,
           label: cluster.label,
         };
-        if (!(clusterId in clusteredTypes)) {
-          clusteredTypes[clusterId] = clusteredType;
-        }
+        clusteredTypes[clusterId] = clusteredType;
+        typesToBeClustered.forEach((type) => processedTypes.add(type.id));
       }
     }
+
+    types.forEach((type) => {
+      if (!processedTypes.has(type.id)) {
+        nonClusteredTypes.push(type);
+      }
+    });
 
     return [...nonClusteredTypes, ...Object.values(clusteredTypes)];
   }
