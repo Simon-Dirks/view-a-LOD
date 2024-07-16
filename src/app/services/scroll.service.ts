@@ -49,6 +49,7 @@ export class ScrollService {
   scrollToSearchResult() {
     const idToScrollTo = this.details.lastShownNodeId;
     // TODO: Properly wait for search results page to have completed rendering instead of using timeout "hack"
+    //  This is a bit tricky because many components are rendered asynchronously, while often taking up considerable vertical space (e.g., the node-hierarchy component). You don't want to wait for all of these components to finish rendering, but you also don't want to scroll to the wrong place because the DOM changes after scroll.
     setTimeout(() => {
       if (!this._scrollContainer || !idToScrollTo) {
         return;
