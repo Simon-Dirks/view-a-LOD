@@ -407,6 +407,7 @@ export const Settings = {
     },
   },
   largeImageWidth: { search: '30%', details: '50%' },
+  imageForWhenLoadingFails: '/assets/img/image-load-fail.png',
   predicateVisibility: {
     [ViewMode.List]: {
       [PredicateVisibility.Show]: [],
