@@ -48,6 +48,7 @@
         <ng-container *ngFor="let node of search.results.value?.nodes">
           <app-node
             [node]="node"
+            [id]="nodes.getId(node)"
             *ngIf="details.shouldShowNode(node)"
           ></app-node>
         </ng-container>

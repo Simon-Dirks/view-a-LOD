@@ -10,16 +10,27 @@ import { NodeService } from './node.service';
 export class DetailsService {
   private _showingForNodeId: BehaviorSubject<string | undefined> =
     new BehaviorSubject<string | undefined>(undefined);
+  lastShownNodeId: string | undefined = undefined;
   showingForNodeId = this._showingForNodeId.asObservable();
 
   constructor(
     private search: SearchService,
     private nodes: NodeService,
   ) {
-    this.initStopShowingDetailsOnSearchResultChanges();
+    this._initStopShowingDetailsOnSearchResultChanges();
+    this._initStoreLastShownNodeIdOnChange();
   }
 
-  initStopShowingDetailsOnSearchResultChanges() {
+  private _initStoreLastShownNodeIdOnChange() {
+    this._showingForNodeId.subscribe((nodeId) => {
+      if (!nodeId) {
+        return;
+      }
+      this.lastShownNodeId = nodeId;
+    });
+  }
+
+  private _initStopShowingDetailsOnSearchResultChanges() {
     this.search.results.subscribe(() => {
       this.stopShowing();
     });
@@ -36,6 +47,7 @@ export class DetailsService {
 
   stopShowing() {
     this._showingForNodeId.next(undefined);
+    this.lastShownNodeId = undefined;
   }
 
   shouldShowNode(node: NodeModel | undefined): boolean {

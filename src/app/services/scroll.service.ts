@@ -38,6 +38,7 @@ export class ScrollService {
       if (!this._scrollContainer) {
         return;
       }
+      console.log('Scrolling to top');
       this._scrollContainer.nativeElement.scrollTo({
         top: 0,
         behavior: 'smooth',
@@ -46,9 +47,33 @@ export class ScrollService {
   }
 
   scrollToSearchResult() {
-    if (!this._scrollContainer) {
-      return;
-    }
-    console.log('Scroll to search result', this._scrollContainer.nativeElement);
+    const idToScrollTo = this.details.lastShownNodeId;
+    // TODO: Properly wait for search results page to have completed rendering instead of using timeout "hack"
+    setTimeout(() => {
+      if (!this._scrollContainer || !idToScrollTo) {
+        return;
+      }
+
+      const searchResultElem = document.getElementById(idToScrollTo);
+
+      if (!searchResultElem) {
+        return;
+      }
+      console.log(
+        'Scrolling back to search result',
+        idToScrollTo,
+        searchResultElem,
+      );
+
+      const containerTop =
+        this._scrollContainer.nativeElement.getBoundingClientRect().top;
+      const elementTop = searchResultElem.getBoundingClientRect().top;
+      const offset = elementTop - containerTop;
+
+      this._scrollContainer.nativeElement.scrollTo({
+        top: this._scrollContainer.nativeElement.scrollTop + offset,
+        behavior: 'smooth',
+      });
+    }, 300);
   }
 }
