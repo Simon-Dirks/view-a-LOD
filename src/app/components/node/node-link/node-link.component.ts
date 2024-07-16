@@ -1,8 +1,10 @@
 import {
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import {
@@ -63,6 +65,8 @@ export class NodeLinkComponent implements OnInit, OnChanges {
   @Input() suffixStr = '';
   @Input() shouldHighlight = true;
 
+  @Output() clicked: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+
   isClickableUrl = false;
 
   constructor(
@@ -111,21 +115,30 @@ export class NodeLinkComponent implements OnInit, OnChanges {
     return this.processedUrl ? replacePrefixes(this.processedUrl) : undefined;
   }
 
-  preventDefault(event: MouseEvent) {
-    event.preventDefault();
-  }
-
-  onToggleFilterClicked(event: MouseEvent, type: FilterType) {
-    this.preventDefault(event);
-    if (!this.url || this.disabled) {
+  onUrlClicked(event: MouseEvent) {
+    if (!this.processedUrl || !this.isClickableUrl || this.disabled) {
+      this._preventDefault(event);
       return;
     }
 
-    this.filters.toggle({
-      valueId: this.url,
-      type: type,
-    });
+    this.clicked.emit(event);
   }
+
+  private _preventDefault(event: MouseEvent) {
+    event.preventDefault();
+  }
+
+  // onToggleFilterClicked(event: MouseEvent, type: FilterType) {
+  //   this._preventDefault(event);
+  //   if (!this.url || this.disabled) {
+  //     return;
+  //   }
+  //
+  //   this.filters.toggle({
+  //     valueId: this.url,
+  //     type: type,
+  //   });
+  // }
 
   protected readonly featherFilter = featherFilter;
   protected readonly NgxFloatUiPlacements = NgxFloatUiPlacements;

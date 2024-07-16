@@ -138,5 +138,9 @@ export class NodeComponent implements OnInit {
     return this.showLargeImages && this.images && this.images.length > 0;
   }
 
+  onTitleClicked($event: MouseEvent) {
+    $event.preventDefault();
+  }
+
   protected readonly Settings = Settings;
 }

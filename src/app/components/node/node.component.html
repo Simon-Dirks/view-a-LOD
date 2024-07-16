@@ -11,7 +11,11 @@
 
   <div [ngClass]="shouldShowLargeImages() ? 'p-6' : 'p-0'" class="flex-grow">
     <div class="text-lg" *ngIf="showTitle">
-      <app-node-link [url]="id" [label]="title" />
+      <app-node-link
+        [url]="id"
+        [label]="title"
+        (clicked)="onTitleClicked($event)"
+      />
     </div>
 
     <div class="w-full px-4">
