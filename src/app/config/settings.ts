@@ -424,7 +424,7 @@ export const Settings = {
         'https://www.ica.org/standards/RiC/ontology#hasCreator',
         '*',
       ],
-      [PredicateVisibility.Hide]: [],
+      [PredicateVisibility.Hide]: [...typePredicates],
     },
     [ViewMode.Grid]: {
       [PredicateVisibility.Show]: [],
