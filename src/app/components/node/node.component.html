@@ -17,9 +17,10 @@
   ]"
 >
   <button
-    (click)="details.show(node)"
     *ngIf="shouldShowImageNextToTable()"
+    (click)="details.show(node)"
     class="inline-block"
+    [ngClass]="[details.isShowing ? 'cursor-default' : '']"
     [style.width]="
       details.isShowing
         ? Settings.largeImageWidth.details
