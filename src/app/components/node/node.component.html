@@ -33,7 +33,10 @@
       >
         <app-node-types [types]="types" />
       </app-node-table-row>
-      <app-node-table-row [label]="'Organisatie'">
+      <app-node-table-row
+        [label]="'Organisatie'"
+        *ngIf="nodes.shouldShowDetails(node)"
+      >
         <app-node-endpoint [endpointId]="nodes.getEndpointId(node)" />
       </app-node-table-row>
     </div>

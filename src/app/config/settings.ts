@@ -104,8 +104,7 @@ const peopleFilterOptionValueIds = [
   'http://www.nationaalarchief.nl/mdto#archiefvormer',
 ];
 
- const filtersForEmptySearch: FilterModel[] = [
-  
+const filtersForEmptySearch: FilterModel[] = [
   // ...imagePredicates.map((imagePredicate) => {
   //   return {
   //     fieldId: imagePredicate,
@@ -116,7 +115,7 @@ const peopleFilterOptionValueIds = [
   //   fieldId: 'http://www.nationaalarchief.nl/mdto#heeftRepresentatie',
   //   type: FilterType.Field,
   // },
- ];
+];
 //
 // const filtersForEmptySearch = [
 //   {
@@ -154,8 +153,7 @@ export const Settings = {
             'https://data.razu.nl/_api/datasets/gedeeld/actoren/services/actoren/_search',
         },
         {
-          sparql:
-            'https://api.data.razu.nl/datasets/gedeeld/locaties/sparql',
+          sparql: 'https://api.data.razu.nl/datasets/gedeeld/locaties/sparql',
           elastic:
             'https://api.data.razu.nl/datasets/gedeeld/locaties/services/locaties/_search',
         },
@@ -411,7 +409,11 @@ export const Settings = {
   largeImagePercentageWidthOfContainer: 100,
   predicateVisibility: {
     [ViewMode.List]: {
-      [PredicateVisibility.Show]: [
+      [PredicateVisibility.Show]: [],
+      [PredicateVisibility.Details]: [
+        ...imagePredicates,
+        'http://www.nationaalarchief.nl/mdto#naam',
+        // ...typePredicates,
         'https://schema.org/author',
         'http://www.nationaalarchief.nl/mdto#omschrijving',
         'http://www.nationaalarchief.nl/mdto#dekkingInRuimte',
@@ -420,11 +422,6 @@ export const Settings = {
         'http://www.nationaalarchief.nl/mdto#heeftRepresentatie',
         'https://www.ica.org/standards/RiC/ontology#expressedDateValue',
         'https://www.ica.org/standards/RiC/ontology#hasCreator',
-      ],
-      [PredicateVisibility.Details]: [
-        ...imagePredicates,
-        'http://www.nationaalarchief.nl/mdto#naam',
-        ...typePredicates,
         '*',
       ],
       [PredicateVisibility.Hide]: [],
