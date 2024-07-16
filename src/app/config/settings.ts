@@ -327,9 +327,9 @@ export const Settings = {
       'https://schema.org/thumbnail': {
         componentId: 'node-images',
       },
-      'https://schema.org/contentLocation': {
-        componentId: 'map-thumb',
-      },
+      // 'https://schema.org/contentLocation': {
+      //   componentId: 'map-thumb',
+      // },
       'http://www.w3.org/1999/02/22-rdf-syntax-ns#type': {
         componentId: 'node-type',
       },
