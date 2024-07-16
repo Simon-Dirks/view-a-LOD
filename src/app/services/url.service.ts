@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root',
 })
-export class CdnService {
+export class UrlService {
   constructor() {}
 
   private _addParamToUrl(
@@ -33,6 +33,12 @@ export class CdnService {
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTE3MDY0NjQsIm5iZiI6MTcxMTcwNjQ2NCwiZXhwIjoxNzQzMjQyNDY0fQ.ViNS0wWml0EwkF0z75G4cNZxKupYQMLiVB_PQ5kNQm8',
       );
     }
+
+    url = url.replaceAll(
+      'hetutrechtsarchief.nl/id',
+      'hetutrechtsarchief.nl/collectie',
+    );
+
     return url;
   }
 }

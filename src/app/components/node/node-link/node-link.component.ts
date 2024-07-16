@@ -36,6 +36,7 @@ import { NodeLabelComponent } from '../node-label/node-label.component';
 import { FilterType } from '../../../models/filter.model';
 import { SearchService } from '../../../services/search/search.service';
 import { DrawerService } from '../../../services/drawer.service';
+import { UrlService } from '../../../services/url.service';
 
 @Component({
   selector: 'app-node-link',

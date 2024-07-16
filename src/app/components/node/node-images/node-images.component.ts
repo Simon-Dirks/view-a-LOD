@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { Config } from '../../../config/config';
-import { CdnService } from '../../../services/cdn.service';
+import { UrlService } from '../../../services/url.service';
 import { Settings } from '../../../config/settings';
 
 @Component({
@@ -23,7 +23,7 @@ export class NodeImagesComponent implements OnInit, OnChanges {
 
   processedImageUrls: string[] = [];
 
-  constructor(public cdn: CdnService) {}
+  constructor(public urlService: UrlService) {}
 
   ngOnInit() {
     this.processImageUrls();
@@ -40,7 +40,7 @@ export class NodeImagesComponent implements OnInit, OnChanges {
       return;
     }
 
-    this.processedImageUrls = this.cdn.processUrls(this.imageUrls);
+    this.processedImageUrls = this.urlService.processUrls(this.imageUrls);
   }
 
   protected readonly Config = Config;
