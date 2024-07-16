@@ -66,8 +66,8 @@ export class NodeComponent implements OnInit {
   showTitle = this.settings.hasViewModeSetting(ViewModeSetting.ShowTitle);
   showParents = this.settings.hasViewModeSetting(ViewModeSetting.ShowParents);
   showTypes = this.settings.hasViewModeSetting(ViewModeSetting.ShowTypes);
-  showLargeImages = this.settings.hasViewModeSetting(
-    ViewModeSetting.ShowLargeImage,
+  showImageNextToTable = this.settings.hasViewModeSetting(
+    ViewModeSetting.ShowImageNextToTable,
   );
 
   constructor(
@@ -141,8 +141,8 @@ export class NodeComponent implements OnInit {
     );
   }
 
-  shouldShowLargeImages(): boolean {
-    return this.showLargeImages && this.images && this.images.length > 0;
+  shouldShowImageNextToTable(): boolean {
+    return this.showImageNextToTable && this.images && this.images.length > 0;
   }
 
   onTitleClicked($event: MouseEvent) {

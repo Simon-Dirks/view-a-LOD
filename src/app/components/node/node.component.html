@@ -12,18 +12,22 @@
   class="w-full bg-base-100 border mb-4"
   *ngIf="node"
   [ngClass]="[
-    shouldShowLargeImages() ? 'p-0 flex' : 'p-6',
+    shouldShowImageNextToTable() ? 'p-0 flex' : 'p-6',
     !nodes.showingDetails(node) ? 'max-w-[50rem]' : ''
   ]"
 >
-  <app-node-images
-    [imageUrls]="images"
-    [width]="Settings.largeImagePercentageWidthOfContainer + '%'"
-    *ngIf="shouldShowLargeImages()"
-  />
+  <button
+    (click)="nodes.toggleShowingDetails(node)"
+    *ngIf="shouldShowImageNextToTable()"
+  >
+    <app-node-images
+      [imageUrls]="images"
+      [width]="Settings.largeImagePercentageWidthOfContainer + '%'"
+    />
+  </button>
 
   <div
-    [ngClass]="shouldShowLargeImages() ? 'p-6' : 'p-0'"
+    [ngClass]="shouldShowImageNextToTable() ? 'p-6' : 'p-0'"
     class="flex-grow relative"
   >
     <div class="text-lg" *ngIf="showTitle">
@@ -62,7 +66,7 @@
     <button
       class="absolute leading-none"
       [ngClass]="[
-        shouldShowLargeImages() ? 'right-6 bottom-6' : 'right-0 bottom-0'
+        shouldShowImageNextToTable() ? 'right-6 bottom-6' : 'right-0 bottom-0'
       ]"
       (click)="nodes.toggleShowingDetails(node)"
       *ngIf="!nodes.showingDetails(node)"
