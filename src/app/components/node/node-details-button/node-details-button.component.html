@@ -1,0 +1,7 @@
+<button
+  class="leading-none relative top-[0.3rem]"
+  (click)="details.show(node)"
+  *ngIf="node && !details.showing(node)"
+>
+  <ng-icon [svg]="featherArrowRight" class="text-xl" />
+</button>

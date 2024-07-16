@@ -69,15 +69,13 @@
 
     <app-node-renderer [node]="node" />
 
-    <button
-      class="absolute leading-none"
+    <div
+      class="absolute"
       [ngClass]="[
         shouldShowImageNextToTable() ? 'right-6 bottom-6' : 'right-0 bottom-0'
       ]"
-      (click)="details.show(node)"
-      *ngIf="!details.showing(node)"
     >
-      <ng-icon [svg]="featherArrowRight" class="text-xl" />
-    </button>
+      <app-node-details-button [node]="node" />
+    </div>
   </div>
 </div>

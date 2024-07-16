@@ -32,6 +32,7 @@ import {
 } from '@ng-icons/feather-icons';
 import { NgIcon } from '@ng-icons/core';
 import { DetailsService } from '../../services/details.service';
+import { NodeDetailsButtonComponent } from './node-details-button/node-details-button.component';
 
 @Component({
   selector: 'app-node',
@@ -51,6 +52,7 @@ import { DetailsService } from '../../services/details.service';
     NodeTableRowComponent,
     NgClass,
     NgIcon,
+    NodeDetailsButtonComponent,
   ],
   templateUrl: './node.component.html',
   styleUrl: './node.component.scss',
