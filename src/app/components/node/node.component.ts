@@ -147,6 +147,16 @@ export class NodeComponent implements OnInit {
     );
   }
 
+  get imageWidth(): string {
+    if (window.innerWidth < 640) {
+      return '100%';
+    }
+
+    return this.details.isShowing
+      ? Settings.largeImageWidth.details
+      : Settings.largeImageWidth.search;
+  }
+
   shouldShowImageNextToTable(): boolean {
     return this.showImageNextToTable && this.images && this.images.length > 0;
   }

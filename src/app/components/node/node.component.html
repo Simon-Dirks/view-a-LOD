@@ -12,25 +12,17 @@
   class="w-full bg-base-100 border mb-4"
   *ngIf="node"
   [ngClass]="[
-    shouldShowImageNextToTable() ? 'p-0 flex' : 'p-6',
+    shouldShowImageNextToTable() ? 'p-0 flex flex-col sm:flex-row' : 'p-6',
     !details.showing(node) ? 'max-w-[50rem]' : ''
   ]"
 >
   <button
     *ngIf="shouldShowImageNextToTable()"
     (click)="details.show(node)"
-    class="inline-block"
+    class="inline-block h-48 sm:h-auto"
     [ngClass]="[details.isShowing ? 'cursor-default' : '']"
-    [style.width]="
-      details.isShowing
-        ? Settings.largeImageWidth.details
-        : Settings.largeImageWidth.search
-    "
-    [style.min-width]="
-      details.isShowing
-        ? Settings.largeImageWidth.details
-        : Settings.largeImageWidth.search
-    "
+    [style.width]="imageWidth"
+    [style.min-width]="imageWidth"
   >
     <app-node-images [imageUrls]="images" [width]="'100%'" />
   </button>
@@ -39,7 +31,7 @@
     [ngClass]="shouldShowImageNextToTable() ? 'p-6' : 'p-0'"
     class="flex-grow relative"
   >
-    <div class="text-lg mr-2" *ngIf="showTitle">
+    <div class="text-lg mr-6" *ngIf="showTitle">
       <app-node-link
         [url]="id"
         [label]="title"
