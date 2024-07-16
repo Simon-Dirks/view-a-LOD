@@ -33,6 +33,7 @@ import {
 import { NgIcon } from '@ng-icons/core';
 import { DetailsService } from '../../services/details.service';
 import { NodeDetailsButtonComponent } from './node-details-button/node-details-button.component';
+import { NodePermalinkButtonComponent } from './node-permalink-button/node-permalink-button.component';
 
 @Component({
   selector: 'app-node',
@@ -53,6 +54,7 @@ import { NodeDetailsButtonComponent } from './node-details-button/node-details-b
     NgClass,
     NgIcon,
     NodeDetailsButtonComponent,
+    NodePermalinkButtonComponent,
   ],
   templateUrl: './node.component.html',
   styleUrl: './node.component.scss',

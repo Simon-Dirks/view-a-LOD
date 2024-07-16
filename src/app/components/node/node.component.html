@@ -39,7 +39,7 @@
     [ngClass]="shouldShowImageNextToTable() ? 'p-6' : 'p-0'"
     class="flex-grow relative"
   >
-    <div class="text-lg" *ngIf="showTitle">
+    <div class="text-lg mr-2" *ngIf="showTitle">
       <app-node-link
         [url]="id"
         [label]="title"
@@ -68,6 +68,16 @@
     </div>
 
     <app-node-renderer [node]="node" />
+
+    <div
+      class="absolute"
+      [ngClass]="[
+        shouldShowImageNextToTable() ? 'right-6 top-6' : 'right-0 top-0'
+      ]"
+      *ngIf="details.isShowing"
+    >
+      <app-node-permalink-button [node]="node" />
+    </div>
 
     <div
       class="absolute"

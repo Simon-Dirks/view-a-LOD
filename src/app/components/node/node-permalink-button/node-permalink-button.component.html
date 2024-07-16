@@ -1,0 +1,8 @@
+<a
+  class="leading-none relative"
+  [href]="urlService.processUrl(nodes.getId(node))"
+  target="_blank"
+  *ngIf="node"
+>
+  <ng-icon [svg]="featherLink" class="text-xl" />
+</a>
