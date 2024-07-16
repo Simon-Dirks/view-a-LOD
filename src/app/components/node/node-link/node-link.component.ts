@@ -35,7 +35,6 @@ import {
 import { NodeLabelComponent } from '../node-label/node-label.component';
 import { FilterType } from '../../../models/filter.model';
 import { SearchService } from '../../../services/search/search.service';
-import { CdnService } from '../../../services/cdn.service';
 import { DrawerService } from '../../../services/drawer.service';
 
 @Component({
@@ -75,7 +74,7 @@ export class NodeLinkComponent implements OnInit, OnChanges {
     public cache: CacheService,
     public filters: FilterService,
     public search: SearchService,
-    public cdn: CdnService,
+    public urlService: UrlService,
     private drawer: DrawerService,
   ) {}
 
@@ -107,7 +106,7 @@ export class NodeLinkComponent implements OnInit, OnChanges {
       return;
     }
 
-    this.processedUrl = this.cdn.processUrl(this.url);
+    this.processedUrl = this.urlService.processUrl(this.url);
   }
 
   get cachedLabel(): string | undefined {
