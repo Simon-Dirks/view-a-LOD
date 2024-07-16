@@ -140,6 +140,12 @@ export class NodeComponent implements OnInit {
 
   onTitleClicked($event: MouseEvent) {
     $event.preventDefault();
+
+    if (!this.node) {
+      return;
+    }
+    const nodeId = this.nodes.getId(this.node);
+    this.nodes.showingDetailsForId.next(nodeId);
   }
 
   protected readonly Settings = Settings;
