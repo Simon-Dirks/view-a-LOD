@@ -20,9 +20,9 @@ import { FilterService } from '../../../services/search/filter.service';
 import {
   featherExternalLink,
   featherFilter,
+  featherMaximize2,
   featherSearch,
   featherX,
-  featherMaximize2
 } from '@ng-icons/feather-icons';
 import { NgIcon } from '@ng-icons/core';
 import {
@@ -124,12 +124,16 @@ export class NodeLinkComponent implements OnInit, OnChanges {
   }
 
   onUrlClicked(event: MouseEvent) {
+    this.clicked.emit(event);
+
     if (!this.processedUrl || !this.isClickableUrl || this.disabled) {
       this._preventDefault(event);
       return;
     }
+  }
 
-    this.clicked.emit(event);
+  private _preventDefault(event: MouseEvent) {
+    event.preventDefault();
   }
 
   protected readonly featherFilter = featherFilter;
