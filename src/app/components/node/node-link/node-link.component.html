@@ -1,5 +1,6 @@
 <ng-container>
-  <float-ui-content #popupContent class="inline hidden">
+  <!-- class="inline" -->
+  <float-ui-content #popupContent class="hidden">
     <a class="btn btn-sm mr-2 !font-sans" [href]="processedUrl" target="_blank">
       <ng-icon [svg]="featherExternalLink" /> Open link
     </a>
@@ -13,6 +14,12 @@
       <ng-icon [svg]="featherSearch" /> Search
     </a>
 
+    <div *ngIf="true">
+      <!-- Temporary switch to hide the drawer button, which is still in development-->
+      <a class="btn btn-sm mr-2 !font-sans" (click)="openDrawer(processedUrl)">
+        <ng-icon [svg]="featherMaximize2" /> Open
+      </a>
+    </div>
     <!--    TODO: Depending on where this is presented, determine if the filter should be field or value-->
     <!--    <button-->
     <!--      class="btn btn-sm"-->

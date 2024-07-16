@@ -20,6 +20,7 @@ import { FilterService } from '../../../services/search/filter.service';
 import {
   featherExternalLink,
   featherFilter,
+  featherMaximize2,
   featherSearch,
   featherX,
 } from '@ng-icons/feather-icons';
@@ -35,6 +36,7 @@ import { NodeLabelComponent } from '../node-label/node-label.component';
 import { FilterType } from '../../../models/filter.model';
 import { SearchService } from '../../../services/search/search.service';
 import { CdnService } from '../../../services/cdn.service';
+import { DrawerService } from '../../../services/drawer.service';
 
 @Component({
   selector: 'app-node-link',
@@ -74,6 +76,7 @@ export class NodeLinkComponent implements OnInit, OnChanges {
     public filters: FilterService,
     public search: SearchService,
     public cdn: CdnService,
+    private drawer: DrawerService,
   ) {}
 
   ngOnInit() {
@@ -92,6 +95,11 @@ export class NodeLinkComponent implements OnInit, OnChanges {
     if (changes['url']) {
       this.processUrl();
     }
+  }
+
+  openDrawer(processedUrl: any): void {
+    const dynamicContent = [processedUrl]; // Dynamic content here
+    this.drawer.setDrawerItems(dynamicContent);
   }
 
   processUrl() {
@@ -116,35 +124,24 @@ export class NodeLinkComponent implements OnInit, OnChanges {
   }
 
   onUrlClicked(event: MouseEvent) {
+    this.clicked.emit(event);
+
     if (!this.processedUrl || !this.isClickableUrl || this.disabled) {
       this._preventDefault(event);
       return;
     }
-
-    this.clicked.emit(event);
   }
 
   private _preventDefault(event: MouseEvent) {
     event.preventDefault();
   }
 
-  // onToggleFilterClicked(event: MouseEvent, type: FilterType) {
-  //   this._preventDefault(event);
-  //   if (!this.url || this.disabled) {
-  //     return;
-  //   }
-  //
-  //   this.filters.toggle({
-  //     valueId: this.url,
-  //     type: type,
-  //   });
-  // }
-
   protected readonly featherFilter = featherFilter;
   protected readonly NgxFloatUiPlacements = NgxFloatUiPlacements;
   protected readonly NgxFloatUiTriggers = NgxFloatUiTriggers;
   protected readonly featherExternalLink = featherExternalLink;
   protected readonly featherX = featherX;
+  protected readonly featherMaximize2 = featherMaximize2;
   protected readonly FilterType = FilterType;
   protected readonly featherSearch = featherSearch;
   protected readonly wrapWithDoubleQuotes = wrapWithDoubleQuotes;
