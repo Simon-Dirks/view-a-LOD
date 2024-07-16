@@ -93,7 +93,8 @@ export class NodeDirectionTableComponent {
   }
 
   get smallFontSize(): boolean {
-    return this.visibility === PredicateVisibility.Details;
+    return false;
+    // return this.visibility === PredicateVisibility.Details;
   }
 
   protected readonly Direction = Direction;
