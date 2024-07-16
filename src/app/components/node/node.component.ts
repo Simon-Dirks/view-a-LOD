@@ -151,7 +151,7 @@ export class NodeComponent implements OnInit {
     if (!this.node) {
       return;
     }
-    this.nodes.toggleShowingDetails(this.node);
+    this.nodes.showDetails(this.node);
   }
 
   protected readonly Settings = Settings;

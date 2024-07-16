@@ -17,7 +17,7 @@
   ]"
 >
   <button
-    (click)="nodes.toggleShowingDetails(node)"
+    (click)="nodes.showDetails(node)"
     *ngIf="shouldShowImageNextToTable()"
   >
     <app-node-images
@@ -68,7 +68,7 @@
       [ngClass]="[
         shouldShowImageNextToTable() ? 'right-6 bottom-6' : 'right-0 bottom-0'
       ]"
-      (click)="nodes.toggleShowingDetails(node)"
+      (click)="nodes.showDetails(node)"
       *ngIf="!nodes.showingDetails(node)"
     >
       <ng-icon [svg]="featherArrowRight" class="text-xl" />

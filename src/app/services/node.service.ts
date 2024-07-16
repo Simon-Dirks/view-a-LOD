@@ -16,11 +16,7 @@ export class NodeService {
     return !!this.showingDetailsForId.value;
   }
 
-  toggleShowingDetails(node: NodeModel) {
-    if (this.showingDetails(node)) {
-      this.stopShowingDetails();
-      return;
-    }
+  showDetails(node: NodeModel) {
     const nodeId = this.getId(node);
     this.showingDetailsForId.next(nodeId);
   }
