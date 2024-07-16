@@ -14,7 +14,7 @@
   <div class="break-all" [ngClass]="[smallFontSize ? 'text-xs' : '']">
     <ng-container *ngFor="let pred of nodePreds">
       <div
-        class="sm:flex sm:px-4 my-4 sm:my-2"
+        class="sm:flex sm:gap-4 sm:px-4 my-4 sm:my-2"
         *ngIf="
           predicateVisibilities[pred] === visibility &&
           getNumPredValues(pred, direction) > 0
