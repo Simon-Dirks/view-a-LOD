@@ -56,7 +56,9 @@ export class NodeLabelComponent implements OnInit, OnChanges {
       return input;
     }
 
-    const regex = new RegExp(searchString, 'gi');
+    const searchStringWords = searchString.split(/\s+/);
+    const regex = new RegExp(searchStringWords.join('|'), 'gi');
+
     return input.replace(
       regex,
       (match) => `<span class="bg-accent">${match}</span>`,
