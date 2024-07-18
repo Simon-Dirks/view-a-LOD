@@ -1,8 +1,8 @@
 <a
-  class="leading-none relative"
+  class="leading-none relative underline"
   [href]="urlService.processUrl(nodes.getId(node))"
   target="_blank"
   *ngIf="node"
 >
-  <ng-icon [svg]="featherLink" class="text-xl" />
+  Bekijk op website van {{ endpointName }}
 </a>

@@ -60,13 +60,7 @@
 
     <app-node-renderer [node]="node" />
 
-    <div
-      class="absolute"
-      [ngClass]="[
-        shouldShowImageNextToTable() ? 'right-6 top-6' : 'right-0 top-0'
-      ]"
-      *ngIf="details.isShowing"
-    >
+    <div class="mt-8 font-mono text-sm" *ngIf="details.showing(node)">
       <app-node-permalink-button [node]="node" />
     </div>
 
