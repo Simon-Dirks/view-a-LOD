@@ -16,12 +16,12 @@ module.exports = {
         main: {
           ...require("daisyui/src/theming/themes")["light"],
           // primary: "#0084CA",
-          primary: "#FF5D63",
+          primary: "#00839F",
           neutral: "#393939",
-          accent: "#ffa0a3", // Used for highlighting search results
+          accent: "#cae5ef", // Used for highlighting search results
           "primary-content": "white",
           // background: "white",
-          background: "#FBEBE4",
+          background: "#E1ECF2",
           "--rounded-box": "0rem",
           "--rounded-btn": "0rem",
           "--rounded-badge": "0rem",
