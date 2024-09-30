@@ -3,7 +3,7 @@ import { ApiService } from './api.service';
 import { Settings } from '../config/settings';
 import { ElasticNodeModel } from '../models/elastic/elastic-node.model';
 import { FilterModel, FilterType } from '../models/filter.model';
-import { ElasticSimpleQuery } from '../models/elastic/elastic-simple-query.type';
+import { ElasticQuery } from '../models/elastic/elastic-query.type';
 import { ElasticFieldExistsQuery } from '../models/elastic/elastic-field-exists-query.type';
 import { DataService } from './data.service';
 import { ElasticMatchQueries } from '../models/elastic/elastic-match-queries.type';
@@ -25,29 +25,29 @@ export class ElasticService {
     private endpoints: EndpointService,
   ) {}
 
-  private _getSearchQuery(query: string): ElasticSimpleQuery {
-    return this._getSimpleQuery(query);
+  private _getSearchQuery(query: string): ElasticQuery {
+    return this.getQuery(query);
   }
 
-  private _getSimpleQuery(
+  private getQuery(
     query?: string,
     field?: string,
     boost?: number,
-  ): ElasticSimpleQuery {
+  ): ElasticQuery {
     if (!query) {
       query = '';
     }
 
-    const simpleQuery: ElasticSimpleQuery = {
-      simple_query_string: {
+    const elasticQuery: ElasticQuery = {
+      query_string: {
         query: query,
         boost: boost,
       },
     };
     if (field) {
-      simpleQuery.simple_query_string.fields = [field];
+      elasticQuery.query_string.fields = [field];
     }
-    return simpleQuery;
+    return elasticQuery;
   }
 
   private _getFieldExistsQuery(
@@ -67,7 +67,7 @@ export class ElasticService {
 
   private _getFieldOrValueFilterQueries(
     filters: FilterModel[],
-  ): (ElasticSimpleQuery | ElasticFieldExistsQuery)[] {
+  ): (ElasticQuery | ElasticFieldExistsQuery)[] {
     const fieldOrValueFilters = filters.filter(
       (filter) =>
         filter.type === FilterType.Value || filter.type === FilterType.Field,
@@ -77,7 +77,7 @@ export class ElasticService {
       if (filter.type === FilterType.Field) {
         return this._getFieldExistsQuery(filter?.fieldId);
       }
-      return this._getSimpleQuery(filter?.valueId);
+      return this.getQuery(filter?.valueId);
     });
   }
 
@@ -217,7 +217,7 @@ export class ElasticService {
     }
 
     const fieldOrValueFilterQueries: (
-      | ElasticSimpleQuery
+      | ElasticQuery
       | ElasticFieldExistsQuery
     )[] = this._getFieldOrValueFilterQueries(searchFilters);
 

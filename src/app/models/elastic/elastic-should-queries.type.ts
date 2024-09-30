@@ -1,13 +1,9 @@
 import { ElasticMatchQueries } from './elastic-match-queries.type';
 import { ElasticFieldExistsQuery } from './elastic-field-exists-query.type';
-import { ElasticSimpleQuery } from './elastic-simple-query.type';
+import { ElasticQuery } from './elastic-query.type';
 
 export type ElasticShouldQueries = {
   bool: {
-    should: (
-      | ElasticMatchQueries
-      | ElasticFieldExistsQuery
-      | ElasticSimpleQuery
-    )[];
+    should: (ElasticMatchQueries | ElasticFieldExistsQuery | ElasticQuery)[];
   };
 };

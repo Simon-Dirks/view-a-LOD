@@ -1,5 +1,5 @@
-export type ElasticSimpleQuery = {
-  simple_query_string: {
+export type ElasticQuery = {
+  query_string: {
     query: string;
     fields?: string[];
     boost?: number;
