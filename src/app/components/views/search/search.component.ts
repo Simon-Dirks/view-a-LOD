@@ -96,7 +96,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     if (this.search.numberOfHits === 1) {
       return '1 resultaat';
     }
-    return `${formatNumber(this.search.numberOfHits)}${this.search.moreHitsAreAvailable ? '+' : ''} resultaten`;
+    return `${formatNumber(this.search.numberOfHits)}${this.search.numberOfHitsIsCappedByElastic ? '+' : ''} resultaten`;
   }
 
   get shouldShowHomeIntro(): boolean {

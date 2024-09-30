@@ -29,7 +29,7 @@ export class SearchService {
   page: number = 0;
   isLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   numberOfHits: number = 0;
-  moreHitsAreAvailable: boolean = false;
+  numberOfHitsIsCappedByElastic: boolean = false;
 
   hasDoneInitialSearch: boolean = false;
 
@@ -58,7 +58,7 @@ export class SearchService {
       0,
     );
 
-    this.moreHitsAreAvailable =
+    this.numberOfHitsIsCappedByElastic =
       [...responses].filter(
         (response) => (response as any).hits.total.relation === 'gte',
       ).length > 0;
@@ -66,7 +66,7 @@ export class SearchService {
     // TODO: Move 10000 max to config/settings file
     if (this.numberOfHits > 10000) {
       this.numberOfHits = 10000;
-      this.moreHitsAreAvailable = true;
+      this.numberOfHitsIsCappedByElastic = true;
     }
   }
 
@@ -142,7 +142,7 @@ export class SearchService {
     this.results.next({});
     this.page = 0;
     this.numberOfHits = 0;
-    this.moreHitsAreAvailable = false;
+    this.numberOfHitsIsCappedByElastic = false;
   }
 
   async execute(clearResults = false, clearFilters = false) {
