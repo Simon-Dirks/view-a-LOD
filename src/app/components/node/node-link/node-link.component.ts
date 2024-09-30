@@ -14,7 +14,7 @@ import {
   wrapWithDoubleQuotes,
 } from '../../../helpers/util.helper';
 import { JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
-import { CacheService } from '../../../services/cache.service';
+import { LabelsCacheService } from '../../../services/cache/labels-cache.service';
 import { RouterLink } from '@angular/router';
 import { FilterService } from '../../../services/search/filter.service';
 import {
@@ -72,7 +72,7 @@ export class NodeLinkComponent implements OnInit, OnChanges {
   isClickableUrl = false;
 
   constructor(
-    public cache: CacheService,
+    public cache: LabelsCacheService,
     public filters: FilterService,
     public search: SearchService,
     public urlService: UrlService,

@@ -8,12 +8,16 @@ import {
   scan,
   throwError,
 } from 'rxjs';
+import { PostCacheService } from './cache/post-cache.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private postCache: PostCacheService,
+  ) {}
 
   async fetchData<T>(url: string): Promise<T> {
     try {
@@ -34,7 +38,15 @@ export class ApiService {
     maxRetries: number = 3,
     retryInterval: number = 2000,
   ): Promise<T> {
-    return lastValueFrom(
+    const dataStr = JSON.stringify(data);
+    const requestKey = `${url}|||${dataStr}`;
+    const requestIsCached = requestKey in this.postCache.cache;
+    if (requestIsCached) {
+      // console.log('Cache:', url, dataStr.slice(0, 200));
+      return this.postCache.cache[requestKey];
+    }
+
+    const promise = lastValueFrom(
       this.http.post<T>(url, data).pipe(
         catchError((error) => {
           console.error('There was a problem with the API request:', error);
@@ -54,5 +66,11 @@ export class ApiService {
         ),
       ),
     );
+
+    promise.then((response) => {
+      this.postCache.cache[requestKey] = response;
+    });
+
+    return promise;
   }
 }

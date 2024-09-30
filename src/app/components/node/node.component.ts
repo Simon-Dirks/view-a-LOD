@@ -16,7 +16,7 @@ import { ThingWithLabelModel } from '../../models/thing-with-label.model';
 import { NodeHierarchyComponent } from './node-hierarchy/node-hierarchy.component';
 import { NodeTypesComponent } from './node-types/node-types.component';
 import { NodeImagesComponent } from './node-images/node-images.component';
-import { CacheService } from '../../services/cache.service';
+import { LabelsCacheService } from '../../services/cache/labels-cache.service';
 import { NodeLinkComponent } from './node-link/node-link.component';
 import { NodeRendererComponent } from './node-renderer/node-renderer.component';
 import { SparqlNodeParentModel } from '../../models/sparql/sparql-node-parent.model';
@@ -79,7 +79,7 @@ export class NodeComponent implements OnInit {
     public nodes: NodeService,
     public sparql: SparqlService,
     public data: DataService,
-    public cache: CacheService,
+    public cache: LabelsCacheService,
     public settings: SettingsService,
     public details: DetailsService,
   ) {}

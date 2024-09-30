@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { SparqlService } from './sparql.service';
-import { Config } from '../config/config';
-import { replacePrefixes } from '../helpers/util.helper';
+import { SparqlService } from '../sparql.service';
+import { Config } from '../../config/config';
+import { replacePrefixes } from '../../helpers/util.helper';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CacheService {
-  private _idsToCache: Set<string> = new Set();
-  private _idsBeingCached: Set<string> = new Set();
+export class LabelsCacheService {
+  private _idsToCacheLabelFor: Set<string> = new Set();
+  private _labelsBeingCachedForIds: Set<string> = new Set();
   labels: { [id: string]: string } = {};
 
   constructor(public sparql: SparqlService) {
@@ -23,20 +23,20 @@ export class CacheService {
   }
 
   async cacheQueuedLabelsInBatch() {
-    const idsWithoutLabel: string[] = Array.from(this._idsToCache).filter(
-      (id) => {
-        const labelAlreadyDefined = Object.keys(this.labels).includes(id);
-        const alreadyRetrievingLabel = this._idsBeingCached.has(id);
-        return !labelAlreadyDefined && !alreadyRetrievingLabel;
-      },
-    );
+    const idsWithoutLabel: string[] = Array.from(
+      this._idsToCacheLabelFor,
+    ).filter((id) => {
+      const labelAlreadyDefined = Object.keys(this.labels).includes(id);
+      const alreadyRetrievingLabel = this._labelsBeingCachedForIds.has(id);
+      return !labelAlreadyDefined && !alreadyRetrievingLabel;
+    });
 
     if (!idsWithoutLabel || idsWithoutLabel.length === 0) {
       return;
     }
 
     idsWithoutLabel.map((id) => {
-      this._idsBeingCached.add(id);
+      this._labelsBeingCachedForIds.add(id);
 
       // While loading, set label based on ID as a fallback (also in case no label is retrieved)
       const labelAlreadyDefined = id in this.labels;
@@ -52,7 +52,7 @@ export class CacheService {
     for (const idAndLabel of idsAndLabels) {
       const id = idAndLabel['@id'];
       this.labels[id] = idAndLabel.label;
-      this._idsBeingCached.delete(id);
+      this._labelsBeingCachedForIds.delete(id);
     }
   }
 
@@ -60,7 +60,7 @@ export class CacheService {
     if (!id) {
       return 'N/A';
     }
-    this._idsToCache.add(id);
+    this._idsToCacheLabelFor.add(id);
 
     return this.labels?.[id] ?? replacePrefixes(id);
   }
