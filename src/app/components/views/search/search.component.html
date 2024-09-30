@@ -1,6 +1,5 @@
 <app-view-container>
-  
-  <app-drawer/>
+  <app-drawer />
   <app-header />
 
   <app-home-intro *ngIf="shouldShowHomeIntro" />
@@ -64,7 +63,7 @@
         class="btn btn-primary"
         (click)="loadMore()"
         [disabled]="search.isLoading.value"
-        *ngIf="search.hasResults"
+        *ngIf="search.hasMoreResultsToLoad"
       >
         <span
           class="loading loading-spinner loading-xs"

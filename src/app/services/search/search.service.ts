@@ -32,6 +32,7 @@ export class SearchService {
   numberOfHitsIsCappedByElastic: boolean = false;
 
   hasDoneInitialSearch: boolean = false;
+  hasMoreResultsToLoad = true;
 
   private _searchQueryId = 0;
 
@@ -115,13 +116,6 @@ export class SearchService {
     });
   }
 
-  get hasResults() {
-    if (!this.results.value.nodes) {
-      return false;
-    }
-    return this.results.value.nodes.length > 0;
-  }
-
   initSearchOnFilterChange() {
     this.filters.enabled.subscribe((_) => {
       void this.execute(true);
@@ -143,6 +137,19 @@ export class SearchService {
     this.page = 0;
     this.numberOfHits = 0;
     this.numberOfHitsIsCappedByElastic = false;
+  }
+
+  async checkHasMoreResultsToLoad() {
+    const responses: ElasticEndpointSearchResponse<ElasticNodeModel>[] =
+      await this.elastic.searchEntities(
+        this.queryStr,
+        this.page * Settings.search.resultsPerPagePerEndpoint,
+        Settings.search.resultsPerPagePerEndpoint,
+        this.filters.enabled.value,
+      );
+    const hits: SearchHit<ElasticNodeModel>[] =
+      this.hits.getFromSearchResponses(responses);
+    this.hasMoreResultsToLoad = hits && hits.length > 0;
   }
 
   async execute(clearResults = false, clearFilters = false) {
@@ -194,6 +201,8 @@ export class SearchService {
       console.error('Error searching:', error);
     } finally {
       this.isLoading.next(false);
+
+      void this.checkHasMoreResultsToLoad();
     }
   }
 }
