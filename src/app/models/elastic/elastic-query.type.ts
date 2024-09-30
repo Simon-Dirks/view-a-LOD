@@ -3,5 +3,6 @@ export type ElasticQuery = {
     query: string;
     fields?: string[];
     boost?: number;
+    analyzer?: string;
   };
 };
