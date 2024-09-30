@@ -69,7 +69,11 @@ export class FilterService {
     ).flatMap((filterOption) => filterOption.fieldIds);
 
     const responses: SearchResponse<any>[] =
-      await this.elastic.getFilterOptions(allFilterFieldIds, query);
+      await this.elastic.getFilterOptions(
+        query,
+        allFilterFieldIds,
+        this.enabled.value,
+      );
     const docCounts: FieldDocCountsModel =
       this._getFieldDocCountsFromResponses(responses);
 

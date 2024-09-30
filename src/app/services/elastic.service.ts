@@ -81,6 +81,42 @@ export class ElasticService {
     });
   }
 
+  async getFilterOptions(
+    query: string,
+    filterFieldIds: string[],
+    activeFilters: FilterModel[],
+  ): Promise<SearchResponse<any>[]> {
+    const aggs = filterFieldIds.reduce((result: any, fieldId) => {
+      const elasticFieldId = this.data.replacePeriodsWithSpaces(fieldId);
+
+      // TODO: Find way to retrieve ALL hit IDs here if we want to show the full count for the filter options
+      //  Now using top_hits to prevent many separate requests
+      //  Relatively easy fix: update [index.max_inner_result_window] on elastic to 10.000"
+      result[elasticFieldId] = {
+        terms: {
+          field: elasticFieldId + '.keyword',
+          min_doc_count:
+            Settings.filtering.minNumOfValuesForFilterOptionToAppear,
+          size: Config.maxNumOfFilterOptionsPerField,
+        },
+        aggs: {
+          field_hits: {
+            top_hits: {
+              size: Config.elasticTopHitsMax,
+              _source: '',
+            },
+          },
+        },
+      };
+      return result;
+    }, {});
+
+    const queryData = this._getNodeSearchQuery(query, activeFilters, 0, 0);
+    queryData.aggs = { ...aggs };
+
+    return await this.searchEndpoints(queryData);
+  }
+
   private getFieldAndValueFilterQueries(
     filters: FilterModel[],
   ): ElasticShouldQueries[] {
@@ -114,48 +150,6 @@ export class ElasticService {
       return { bool: { should: queries } };
     });
     return shouldMatchQueries;
-  }
-
-  async getFilterOptions(
-    filterFieldIds: string[],
-    query: string,
-  ): Promise<SearchResponse<any>[]> {
-    const aggs = filterFieldIds.reduce((result: any, fieldId) => {
-      const elasticFieldId = this.data.replacePeriodsWithSpaces(fieldId);
-
-      // TODO: Find way to retrieve ALL hit IDs here if we want to show the full count for the filter options
-      //  Now using top_hits to prevent many separate requests
-      //  Relatively easy fix: update [index.max_inner_result_window] on elastic to 10.000"
-      result[elasticFieldId] = {
-        terms: {
-          field: elasticFieldId + '.keyword',
-          min_doc_count:
-            Settings.filtering.minNumOfValuesForFilterOptionToAppear,
-          size: Config.maxNumOfFilterOptionsPerField,
-        },
-        aggs: {
-          field_hits: {
-            top_hits: {
-              size: Config.elasticTopHitsMax,
-              _source: '',
-            },
-          },
-        },
-      };
-      return result;
-    }, {});
-
-    const queryData: any = {
-      size: 0,
-      aggs: { ...aggs },
-    };
-
-    if (query) {
-      const searchQuery = this._getSearchQuery(query);
-      queryData.query = { bool: { must: [searchQuery] } };
-    }
-
-    return await this.searchEndpoints(queryData);
   }
 
   async searchEndpoints<T>(
@@ -193,12 +187,12 @@ export class ElasticService {
     return searchResultsWithEndpointIds;
   }
 
-  async searchEntities(
+  private _getNodeSearchQuery(
     query: string,
-    from: number,
-    size: number,
     filters: FilterModel[],
-  ): Promise<ElasticEndpointSearchResponse<ElasticNodeModel>[]> {
+    from?: number,
+    size?: number,
+  ): any {
     const queryData: any = {
       from: from,
       size: size,
@@ -237,7 +231,16 @@ export class ElasticService {
     if (mustQueries && mustQueries.length > 0) {
       queryData.query.bool.must = mustQueries;
     }
+    return queryData;
+  }
 
+  async searchNodes(
+    query: string,
+    from: number,
+    size: number,
+    filters: FilterModel[],
+  ): Promise<ElasticEndpointSearchResponse<ElasticNodeModel>[]> {
+    const queryData = this._getNodeSearchQuery(query, filters, from, size);
     return await this.searchEndpoints<ElasticNodeModel>(queryData);
   }
 }

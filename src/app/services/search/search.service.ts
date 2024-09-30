@@ -141,7 +141,7 @@ export class SearchService {
 
   async checkHasMoreResultsToLoad() {
     const responses: ElasticEndpointSearchResponse<ElasticNodeModel>[] =
-      await this.elastic.searchEntities(
+      await this.elastic.searchNodes(
         this.queryStr,
         this.page * Settings.search.resultsPerPagePerEndpoint,
         Settings.search.resultsPerPagePerEndpoint,
@@ -174,7 +174,7 @@ export class SearchService {
     this.isLoading.next(true);
     try {
       const searchQueryIdOfRequest = this._searchQueryId;
-      const searchPromise = this.elastic.searchEntities(
+      const searchPromise = this.elastic.searchNodes(
         this.queryStr,
         this.page * Settings.search.resultsPerPagePerEndpoint,
         Settings.search.resultsPerPagePerEndpoint,
