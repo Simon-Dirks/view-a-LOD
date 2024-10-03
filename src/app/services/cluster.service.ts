@@ -52,9 +52,13 @@ export class ClusterService {
           ).length > 0;
         if (shouldBeClustered) {
           clusterFilterOptionValue.ids = [
-            ...clusterFilterOptionValue.ids,
-            ...filterOptionValue.ids,
+            ...new Set([
+              ...clusterFilterOptionValue.ids,
+              ...clusterSettings.valueIds,
+              ...filterOptionValue.ids,
+            ]),
           ];
+
           const uniqueFilterHitIds = Array.from(
             new Set(
               clusterFilterOptionValue.filterHitIds.concat(

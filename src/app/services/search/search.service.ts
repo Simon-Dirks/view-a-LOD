@@ -117,18 +117,18 @@ export class SearchService {
   }
 
   initSearchOnFilterChange() {
-    this.filters.enabled.subscribe((_) => {
-      void this.execute(true);
+    this.filters.searchTrigger.subscribe((s) => {
+      void this.execute(true, s.clearFilters);
     });
     this.endpoints.enabledIds.subscribe((_) => {
-      void this.execute(true, true);
+      void this.execute(true);
     });
   }
 
   initSearchOnQueryChange() {
     this.route.queryParams.subscribe((queryParams) => {
       this.queryStr = queryParams['q'];
-      void this.execute(true, true);
+      void this.execute(true);
     });
   }
 
@@ -152,7 +152,7 @@ export class SearchService {
     this.hasMoreResultsToLoad = hits && hits.length > 0;
   }
 
-  async execute(clearResults = false, clearFilters = false) {
+  async execute(clearResults = false, clearFilters = true) {
     // if (this.queryStr === '') {
     //   return;
     // }
@@ -163,12 +163,14 @@ export class SearchService {
       this.hasDoneInitialSearch = true;
     }
 
-    console.log('SEARCH', this.queryStr);
+    console.log('Searching for:', this.queryStr);
     if (clearResults) {
       this.clearResults();
     }
     if (clearFilters) {
-      this.filters.enabled.next([]);
+      // Filters are cleared for "initial" search to see what filter options exist for this search term
+      //  Afterward, previously existing filters are re-applied if they are still applicable for this search term
+      this.filters.clearEnabled();
     }
 
     this.isLoading.next(true);

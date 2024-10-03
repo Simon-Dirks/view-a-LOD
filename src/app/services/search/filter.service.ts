@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { FilterModel, FilterType } from '../../models/filter.model';
 import {
@@ -17,10 +17,18 @@ import { DataService } from '../data.service';
 import { Settings } from '../../config/settings';
 import { ClusterService } from '../cluster.service';
 
+interface SearchTriggerModel {
+  clearFilters: boolean;
+}
+
 @Injectable({
   providedIn: 'root',
 })
 export class FilterService {
+  searchTrigger: EventEmitter<SearchTriggerModel> =
+    new EventEmitter<SearchTriggerModel>();
+
+  prevEnabled: FilterModel[] = [];
   enabled: BehaviorSubject<FilterModel[]> = new BehaviorSubject<FilterModel[]>(
     [],
   );
@@ -31,7 +39,9 @@ export class FilterService {
     public elastic: ElasticService,
     public data: DataService,
     public clusters: ClusterService,
-  ) {}
+  ) {
+    this._initRestorePreviousFiltersOnOptionsChange();
+  }
 
   private _getFieldDocCountsFromResponses(
     responses: SearchResponse<any>[],
@@ -61,6 +71,74 @@ export class FilterService {
       }
     }
     return docCountsByFieldId;
+  }
+
+  private _initRestorePreviousFiltersOnOptionsChange() {
+    this.options.subscribe((newOptions) => {
+      this._restorePreviousFilters();
+    });
+  }
+
+  private _filterExistsInOptions(filter: FilterModel): boolean {
+    const options = this.options.value;
+    const filterId = filter?.filterId;
+    if (!filterId) {
+      console.warn('No filter ID defined', filter);
+      return false;
+    }
+    const isUnknownFilterType =
+      filter.type !== FilterType.Field &&
+      filter.type !== FilterType.Value &&
+      filter.type !== FilterType.FieldAndValue;
+    if (isUnknownFilterType) {
+      console.warn(
+        'Unknown filter type, enabled filter not checked against current options',
+      );
+      return false;
+    }
+
+    let filterExistsInOptions = false;
+    const fieldExistsInOptions = !!(
+      filter.fieldId && options[filterId].fieldIds.includes(filter.fieldId)
+    );
+    const valueExistsInOptions = options[filterId].values.some(
+      (a) => filter.valueId && a.ids.includes(filter.valueId),
+    );
+
+    const fieldFilterExistsInOptions =
+      filter.type === FilterType.Field && fieldExistsInOptions;
+    const valueFilterExistsInOptions =
+      filter.type === FilterType.Value && valueExistsInOptions;
+    const fieldAndValueFilterExistsInOptions =
+      filter.type === FilterType.FieldAndValue &&
+      fieldExistsInOptions &&
+      valueExistsInOptions;
+    if (
+      fieldFilterExistsInOptions ||
+      valueFilterExistsInOptions ||
+      fieldAndValueFilterExistsInOptions
+    ) {
+      filterExistsInOptions = true;
+    }
+
+    return filterExistsInOptions;
+  }
+
+  private _restorePreviousFilters() {
+    const restoredFilters = this.prevEnabled.filter((prevEnabledFilter) =>
+      this._filterExistsInOptions(prevEnabledFilter),
+    );
+
+    const shouldUpdateEnabledFilters =
+      JSON.stringify(restoredFilters) !== JSON.stringify(this.enabled.value);
+    if (shouldUpdateEnabledFilters) {
+      // console.log(
+      //   'Restoring previously applied filters and triggering new search:',
+      //   this.prevEnabled,
+      // );
+      this.enabled.next(restoredFilters);
+      this.searchTrigger.emit({ clearFilters: false });
+    }
   }
 
   async updateFilterOptionValues(query: string) {
@@ -139,6 +217,10 @@ export class FilterService {
     }
 
     this.enabled.next(enabledFilters);
+    // console.log(
+    //   'Toggled filter, triggering new search (where filters will be temporarily cleared)',
+    // );
+    this.searchTrigger.emit({ clearFilters: true });
   }
 
   toggle(filter: FilterModel) {
@@ -189,5 +271,14 @@ export class FilterService {
     );
 
     return this.getEnabledFiltersCountStr(count);
+  }
+
+  clearEnabled() {
+    this.prevEnabled = this.enabled.value;
+    // console.log(
+    //   'Clearing enabled filters, saved current filters',
+    //   this.prevEnabled,
+    // );
+    this.enabled.next([]);
   }
 }
