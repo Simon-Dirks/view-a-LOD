@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NodeModel } from '../models/node.model';
+import { Direction, NodeModel, NodeObj } from '../models/node.model';
 import { Settings } from '../config/settings';
 import { ApiService } from './api.service';
 import { wrapWithAngleBrackets } from '../helpers/util.helper';
@@ -9,6 +9,7 @@ import { ThingWithLabelModel } from '../models/thing-with-label.model';
 import { SettingsService } from './settings.service';
 import { EndpointService } from './endpoint.service';
 import { EndpointUrlsModel } from '../models/endpoint.model';
+import { SparqlPredObjModel } from '../models/sparql/sparql-pred-obj.model';
 
 @Injectable({
   providedIn: 'root',
@@ -222,5 +223,39 @@ LIMIT 10000`;
     const objIds = response.map((item) => item.o);
 
     return objIds;
+  }
+
+  async getNode(id: string): Promise<NodeModel> {
+    console.log('Retrieving node details using SPARQL DESCRIBE...', id);
+    this._ensureEndpointsExist();
+
+    const queryTemplate = `${wrapWithAngleBrackets(id)} ?pred ?obj .`;
+
+    const query = `SELECT DISTINCT ?pred ?obj WHERE {
+        ${this.getFederatedQuery(queryTemplate)}
+    }`;
+    const results = await this.api.postData<SparqlPredObjModel[]>(
+      this.endpoints.getFirstUrls().sparql,
+      {
+        query: query,
+      },
+    );
+    const nodeData: { [pred: string]: NodeObj[] } = {};
+    for (const result of results) {
+      const pred = result.pred;
+      nodeData[pred] = nodeData[pred] || [];
+      const nodeObj = {
+        value: result.obj,
+        direction: Direction.Outgoing,
+      };
+      nodeData[pred].push(nodeObj);
+    }
+
+    // TODO: Save endpoint here
+    return {
+      '@id': [{ value: id, direction: Direction.Outgoing }],
+      endpointId: [{ value: 'ENDPOINT', direction: Direction.Outgoing }],
+      ...nodeData,
+    };
   }
 }

@@ -4,6 +4,7 @@ import { NodeComponent } from '../../node/node.component';
 import { NodeService } from '../../../services/node.service';
 import { NodeModel } from '../../../models/node.model';
 import { JsonPipe, NgIf } from '@angular/common';
+import { SparqlService } from '../../../services/sparql.service';
 
 @Component({
   selector: 'app-details',
@@ -19,6 +20,7 @@ export class DetailsComponent {
   constructor(
     private route: ActivatedRoute,
     public nodes: NodeService,
+    public sparql: SparqlService,
   ) {}
 
   ngOnInit(): void {
@@ -34,6 +36,12 @@ export class DetailsComponent {
 
   async initNodeById(id: string) {
     this.nodeId = id;
-    this.node = await this.nodes.getNodeById(this.nodeId);
+    const node = await this.sparql.getNode(this.nodeId);
+    const enrichedNodes = await this.nodes.enrichWithIncomingRelations([node]);
+    if (!enrichedNodes || enrichedNodes.length === 0) {
+      this.node = node;
+      return;
+    }
+    this.node = enrichedNodes[0];
   }
 }
