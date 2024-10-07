@@ -21,7 +21,7 @@
           [checked]="endpoints.isEnabled(endpointId)"
           (click)="endpoints.toggle(endpointId)"
         />
-        {{ endpoints.getById(endpointId).label }}
+        {{ endpoints.getById(endpointId)?.label }}
       </label>
     </div>
   </div>
