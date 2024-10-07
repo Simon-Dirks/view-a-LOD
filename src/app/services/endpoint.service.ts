@@ -16,8 +16,9 @@ export class EndpointService {
 
   constructor(public settings: SettingsService) {}
 
-  getById(endpointId: string): EndpointModel {
-    return (Settings.endpoints as EndpointsModel)[endpointId];
+  getById(endpointId: string): EndpointModel | undefined {
+    const endpoints = Settings.endpoints as EndpointsModel;
+    return endpoints[endpointId] ?? undefined;
   }
 
   toggle(endpointId: string) {

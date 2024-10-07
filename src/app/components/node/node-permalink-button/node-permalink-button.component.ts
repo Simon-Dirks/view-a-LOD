@@ -25,6 +25,9 @@ export class NodePermalinkButtonComponent {
     if (!this.node) {
       return '';
     }
-    return this.endpoints.getById(this.nodes.getEndpointId(this.node)).label;
+    return (
+      this.endpoints.getById(this.nodes.getEndpointId(this.node))?.label ??
+      'Onbekend'
+    );
   }
 }

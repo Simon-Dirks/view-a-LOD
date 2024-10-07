@@ -1,6 +1,6 @@
 <div class="badge badge-md badge-primary inline-block" *ngIf="endpointId">
   <app-node-link
-    [label]="endpoints.getById(endpointId).label"
+    [label]="endpoints.getById(endpointId)?.label"
     [shouldHighlight]="false"
   />
 </div>
