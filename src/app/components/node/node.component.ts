@@ -36,6 +36,7 @@ import { DetailsService } from '../../services/details.service';
 import { NodeDetailsButtonComponent } from './node-details-button/node-details-button.component';
 import { NodePermalinkButtonComponent } from './node-permalink-button/node-permalink-button.component';
 import { Router, RouterLink } from '@angular/router';
+import { RoutingService } from '../../services/routing.service';
 
 @Component({
   selector: 'app-node',
@@ -86,6 +87,7 @@ export class NodeComponent implements OnInit {
     public settings: SettingsService,
     public details: DetailsService,
     public router: Router,
+    public routing: RoutingService,
     public location: Location,
   ) {}
 
@@ -106,6 +108,7 @@ export class NodeComponent implements OnInit {
     const titles = this.nodes
       .getObjValues(this.node, Settings.predicates.label)
       .map((title) => title.trim());
+
     if (!titles || titles.length === 0) {
       return;
     }

@@ -108,4 +108,15 @@ export class NodeService {
 
     return nodes;
   }
+
+  async getNodeById(nodeId: string): Promise<NodeModel> {
+    return {
+      '@id': [{ value: nodeId, direction: Direction.Outgoing }],
+      endpointId: [{ value: 'ENDPOINT', direction: Direction.Outgoing }],
+      test: [{ value: 'jdfsalfkd', direction: Direction.Outgoing }],
+      'http://www.w3.org/2000/01/rdf-schema#label': [
+        { value: 'adfsa', direction: Direction.Outgoing },
+      ],
+    };
+  }
 }
