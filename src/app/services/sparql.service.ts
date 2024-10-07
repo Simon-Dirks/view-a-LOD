@@ -226,7 +226,7 @@ LIMIT 10000`;
   }
 
   async getNode(id: string): Promise<NodeModel> {
-    console.log('Retrieving node details using SPARQL DESCRIBE...', id);
+    console.log('Retrieving node details using SPARQL...', id);
     this._ensureEndpointsExist();
 
     const queryTemplate = `${wrapWithAngleBrackets(id)} ?pred ?obj .`;
