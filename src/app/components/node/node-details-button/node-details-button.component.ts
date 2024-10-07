@@ -4,11 +4,12 @@ import { NgIcon } from '@ng-icons/core';
 import { NgIf } from '@angular/common';
 import { DetailsService } from '../../../services/details.service';
 import { NodeModel } from '../../../models/node.model';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-node-details-button',
   standalone: true,
-  imports: [NgIcon, NgIf],
+  imports: [NgIcon, NgIf, RouterLink],
   templateUrl: './node-details-button.component.html',
   styleUrl: './node-details-button.component.scss',
 })

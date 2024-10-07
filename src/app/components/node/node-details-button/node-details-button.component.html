@@ -1,7 +1,7 @@
-<button
+<a
   class="leading-none relative top-[0.3rem]"
-  (click)="details.show(node)"
-  *ngIf="node && !details.showing(node)"
+  [routerLink]="details.getLink(node)"
+  *ngIf="node && !details.isShowing"
 >
   <ng-icon [svg]="featherArrowRight" class="text-xl" />
-</button>
+</a>

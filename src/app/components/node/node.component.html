@@ -1,5 +1,5 @@
 <button
-  (click)="details.stopShowing()"
+  (click)="location.back()"
   *ngIf="details.isShowing"
   class="mb-4 text-lg font-bold"
 >
@@ -14,17 +14,18 @@
   [ngClass]="[
     shouldShowImageNextToTable() ? 'p-0 flex flex-col sm:flex-row' : 'p-6'
   ]"
+  [id]="encodeURIComponent(nodes.getId(node))"
 >
-  <button
+  <a
     *ngIf="shouldShowImageNextToTable()"
-    (click)="details.show(node)"
+    [routerLink]="details.getLink(node)"
     class="inline-block h-48 sm:h-auto"
     [ngClass]="[details.isShowing ? 'cursor-default' : '']"
     [style.width]="imageWidth"
     [style.min-width]="imageWidth"
   >
     <app-node-images [imageUrls]="images" [width]="'100%'" />
-  </button>
+  </a>
 
   <div
     [ngClass]="shouldShowImageNextToTable() ? 'p-6' : 'p-0'"
@@ -49,14 +50,14 @@
       >
         <app-node-types [types]="types" />
       </app-node-table-row>
-      <app-node-table-row [label]="'Organisatie'" *ngIf="details.showing(node)">
+      <app-node-table-row [label]="'Organisatie'" *ngIf="details.isShowing">
         <app-node-endpoint [endpointId]="nodes.getEndpointId(node)" />
       </app-node-table-row>
     </div>
 
     <app-node-renderer [node]="node" />
 
-    <div class="mt-8 font-mono text-sm" *ngIf="details.showing(node)">
+    <div class="mt-8 font-mono text-sm" *ngIf="details.isShowing">
       <app-node-permalink-button [node]="node" />
     </div>
 

@@ -3,6 +3,7 @@ import {
   AsyncPipe,
   JsonPipe,
   KeyValuePipe,
+  Location,
   NgClass,
   NgForOf,
   NgIf,
@@ -85,6 +86,7 @@ export class NodeComponent implements OnInit {
     public settings: SettingsService,
     public details: DetailsService,
     public router: Router,
+    public location: Location,
   ) {}
 
   ngOnInit() {
@@ -168,4 +170,5 @@ export class NodeComponent implements OnInit {
   protected readonly featherChevronRight = featherChevronRight;
   protected readonly featherArrowRight = featherArrowRight;
   protected readonly featherArrowLeft = featherArrowLeft;
+  protected readonly encodeURIComponent = encodeURIComponent;
 }

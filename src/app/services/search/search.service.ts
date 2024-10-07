@@ -17,6 +17,7 @@ import { DataService } from '../data.service';
 import { EndpointService } from '../endpoint.service';
 import { ElasticEndpointSearchResponse } from '../../models/elastic/elastic-endpoint-search-response.type';
 import { ActivatedRoute } from '@angular/router';
+import { DetailsService } from '../details.service';
 
 @Injectable({
   providedIn: 'root',
@@ -44,6 +45,7 @@ export class SearchService {
     private data: DataService,
     private endpoints: EndpointService,
     private route: ActivatedRoute,
+    private details: DetailsService,
   ) {
     this.initSearchOnQueryChange();
     this.initSearchOnFilterChange();
@@ -127,7 +129,18 @@ export class SearchService {
 
   initSearchOnQueryChange() {
     this.route.queryParams.subscribe((queryParams) => {
-      this.queryStr = queryParams['q'];
+      const navigatedToDetails = this.details.isShowing;
+      if (navigatedToDetails) {
+        return;
+      }
+
+      const queryStr = queryParams['q'];
+      const queryStrChanged = queryStr !== this.queryStr;
+      if (!queryStrChanged) {
+        return;
+      }
+
+      this.queryStr = queryStr;
       void this.execute(true);
     });
   }

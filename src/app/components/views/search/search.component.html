@@ -26,7 +26,9 @@
       </div>
     </div>
 
-    <div>
+    <app-details *ngIf="details.isShowing" />
+
+    <div [ngClass]="[details.isShowing ? 'h-0 invisible overflow-hidden' : '']">
       <p class="text-xl mb-4 font-bold">
         <span *ngIf="search.isLoading.value" class="loading loading-spinner">
         </span>
@@ -49,11 +51,7 @@
 
       <ng-container *ngIf="viewModes.current.value === ViewMode.List">
         <ng-container *ngFor="let node of search.results.value?.nodes">
-          <app-node
-            [node]="node"
-            [id]="nodes.getId(node)"
-            *ngIf="details.shouldShowNode(node)"
-          ></app-node>
+          <app-node [node]="node" [id]="nodes.getId(node)"></app-node>
         </ng-container>
       </ng-container>
     </div>
