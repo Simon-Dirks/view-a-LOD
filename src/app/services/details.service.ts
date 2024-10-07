@@ -3,6 +3,7 @@ import { SearchService } from './search/search.service';
 import { NodeModel } from '../models/node.model';
 import { BehaviorSubject } from 'rxjs';
 import { NodeService } from './node.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,7 @@ export class DetailsService {
   constructor(
     private search: SearchService,
     private nodes: NodeService,
+    private router: Router,
   ) {
     this._initStopShowingDetailsOnSearchResultChanges();
     this._initStoreLastShownNodeIdOnChange();
@@ -41,8 +43,9 @@ export class DetailsService {
   }
 
   show(node: NodeModel) {
-    const nodeId = this.nodes.getId(node);
-    this._showingForNodeId.next(nodeId);
+    const url = this.getLink(node);
+    void this.router.navigateByUrl(url);
+    // this._showingForNodeId.next(nodeId);
   }
 
   stopShowing() {
@@ -74,5 +77,10 @@ export class DetailsService {
       return false;
     }
     return nodeId === this._showingForNodeId.value;
+  }
+
+  getLink(node: NodeModel): string {
+    const nodeId = this.nodes.getId(node);
+    return '/details/' + encodeURIComponent(nodeId);
   }
 }

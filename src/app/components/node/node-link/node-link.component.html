@@ -54,20 +54,33 @@
     <!--    >-->
     <div class="inline">
       <!--  TODO: If clicked is observed (and perhaps the event is canceled), remove the href or use a button instead?  -->
-      <a
-        *ngIf="clicked.observed || isClickableUrl"
-        [href]="processedUrl"
-        target="_blank"
-        (click)="onUrlClicked($event)"
-        class="clickable"
-      >
-        <app-node-label
-          [label]="cachedLabel ?? processedUrl"
-          [shouldTruncate]="shouldTruncate"
-          [allowLabelExpand]="allowLabelExpand"
-          [highlightStr]="shouldHighlight ? search.queryStr : undefined"
-        />
-      </a>
+      <ng-container *ngIf="clicked.observed || isClickableUrl">
+        <!-- External URL -->
+        <a
+          *ngIf="!isInternalUrl"
+          [href]="processedUrl"
+          target="_blank"
+          (click)="onUrlClicked($event)"
+          class="clickable"
+        >
+          <app-node-label
+            [label]="cachedLabel ?? processedUrl"
+            [shouldTruncate]="shouldTruncate"
+            [allowLabelExpand]="allowLabelExpand"
+            [highlightStr]="shouldHighlight ? search.queryStr : undefined"
+          />
+        </a>
+
+        <!-- Internal URL -->
+        <a *ngIf="isInternalUrl" [routerLink]="processedUrl" class="clickable">
+          <app-node-label
+            [label]="cachedLabel ?? processedUrl"
+            [shouldTruncate]="shouldTruncate"
+            [allowLabelExpand]="allowLabelExpand"
+            [highlightStr]="shouldHighlight ? search.queryStr : undefined"
+          />
+        </a>
+      </ng-container>
 
       <span *ngIf="!clicked.observed && !isClickableUrl">
         <app-node-label

@@ -34,6 +34,7 @@ import { NgIcon } from '@ng-icons/core';
 import { DetailsService } from '../../services/details.service';
 import { NodeDetailsButtonComponent } from './node-details-button/node-details-button.component';
 import { NodePermalinkButtonComponent } from './node-permalink-button/node-permalink-button.component';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-node',
@@ -55,6 +56,7 @@ import { NodePermalinkButtonComponent } from './node-permalink-button/node-perma
     NgIcon,
     NodeDetailsButtonComponent,
     NodePermalinkButtonComponent,
+    RouterLink,
   ],
   templateUrl: './node.component.html',
   styleUrl: './node.component.scss',
@@ -82,6 +84,7 @@ export class NodeComponent implements OnInit {
     public cache: LabelsCacheService,
     public settings: SettingsService,
     public details: DetailsService,
+    public router: Router,
   ) {}
 
   ngOnInit() {
@@ -159,15 +162,6 @@ export class NodeComponent implements OnInit {
 
   shouldShowImageNextToTable(): boolean {
     return this.showImageNextToTable && this.images && this.images.length > 0;
-  }
-
-  onTitleClicked($event: MouseEvent) {
-    $event.preventDefault();
-
-    if (!this.node) {
-      return;
-    }
-    this.details.show(this.node);
   }
 
   protected readonly Settings = Settings;

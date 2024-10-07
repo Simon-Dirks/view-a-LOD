@@ -31,11 +31,7 @@
     class="flex-grow relative"
   >
     <div class="text-lg mr-6 font-bold" *ngIf="showTitle">
-      <app-node-link
-        [url]="id"
-        [label]="title"
-        (clicked)="onTitleClicked($event)"
-      />
+      <app-node-link [url]="details.getLink(node)" [label]="title" />
     </div>
 
     <div class="w-full sm:px-4">

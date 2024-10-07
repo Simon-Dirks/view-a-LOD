@@ -70,6 +70,7 @@ export class NodeLinkComponent implements OnInit, OnChanges {
   @Output() clicked: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
 
   isClickableUrl = false;
+  isInternalUrl = false;
 
   constructor(
     public cache: LabelsCacheService,
@@ -86,15 +87,24 @@ export class NodeLinkComponent implements OnInit, OnChanges {
 
     this.processUrl();
 
+    this.initIsInternalUrl();
     const isValidAbsoluteUrl =
       this.processedUrl !== undefined && isValidUrl(this.processedUrl);
-    this.isClickableUrl = isValidAbsoluteUrl && !this.disabled;
+    this.isClickableUrl =
+      (this.isInternalUrl || isValidAbsoluteUrl) && !this.disabled;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['url']) {
       this.processUrl();
     }
+  }
+
+  initIsInternalUrl() {
+    if (!this.processedUrl) {
+      return;
+    }
+    this.isInternalUrl = this.processedUrl.startsWith('/');
   }
 
   openDrawer(processedUrl: any): void {
