@@ -15,7 +15,11 @@
 
   <app-home-intro-below-search *ngIf="shouldShowHomeIntro" />
 
-  <div class="w-full px-4 pt-2" *ngIf="Settings.filtering.showFilterPanel">
+  <div
+    class="w-full px-4 pt-2"
+    *ngIf="Settings.filtering.showFilterPanel"
+    [ngClass]="[shouldShowHomeIntro ? 'hidden' : '']"
+  >
     <app-filter-options />
   </div>
 
