@@ -2,7 +2,6 @@ import { ViewMode } from '../models/view-mode.enum';
 import { ViewModeSetting } from '../models/settings/view-mode-setting.enum';
 import { PredicateVisibility } from '../models/settings/predicate-visibility-settings.model';
 import { RenderMode } from '../models/settings/render-component-settings.type';
-import { FilterModel } from '../models/filter.model';
 
 export const imagePredicates: string[] = [
   'http://xmlns.com/foaf/0.1/depiction',
@@ -103,27 +102,6 @@ const peopleFilterOptionValueIds = [
   'http://xmlns.com/foaf/0.1/Agent',
   'http://www.nationaalarchief.nl/mdto#archiefvormer',
 ];
-
-const filtersForEmptySearch: FilterModel[] = [
-  // ...imagePredicates.map((imagePredicate) => {
-  //   return {
-  //     fieldId: imagePredicate,
-  //     type: FilterType.Field,
-  //   };
-  // }),
-  // {
-  //   fieldId: 'http://www.nationaalarchief.nl/mdto#heeftRepresentatie',
-  //   type: FilterType.Field,
-  // },
-];
-//
-// const filtersForEmptySearch = [
-//   {
-//     fieldId: 'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',
-//     valueId: 'https://schema.org/ArchiveComponent',
-//     type: FilterType.FieldAndValue,
-//   },
-// ];
 
 export const Settings = {
   endpoints: {
@@ -465,5 +443,4 @@ export const Settings = {
     'http://www.nationaalarchief.nl/mdto-shacl#': 'mdto-sh:',
     'http://www.w3.org/ns/shacl#': 'sh:',
   },
-  filtersForEmptySearch: filtersForEmptySearch,
 };

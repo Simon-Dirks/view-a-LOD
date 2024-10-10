@@ -202,13 +202,6 @@ export class ElasticService {
     };
 
     let searchFilters: FilterModel[] = filters;
-    const isHomePageQuery = !query;
-    const hasNoFiltersYet =
-      !filters ||
-      (filters.length === 0 && this.endpoints.enabledIds.value.length === 0);
-    if (isHomePageQuery && hasNoFiltersYet) {
-      searchFilters = Settings.filtersForEmptySearch as FilterModel[];
-    }
 
     const fieldOrValueFilterQueries: (
       | ElasticQuery
