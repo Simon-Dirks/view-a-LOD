@@ -33,3 +33,4 @@ jobs:
           port: ${{ secrets.PORT }}
           source: "dist/view-a-lod/browser/*"
           target: ${{ secrets.SERVER_DEPLOY_DIR }}
+          strip_components: 3
