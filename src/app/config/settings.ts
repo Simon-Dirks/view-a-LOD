@@ -154,12 +154,12 @@ export const Settings = {
     default: 'title-a-z',
     options: {
       'title-a-z': {
-        field: 'http://www w3 org/2000/01/rdf-schema#label.keyword',
+        fields: labelPredicates,
         label: 'Titel (A-Z)',
         order: SortOrder.Ascending,
       },
       'title-z-a': {
-        field: 'http://www w3 org/2000/01/rdf-schema#label.keyword',
+        fields: labelPredicates,
         label: 'Titel (Z-A)',
         order: SortOrder.Descending,
       },

@@ -2,7 +2,7 @@ import { SortOrder } from './sort-order.enum';
 
 export interface SortOptionModel {
   id?: string;
-  field: string;
+  fields: string[];
   label: string;
   order: SortOrder;
 }

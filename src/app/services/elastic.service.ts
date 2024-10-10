@@ -14,10 +14,7 @@ import { EndpointService } from './endpoint.service';
 import { ElasticEndpointSearchResponse } from '../models/elastic/elastic-endpoint-search-response.type';
 import { ElasticShouldQueries } from '../models/elastic/elastic-should-queries.type';
 import { SortOrder } from '../models/settings/sort-order.enum';
-import {
-  ElasticSortEntryModel,
-  ElasticSortOrder,
-} from '../models/elastic/elastic-sort.model';
+import { ElasticSortEntryModel } from '../models/elastic/elastic-sort.model';
 import { SortService } from './sort.service';
 
 @Injectable({
@@ -200,17 +197,20 @@ export class ElasticService {
       return [];
     }
 
-    // TODO: Support multiple fields
-    const elasticSortEntry: ElasticSortEntryModel = {};
-    const elasticSortOrder: ElasticSortOrder =
-      sort.order === SortOrder.Ascending ? 'asc' : 'desc';
+    const elasticSortEntries: ElasticSortEntryModel[] = sort.fields.map(
+      (field) => {
+        const elasticField =
+          this.data.replacePeriodsWithSpaces(field) + '.keyword';
+        return {
+          [elasticField]: {
+            order: sort.order === SortOrder.Ascending ? 'asc' : 'desc',
+            unmapped_type: 'string',
+          },
+        };
+      },
+    );
 
-    elasticSortEntry[sort.field] = {
-      order: elasticSortOrder,
-      unmapped_type: 'string',
-    };
-
-    return [elasticSortEntry];
+    return elasticSortEntries;
   }
 
   private _getNodeSearchQuery(
