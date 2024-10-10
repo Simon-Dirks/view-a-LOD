@@ -15,17 +15,15 @@
 
   <app-home-intro-below-search *ngIf="shouldShowHomeIntro" />
 
+  <div class="w-full px-4 pt-2" *ngIf="Settings.filtering.showFilterPanel">
+    <app-filter-options />
+  </div>
+
   <div
     class="p-4 overflow-y-scroll flex-grow scroll-smooth"
     [ngClass]="[shouldShowHomeIntro ? 'hidden' : '']"
     #scrollContainer
   >
-    <div class="w-full" *ngIf="Settings.filtering.showFilterPanel">
-      <div class="sticky top-0">
-        <app-filter-options />
-      </div>
-    </div>
-
     <app-details *ngIf="details.showing.value" />
 
     <div
