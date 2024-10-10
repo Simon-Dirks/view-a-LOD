@@ -1,0 +1,23 @@
+<div class="dropdown">
+  <div tabindex="0" role="button" class="btn m-1">
+    <span>{{ sorting.current.value?.label }}</span>
+    <ng-icon [svg]="featherChevronDown" class="relative top-[0.1rem]" />
+  </div>
+  <ul
+    tabindex="0"
+    class="dropdown-content bg-base-300 rounded-box z-[1] w-52 p-2 shadow-2xl"
+  >
+    <li>
+      <input
+        type="radio"
+        name="theme-dropdown"
+        class="theme-controller btn btn-sm btn-block btn-ghost justify-start"
+        [attr.aria-label]="sorting.getById(sortOptionId)?.label"
+        [value]="sortOptionId"
+        [checked]="sortOptionId === sorting.current.value?.id"
+        (change)="onChange($event)"
+        *ngFor="let sortOptionId of Object.keys(Settings.sorting.options)"
+      />
+    </li>
+  </ul>
+</div>

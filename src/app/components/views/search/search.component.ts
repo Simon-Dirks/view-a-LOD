@@ -37,6 +37,7 @@ import { ScrollService } from '../../../services/scroll.service';
 import { DetailsService } from '../../../services/details.service';
 import { HomeIntroBelowSearchComponent } from '../../home-intro/home-intro-below-search/home-intro-below-search.component';
 import { DetailsComponent } from '../details/details.component';
+import { SortSelectComponent } from '../../sort-select/sort-select.component';
 
 @Component({
   selector: 'app-search',
@@ -63,6 +64,7 @@ import { DetailsComponent } from '../details/details.component';
     DrawerComponent,
     HomeIntroBelowSearchComponent,
     DetailsComponent,
+    SortSelectComponent,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',

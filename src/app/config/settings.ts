@@ -2,6 +2,7 @@ import { ViewMode } from '../models/view-mode.enum';
 import { ViewModeSetting } from '../models/settings/view-mode-setting.enum';
 import { PredicateVisibility } from '../models/settings/predicate-visibility-settings.model';
 import { RenderMode } from '../models/settings/render-component-settings.type';
+import { SortOrder } from '../models/settings/sort-order.enum';
 
 export const imagePredicates: string[] = [
   'http://xmlns.com/foaf/0.1/depiction',
@@ -147,6 +148,21 @@ export const Settings = {
             'https://api.data.razu.nl/datasets/Kasteel-Amerongen/PoC2024/sparql',
         },
       ],
+    },
+  },
+  sorting: {
+    default: 'title-a-z',
+    options: {
+      'title-a-z': {
+        field: 'http://www w3 org/2000/01/rdf-schema#label',
+        label: 'Titel (A-Z)',
+        order: SortOrder.Ascending,
+      },
+      'title-z-a': {
+        field: 'http://www w3 org/2000/01/rdf-schema#label',
+        label: 'Titel (Z-A)',
+        order: SortOrder.Descending,
+      },
     },
   },
   filtering: {
