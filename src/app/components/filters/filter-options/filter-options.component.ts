@@ -6,6 +6,7 @@ import { FilterOptionComponent } from './filter-option/filter-option.component';
 import { EndpointsComponent } from '../endpoints/endpoints.component';
 import { FilterType } from '../../../models/filter.model';
 import { FilterCountComponent } from './filter-count/filter-count.component';
+import { SortSelectComponent } from '../../sort-select/sort-select.component';
 
 @Component({
   selector: 'app-filter-options',
@@ -18,6 +19,7 @@ import { FilterCountComponent } from './filter-count/filter-count.component';
     FilterOptionComponent,
     EndpointsComponent,
     FilterCountComponent,
+    SortSelectComponent,
   ],
   templateUrl: './filter-options.component.html',
   styleUrl: './filter-options.component.scss',

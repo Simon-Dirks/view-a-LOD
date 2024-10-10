@@ -4,11 +4,12 @@ import { NgIcon } from '@ng-icons/core';
 import { Settings } from '../../config/settings';
 import { NgForOf } from '@angular/common';
 import { SortService } from '../../services/sort.service';
+import { FilterCountComponent } from '../filters/filter-options/filter-count/filter-count.component';
 
 @Component({
   selector: 'app-sort-select',
   standalone: true,
-  imports: [NgIcon, NgForOf],
+  imports: [NgIcon, NgForOf, FilterCountComponent],
   templateUrl: './sort-select.component.html',
   styleUrl: './sort-select.component.scss',
 })
@@ -17,11 +18,7 @@ export class SortSelectComponent {
   protected readonly featherChevronDown = featherChevronDown;
   protected readonly Settings = Settings;
 
-  onChange($event: Event) {
-    if (!$event.target) {
-      return;
-    }
-    const selectedId = ($event.target as any).value;
+  onChange(selectedId: string) {
     this.sorting.select(selectedId);
   }
 
