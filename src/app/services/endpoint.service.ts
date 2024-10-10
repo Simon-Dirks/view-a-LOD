@@ -21,6 +21,21 @@ export class EndpointService {
     return endpoints[endpointId] ?? undefined;
   }
 
+  getIdBySparqlUrl(sparqlEndpointUrl: string): string {
+    const endpoints = Settings.endpoints as EndpointsModel;
+
+    for (const [endpointId, endpoint] of Object.entries(endpoints)) {
+      const endpointMatchesUrl = endpoint.endpointUrls.some(
+        (endpointUrl) => endpointUrl.sparql === sparqlEndpointUrl,
+      );
+      if (endpointMatchesUrl) {
+        return endpointId;
+      }
+    }
+
+    return '';
+  }
+
   toggle(endpointId: string) {
     const enabledIds = this.enabledIds.value;
     const existingEndpointIdx = enabledIds.findIndex(

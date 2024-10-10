@@ -33,6 +33,7 @@ export class SparqlService {
 {
   SERVICE <${firstEndpoint}> {
       ${queryTemplate}
+      BIND("${firstEndpoint}" AS ?endpointUrl)
   }
 }`;
 
@@ -44,6 +45,7 @@ export class SparqlService {
 UNION {
     SERVICE <${endpoint.sparql}> {
         ${queryTemplate}
+        BIND("${endpoint.sparql}" AS ?endpointUrl)
     }
 }`,
     );
@@ -231,9 +233,10 @@ LIMIT 10000`;
 
     const queryTemplate = `${wrapWithAngleBrackets(id)} ?pred ?obj .`;
 
-    const query = `SELECT DISTINCT ?pred ?obj WHERE {
+    const query = `SELECT DISTINCT ?pred ?obj ?endpointUrl WHERE {
         ${this.getFederatedQuery(queryTemplate)}
     }`;
+
     const results = await this.api.postData<SparqlPredObjModel[]>(
       this.endpoints.getFirstUrls().sparql,
       {
@@ -241,7 +244,14 @@ LIMIT 10000`;
       },
     );
     const nodeData: { [pred: string]: NodeObj[] } = {};
+    const endpointIds: Set<string> = new Set();
+
     for (const result of results) {
+      if (result.endpointUrl) {
+        const endpointId = this.endpoints.getIdBySparqlUrl(result.endpointUrl);
+        endpointIds.add(endpointId);
+      }
+
       const pred = result.pred;
       nodeData[pred] = nodeData[pred] || [];
       const nodeObj = {
@@ -251,10 +261,13 @@ LIMIT 10000`;
       nodeData[pred].push(nodeObj);
     }
 
-    // TODO: Save endpoint here
+    const endpointIdsObjs: NodeObj[] = Array.from(endpointIds).map((id) => {
+      return { value: id, direction: Direction.Outgoing } as NodeObj;
+    });
+
     return {
       '@id': [{ value: id, direction: Direction.Outgoing }],
-      endpointId: [{ value: 'ENDPOINT', direction: Direction.Outgoing }],
+      endpointId: endpointIdsObjs,
       ...nodeData,
     };
   }
