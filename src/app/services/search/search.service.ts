@@ -18,6 +18,8 @@ import { EndpointService } from '../endpoint.service';
 import { ElasticEndpointSearchResponse } from '../../models/elastic/elastic-endpoint-search-response.type';
 import { ActivatedRoute } from '@angular/router';
 import { DetailsService } from '../details.service';
+import { SortService } from '../sort.service';
+import { SortOptionModel } from '../../models/settings/sort-option.model';
 
 @Injectable({
   providedIn: 'root',
@@ -46,9 +48,11 @@ export class SearchService {
     private endpoints: EndpointService,
     private route: ActivatedRoute,
     private details: DetailsService,
+    private sort: SortService,
   ) {
     this.initSearchOnQueryChange();
     this.initSearchOnFilterChange();
+    this.initSearchOnSortChange();
     void this.execute(true);
   }
 
@@ -123,6 +127,12 @@ export class SearchService {
       void this.execute(true, s.clearFilters);
     });
     this.endpoints.enabledIds.subscribe((_) => {
+      void this.execute(true);
+    });
+  }
+
+  initSearchOnSortChange() {
+    this.sort.current.subscribe((sortOption: SortOptionModel | undefined) => {
       void this.execute(true);
     });
   }

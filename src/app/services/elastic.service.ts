@@ -13,6 +13,12 @@ import { SettingsService } from './settings.service';
 import { EndpointService } from './endpoint.service';
 import { ElasticEndpointSearchResponse } from '../models/elastic/elastic-endpoint-search-response.type';
 import { ElasticShouldQueries } from '../models/elastic/elastic-should-queries.type';
+import { SortOrder } from '../models/settings/sort-order.enum';
+import {
+  ElasticSortEntryModel,
+  ElasticSortOrder,
+} from '../models/elastic/elastic-sort.model';
+import { SortService } from './sort.service';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +29,7 @@ export class ElasticService {
     private data: DataService,
     private settings: SettingsService,
     private endpoints: EndpointService,
+    private sort: SortService,
   ) {}
 
   private _getSearchQuery(query: string): ElasticQuery {
@@ -187,6 +194,25 @@ export class ElasticService {
     return searchResultsWithEndpointIds;
   }
 
+  private _getElasticSortEntriesFromSortOption(): ElasticSortEntryModel[] {
+    const sort = this.sort.current.value;
+    if (!sort) {
+      return [];
+    }
+
+    // TODO: Support multiple fields
+    const elasticSortEntry: ElasticSortEntryModel = {};
+    const elasticSortOrder: ElasticSortOrder =
+      sort.order === SortOrder.Ascending ? 'asc' : 'desc';
+
+    elasticSortEntry[sort.field] = {
+      order: elasticSortOrder,
+      unmapped_type: 'string',
+    };
+
+    return [elasticSortEntry];
+  }
+
   private _getNodeSearchQuery(
     query: string,
     filters: FilterModel[],
@@ -200,6 +226,12 @@ export class ElasticService {
         bool: {},
       },
     };
+
+    const elasticSortEntries = this._getElasticSortEntriesFromSortOption();
+    const shouldSort = elasticSortEntries && elasticSortEntries.length > 0;
+    if (shouldSort) {
+      queryData.sort = elasticSortEntries;
+    }
 
     let searchFilters: FilterModel[] = filters;
 
@@ -234,6 +266,7 @@ export class ElasticService {
     filters: FilterModel[],
   ): Promise<ElasticEndpointSearchResponse<ElasticNodeModel>[]> {
     const queryData = this._getNodeSearchQuery(query, filters, from, size);
+
     return await this.searchEndpoints<ElasticNodeModel>(queryData);
   }
 }
