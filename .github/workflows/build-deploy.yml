@@ -23,4 +23,11 @@ jobs:
         run: |
           npm install
           npm run-script deploy
-      # TODO: Deploy to VPS
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.1.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          script: whoami # TODO: Deploy
