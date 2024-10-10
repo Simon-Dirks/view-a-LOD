@@ -1,6 +1,6 @@
 <button
   (click)="routing.goBackOrDefault()"
-  *ngIf="details.isShowing"
+  *ngIf="details.showing.value"
   class="mb-4 text-lg font-bold"
 >
   <ng-icon [svg]="featherArrowLeft" class="relative top-[0.15rem] mr-2" />

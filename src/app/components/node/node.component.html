@@ -10,7 +10,7 @@
     *ngIf="shouldShowImageNextToTable()"
     [routerLink]="details.getLink(node)"
     class="inline-block h-48 sm:h-auto"
-    [ngClass]="[details.isShowing ? 'cursor-default' : '']"
+    [ngClass]="[details.showing.value ? 'cursor-default' : '']"
     [style.width]="imageWidth"
     [style.min-width]="imageWidth"
   >
@@ -40,14 +40,14 @@
       >
         <app-node-types [types]="types" />
       </app-node-table-row>
-      <app-node-table-row [label]="'Organisatie'" *ngIf="details.isShowing">
+      <app-node-table-row [label]="'Organisatie'" *ngIf="details.showing.value">
         <app-node-endpoint [endpointId]="nodes.getEndpointId(node)" />
       </app-node-table-row>
     </div>
 
     <app-node-renderer [node]="node" />
 
-    <div class="mt-8 font-mono text-sm" *ngIf="details.isShowing">
+    <div class="mt-8 font-mono text-sm" *ngIf="details.showing.value">
       <app-node-permalink-button [node]="node" />
     </div>
 

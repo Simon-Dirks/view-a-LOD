@@ -6,4 +6,5 @@ export const Config = {
   maxNumOfFilterOptionsPerField: 30,
   maxImagesToShow: 10,
   elasticTopHitsMax: 100, // Max 100
+  detailsUrl: 'details',
 };

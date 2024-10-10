@@ -160,7 +160,7 @@ export class NodeComponent implements OnInit {
       return '100%';
     }
 
-    return this.details.isShowing
+    return this.details.showing.value
       ? Settings.largeImageWidth.details
       : Settings.largeImageWidth.search;
   }

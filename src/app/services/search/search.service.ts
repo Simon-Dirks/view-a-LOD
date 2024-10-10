@@ -129,7 +129,7 @@ export class SearchService {
 
   initSearchOnQueryChange() {
     this.route.queryParams.subscribe((queryParams) => {
-      const navigatedToDetails = this.details.isShowing;
+      const navigatedToDetails = this.details.isShowing();
       if (navigatedToDetails) {
         return;
       }

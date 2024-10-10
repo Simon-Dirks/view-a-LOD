@@ -38,6 +38,7 @@ export class DetailsComponent {
         return;
       }
       nodeId = decodeURIComponent(nodeId);
+      this.details.lastShownNodeId = nodeId;
       void this.initNodeById(nodeId);
     });
   }

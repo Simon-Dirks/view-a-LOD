@@ -26,13 +26,15 @@
       </div>
     </div>
 
-    <app-details *ngIf="details.isShowing" />
+    <app-details *ngIf="details.showing.value" />
 
-    <div [ngClass]="[details.isShowing ? 'h-0 invisible overflow-hidden' : '']">
+    <div
+      [ngClass]="[details.showing.value ? 'h-0 invisible overflow-hidden' : '']"
+    >
       <p class="text-xl mb-4 font-bold">
         <span *ngIf="search.isLoading.value" class="loading loading-spinner">
         </span>
-        <span *ngIf="!search.isLoading.value && !details.isShowing">{{
+        <span *ngIf="!search.isLoading.value && !details.showing.value">{{
           numberOfHitsStr
         }}</span>
       </p>
@@ -56,7 +58,7 @@
       </ng-container>
     </div>
 
-    <div *ngIf="!details.isShowing">
+    <div *ngIf="!details.showing.value">
       <button
         class="btn btn-primary"
         (click)="loadMore()"

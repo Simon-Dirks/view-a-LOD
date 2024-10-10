@@ -107,7 +107,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     }
 
     return (
-      !this.details.isShowing &&
+      !this.details.showing.value &&
       !this.search.hasDoneInitialSearch &&
       this.search.queryStr === ''
     );
