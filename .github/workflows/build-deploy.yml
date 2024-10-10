@@ -8,21 +8,21 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '18.x'
-      - uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      - name: Build
-        run: |
-          npm install
-          npm run-script deploy
+#      - name: Checkout
+#        uses: actions/checkout@v1
+#      - uses: actions/setup-node@v1
+#        with:
+#          node-version: '18.x'
+#      - uses: actions/cache@v1
+#        with:
+#          path: ~/.npm
+#          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+#          restore-keys: |
+#            ${{ runner.os }}-node-
+#      - name: Build
+#        run: |
+#          npm install
+#          npm run-script deploy
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1.1.0
         with:
