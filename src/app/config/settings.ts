@@ -151,8 +151,13 @@ export const Settings = {
     },
   },
   sorting: {
-    default: 'title-a-z',
+    default: 'relevance',
     options: {
+      relevance: {
+        fields: [],
+        label: 'Relevantie',
+        order: SortOrder.Ascending,
+      },
       'title-a-z': {
         fields: labelPredicates,
         label: 'Titel (A-Z)',
