@@ -26,8 +26,7 @@ import OpenSeadragon, { Viewer } from 'openseadragon';
 export class NodeImagesComponent
   implements OnInit, OnChanges, OnDestroy, AfterViewInit
 {
-  private imageViewer?: Viewer;
-
+  private _imageViewer?: Viewer;
   @ViewChild('viewerElem') viewerElem!: ElementRef;
 
   @Input() imageUrls?: string[];
@@ -40,45 +39,61 @@ export class NodeImagesComponent
     private ngZone: NgZone,
   ) {}
 
-  ngOnInit() {
-    this.processImageUrls();
-  }
+  ngOnInit() {}
 
   ngAfterViewInit() {
     this.initImageViewer();
+    this._processImageUrls();
+  }
+
+  destroyImageViewer() {
+    if (this._imageViewer) {
+      this._imageViewer.destroy();
+    }
   }
 
   initImageViewer() {
-    this.imageViewer = this.ngZone.runOutsideAngular(() =>
+    if (!this.viewerElem) {
+      // TODO
+      console.warn('Viewer elem not yet initialized');
+      return;
+    }
+
+    this.destroyImageViewer();
+
+    const sources: any = this.processedImageUrls.map((imgUrl) => {
+      return { type: 'image', url: imgUrl };
+    });
+
+    // TODO: Scale to the right zoom by default
+    this._imageViewer = this.ngZone.runOutsideAngular(() =>
       OpenSeadragon({
         element: this.viewerElem.nativeElement,
         prefixUrl: 'assets/osd/images/',
-        tileSources: {
-          type: 'image',
-          url: 'https://openseadragon.github.io/example-images/grand-canyon-landscape-overlooking.jpg',
-        },
+        sequenceMode: true,
+        showReferenceStrip: true,
+        tileSources: sources,
       }),
     );
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['imageUrls']) {
-      this.processImageUrls();
+      this._processImageUrls();
     }
   }
 
   ngOnDestroy() {
-    if (this.imageViewer) {
-      this.imageViewer.destroy();
-    }
+    this.destroyImageViewer();
   }
 
-  private processImageUrls() {
+  private _processImageUrls() {
     if (!this.imageUrls) {
       return;
     }
 
     this.processedImageUrls = this.urlService.processUrls(this.imageUrls);
+    this.initImageViewer();
   }
 
   protected readonly Config = Config;
