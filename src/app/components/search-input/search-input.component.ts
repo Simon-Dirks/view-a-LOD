@@ -43,6 +43,8 @@ export class SearchInputComponent implements OnInit {
     //   return;
     // }
 
+    this.autocompleteOptions = [];
+
     const queryParams: NavigationExtras = {
       queryParams: { q: this.searchInput },
     };
@@ -73,7 +75,6 @@ export class SearchInputComponent implements OnInit {
   }
 
   async onAutocompleteOptionSelect(id: string) {
-    this.autocompleteOptions = [];
     await this.onSearch();
     await this.router.navigateByUrl(this.details.getLinkFromUrl(id));
   }
