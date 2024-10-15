@@ -105,6 +105,10 @@ const peopleFilterOptionValueIds = [
 ];
 
 export const Settings = {
+  matomo: {
+    siteId: '',
+    trackerUrl: '',
+  },
   endpoints: {
     hua: {
       label: 'Het Utrechts Archief',
