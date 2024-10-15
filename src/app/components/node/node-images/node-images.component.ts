@@ -106,7 +106,10 @@ export class NodeImagesComponent
       return;
     }
 
-    this.processedImageUrls = this.urlService.processUrls(this.imageUrls);
+    this.processedImageUrls = this.urlService.processUrls(
+      this.imageUrls,
+      false,
+    );
     this.initImageViewer();
   }
 
