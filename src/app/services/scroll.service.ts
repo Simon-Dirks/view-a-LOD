@@ -9,9 +9,6 @@ export class ScrollService {
   private _scrollContainer: ElementRef | undefined;
 
   private _lastClickedScrollId: string | null = null;
-  public setLastClickedScrollId(scrollId: string) {
-    this._lastClickedScrollId = scrollId;
-  }
 
   private _scrollIdToReturnTo: string | null = null;
 
@@ -34,6 +31,16 @@ export class ScrollService {
     });
   }
 
+  saveLastClickedScrollId(scrollId: string) {
+    const shouldMaintainCurrentScrollIdToReturnTo = this.details.showing.value;
+    if (shouldMaintainCurrentScrollIdToReturnTo) {
+      // If already on details page, maintain the original scroll ID of the search page to return to
+      this._lastClickedScrollId = this._scrollIdToReturnTo ?? scrollId;
+    } else {
+      this._lastClickedScrollId = scrollId;
+    }
+  }
+
   onNavigateToDetails(nodeId: string) {
     if (this._lastClickedScrollId) {
       this._scrollIdToReturnTo = this._lastClickedScrollId;
@@ -48,7 +55,12 @@ export class ScrollService {
     // TODO: Properly wait for search results page to have completed rendering instead of using timeout "hack"
     //  Note that search results remain in the DOM when going to the details view (but invisible), therefore are not reloaded asynchronously anymore, drastically reducing the time we need to wait before initiating scroll
     setTimeout(() => {
-      if (!this._scrollContainer || !idToScrollTo) {
+      if (!this._scrollContainer) {
+        console.warn('Scroll container is undefined');
+        return;
+      }
+      if (!idToScrollTo) {
+        console.log('No ID to scroll to');
         return;
       }
 
@@ -57,6 +69,8 @@ export class ScrollService {
       );
 
       if (!searchResultElem) {
+        // TODO: This seems to occur after having clicked from details page to details page for a while, and then returning all the way to the search page. Maybe because of slow page rendering?
+        console.warn('Could not find scroll ID', idToScrollTo);
         return;
       }
       console.log(
@@ -74,6 +88,6 @@ export class ScrollService {
         top: this._scrollContainer.nativeElement.scrollTop + offset,
         behavior: 'smooth',
       });
-    }, 10);
+    }, 100);
   }
 }

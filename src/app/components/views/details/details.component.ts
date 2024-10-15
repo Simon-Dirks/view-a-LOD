@@ -48,12 +48,20 @@ export class DetailsComponent {
   }
 
   async initNodeById(id: string) {
+    this.node = undefined;
+    this.nodeId = null;
+
     this.loadingNodeData = true;
-    this.nodeId = id;
-    const node = await this.sparql.getNode(this.nodeId);
-    const enrichedNodes = await this.nodes.enrichWithIncomingRelations([node]);
-    this.node = enrichedNodes[0] ?? node;
-    this.loadingNodeData = false;
+
+    setTimeout(async () => {
+      this.nodeId = id;
+      const node = await this.sparql.getNode(this.nodeId);
+      const enrichedNodes = await this.nodes.enrichWithIncomingRelations([
+        node,
+      ]);
+      this.node = enrichedNodes[0] ?? node;
+      this.loadingNodeData = false;
+    });
   }
 
   protected readonly featherArrowLeft = featherArrowLeft;

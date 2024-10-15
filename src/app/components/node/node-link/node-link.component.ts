@@ -40,6 +40,7 @@ import { SearchService } from '../../../services/search/search.service';
 import { DrawerService } from '../../../services/drawer.service';
 import { UrlService } from '../../../services/url.service';
 import { ScrollService } from '../../../services/scroll.service';
+import { DetailsService } from '../../../services/details.service';
 
 @Component({
   selector: 'app-node-link',
@@ -85,6 +86,7 @@ export class NodeLinkComponent implements OnInit, OnChanges {
     public urlService: UrlService,
     private drawer: DrawerService,
     public scroll: ScrollService,
+    public details: DetailsService,
   ) {}
 
   ngOnInit() {
@@ -147,6 +149,11 @@ export class NodeLinkComponent implements OnInit, OnChanges {
       this._preventDefault(event);
       return;
     }
+  }
+
+  onInternalUrlClicked() {
+    const closestScrollId = this.getClosestScrollId();
+    this.scroll.saveLastClickedScrollId(closestScrollId);
   }
 
   getClosestScrollId(): string {

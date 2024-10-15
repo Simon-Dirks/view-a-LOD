@@ -78,10 +78,7 @@
             [shouldTruncate]="shouldTruncate"
             [allowLabelExpand]="allowLabelExpand"
             [highlightStr]="shouldHighlight ? search.queryStr : undefined"
-            (click)="
-              onUrlClicked($event);
-              scroll.setLastClickedScrollId(getClosestScrollId())
-            "
+            (click)="onUrlClicked($event); onInternalUrlClicked()"
           />
         </a>
       </ng-container>
