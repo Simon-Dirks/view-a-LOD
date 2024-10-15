@@ -6,6 +6,7 @@
     value="{{ search.queryStr }}"
     [(ngModel)]="searchInput"
     (keyup.enter)="onSearch()"
+    (ngModelChange)="onSearchInputChange()"
   />
 
   <button
@@ -34,3 +35,19 @@
   <!--    *ngIf="!search.isLoading.value"-->
   <!--  />-->
 </label>
+
+<div
+  class="dropdown dropdown-bottom dropdown-open z-20 flex mt-1"
+  *ngIf="autocompleteOptions.length > 0"
+>
+  <ul
+    tabindex="0"
+    class="dropdown-content menu bg-base-100 rounded-xl z-[1] w-96 max-h-52 overflow-y-auto p-2 block text-base"
+  >
+    <li *ngFor="let autocompleteResult of autocompleteOptions">
+      <button (click)="onAutocompleteSelect(autocompleteResult['@id'])">
+        {{ autocompleteResult.labels[0] }}
+      </button>
+    </li>
+  </ul>
+</div>

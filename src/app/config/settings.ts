@@ -305,6 +305,8 @@ export const Settings = {
   },
   search: {
     resultsPerPagePerEndpoint: 10,
+    maxAutocompleteOptionsPerEndpoint: 50,
+    maxAutocompleteOptionsToShow: 20,
   },
   labelMaxChars: 100,
   predicates: {
