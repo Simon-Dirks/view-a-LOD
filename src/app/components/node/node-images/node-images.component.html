@@ -2,18 +2,24 @@
   [style.width]="width"
   class="w-full h-full overflow-y-scroll min-h-24"
   #viewerElem
+  *ngIf="useViewer"
 ></div>
-<!--<div [style.width]="width" class="w-full h-full overflow-y-scroll">-->
-<!--  <ng-container-->
-<!--    *ngFor="let image of processedImageUrls?.slice(0, Config.maxImagesToShow)"-->
-<!--  >-->
-<!--    &lt;!&ndash; TODO: Use image label as alt here&ndash;&gt;-->
-<!--    <img-->
-<!--      [src]="image"-->
-<!--      alt="Object image"-->
-<!--      class="w-full h-full object-cover"-->
-<!--      (error)="onImageLoadError($event)"-->
-<!--      *ngIf="image"-->
-<!--    />-->
-<!--  </ng-container>-->
-<!--</div>-->
+
+<div
+  [style.width]="width"
+  class="w-full h-full overflow-y-scroll"
+  *ngIf="!useViewer"
+>
+  <ng-container
+    *ngFor="let image of processedImageUrls?.slice(0, Config.maxImagesToShow)"
+  >
+    <!-- TODO: Use image label as alt here-->
+    <img
+      [src]="image"
+      alt="Object image"
+      class="w-full h-full object-cover"
+      (error)="onImageLoadError($event)"
+      *ngIf="image"
+    />
+  </ng-container>
+</div>

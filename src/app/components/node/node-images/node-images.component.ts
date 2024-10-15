@@ -29,6 +29,7 @@ export class NodeImagesComponent
   private _imageViewer?: Viewer;
   @ViewChild('viewerElem') viewerElem!: ElementRef;
 
+  @Input() useViewer = false;
   @Input() imageUrls?: string[];
   @Input() width = '5rem';
 
@@ -53,6 +54,10 @@ export class NodeImagesComponent
   }
 
   initImageViewer() {
+    if (!this.useViewer) {
+      return;
+    }
+
     if (!this.viewerElem) {
       // TODO
       console.warn('Viewer elem not yet initialized');
@@ -65,16 +70,25 @@ export class NodeImagesComponent
       return { type: 'image', url: imgUrl };
     });
 
-    // TODO: Scale to the right zoom by default
     this._imageViewer = this.ngZone.runOutsideAngular(() =>
       OpenSeadragon({
         element: this.viewerElem.nativeElement,
         prefixUrl: 'assets/osd/images/',
         sequenceMode: true,
         showReferenceStrip: true,
+        // referenceStripScroll: 'vertical',
+        // showNavigator: true,
         tileSources: sources,
+        maxZoomPixelRatio: 5,
       }),
     );
+
+    this._imageViewer.addHandler('tile-loaded', (event) => {
+      if (!this._imageViewer) {
+        return;
+      }
+      this._imageViewer.viewport.ensureVisible();
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {

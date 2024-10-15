@@ -14,7 +14,11 @@
     [style.width]="imageWidth"
     [style.min-width]="imageWidth"
   >
-    <app-node-images [imageUrls]="images" [width]="'100%'" />
+    <app-node-images
+      [imageUrls]="images"
+      [width]="'100%'"
+      [useViewer]="details.showing.value"
+    />
   </a>
 
   <div
