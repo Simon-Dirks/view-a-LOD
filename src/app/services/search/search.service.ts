@@ -243,7 +243,7 @@ export class SearchService {
             query: searchInput,
           },
         },
-        size: Settings.search.maxAutocompleteOptionsPerEndpoint,
+        size: Settings.search.autocomplete.maxAutocompleteOptionsPerEndpoint,
       });
     if (!results || results.length === 0) {
       return [];

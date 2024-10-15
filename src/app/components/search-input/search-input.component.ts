@@ -60,11 +60,15 @@ export class SearchInputComponent implements OnInit {
     const options = await this.search.getAutocompleteOptions(input);
     this.autocompleteOptions = options.slice(
       0,
-      Settings.search.maxAutocompleteOptionsToShow,
+      Settings.search.autocomplete.maxAutocompleteOptionsToShow,
     );
   }
 
   async onSearchInputChange() {
+    if (!Settings.search.autocomplete.enabled) {
+      return;
+    }
+
     this._autocompleteSearchSubject.next(this.searchInput);
   }
 
