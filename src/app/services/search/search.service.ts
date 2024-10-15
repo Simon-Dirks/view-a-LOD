@@ -235,6 +235,7 @@ export class SearchService {
   async getAutocompleteOptions(
     searchInput: string,
   ): Promise<ThingWithLabelsModel[]> {
+    console.log('Retrieving autocomplete options...', searchInput);
     const results: ElasticEndpointSearchResponse<any>[] =
       await this.elastic.searchEndpoints({
         query: {

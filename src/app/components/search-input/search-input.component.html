@@ -45,7 +45,7 @@
     class="dropdown-content menu bg-base-100 rounded-xl z-[1] w-96 max-h-52 overflow-y-auto p-2 block text-base"
   >
     <li *ngFor="let autocompleteResult of autocompleteOptions">
-      <button (click)="onAutocompleteSelect(autocompleteResult['@id'])">
+      <button (click)="onAutocompleteOptionSelect(autocompleteResult['@id'])">
         {{ autocompleteResult.labels[0] }}
       </button>
     </li>

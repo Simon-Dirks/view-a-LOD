@@ -9,6 +9,7 @@ import { NavigationExtras, Router, RouterLink } from '@angular/router';
 import { ElasticService } from '../../services/elastic.service';
 import { ThingWithLabelsModel } from '../../models/thing-with-label.model';
 import { DetailsService } from '../../services/details.service';
+import { debounceTime, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-search-input',
@@ -19,6 +20,8 @@ import { DetailsService } from '../../services/details.service';
 })
 export class SearchInputComponent implements OnInit {
   searchInput: string = this.search.queryStr;
+
+  private _autocompleteSearchSubject: Subject<string> = new Subject();
   autocompleteOptions: ThingWithLabelsModel[] = [];
 
   constructor(
@@ -28,7 +31,9 @@ export class SearchInputComponent implements OnInit {
     public details: DetailsService,
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this._initDebouncedAutocompleteOptionsRetrieval();
+  }
 
   protected readonly Settings = Settings;
   protected readonly featherSearch = featherSearch;
@@ -45,16 +50,25 @@ export class SearchInputComponent implements OnInit {
     await this.router.navigate(['search'], queryParams);
   }
 
-  async onSearchInputChange() {
-    // TODO: Add debounce
-    const options = await this.search.getAutocompleteOptions(this.searchInput);
+  private _initDebouncedAutocompleteOptionsRetrieval() {
+    this._autocompleteSearchSubject
+      .pipe(debounceTime(300))
+      .subscribe(async (input) => this._updateAutocompleteOptions(input));
+  }
+
+  private async _updateAutocompleteOptions(input: string) {
+    const options = await this.search.getAutocompleteOptions(input);
     this.autocompleteOptions = options.slice(
       0,
       Settings.search.maxAutocompleteOptionsToShow,
     );
   }
 
-  async onAutocompleteSelect(id: string) {
+  async onSearchInputChange() {
+    this._autocompleteSearchSubject.next(this.searchInput);
+  }
+
+  async onAutocompleteOptionSelect(id: string) {
     this.autocompleteOptions = [];
     await this.onSearch();
     await this.router.navigateByUrl(this.details.getLinkFromUrl(id));
