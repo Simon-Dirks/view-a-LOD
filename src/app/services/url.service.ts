@@ -26,7 +26,7 @@ export class UrlService {
     return urls.map((url) => this.processUrl(url));
   }
 
-  processUrl(url: string): string {
+  processUrl(url: string, linkToDetails = true): string {
     if (url.includes('opslag.razu.nl')) {
       url = this._addParamToUrl(
         url,
@@ -35,6 +35,14 @@ export class UrlService {
       );
     }
 
-    return this.details.getLinkFromUrl(url);
+    if (linkToDetails) {
+      return this.details.getLinkFromUrl(url);
+    }
+
+    url = url.replaceAll(
+      'hetutrechtsarchief.nl/id',
+      'hetutrechtsarchief.nl/collectie',
+    );
+    return url;
   }
 }
