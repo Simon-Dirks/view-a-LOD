@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
+import { DetailsService } from './details.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UrlService {
-  constructor() {}
+  constructor(private details: DetailsService) {}
 
   private _addParamToUrl(
     url: string,
@@ -34,11 +35,6 @@ export class UrlService {
       );
     }
 
-    url = url.replaceAll(
-      'hetutrechtsarchief.nl/id',
-      'hetutrechtsarchief.nl/collectie',
-    );
-
-    return url;
+    return this.details.getLinkFromUrl(url);
   }
 }

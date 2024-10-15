@@ -5,6 +5,7 @@ import { NgIf } from '@angular/common';
 import { DetailsService } from '../../../services/details.service';
 import { NodeModel } from '../../../models/node.model';
 import { RouterLink } from '@angular/router';
+import { NodeService } from '../../../services/node.service';
 
 @Component({
   selector: 'app-node-details-button',
@@ -16,6 +17,10 @@ import { RouterLink } from '@angular/router';
 export class NodeDetailsButtonComponent {
   @Input() node: NodeModel | undefined;
 
-  constructor(public details: DetailsService) {}
+  constructor(
+    public details: DetailsService,
+    public nodes: NodeService,
+  ) {}
   protected readonly featherArrowRight = featherArrowRight;
+  protected readonly encodeURIComponent = encodeURIComponent;
 }

@@ -4,7 +4,7 @@
   [ngClass]="[
     shouldShowImageNextToTable() ? 'p-0 flex flex-col sm:flex-row' : 'p-6'
   ]"
-  [id]="encodeURIComponent(nodes.getId(node))"
+  [attr.data-scroll-id]="encodeURIComponent(nodes.getId(node))"
 >
   <a
     *ngIf="shouldShowImageNextToTable()"

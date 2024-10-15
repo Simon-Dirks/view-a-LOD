@@ -38,7 +38,7 @@
     <!--    </button>-->
   </float-ui-content>
 
-  <div class="inline">
+  <div class="inline" #linkElem>
     <ng-content></ng-content>
 
     <!--    <div-->
@@ -78,6 +78,10 @@
             [shouldTruncate]="shouldTruncate"
             [allowLabelExpand]="allowLabelExpand"
             [highlightStr]="shouldHighlight ? search.queryStr : undefined"
+            (click)="
+              onUrlClicked($event);
+              scroll.setLastClickedScrollId(getClosestScrollId())
+            "
           />
         </a>
       </ng-container>

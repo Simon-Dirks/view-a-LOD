@@ -4,13 +4,13 @@ import { NodeService } from './node.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { Config } from '../config/config';
+import { isValidHttpUrl } from '../helpers/util.helper';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DetailsService {
   showing: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  lastShownNodeId: string | null = null;
 
   constructor(
     private nodes: NodeService,
@@ -37,6 +37,17 @@ export class DetailsService {
 
   getLink(node: NodeModel): string {
     const nodeId = this.nodes.getId(node);
-    return `/${Config.detailsUrl}/` + encodeURIComponent(nodeId);
+    return this.getLinkFromUrl(nodeId);
+  }
+
+  getLinkFromUrl(url: string): string {
+    const isAlreadyDetailsUrl = decodeURIComponent(url).startsWith(
+      `/${Config.detailsUrl}`,
+    );
+    if (isAlreadyDetailsUrl || !isValidHttpUrl(url)) {
+      return url;
+    }
+
+    return `/${Config.detailsUrl}/` + encodeURIComponent(url);
   }
 }

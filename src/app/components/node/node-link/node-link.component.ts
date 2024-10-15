@@ -1,11 +1,13 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
   OnInit,
   Output,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import {
   isValidHttpUrl,
@@ -37,6 +39,7 @@ import { FilterType } from '../../../models/filter.model';
 import { SearchService } from '../../../services/search/search.service';
 import { DrawerService } from '../../../services/drawer.service';
 import { UrlService } from '../../../services/url.service';
+import { ScrollService } from '../../../services/scroll.service';
 
 @Component({
   selector: 'app-node-link',
@@ -57,8 +60,11 @@ import { UrlService } from '../../../services/url.service';
   styleUrl: './node-link.component.scss',
 })
 export class NodeLinkComponent implements OnInit, OnChanges {
+  @ViewChild('linkElem') linkElem?: ElementRef;
+
   @Input() url?: string;
   processedUrl?: string = this.url;
+
   @Input() label?: string;
   @Input() labelUrl?: string;
   @Input() disabled?: boolean;
@@ -78,6 +84,7 @@ export class NodeLinkComponent implements OnInit, OnChanges {
     public search: SearchService,
     public urlService: UrlService,
     private drawer: DrawerService,
+    public scroll: ScrollService,
   ) {}
 
   ngOnInit() {
@@ -140,6 +147,15 @@ export class NodeLinkComponent implements OnInit, OnChanges {
       this._preventDefault(event);
       return;
     }
+  }
+
+  getClosestScrollId(): string {
+    const closestElement =
+      this.linkElem?.nativeElement.closest('[data-scroll-id]');
+    if (closestElement) {
+      return closestElement.getAttribute('data-scroll-id') || '';
+    }
+    return '';
   }
 
   private _preventDefault(event: MouseEvent) {

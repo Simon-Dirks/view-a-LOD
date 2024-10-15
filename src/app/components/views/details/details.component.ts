@@ -9,6 +9,7 @@ import { featherArrowLeft } from '@ng-icons/feather-icons';
 import { NgIcon } from '@ng-icons/core';
 import { RoutingService } from '../../../services/routing.service';
 import { DetailsService } from '../../../services/details.service';
+import { ScrollService } from '../../../services/scroll.service';
 
 @Component({
   selector: 'app-details',
@@ -29,6 +30,7 @@ export class DetailsComponent {
     public sparql: SparqlService,
     public routing: RoutingService,
     public details: DetailsService,
+    public scroll: ScrollService,
   ) {}
 
   ngOnInit(): void {
@@ -38,7 +40,9 @@ export class DetailsComponent {
         return;
       }
       nodeId = decodeURIComponent(nodeId);
-      this.details.lastShownNodeId = nodeId;
+
+      // TODO: Move to service itself, instead of calling from component
+      this.scroll.onNavigateToDetails(nodeId);
       void this.initNodeById(nodeId);
     });
   }

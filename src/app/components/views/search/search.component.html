@@ -55,7 +55,7 @@
 
       <ng-container *ngIf="viewModes.current.value === ViewMode.List">
         <ng-container *ngFor="let node of search.results.value?.nodes">
-          <app-node [node]="node" [id]="nodes.getId(node)"></app-node>
+          <app-node [node]="node"></app-node>
         </ng-container>
       </ng-container>
     </div>

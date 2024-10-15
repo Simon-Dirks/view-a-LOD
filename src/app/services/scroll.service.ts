@@ -8,6 +8,13 @@ import { DetailsService } from './details.service';
 export class ScrollService {
   private _scrollContainer: ElementRef | undefined;
 
+  private _lastClickedScrollId: string | null = null;
+  public setLastClickedScrollId(scrollId: string) {
+    this._lastClickedScrollId = scrollId;
+  }
+
+  private _scrollIdToReturnTo: string | null = null;
+
   constructor(
     public nodes: NodeService,
     public details: DetailsService,
@@ -27,25 +34,17 @@ export class ScrollService {
     });
   }
 
-  // scrollToTop() {
-  //   // TODO: Properly wait for details page to have completed rendering instead of using timeout "hack"
-  //
-  //   // TODO: Scroll to just below the filters?
-  //   setTimeout(() => {
-  //     if (!this._scrollContainer) {
-  //       return;
-  //     }
-  //     console.log('Scrolling to top');
-  //     this._scrollContainer.nativeElement.scrollTo({
-  //       top: 0,
-  //       behavior: 'smooth',
-  //     });
-  //   }, 150);
-  // }
-  //
+  onNavigateToDetails(nodeId: string) {
+    if (this._lastClickedScrollId) {
+      this._scrollIdToReturnTo = this._lastClickedScrollId;
+      this._lastClickedScrollId = null;
+    } else {
+      this._scrollIdToReturnTo = encodeURIComponent(nodeId);
+    }
+  }
 
   scrollToSearchResult() {
-    const idToScrollTo = this.details.lastShownNodeId;
+    const idToScrollTo = this._scrollIdToReturnTo;
     // TODO: Properly wait for search results page to have completed rendering instead of using timeout "hack"
     //  Note that search results remain in the DOM when going to the details view (but invisible), therefore are not reloaded asynchronously anymore, drastically reducing the time we need to wait before initiating scroll
     setTimeout(() => {
@@ -53,7 +52,9 @@ export class ScrollService {
         return;
       }
 
-      const searchResultElem = document.getElementById(idToScrollTo);
+      const searchResultElem = document.querySelector(
+        `[data-scroll-id="${idToScrollTo}"]`,
+      );
 
       if (!searchResultElem) {
         return;
