@@ -47,6 +47,7 @@ export class NodeImagesComponent
     this._processImageUrls();
   }
 
+  // TODO: Refactor OSD into separate component
   destroyImageViewer() {
     if (this._imageViewer) {
       this._imageViewer.destroy();
