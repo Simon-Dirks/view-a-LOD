@@ -27,7 +27,15 @@ export class FilterOptionComponent implements OnInit {
     public search: SearchService,
   ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initResetNumShowingOnSearchResultsUpdate();
+  }
+
+  initResetNumShowingOnSearchResultsUpdate() {
+    this.search.results.subscribe(() => {
+      this.numShowing = Config.numFilterOptionsToShowDefault;
+    });
+  }
 
   onFilterToggle(valueIds: string[]) {
     if (!valueIds || !this.fieldIds) {
