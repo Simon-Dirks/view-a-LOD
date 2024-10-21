@@ -129,10 +129,10 @@ export class NodeTableCellComponent implements OnInit {
   }
 
   get showMoreLabel(): string {
-    return `Show ${Math.min(
+    return `Laad nog ${Math.min(
       this.numObjValuesNotShown,
       Config.additionalNumObjValuesToShowOnClick,
-    )} more...`;
+    )} resultaten`;
   }
 
   protected readonly TableCellShowOptions = TableCellShowOptions;
