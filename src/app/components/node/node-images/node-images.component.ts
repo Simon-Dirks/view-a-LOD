@@ -89,7 +89,14 @@ export class NodeImagesComponent
         return;
       }
 
-      this._imageViewer.viewport.goHome();
+      const initialBounds = this._imageViewer.viewport.getBounds();
+      const alignImageToTopBounds = new OpenSeadragon.Rect(
+        0,
+        0,
+        1,
+        initialBounds.height / initialBounds.width,
+      );
+      this._imageViewer.viewport.fitBounds(alignImageToTopBounds, true);
     });
   }
 
