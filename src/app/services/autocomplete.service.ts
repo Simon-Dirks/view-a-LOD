@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { debounceTime, Subject } from 'rxjs';
+import { BehaviorSubject, debounceTime, Subject } from 'rxjs';
 import { ThingWithLabelsModel } from '../models/thing-with-label.model';
 import { Settings } from '../config/settings';
 import { ElasticEndpointSearchResponse } from '../models/elastic/elastic-endpoint-search-response.type';
@@ -11,7 +11,9 @@ import { DataService } from './data.service';
 })
 export class AutocompleteService {
   searchSubject: Subject<string> = new Subject();
-  options: ThingWithLabelsModel[] = [];
+  options: BehaviorSubject<ThingWithLabelsModel[]> = new BehaviorSubject<
+    ThingWithLabelsModel[]
+  >([]);
   isLoading = false;
 
   constructor(
@@ -29,10 +31,11 @@ export class AutocompleteService {
 
   private async _updateOptions(input: string) {
     const options = await this._getOptions(input);
-    this.options = options.slice(
+    const shownOptions = options.slice(
       0,
       Settings.search.autocomplete.maxAutocompleteOptionsToShow,
     );
+    this.options.next(shownOptions);
   }
 
   private _getOptionsFromSearchResults(

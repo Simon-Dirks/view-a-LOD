@@ -1,55 +1,50 @@
-<label class="flex input input-bordered items-center gap-2 rounded-full">
-  <input
-    type="text"
-    class="grow"
-    placeholder="Zoeken"
-    value="{{ search.queryStr }}"
-    [(ngModel)]="searchInput"
-    (keyup.enter)="onSearch()"
-    (ngModelChange)="onSearchInputChange()"
-  />
-
-  <button
-    class="btn btn-primary btn-sm rounded-full text-white"
-    [disabled]="search.isLoading.value"
-    (click)="onSearch()"
+<div class="dropdown dropdown-bottom z-20 flex">
+  <label
+    class="flex input input-bordered items-center gap-2 rounded-full w-full"
   >
-    <span
-      class="loading loading-spinner loading-xs opacity-70"
-      *ngIf="search.isLoading.value"
-    ></span>
-
-    <img
-      src="assets/icons/search.svg"
-      alt="Zoek icoon"
-      class="h-4"
-      *ngIf="!search.isLoading.value"
+    <input
+      type="text"
+      class="grow"
+      placeholder="Zoeken"
+      value="{{ search.queryStr }}"
+      [(ngModel)]="searchInput"
+      (keyup.enter)="onSearch()"
+      (ngModelChange)="onSearchInputChange()"
+      tabindex="0"
     />
-    <!--    <ng-icon [svg]="featherSearch" />-->
-    <span>Zoek</span>
-  </button>
 
-  <!--  <ng-icon-->
-  <!--    [svg]="featherSearch"-->
-  <!--    class="opacity-70"-->
-  <!--    *ngIf="!search.isLoading.value"-->
-  <!--  />-->
-</label>
+    <button
+      class="btn btn-primary btn-sm rounded-full text-white"
+      [disabled]="search.isLoading.value"
+      (click)="onSearch()"
+    >
+      <span
+        class="loading loading-spinner loading-xs opacity-70"
+        *ngIf="search.isLoading.value"
+      ></span>
 
-<div
-  class="dropdown dropdown-bottom dropdown-open z-20 flex mt-1"
-  *ngIf="hasAutocompleteOptions || autocomplete.isLoading"
->
+      <img
+        src="assets/icons/search.svg"
+        alt="Zoek icoon"
+        class="h-4"
+        *ngIf="!search.isLoading.value"
+      />
+      <!--    <ng-icon [svg]="featherSearch" />-->
+      <span>Zoek</span>
+    </button>
+  </label>
+
   <ul
     tabindex="0"
-    class="dropdown-content menu bg-base-100 rounded-xl z-[1] w-96 max-h-52 overflow-y-auto p-2 block text-base shadow"
+    class="dropdown-content menu bg-base-100 rounded-xl z-[1] max-h-52 overflow-y-auto p-2 block text-base shadow mt-2 max-w-2xl"
+    *ngIf="hasAutocompleteOptions || autocomplete.isLoading"
   >
     <li *ngIf="autocomplete.isLoading">
       <p class="loading loading-sm loading-spinner p-0"></p>
     </li>
 
     <ng-container *ngIf="!autocomplete.isLoading">
-      <li *ngFor="let autocompleteResult of autocomplete.options">
+      <li *ngFor="let autocompleteResult of autocomplete.options.value">
         <button (click)="onAutocompleteOptionSelect(autocompleteResult['@id'])">
           {{ autocompleteResult.labels[0] }}
         </button>

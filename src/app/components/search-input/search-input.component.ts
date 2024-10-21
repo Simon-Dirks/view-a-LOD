@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgIcon } from '@ng-icons/core';
 import { JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
@@ -16,7 +16,7 @@ import { AutocompleteService } from '../../services/autocomplete.service';
   templateUrl: './search-input.component.html',
   styleUrl: './search-input.component.scss',
 })
-export class SearchInputComponent implements OnInit {
+export class SearchInputComponent implements OnInit, AfterViewInit {
   searchInput: string = this.search.queryStr;
 
   constructor(
@@ -29,8 +29,10 @@ export class SearchInputComponent implements OnInit {
 
   ngOnInit() {}
 
+  ngAfterViewInit() {}
+
   get hasAutocompleteOptions(): boolean {
-    return this.autocomplete.options.length > 0;
+    return this.autocomplete.options.value.length > 0;
   }
 
   async onSearch() {
@@ -38,7 +40,7 @@ export class SearchInputComponent implements OnInit {
     //   return;
     // }
 
-    this.autocomplete.options = [];
+    this.autocomplete.options.next([]);
 
     const queryParams: NavigationExtras = {
       queryParams: { q: this.searchInput },
