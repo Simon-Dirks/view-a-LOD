@@ -38,16 +38,22 @@
 
 <div
   class="dropdown dropdown-bottom dropdown-open z-20 flex mt-1"
-  *ngIf="autocompleteOptions.length > 0"
+  *ngIf="hasAutocompleteOptions || autocomplete.isLoading"
 >
   <ul
     tabindex="0"
-    class="dropdown-content menu bg-base-100 rounded-xl z-[1] w-96 max-h-52 overflow-y-auto p-2 block text-base"
+    class="dropdown-content menu bg-base-100 rounded-xl z-[1] w-96 max-h-52 overflow-y-auto p-2 block text-base shadow"
   >
-    <li *ngFor="let autocompleteResult of autocompleteOptions">
-      <button (click)="onAutocompleteOptionSelect(autocompleteResult['@id'])">
-        {{ autocompleteResult.labels[0] }}
-      </button>
+    <li *ngIf="autocomplete.isLoading">
+      <p class="loading loading-sm loading-spinner p-0"></p>
     </li>
+
+    <ng-container *ngIf="!autocomplete.isLoading">
+      <li *ngFor="let autocompleteResult of autocomplete.options">
+        <button (click)="onAutocompleteOptionSelect(autocompleteResult['@id'])">
+          {{ autocompleteResult.labels[0] }}
+        </button>
+      </li>
+    </ng-container>
   </ul>
 </div>

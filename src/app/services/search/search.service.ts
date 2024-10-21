@@ -20,7 +20,6 @@ import { ActivatedRoute } from '@angular/router';
 import { DetailsService } from '../details.service';
 import { SortService } from '../sort.service';
 import { SortOptionModel } from '../../models/settings/sort-option.model';
-import { ThingWithLabelsModel } from '../../models/thing-with-label.model';
 
 @Injectable({
   providedIn: 'root',
@@ -230,56 +229,5 @@ export class SearchService {
 
       void this.checkHasMoreResultsToLoad();
     }
-  }
-
-  async getAutocompleteOptions(
-    searchInput: string,
-  ): Promise<ThingWithLabelsModel[]> {
-    console.log('Retrieving autocomplete options...', searchInput);
-    const results: ElasticEndpointSearchResponse<any>[] =
-      await this.elastic.searchEndpoints({
-        query: {
-          simple_query_string: {
-            query: searchInput,
-          },
-        },
-        size: Settings.search.autocomplete.maxAutocompleteOptionsPerEndpoint,
-      });
-    if (!results || results.length === 0) {
-      return [];
-    }
-
-    let optionsSet: { [id: string]: Set<string> } = {};
-    for (const result of results) {
-      for (const hit of result.hits.hits) {
-        // TODO: Refactor into function for readability
-        const hitNode = hit._source;
-        const id = hitNode['@id'] as string;
-
-        if (!(id in optionsSet)) {
-          optionsSet[id] = new Set();
-        }
-
-        Settings.predicates.label.forEach((predicate) => {
-          const elasticLabelPredicate =
-            this.data.replacePeriodsWithSpaces(predicate);
-          if (elasticLabelPredicate in hitNode) {
-            const hitLabels = hitNode[elasticLabelPredicate] as string[];
-            for (const hitLabel of hitLabels) {
-              optionsSet[id].add(hitLabel);
-            }
-          }
-        });
-      }
-    }
-
-    const options: ThingWithLabelsModel[] = Object.keys(optionsSet)
-      .map((id) => ({
-        '@id': id,
-        labels: Array.from(optionsSet[id]),
-      }))
-      .filter((o) => o.labels.length > 0);
-
-    return options;
   }
 }
