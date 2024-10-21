@@ -87,7 +87,8 @@ export class NodeImagesComponent
       if (!this._imageViewer) {
         return;
       }
-      this._imageViewer.viewport.ensureVisible();
+
+      this._imageViewer.viewport.goHome();
     });
   }
 
