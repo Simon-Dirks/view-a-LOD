@@ -1,4 +1,7 @@
-<div class="form-control flex-row" *ngFor="let value of values">
+<div
+  class="form-control flex-row"
+  *ngFor="let value of values?.slice(0, numShowing)"
+>
   <label class="label text">
     <input
       type="checkbox"
@@ -17,3 +20,11 @@
     </app-node-link>
   </label>
 </div>
+
+<button
+  class="btn btn-sm btn-neutral mt-2"
+  (click)="onShowMoreClicked()"
+  *ngIf="hasMoreToShow"
+>
+  Laad meer resultaten
+</button>

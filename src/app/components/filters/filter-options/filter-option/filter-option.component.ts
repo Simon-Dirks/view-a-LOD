@@ -20,6 +20,8 @@ export class FilterOptionComponent implements OnInit {
   @Input() fieldIds?: string[];
   @Input() values?: FilterOptionValueModel[];
 
+  numShowing = Config.numFilterOptionsToShowDefault;
+
   constructor(
     public filterService: FilterService,
     public search: SearchService,
@@ -54,6 +56,18 @@ export class FilterOptionComponent implements OnInit {
     return ` (${count})`;
   }
 
+  get hasMoreToShow(): boolean {
+    if (!this.values) {
+      return false;
+    }
+    return this.numShowing < this.values.length;
+  }
+
+  onShowMoreClicked() {
+    this.numShowing += Config.additionalFilterOptionsToShowOnClick;
+  }
+
   protected readonly FilterType = FilterType;
   protected readonly formatNumber = formatNumber;
+  protected readonly Config = Config;
 }
