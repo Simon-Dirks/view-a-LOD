@@ -43,7 +43,7 @@ export class NodeImagesComponent
   ngOnInit() {}
 
   ngAfterViewInit() {
-    this.initImageViewer();
+    this.initImageViewer(this.processedImageUrls);
     this._processImageUrls();
   }
 
@@ -54,7 +54,7 @@ export class NodeImagesComponent
     }
   }
 
-  initImageViewer() {
+  initImageViewer(imgUrls: string[]) {
     if (!this.useViewer) {
       return;
     }
@@ -67,7 +67,7 @@ export class NodeImagesComponent
 
     this.destroyImageViewer();
 
-    const sources: any = this.processedImageUrls.map((imgUrl) => {
+    const sources: any = imgUrls.map((imgUrl) => {
       return { type: 'image', url: imgUrl };
     });
 
@@ -83,6 +83,10 @@ export class NodeImagesComponent
         maxZoomPixelRatio: 5,
       }),
     );
+
+    this._imageViewer.addHandler('open-failed', () => {
+      this.initImageViewer([Settings.imageForWhenLoadingFails]);
+    });
 
     this._imageViewer.addHandler('tile-loaded', (event) => {
       if (!this._imageViewer) {
@@ -119,7 +123,7 @@ export class NodeImagesComponent
       this.imageUrls,
       false,
     );
-    this.initImageViewer();
+    this.initImageViewer(this.processedImageUrls);
   }
 
   protected readonly Config = Config;
