@@ -6,6 +6,7 @@ import { ClusterService } from '../../../services/cluster.service';
 import { Settings } from '../../../config/settings';
 import { TypeModel } from '../../../models/type.model';
 import { intersects } from '../../../helpers/util.helper';
+import { ClusterValuesSettingsModel } from '../../../models/settings/cluster-values-settings.model';
 
 @Component({
   selector: 'app-node-types',
@@ -33,8 +34,9 @@ export class NodeTypesComponent {
 
     this.typesClusteredInFilters = [];
     const typeIds = this.types.map((t) => t.id);
+
     for (const [clusterId, filterCluster] of Object.entries(
-      Settings.clustering.filterOptionValues,
+      Settings.clustering.filterOptionValues as ClusterValuesSettingsModel,
     )) {
       const typesAreClustered = intersects(typeIds, filterCluster.valueIds);
       if (typesAreClustered) {
