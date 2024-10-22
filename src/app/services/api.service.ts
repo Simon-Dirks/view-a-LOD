@@ -1,76 +1,71 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {
-  catchError,
-  delay,
-  lastValueFrom,
-  retryWhen,
-  scan,
-  throwError,
-} from 'rxjs';
+import { catchError, lastValueFrom, throwError } from 'rxjs';
 import { PostCacheService } from './cache/post-cache.service';
+import { Settings } from '../config/settings';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
+  private requestQueue: (() => Promise<any>)[] = [];
+  private activeRequests = 0;
+
   constructor(
     private http: HttpClient,
     private postCache: PostCacheService,
   ) {}
 
-  async fetchData<T>(url: string): Promise<T> {
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        return Promise.reject(new Error('Network response was not ok'));
-      }
-      return (await response.json()) as T;
-    } catch (error) {
-      console.error('There was a problem with the API request:', error);
-      throw error;
-    }
-  }
-
-  async postData<T>(
-    url: string,
-    data: any,
-    maxRetries: number = 3,
-    retryInterval: number = 2000,
-  ): Promise<T> {
+  async postData<T>(url: string, data: any): Promise<T> {
     const dataStr = JSON.stringify(data);
     const requestKey = `${url}|||${dataStr}`;
     const requestIsCached = requestKey in this.postCache.cache;
+
     if (requestIsCached) {
       // console.log('Cache:', url, dataStr.slice(0, 200));
       return this.postCache.cache[requestKey];
     }
 
-    const promise = lastValueFrom(
-      this.http.post<T>(url, data).pipe(
-        catchError((error) => {
-          console.error('There was a problem with the API request:', error);
-          return throwError(error);
-        }),
-        retryWhen((errors) =>
-          errors.pipe(
-            scan((retryCount, error) => {
-              if (retryCount >= maxRetries) {
-                throw error;
-              }
-              console.log(`Retrying in ${retryInterval / 1000} seconds...`);
-              return retryCount + 1;
-            }, 0),
-            delay(retryInterval),
-          ),
-        ),
-      ),
-    );
+    return new Promise<T>((resolve, reject) => {
+      const request = async () => {
+        try {
+          const response = await lastValueFrom(
+            this.http.post<T>(url, data).pipe(
+              catchError((error) => {
+                console.error(
+                  'There was a problem with the API request:',
+                  error,
+                );
+                reject(error);
+                return throwError(() => error);
+              }),
+            ),
+          );
+          this.postCache.cache[requestKey] = response;
+          resolve(response);
+        } catch (error) {
+          reject(error);
+        } finally {
+          this.activeRequests--;
+          this._processQueue();
+        }
+      };
 
-    promise.then((response) => {
-      this.postCache.cache[requestKey] = response;
+      this.requestQueue.push(request);
+      this._processQueue();
     });
+  }
 
-    return promise;
+  private _processQueue() {
+    while (
+      this.activeRequests < Settings.maxNumParallelRequests &&
+      this.requestQueue.length > 0
+    ) {
+      const nextRequest = this.requestQueue.shift();
+      if (nextRequest) {
+        this.activeRequests++;
+        void nextRequest();
+      }
+    }
   }
 }

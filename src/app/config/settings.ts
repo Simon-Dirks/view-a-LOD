@@ -151,6 +151,7 @@ export const Settings = {
       ],
     },
   },
+  maxNumParallelRequests: 4, // 4 SPARQL workers max for Triply
   sorting: {
     default: 'relevance',
     options: {
