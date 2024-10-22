@@ -105,10 +105,6 @@ const peopleFilterOptionValueIds = [
 ];
 
 export const Settings = {
-  matomo: {
-    siteId: '',
-    trackerUrl: '',
-  },
   endpoints: {
     hua: {
       label: 'Het Utrechts Archief',
@@ -472,5 +468,9 @@ export const Settings = {
     'https://data.cbg.nl/pico-terms#': 'picot:',
     'http://www.nationaalarchief.nl/mdto-shacl#': 'mdto-sh:',
     'http://www.w3.org/ns/shacl#': 'sh:',
+  },
+  matomo: {
+    siteId: '',
+    trackerUrl: '',
   },
 };
