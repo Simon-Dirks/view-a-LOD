@@ -60,19 +60,6 @@
       </ng-container>
     </div>
 
-    <div *ngIf="!details.showing.value">
-      <button
-        class="btn btn-primary"
-        (click)="loadMore()"
-        [disabled]="search.isLoading.value"
-        *ngIf="search.hasMoreResultsToLoad"
-      >
-        <span
-          class="loading loading-spinner loading-xs"
-          *ngIf="search.isLoading.value"
-        ></span>
-        Laad meer resultaten
-      </button>
-    </div>
+    <app-load-more-search-results-button *ngIf="!details.showing.value" />
   </div>
 </app-view-container>

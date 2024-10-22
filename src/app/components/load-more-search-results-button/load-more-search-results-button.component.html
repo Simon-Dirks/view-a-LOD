@@ -1,0 +1,12 @@
+<button
+  class="btn btn-primary"
+  (click)="loadMore()"
+  [disabled]="search.isLoading.value"
+  *ngIf="search.hasMoreResultsToLoad"
+>
+  <span
+    class="loading loading-spinner loading-xs"
+    *ngIf="search.isLoading.value"
+  ></span>
+  Laad meer resultaten
+</button>

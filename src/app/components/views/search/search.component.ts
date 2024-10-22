@@ -38,6 +38,7 @@ import { DetailsService } from '../../../services/details.service';
 import { HomeIntroBelowSearchComponent } from '../../home-intro/home-intro-below-search/home-intro-below-search.component';
 import { DetailsComponent } from '../details/details.component';
 import { SortSelectComponent } from '../../sort-select/sort-select.component';
+import { LoadMoreSearchResultsButtonComponent } from '../../load-more-search-results-button/load-more-search-results-button.component';
 
 @Component({
   selector: 'app-search',
@@ -65,6 +66,7 @@ import { SortSelectComponent } from '../../sort-select/sort-select.component';
     HomeIntroBelowSearchComponent,
     DetailsComponent,
     SortSelectComponent,
+    LoadMoreSearchResultsButtonComponent,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
@@ -85,12 +87,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.scroll.initScrollContainer(this.scrollContainer);
-  }
-
-  loadMore() {
-    if (!this.search.isLoading.value) {
-      void this.search.execute();
-    }
   }
 
   get numberOfHitsStr(): string {
