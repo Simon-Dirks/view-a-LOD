@@ -1,5 +1,8 @@
+import { FilterType } from './filter.model';
+
 export interface UrlFilterOptionsModel {
   [filterId: string]: {
+    type: FilterType;
     fieldIds: string[];
     valueIds: string[];
   };

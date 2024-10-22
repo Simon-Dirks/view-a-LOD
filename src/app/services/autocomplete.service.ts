@@ -23,6 +23,10 @@ export class AutocompleteService {
     this._initDebouncedOptionsRetrieval();
   }
 
+  clearOptions() {
+    this.options.next([]);
+  }
+
   private _initDebouncedOptionsRetrieval() {
     this.searchSubject
       .pipe(debounceTime(300))

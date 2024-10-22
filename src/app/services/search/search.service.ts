@@ -20,6 +20,8 @@ import { ActivatedRoute } from '@angular/router';
 import { DetailsService } from '../details.service';
 import { SortService } from '../sort.service';
 import { SortOptionModel } from '../../models/settings/sort-option.model';
+import { Config } from '../../config/config';
+import { UrlService } from '../url.service';
 
 @Injectable({
   providedIn: 'root',
@@ -49,11 +51,12 @@ export class SearchService {
     private route: ActivatedRoute,
     private details: DetailsService,
     private sort: SortService,
+    private url: UrlService,
   ) {
-    this.initSearchOnQueryChange();
+    this.initSearchOnUrlChange();
     this.initSearchOnFilterChange();
+    this.initSearchOnEndpointChange();
     this.initSearchOnSortChange();
-    void this.execute(true);
   }
 
   private _updateNumberOfHitsFromSearchResponses(
@@ -124,34 +127,49 @@ export class SearchService {
 
   initSearchOnFilterChange() {
     this.filters.searchTrigger.subscribe((s) => {
+      if (s.clearFilters) {
+        console.log('-- Searching without filters to retrieve options');
+      } else {
+        console.log('-- Searching with re-applied filters');
+      }
       void this.execute(true, s.clearFilters);
     });
+  }
+
+  initSearchOnEndpointChange() {
     this.endpoints.enabledIds.subscribe((_) => {
+      console.log('Searching because of updated endpoints...');
       void this.execute(true);
     });
   }
 
   initSearchOnSortChange() {
     this.sort.current.subscribe((sortOption: SortOptionModel | undefined) => {
+      console.log('Searching because of sort update...', sortOption);
       void this.execute(true);
     });
   }
 
-  initSearchOnQueryChange() {
+  initSearchOnUrlChange() {
     this.route.queryParams.subscribe((queryParams) => {
+      if (this.url.ignoreQueryParamChange) {
+        console.log('Ignoring query param change');
+        return;
+      }
+
       const navigatedToDetails = this.details.isShowing();
       if (navigatedToDetails) {
         return;
       }
 
-      const queryStr = queryParams['q'];
+      const queryStr = queryParams[Config.searchParam];
       const queryStrChanged = queryStr !== this.queryStr;
-      if (!queryStrChanged) {
+      if (queryStrChanged) {
+        this.queryStr = queryStr;
+        console.log('Searching because of query string update');
+        void this.execute(true);
         return;
       }
-
-      this.queryStr = queryStr;
-      void this.execute(true);
     });
   }
 
@@ -186,7 +204,9 @@ export class SearchService {
       this.hasDoneInitialSearch = true;
     }
 
-    console.log('Searching for:', this.queryStr);
+    console.log(
+      `Searching for: ${this.queryStr}. Clearing results: ${clearResults}, clearing filters: ${clearFilters}`,
+    );
     if (clearResults) {
       this.clearResults();
     }

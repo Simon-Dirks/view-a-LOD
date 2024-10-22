@@ -4,10 +4,12 @@ import { NgIcon } from '@ng-icons/core';
 import { JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { SearchService } from '../../services/search/search.service';
 import { Settings } from '../../config/settings';
-import { NavigationExtras, Router, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ElasticService } from '../../services/elastic.service';
 import { DetailsService } from '../../services/details.service';
 import { AutocompleteService } from '../../services/autocomplete.service';
+import { UrlService } from '../../services/url.service';
+import { Config } from '../../config/config';
 
 @Component({
   selector: 'app-search-input',
@@ -25,6 +27,7 @@ export class SearchInputComponent implements OnInit, AfterViewInit {
     public elastic: ElasticService,
     public details: DetailsService,
     public autocomplete: AutocompleteService,
+    public url: UrlService,
   ) {}
 
   ngOnInit() {}
@@ -40,13 +43,12 @@ export class SearchInputComponent implements OnInit, AfterViewInit {
     //   return;
     // }
 
-    this.autocomplete.options.next([]);
+    this.autocomplete.clearOptions();
 
-    const queryParams: NavigationExtras = {
-      queryParams: { q: this.searchInput },
-    };
-
-    await this.router.navigate(['search'], queryParams);
+    await this.router.navigate([], {
+      queryParams: { [Config.searchParam]: this.searchInput },
+      queryParamsHandling: 'merge',
+    });
   }
 
   async onSearchInputChange() {

@@ -1,11 +1,48 @@
 import { Injectable } from '@angular/core';
 import { DetailsService } from './details.service';
+import { FilterModel } from '../models/filter.model';
+import { Config } from '../config/config';
+import { FilterService } from './search/filter.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UrlService {
-  constructor(private details: DetailsService) {}
+  ignoreQueryParamChange = false;
+
+  constructor(
+    private details: DetailsService,
+    private filters: FilterService,
+    private router: Router,
+  ) {
+    this._initUpdateUrlOnFilterChange();
+  }
+
+  private _initUpdateUrlOnFilterChange() {
+    this.filters.enabled.subscribe((enabledFilters) => {
+      void this.updateUrlToReflectFilters(enabledFilters);
+    });
+  }
+
+  async updateUrlToReflectFilters(filters: FilterModel[]) {
+    const enabledFiltersParam = JSON.stringify(
+      this.filters.convertToUrlFormat(filters),
+    );
+
+    console.log(
+      'Updating URL to reflect filters',
+      enabledFiltersParam,
+      filters,
+    );
+
+    this.ignoreQueryParamChange = true;
+    await this.router.navigate([], {
+      queryParams: { [Config.filtersParam]: enabledFiltersParam },
+      queryParamsHandling: 'merge',
+    });
+    this.ignoreQueryParamChange = false;
+  }
 
   addParamToUrl(url: string, paramName: string, paramValue: string): string {
     try {
@@ -13,14 +50,8 @@ export class UrlService {
       urlObj.searchParams.set(paramName, paramValue);
       return urlObj.toString();
     } catch (error) {
-      try {
-        const relativeUrlObj = new URL(url, window.location.origin);
-        relativeUrlObj.searchParams.set(paramName, paramValue);
-        return relativeUrlObj.pathname + relativeUrlObj.search;
-      } catch (innerError) {
-        console.error('Invalid URL:', innerError);
-        return url;
-      }
+      console.error('Invalid URL:', error);
+      return url;
     }
   }
 

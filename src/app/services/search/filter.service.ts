@@ -18,7 +18,6 @@ import { DataService } from '../data.service';
 import { Settings } from '../../config/settings';
 import { ClusterService } from '../cluster.service';
 import { Router } from '@angular/router';
-import { UrlService } from '../url.service';
 
 interface SearchTriggerModel {
   clearFilters: boolean;
@@ -43,24 +42,50 @@ export class FilterService {
     public data: DataService,
     public clusters: ClusterService,
     public router: Router,
-    public url: UrlService,
   ) {
     this._initRestorePreviousFiltersOnOptionsChange();
   }
 
-  private _convertEnabledToUrlFormat(
-    enabled: FilterModel[],
-  ): UrlFilterOptionsModel {
+  private _convertFromUrlFormat(
+    urlFilters: UrlFilterOptionsModel,
+  ): FilterModel[] {
+    const filters: FilterModel[] = [];
+
+    for (const [filterId, { type, valueIds, fieldIds }] of Object.entries(
+      urlFilters,
+    )) {
+      for (const fieldId of fieldIds) {
+        for (const valueId of valueIds) {
+          const filter: FilterModel = {
+            filterId,
+            fieldId,
+            valueId,
+            type,
+          };
+          filters.push(filter);
+        }
+      }
+    }
+
+    return filters;
+  }
+
+  convertToUrlFormat(filters: FilterModel[]): UrlFilterOptionsModel {
     const enabledFiltersUrlFormat: UrlFilterOptionsModel = {};
 
-    for (const { filterId, fieldId, valueId } of enabled) {
+    for (const { filterId, fieldId, valueId } of filters) {
       if (!filterId || !fieldId || !valueId) {
         console.warn('Filter is missing ID(s)');
         continue;
       }
 
       if (!enabledFiltersUrlFormat[filterId]) {
-        enabledFiltersUrlFormat[filterId] = { fieldIds: [], valueIds: [] };
+        // TODO: Support other filter types as well (only field or only value)
+        enabledFiltersUrlFormat[filterId] = {
+          type: FilterType.FieldAndValue,
+          fieldIds: [],
+          valueIds: [],
+        };
       }
 
       const filterData = enabledFiltersUrlFormat[filterId];
@@ -165,14 +190,25 @@ export class FilterService {
     const shouldUpdateEnabledFilters =
       JSON.stringify(restoredFilters) !== JSON.stringify(this.enabled.value);
     if (shouldUpdateEnabledFilters) {
-      // console.log(
-      //   'Restoring previously applied filters and triggering new search:',
-      //   this.prevEnabled,
-      // );
+      console.log(
+        'Restoring previously applied filters and triggering new search with these filters:',
+        restoredFilters,
+        this.enabled.value,
+      );
       this.enabled.next(restoredFilters);
       this.searchTrigger.emit({ clearFilters: false });
     }
   }
+
+  // TODO
+  // onUpdateFromURLParam(filtersParam: string) {
+  //   console.log('Update filters based on URL param:', filtersParam);
+  //   const urlFilters: UrlFilterOptionsModel = JSON.parse(filtersParam);
+  //   const filters: FilterModel[] = this._convertFromUrlFormat(urlFilters);
+  //
+  //   this.enabled.next(filters);
+  //   this.searchTrigger.emit({ clearFilters: true });
+  // }
 
   async updateFilterOptionValues(query: string) {
     const allFilterFieldIds: string[] = Object.values(
@@ -233,9 +269,9 @@ export class FilterService {
   }
 
   toggleMultiple(filters: FilterModel[]) {
-    const enabledFilters = this.enabled.value;
+    const updatedEnabledFilters = this.enabled.value;
     for (const filter of filters) {
-      const existingFilterIdx = enabledFilters.findIndex(
+      const existingFilterIdx = updatedEnabledFilters.findIndex(
         (f) =>
           f.valueId === filter.valueId &&
           f.fieldId === filter.fieldId &&
@@ -243,28 +279,17 @@ export class FilterService {
       );
       const filterAlreadyExists = existingFilterIdx > -1;
       if (filterAlreadyExists) {
-        enabledFilters.splice(existingFilterIdx, 1);
+        updatedEnabledFilters.splice(existingFilterIdx, 1);
       } else {
-        enabledFilters.push(filter);
+        updatedEnabledFilters.push(filter);
       }
     }
 
-    const filtersParam = JSON.stringify(
-      this._convertEnabledToUrlFormat(enabledFilters),
+    console.log(
+      'Toggled filter, triggering new search (where filters will be temporarily cleared)',
     );
-
-    const urlWithFiltersParam = this.url.addParamToUrl(
-      this.router.url,
-      'filters',
-      filtersParam,
-    );
-    void this.router.navigateByUrl(urlWithFiltersParam);
-
-    // this.enabled.next(enabledFilters);
-    // console.log(
-    //   'Toggled filter, triggering new search (where filters will be temporarily cleared)',
-    // );
-    // this.searchTrigger.emit({ clearFilters: true });
+    this.enabled.next(updatedEnabledFilters);
+    this.searchTrigger.emit({ clearFilters: true });
   }
 
   toggle(filter: FilterModel) {
@@ -319,10 +344,10 @@ export class FilterService {
 
   clearEnabled() {
     this.prevEnabled = this.enabled.value;
-    // console.log(
-    //   'Clearing enabled filters, saved current filters',
-    //   this.prevEnabled,
-    // );
+    console.log(
+      'Clearing enabled filters, saved current filters',
+      this.prevEnabled,
+    );
     this.enabled.next([]);
   }
 }

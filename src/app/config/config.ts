@@ -9,4 +9,6 @@ export const Config = {
   maxImagesToShow: 10,
   elasticTopHitsMax: 100, // Max 100
   detailsUrl: 'details',
+  searchParam: 'search',
+  filtersParam: 'filters',
 };
