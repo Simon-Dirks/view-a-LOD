@@ -9,6 +9,7 @@ import { FilterCountComponent } from './filter-count/filter-count.component';
 import { SortSelectComponent } from '../../sort-select/sort-select.component';
 import { Settings } from '../../../config/settings';
 import { FilterPanelLocation } from '../../../models/settings/filter-panel-location.enum';
+import { SettingsService } from '../../../services/settings.service';
 
 @Component({
   selector: 'app-filter-options',
@@ -30,7 +31,10 @@ import { FilterPanelLocation } from '../../../models/settings/filter-panel-locat
 export class FilterOptionsComponent {
   hasOptionsToShow = false;
 
-  constructor(public filters: FilterService) {}
+  constructor(
+    public filters: FilterService,
+    public settings: SettingsService,
+  ) {}
 
   ngOnInit() {
     this.initHasOptionsToShow();
