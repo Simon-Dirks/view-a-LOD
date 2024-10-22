@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { featherSearch, featherX } from '@ng-icons/feather-icons';
 import { NgIcon } from '@ng-icons/core';
 import { NgIf } from '@angular/common';
+import { UrlService } from '../../services/url.service';
 
 export enum HeaderView {
   ShowingColofon,
@@ -19,13 +20,22 @@ export enum HeaderView {
 export class HeaderComponent {
   @Input() view: HeaderView = HeaderView.ShowingSearch;
 
-  constructor(public router: Router) {}
+  constructor(
+    public router: Router,
+    public url: UrlService,
+  ) {}
 
   get buttonUrl() {
     if (this.view === HeaderView.ShowingSearch) {
       return 'colofon';
     }
     return '';
+  }
+
+  async onButtonClicked(url: string) {
+    this.url.ignoreQueryParamChange = true;
+    await this.router.navigateByUrl(url);
+    this.url.ignoreQueryParamChange = false;
   }
 
   protected readonly featherSearch = featherSearch;

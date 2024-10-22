@@ -1,7 +1,7 @@
 <div
   class="bg-neutral rounded-b-lg py-3 px-6 text-white w-64 sm:w-96 mx-auto mb-8 flex items-center"
 >
-  <button class="text-left" (click)="router.navigateByUrl('')">
+  <button class="text-left" (click)="onButtonClicked('')">
     <!--    <div class="text-sm sm:text-base">Prototype Zoekomgeving</div>-->
     <div class="font-semibold text-lg sm:text-2xl mb-2">Kasteel Amerongen</div>
   </button>
@@ -9,7 +9,7 @@
   <div class="flex-grow">
     <button
       class="btn btn-primary btn-xs rounded-full text-center inline-block w-9 sm:w-10 h-9 sm:h-10 float-right"
-      (click)="router.navigateByUrl(buttonUrl)"
+      (click)="onButtonClicked(buttonUrl)"
       [attr.aria-label]="
         view === HeaderView.ShowingColofon
           ? 'Ga naar zoeken'
