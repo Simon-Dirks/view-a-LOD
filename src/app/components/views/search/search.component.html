@@ -16,45 +16,70 @@
   <app-home-intro-below-search *ngIf="shouldShowHomeIntro" />
 
   <div
-    class="w-full px-4 pt-2"
-    *ngIf="Settings.filtering.showFilterPanel"
-    [ngClass]="[shouldShowHomeIntro ? 'hidden' : '']"
+    class=""
+    [ngClass]="[
+      settings.showFilterPanelOnSide()
+        ? 'flex flex-grow overflow-y-hidden flex-col'
+        : '',
+      Settings.filtering.filterPanelLocation == FilterPanelLocation.Left
+        ? 'lg:flex-row'
+        : '',
+      Settings.filtering.filterPanelLocation == FilterPanelLocation.Right
+        ? 'lg:flex-row-reverse'
+        : ''
+    ]"
   >
-    <app-filter-options />
-  </div>
-
-  <div
-    class="p-4 overflow-y-scroll flex-grow scroll-smooth"
-    [ngClass]="[shouldShowHomeIntro ? 'hidden' : '']"
-    #scrollContainer
-  >
-    <app-details *ngIf="details.showing.value" />
-
     <div
-      [ngClass]="[details.showing.value ? 'h-0 invisible overflow-hidden' : '']"
+      class="px-4 pt-2"
+      *ngIf="Settings.filtering.showFilterPanel"
+      [ngClass]="[
+        shouldShowHomeIntro || details.showing.value ? 'hidden' : '',
+        settings.showFilterPanelOnSide()
+          ? 'w-full lg:w-1/4 lg:overflow-y-auto'
+          : ''
+      ]"
     >
-      <app-search-hits-counter />
-
-      <!--    TODO: Bring back masonry grid-->
-      <!--    <app-nodes-masonry-grid-->
-      <!--      [nodes]="search.results.value.nodes"-->
-      <!--      *ngIf="viewModes.current.value === ViewMode.Grid"-->
-      <!--      class="w-full"-->
-      <!--    />-->
-
-      <app-nodes-grid
-        [nodes]="search.results.value.nodes"
-        *ngIf="viewModes.current.value === ViewMode.Grid"
-        class="w-full"
-      />
-
-      <ng-container *ngIf="viewModes.current.value === ViewMode.List">
-        <ng-container *ngFor="let node of search.results.value?.nodes">
-          <app-node [node]="node"></app-node>
-        </ng-container>
-      </ng-container>
+      <app-filter-options />
     </div>
 
-    <app-load-more-search-results-button *ngIf="!details.showing.value" />
+    <div
+      class="p-4 overflow-y-scroll flex-grow scroll-smooth"
+      [ngClass]="[
+        shouldShowHomeIntro ? 'hidden' : '',
+        settings.showFilterPanelOnSide() ? 'w-full lg:w-3/4' : ''
+      ]"
+      #scrollContainer
+    >
+      <app-details *ngIf="details.showing.value" />
+
+      <div
+        [ngClass]="[
+          details.showing.value ? 'h-0 invisible overflow-hidden' : ''
+        ]"
+      >
+        <app-search-hits-counter />
+
+        <!--    TODO: Bring back masonry grid-->
+        <!--    <app-nodes-masonry-grid-->
+        <!--      [nodes]="search.results.value.nodes"-->
+        <!--      *ngIf="viewModes.current.value === ViewMode.Grid"-->
+        <!--      class="w-full"-->
+        <!--    />-->
+
+        <app-nodes-grid
+          [nodes]="search.results.value.nodes"
+          *ngIf="viewModes.current.value === ViewMode.Grid"
+          class="w-full"
+        />
+
+        <ng-container *ngIf="viewModes.current.value === ViewMode.List">
+          <ng-container *ngFor="let node of search.results.value?.nodes">
+            <app-node [node]="node"></app-node>
+          </ng-container>
+        </ng-container>
+      </div>
+
+      <app-load-more-search-results-button *ngIf="!details.showing.value" />
+    </div>
   </div>
 </app-view-container>

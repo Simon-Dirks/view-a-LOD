@@ -39,6 +39,8 @@ import { DetailsComponent } from '../details/details.component';
 import { SortSelectComponent } from '../../sort-select/sort-select.component';
 import { LoadMoreSearchResultsButtonComponent } from '../../search/load-more-search-results-button/load-more-search-results-button.component';
 import { SearchHitsCounterComponent } from '../../search/search-hits-counter/search-hits-counter.component';
+import { FilterPanelLocation } from '../../../models/settings/filter-panel-location.enum';
+import { SettingsService } from '../../../services/settings.service';
 
 @Component({
   selector: 'app-search',
@@ -82,6 +84,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     public nodes: NodeService,
     public scroll: ScrollService,
     public details: DetailsService,
+    public settings: SettingsService,
   ) {}
 
   ngOnInit() {}
@@ -104,4 +107,5 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   protected readonly ViewMode = ViewMode;
   protected readonly Settings = Settings;
+  protected readonly FilterPanelLocation = FilterPanelLocation;
 }

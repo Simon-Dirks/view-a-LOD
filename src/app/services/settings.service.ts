@@ -9,12 +9,20 @@ import {
   PredicateVisibilityEntries,
   PredicateVisibilitySettings,
 } from '../models/settings/predicate-visibility-settings.model';
+import { FilterPanelLocation } from '../models/settings/filter-panel-location.enum';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SettingsService {
   constructor(public viewModes: ViewModeService) {}
+
+  showFilterPanelOnSide(): boolean {
+    return (
+      Settings.filtering.filterPanelLocation == FilterPanelLocation.Left ||
+      Settings.filtering.filterPanelLocation == FilterPanelLocation.Right
+    );
+  }
 
   hasViewModeSetting(viewModeSetting: ViewModeSetting): boolean {
     const currentViewMode: ViewMode = this.viewModes.current.value;

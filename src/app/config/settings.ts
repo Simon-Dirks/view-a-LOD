@@ -3,6 +3,7 @@ import { ViewModeSetting } from '../models/settings/view-mode-setting.enum';
 import { PredicateVisibility } from '../models/settings/predicate-visibility-settings.model';
 import { RenderMode } from '../models/settings/render-component-settings.type';
 import { SortOrder } from '../models/settings/sort-order.enum';
+import { FilterPanelLocation } from '../models/settings/filter-panel-location.enum';
 
 export const imagePredicates: string[] = [
   'http://xmlns.com/foaf/0.1/depiction',
@@ -172,6 +173,7 @@ export const Settings = {
   },
   filtering: {
     showFilterPanel: true,
+    filterPanelLocation: FilterPanelLocation.Left,
     minNumOfValuesForFilterOptionToAppear: 1,
     filterOptions: {
       type: {
