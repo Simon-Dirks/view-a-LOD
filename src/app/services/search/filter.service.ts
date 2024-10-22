@@ -17,6 +17,8 @@ import { ElasticService } from '../elastic.service';
 import { DataService } from '../data.service';
 import { Settings } from '../../config/settings';
 import { ClusterService } from '../cluster.service';
+import { Router } from '@angular/router';
+import { UrlService } from '../url.service';
 
 interface SearchTriggerModel {
   clearFilters: boolean;
@@ -40,6 +42,8 @@ export class FilterService {
     public elastic: ElasticService,
     public data: DataService,
     public clusters: ClusterService,
+    public router: Router,
+    public url: UrlService,
   ) {
     this._initRestorePreviousFiltersOnOptionsChange();
   }
@@ -69,7 +73,6 @@ export class FilterService {
       }
     }
 
-    console.log(encodeURIComponent(JSON.stringify(enabledFiltersUrlFormat)));
     return enabledFiltersUrlFormat;
   }
 
@@ -246,11 +249,22 @@ export class FilterService {
       }
     }
 
-    this.enabled.next(enabledFilters);
+    const filtersParam = JSON.stringify(
+      this._convertEnabledToUrlFormat(enabledFilters),
+    );
+
+    const urlWithFiltersParam = this.url.addParamToUrl(
+      this.router.url,
+      'filters',
+      filtersParam,
+    );
+    void this.router.navigateByUrl(urlWithFiltersParam);
+
+    // this.enabled.next(enabledFilters);
     // console.log(
     //   'Toggled filter, triggering new search (where filters will be temporarily cleared)',
     // );
-    this.searchTrigger.emit({ clearFilters: true });
+    // this.searchTrigger.emit({ clearFilters: true });
   }
 
   toggle(filter: FilterModel) {

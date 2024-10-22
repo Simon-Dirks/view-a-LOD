@@ -7,18 +7,20 @@ import { DetailsService } from './details.service';
 export class UrlService {
   constructor(private details: DetailsService) {}
 
-  private _addParamToUrl(
-    url: string,
-    paramName: string,
-    paramValue: string,
-  ): string {
+  addParamToUrl(url: string, paramName: string, paramValue: string): string {
     try {
       const urlObj = new URL(url);
       urlObj.searchParams.set(paramName, paramValue);
       return urlObj.toString();
     } catch (error) {
-      console.error('Invalid URL:', error);
-      return url;
+      try {
+        const relativeUrlObj = new URL(url, window.location.origin);
+        relativeUrlObj.searchParams.set(paramName, paramValue);
+        return relativeUrlObj.pathname + relativeUrlObj.search;
+      } catch (innerError) {
+        console.error('Invalid URL:', innerError);
+        return url;
+      }
     }
   }
 
@@ -32,7 +34,7 @@ export class UrlService {
     }
 
     if (url.includes('opslag.razu.nl')) {
-      url = this._addParamToUrl(
+      url = this.addParamToUrl(
         url,
         'token',
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3MTE3MDY0NjQsIm5iZiI6MTcxMTcwNjQ2NCwiZXhwIjoxNzQzMjQyNDY0fQ.ViNS0wWml0EwkF0z75G4cNZxKupYQMLiVB_PQ5kNQm8',
