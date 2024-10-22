@@ -5,6 +5,7 @@ import {
   FilterOptionModel,
   FilterOptionsModel,
   FilterOptionValueModel,
+  UrlFilterOptionsModel,
 } from '../../models/filter-option.model';
 import { SearchResponse } from '@elastic/elasticsearch/lib/api/types';
 import { FieldDocCountsModel } from '../../models/elastic/field-doc-counts.model';
@@ -41,6 +42,35 @@ export class FilterService {
     public clusters: ClusterService,
   ) {
     this._initRestorePreviousFiltersOnOptionsChange();
+  }
+
+  private _convertEnabledToUrlFormat(
+    enabled: FilterModel[],
+  ): UrlFilterOptionsModel {
+    const enabledFiltersUrlFormat: UrlFilterOptionsModel = {};
+
+    for (const { filterId, fieldId, valueId } of enabled) {
+      if (!filterId || !fieldId || !valueId) {
+        console.warn('Filter is missing ID(s)');
+        continue;
+      }
+
+      if (!enabledFiltersUrlFormat[filterId]) {
+        enabledFiltersUrlFormat[filterId] = { fieldIds: [], valueIds: [] };
+      }
+
+      const filterData = enabledFiltersUrlFormat[filterId];
+      if (!filterData.fieldIds.includes(fieldId)) {
+        filterData.fieldIds.push(fieldId);
+      }
+
+      if (!filterData.valueIds.includes(valueId)) {
+        filterData.valueIds.push(valueId);
+      }
+    }
+
+    console.log(encodeURIComponent(JSON.stringify(enabledFiltersUrlFormat)));
+    return enabledFiltersUrlFormat;
   }
 
   private _getFieldDocCountsFromResponses(

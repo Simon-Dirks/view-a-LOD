@@ -1,3 +1,10 @@
+export interface UrlFilterOptionsModel {
+  [filterId: string]: {
+    fieldIds: string[];
+    valueIds: string[];
+  };
+}
+
 export interface FilterOptionsModel {
   [filterId: string]: FilterOptionModel;
 }
