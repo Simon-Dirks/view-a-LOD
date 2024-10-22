@@ -4,6 +4,7 @@ import { FilterModel } from '../models/filter.model';
 import { Config } from '../config/config';
 import { FilterService } from './search/filter.service';
 import { Router } from '@angular/router';
+import { skip } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +21,8 @@ export class UrlService {
   }
 
   private _initUpdateUrlOnFilterChange() {
-    this.filters.enabled.subscribe((enabledFilters) => {
+    // Skip URL change for initial (empty) enabled filters, as well as filters loaded from URL
+    this.filters.enabled.pipe(skip(2)).subscribe((enabledFilters) => {
       void this.updateUrlToReflectFilters(enabledFilters);
     });
   }
@@ -32,7 +34,7 @@ export class UrlService {
 
     console.log(
       'Updating URL to reflect filters',
-      enabledFiltersParam,
+      enabledFiltersParam.slice(0, 100) + '...',
       filters,
     );
 

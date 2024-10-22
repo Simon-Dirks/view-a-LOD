@@ -94,6 +94,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   get shouldShowHomeIntro(): boolean {
+    // TODO: Better way to determine whether or not to show home
     if (this.router.url === '' || this.router.url === '/') {
       return true;
     }

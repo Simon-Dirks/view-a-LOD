@@ -200,15 +200,17 @@ export class FilterService {
     }
   }
 
-  // TODO
-  // onUpdateFromURLParam(filtersParam: string) {
-  //   console.log('Update filters based on URL param:', filtersParam);
-  //   const urlFilters: UrlFilterOptionsModel = JSON.parse(filtersParam);
-  //   const filters: FilterModel[] = this._convertFromUrlFormat(urlFilters);
-  //
-  //   this.enabled.next(filters);
-  //   this.searchTrigger.emit({ clearFilters: true });
-  // }
+  onUpdateFromURLParam(filtersParam: string) {
+    console.log(
+      'Update filters based on URL param:',
+      filtersParam.slice(0, 100),
+      '...',
+    );
+    const urlFilters: UrlFilterOptionsModel = JSON.parse(filtersParam);
+    const filters: FilterModel[] = this._convertFromUrlFormat(urlFilters);
+
+    this.enabled.next(filters);
+  }
 
   async updateFilterOptionValues(query: string) {
     const allFilterFieldIds: string[] = Object.values(

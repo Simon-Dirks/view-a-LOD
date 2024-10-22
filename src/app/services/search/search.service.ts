@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, skip, take } from 'rxjs';
 import { SearchResultsModel } from '../../models/elastic/search-results.model';
 import { ElasticService } from '../elastic.service';
 import { NodeModel } from '../../models/node.model';
@@ -16,7 +16,7 @@ import {
 import { DataService } from '../data.service';
 import { EndpointService } from '../endpoint.service';
 import { ElasticEndpointSearchResponse } from '../../models/elastic/elastic-endpoint-search-response.type';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DetailsService } from '../details.service';
 import { SortService } from '../sort.service';
 import { SortOptionModel } from '../../models/settings/sort-option.model';
@@ -42,6 +42,7 @@ export class SearchService {
   private _searchQueryId = 0;
 
   constructor(
+    private url: UrlService,
     private elastic: ElasticService,
     private hits: SearchHitsService,
     private nodes: NodeService,
@@ -51,7 +52,7 @@ export class SearchService {
     private route: ActivatedRoute,
     private details: DetailsService,
     private sort: SortService,
-    private url: UrlService,
+    private router: Router,
   ) {
     this.initSearchOnUrlChange();
     this.initSearchOnFilterChange();
@@ -137,39 +138,54 @@ export class SearchService {
   }
 
   initSearchOnEndpointChange() {
-    this.endpoints.enabledIds.subscribe((_) => {
+    this.endpoints.enabledIds.pipe(skip(1)).subscribe((_) => {
       console.log('Searching because of updated endpoints...');
       void this.execute(true);
     });
   }
 
   initSearchOnSortChange() {
-    this.sort.current.subscribe((sortOption: SortOptionModel | undefined) => {
-      console.log('Searching because of sort update...', sortOption);
+    this.sort.current
+      .pipe(skip(1))
+      .subscribe((sortOption: SortOptionModel | undefined) => {
+        console.log('Searching because of sort update...', sortOption);
+        void this.execute(true);
+      });
+  }
+
+  private _searchOnUrlChange(queryParams: Params) {
+    if (this.url.ignoreQueryParamChange) {
+      console.log('Ignoring query param change');
+      return;
+    }
+
+    const navigatedToDetails = this.details.isShowing();
+    if (navigatedToDetails) {
+      return;
+    }
+
+    const queryStr = queryParams[Config.searchParam];
+    const queryStrChanged = queryStr !== this.queryStr;
+    if (queryStrChanged) {
+      this.queryStr = queryStr;
+      console.log('Searching because of query string update');
       void this.execute(true);
-    });
+      return;
+    }
   }
 
   initSearchOnUrlChange() {
-    this.route.queryParams.subscribe((queryParams) => {
-      if (this.url.ignoreQueryParamChange) {
-        console.log('Ignoring query param change');
-        return;
+    this.route.queryParams.pipe(take(1)).subscribe((queryParams) => {
+      console.log('INITIAL LOAD');
+      const filtersParam: string | undefined = queryParams[Config.filtersParam];
+      if (filtersParam) {
+        this.filters.onUpdateFromURLParam(filtersParam);
       }
+      setTimeout(() => this._searchOnUrlChange(queryParams));
+    });
 
-      const navigatedToDetails = this.details.isShowing();
-      if (navigatedToDetails) {
-        return;
-      }
-
-      const queryStr = queryParams[Config.searchParam];
-      const queryStrChanged = queryStr !== this.queryStr;
-      if (queryStrChanged) {
-        this.queryStr = queryStr;
-        console.log('Searching because of query string update');
-        void this.execute(true);
-        return;
-      }
+    this.route.queryParams.pipe(skip(1)).subscribe((queryParams: Params) => {
+      this._searchOnUrlChange(queryParams);
     });
   }
 
