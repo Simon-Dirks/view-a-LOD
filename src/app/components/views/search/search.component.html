@@ -10,7 +10,7 @@
       <!--      <app-view-mode-select class="flex-grow-0 ml-8" />-->
     </div>
 
-    <app-active-filters />
+    <!--    <app-active-filters />-->
   </div>
 
   <app-home-intro-below-search *ngIf="shouldShowHomeIntro" />
@@ -33,13 +33,8 @@
     <div
       [ngClass]="[details.showing.value ? 'h-0 invisible overflow-hidden' : '']"
     >
-      <p class="text-xl mb-4 font-bold">
-        <span *ngIf="search.isLoading.value" class="loading loading-spinner">
-        </span>
-        <span *ngIf="!search.isLoading.value && !details.showing.value">{{
-          numberOfHitsStr
-        }}</span>
-      </p>
+      <app-search-hits-counter />
+
       <!--    TODO: Bring back masonry grid-->
       <!--    <app-nodes-masonry-grid-->
       <!--      [nodes]="search.results.value.nodes"-->

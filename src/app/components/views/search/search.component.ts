@@ -26,7 +26,6 @@ import { NodesGridComponent } from '../../nodes-grid/nodes-grid.component';
 import { FilterOptionsComponent } from '../../filters/filter-options/filter-options.component';
 import { Settings } from '../../../config/settings';
 import { EndpointsComponent } from '../../filters/endpoints/endpoints.component';
-import { formatNumber } from '../../../helpers/util.helper';
 import { HeaderComponent } from '../../header/header.component';
 import { ViewContainerComponent } from '../view-container/view-container.component';
 import { HomeIntroComponent } from '../../home-intro/home-intro.component';
@@ -38,7 +37,8 @@ import { DetailsService } from '../../../services/details.service';
 import { HomeIntroBelowSearchComponent } from '../../home-intro/home-intro-below-search/home-intro-below-search.component';
 import { DetailsComponent } from '../details/details.component';
 import { SortSelectComponent } from '../../sort-select/sort-select.component';
-import { LoadMoreSearchResultsButtonComponent } from '../../load-more-search-results-button/load-more-search-results-button.component';
+import { LoadMoreSearchResultsButtonComponent } from '../../search/load-more-search-results-button/load-more-search-results-button.component';
+import { SearchHitsCounterComponent } from '../../search/search-hits-counter/search-hits-counter.component';
 
 @Component({
   selector: 'app-search',
@@ -67,6 +67,7 @@ import { LoadMoreSearchResultsButtonComponent } from '../../load-more-search-res
     DetailsComponent,
     SortSelectComponent,
     LoadMoreSearchResultsButtonComponent,
+    SearchHitsCounterComponent,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
@@ -87,16 +88,6 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.scroll.initScrollContainer(this.scrollContainer);
-  }
-
-  get numberOfHitsStr(): string {
-    if (!this.search.numberOfHits) {
-      return 'Geen resultaten gevonden';
-    }
-    if (this.search.numberOfHits === 1) {
-      return '1 resultaat';
-    }
-    return `${formatNumber(this.search.numberOfHits)}${this.search.numberOfHitsIsCappedByElastic ? '+' : ''} resultaten`;
   }
 
   get shouldShowHomeIntro(): boolean {
