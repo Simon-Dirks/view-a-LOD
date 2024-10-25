@@ -28,8 +28,7 @@
               "src/styles.scss",
               "src/theme.scss",
               "node_modules/leaflet/dist/leaflet.css",
-              "node_modules/ngx-float-ui/css/theme-white.css",
-              "node_modules/swiper/swiper-bundle.css"
+              "node_modules/ngx-float-ui/css/theme-white.css"
             ],
             "scripts": []
           },
@@ -86,8 +85,7 @@
               "src/styles.scss",
               "src/theme.scss",
               "node_modules/leaflet/dist/leaflet.css",
-              "node_modules/ngx-float-ui/css/theme-white.css",
-              "node_modules/swiper/swiper-bundle.css"
+              "node_modules/ngx-float-ui/css/theme-white.css"
             ],
             "scripts": []
           }
