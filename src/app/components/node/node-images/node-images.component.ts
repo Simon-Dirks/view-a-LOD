@@ -31,7 +31,6 @@ export class NodeImagesComponent
 
   @Input() useViewer = false;
   @Input() imageUrls?: string[];
-  @Input() width = '5rem';
 
   processedImageUrls: string[] = [];
 
