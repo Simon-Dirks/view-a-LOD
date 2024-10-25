@@ -4,17 +4,24 @@
   *ngIf="useViewer"
 ></div>
 
-<div class="w-full h-full overflow-y-scroll" *ngIf="!useViewer">
-  <ng-container
-    *ngFor="let image of processedImageUrls?.slice(0, Config.maxImagesToShow)"
-  >
-    <!-- TODO: Use image label as alt here-->
-    <img
-      [src]="image"
-      alt="Object image"
-      class="w-full h-full object-cover"
-      (error)="onImageLoadError($event)"
-      *ngIf="image"
-    />
-  </ng-container>
+<div class="relative">
+  <swiper-container *ngIf="!useViewer" init="false" #swiperContainer>
+    <swiper-slide
+      *ngFor="let image of processedImageUrls?.slice(0, Config.maxImagesToShow)"
+    >
+      <img
+        [src]="image"
+        alt="Object image"
+        class="w-full h-full object-cover"
+        (error)="onImageLoadError($event)"
+        *ngIf="image"
+      />
+    </swiper-slide>
+  </swiper-container>
+
+  <div class="swiper-button-prev"></div>
+
+  <div class="swiper-button-next"></div>
+
+  <div class="swiper-pagination"></div>
 </div>

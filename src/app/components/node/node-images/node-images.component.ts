@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  CUSTOM_ELEMENTS_SCHEMA,
   ElementRef,
   Input,
   NgZone,
@@ -9,12 +10,14 @@ import {
   OnInit,
   SimpleChanges,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import { JsonPipe, NgForOf, NgIf } from '@angular/common';
 import { Config } from '../../../config/config';
 import { UrlService } from '../../../services/url.service';
 import { Settings } from '../../../config/settings';
 import OpenSeadragon, { Viewer } from 'openseadragon';
+import { SwiperOptions } from 'swiper/types';
 
 @Component({
   selector: 'app-node-images',
@@ -22,12 +25,16 @@ import OpenSeadragon, { Viewer } from 'openseadragon';
   imports: [NgForOf, NgIf, JsonPipe],
   templateUrl: './node-images.component.html',
   styleUrl: './node-images.component.scss',
+  encapsulation: ViewEncapsulation.None,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class NodeImagesComponent
   implements OnInit, OnChanges, OnDestroy, AfterViewInit
 {
   private _imageViewer?: Viewer;
   @ViewChild('viewerElem') viewerElem!: ElementRef;
+
+  @ViewChild('swiperContainer') swiperContainerElem!: ElementRef;
 
   @Input() useViewer = false;
   @Input() imageUrls?: string[];
@@ -43,6 +50,7 @@ export class NodeImagesComponent
 
   ngAfterViewInit() {
     this.initImageViewer(this.processedImageUrls);
+    this.initSwiper();
     this._processImageUrls();
   }
 
@@ -101,6 +109,49 @@ export class NodeImagesComponent
       );
       this._imageViewer.viewport.fitBounds(alignImageToTopBounds, true);
     });
+  }
+
+  initSwiper() {
+    const swiperParams: SwiperOptions = {
+      slidesPerView: 2,
+      breakpoints: {
+        640: {
+          slidesPerView: 4,
+          pagination: {
+            el: '.swiper-pagination',
+            type: 'bullets',
+            clickable: true,
+          },
+        },
+      },
+      allowTouchMove: true,
+      autoHeight: true,
+      direction: 'horizontal',
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+      pagination: {
+        el: '.swiper-pagination',
+        type: 'progressbar',
+      },
+      simulateTouch: true,
+      spaceBetween: 5,
+      threshold: 5,
+      touchMoveStopPropagation: false,
+      mousewheel: {
+        forceToAxis: true,
+      },
+      freeMode: {
+        enabled: true,
+      },
+      on: {
+        init() {},
+      },
+    };
+
+    Object.assign(this.swiperContainerElem.nativeElement, swiperParams);
+    this.swiperContainerElem.nativeElement.initialize();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
