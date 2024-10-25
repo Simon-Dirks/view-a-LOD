@@ -12,8 +12,9 @@
       <img
         [src]="image"
         alt="Object image"
-        class="w-full h-full object-cover"
+        class="w-full h-full object-cover cursor-pointer"
         (error)="onImageLoadError($event)"
+        onclick="img_modal.showModal()"
         *ngIf="image"
       />
     </swiper-slide>
