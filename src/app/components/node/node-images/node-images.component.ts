@@ -9,8 +9,9 @@ import {
   OnInit,
   SimpleChanges,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
-import { JsonPipe, NgForOf, NgIf } from '@angular/common';
+import { JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { Config } from '../../../config/config';
 import { UrlService } from '../../../services/url.service';
 import { Settings } from '../../../config/settings';
@@ -19,9 +20,10 @@ import OpenSeadragon, { Viewer } from 'openseadragon';
 @Component({
   selector: 'app-node-images',
   standalone: true,
-  imports: [NgForOf, NgIf, JsonPipe],
+  imports: [NgForOf, NgIf, JsonPipe, NgClass],
   templateUrl: './node-images.component.html',
   styleUrl: './node-images.component.scss',
+  encapsulation: ViewEncapsulation.None,
 })
 export class NodeImagesComponent
   implements OnInit, OnChanges, OnDestroy, AfterViewInit
@@ -29,8 +31,9 @@ export class NodeImagesComponent
   private _imageViewer?: Viewer;
   @ViewChild('viewerElem') viewerElem!: ElementRef;
 
-  @Input() useViewer = false;
   @Input() imageUrls?: string[];
+  @Input() shownInTableCell = true;
+  @Input() useViewer = true;
 
   processedImageUrls: string[] = [];
 
@@ -54,10 +57,6 @@ export class NodeImagesComponent
   }
 
   initImageViewer(imgUrls: string[]) {
-    if (!this.useViewer) {
-      return;
-    }
-
     if (!this.viewerElem) {
       // TODO
       console.warn('Viewer elem not yet initialized');
@@ -75,11 +74,12 @@ export class NodeImagesComponent
         element: this.viewerElem.nativeElement,
         prefixUrl: 'assets/osd/images/',
         sequenceMode: true,
-        showReferenceStrip: true,
+        // showReferenceStrip: true,
         // referenceStripScroll: 'vertical',
         // showNavigator: true,
         tileSources: sources,
         maxZoomPixelRatio: 5,
+        autoResize: true,
       }),
     );
 
@@ -89,6 +89,11 @@ export class NodeImagesComponent
 
     this._imageViewer.addHandler('tile-loaded', (event) => {
       if (!this._imageViewer) {
+        return;
+      }
+
+      if (this.shownInTableCell) {
+        this._imageViewer.viewport.goHome(true);
         return;
       }
 
