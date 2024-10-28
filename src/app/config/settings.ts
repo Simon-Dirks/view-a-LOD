@@ -507,7 +507,7 @@ export const Settings = {
     'http://www.w3.org/ns/shacl#': 'sh:',
   },
   matomo: {
-    siteId: '',
-    trackerUrl: '',
+    siteId: '2',
+    trackerUrl: '//analytics.boasmedia.nl/',
   },
 };
