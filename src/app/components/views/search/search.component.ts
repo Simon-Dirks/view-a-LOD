@@ -41,6 +41,7 @@ import { LoadMoreSearchResultsButtonComponent } from '../../search/load-more-sea
 import { SearchHitsCounterComponent } from '../../search/search-hits-counter/search-hits-counter.component';
 import { FilterPanelLocation } from '../../../models/settings/filter-panel-location.enum';
 import { SettingsService } from '../../../services/settings.service';
+import { DetailsBackButtonComponent } from '../../details-back-button/details-back-button.component';
 
 @Component({
   selector: 'app-search',
@@ -70,6 +71,7 @@ import { SettingsService } from '../../../services/settings.service';
     SortSelectComponent,
     LoadMoreSearchResultsButtonComponent,
     SearchHitsCounterComponent,
+    DetailsBackButtonComponent,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',

@@ -10,11 +10,12 @@ import { NgIcon } from '@ng-icons/core';
 import { RoutingService } from '../../../services/routing.service';
 import { DetailsService } from '../../../services/details.service';
 import { ScrollService } from '../../../services/scroll.service';
+import { DetailsBackButtonComponent } from '../../details-back-button/details-back-button.component';
 
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [NodeComponent, JsonPipe, NgIf, NgIcon],
+  imports: [NodeComponent, JsonPipe, NgIf, NgIcon, DetailsBackButtonComponent],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss',
 })

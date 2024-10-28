@@ -1,0 +1,9 @@
+<button
+  (click)="routing.goBackOrDefault()"
+  *ngIf="details.showing.value"
+  class="mt-2 mb-2 text-lg font-bold"
+>
+  <ng-icon [svg]="featherArrowLeft" class="relative top-[0.15rem] mr-2" />
+
+  <span>Terug</span>
+</button>
