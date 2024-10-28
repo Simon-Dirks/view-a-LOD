@@ -310,6 +310,9 @@ export const Settings = {
       maxAutocompleteOptionsToShow: 20,
     },
   },
+  viewer: {
+    showReferenceStrip: true,
+  },
   labelMaxChars: 100,
   predicates: {
     parents: parentPredicates,

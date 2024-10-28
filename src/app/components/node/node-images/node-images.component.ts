@@ -73,10 +73,16 @@ export class NodeImagesComponent
       OpenSeadragon({
         element: this.viewerElem.nativeElement,
         prefixUrl: 'assets/osd/images/',
+
         sequenceMode: true,
-        // showReferenceStrip: true,
+        showReferenceStrip: Settings.viewer.showReferenceStrip,
         // referenceStripScroll: 'vertical',
         // showNavigator: true,
+
+        // collectionMode: true,
+        // collectionRows: 1,
+        // collectionTileSize: 1024,
+        // collectionTileMargin: 256,
         tileSources: sources,
         maxZoomPixelRatio: 5,
         autoResize: true,
@@ -127,6 +133,16 @@ export class NodeImagesComponent
       this.imageUrls,
       false,
     );
+    // this.processedImageUrls = [
+    //   'https://placehold.co/600x400/EEE/31343C',
+    //   'https://placehold.co/600x400/EEE/red',
+    //   'https://placehold.co/600x400/EEE/blue',
+    //   'https://placehold.co/600x400/EEE/green',
+    //   'https://placehold.co/600x400/EEE/31343C',
+    //   'https://placehold.co/600x400/EEE/red',
+    //   'https://placehold.co/600x400/EEE/blue',
+    //   'https://placehold.co/600x400/EEE/green',
+    // ];
     this.initImageViewer(this.processedImageUrls);
   }
 

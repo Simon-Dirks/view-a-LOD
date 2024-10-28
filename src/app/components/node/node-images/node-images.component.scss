@@ -1,7 +1,11 @@
 .viewer-small-ui {
-  height: 6rem;
+  height: 12rem;
 
   & .openseadragon-container img {
     height: 25px;
+  }
+
+  & .referencestrip:focus-visible {
+    outline: none;
   }
 }
