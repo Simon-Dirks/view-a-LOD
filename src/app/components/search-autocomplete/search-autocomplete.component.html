@@ -4,7 +4,9 @@
 
 <ng-container *ngIf="!autocomplete.isLoading">
   <div *ngIf="autocomplete.hasOptionsOfType(AutocompleteOptionType.SearchTerm)">
-    <div class="divider">Zoektermen</div>
+    <div class="divider">
+      <span> Zoektermen</span>
+    </div>
     <li
       *ngFor="
         let autocompleteResult of autocomplete.getOptionsByType(
@@ -13,6 +15,7 @@
       "
     >
       <button (click)="selected.emit(autocompleteResult)">
+        <ng-icon [svg]="featherSearch" class="mr-2" />
         {{ autocompleteResult.labels[0] }}
       </button>
     </li>
@@ -28,6 +31,7 @@
       "
     >
       <button (click)="selected.emit(autocompleteResult)">
+        <ng-icon [svg]="featherArrowRight" class="mr-2" />
         {{ autocompleteResult.labels[0] }}
       </button>
     </li>
