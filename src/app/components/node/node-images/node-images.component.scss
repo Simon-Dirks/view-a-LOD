@@ -1,3 +1,7 @@
-.viewer-small-ui .openseadragon-container img {
-  height: 25px;
+.viewer-small-ui {
+  height: 6rem;
+
+  & .openseadragon-container img {
+    height: 25px;
+  }
 }
