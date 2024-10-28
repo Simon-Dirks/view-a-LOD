@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, debounceTime, Subject } from 'rxjs';
-import { ThingWithLabelsModel } from '../models/thing-with-label.model';
 import { Settings } from '../config/settings';
 import { ElasticEndpointSearchResponse } from '../models/elastic/elastic-endpoint-search-response.type';
 import { ElasticService } from './elastic.service';
@@ -9,14 +8,18 @@ import { FilterModel } from '../models/filter.model';
 import { FilterService } from './search/filter.service';
 import { UrlFilterOptionsModel } from '../models/filter-option.model';
 import { ElasticShouldQueries } from '../models/elastic/elastic-should-queries.type';
+import {
+  AutocompleteOptionModel,
+  AutocompleteOptionType,
+} from '../models/autocomplete-option.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AutocompleteService {
   searchSubject: Subject<string> = new Subject();
-  options: BehaviorSubject<ThingWithLabelsModel[]> = new BehaviorSubject<
-    ThingWithLabelsModel[]
+  options: BehaviorSubject<AutocompleteOptionModel[]> = new BehaviorSubject<
+    AutocompleteOptionModel[]
   >([]);
   isLoading = false;
 
@@ -26,6 +29,10 @@ export class AutocompleteService {
     private filter: FilterService,
   ) {
     this._initDebouncedOptionsRetrieval();
+  }
+
+  getOptionsByType(type: AutocompleteOptionType): AutocompleteOptionModel[] {
+    return this.options.value.filter((option) => option.type === type);
   }
 
   clearOptions() {
@@ -77,7 +84,7 @@ export class AutocompleteService {
 
   private async _getOptions(
     searchInput: string,
-  ): Promise<ThingWithLabelsModel[]> {
+  ): Promise<AutocompleteOptionModel[]> {
     console.log('Retrieving autocomplete options...', searchInput);
 
     if (!searchInput) {
@@ -118,11 +125,13 @@ export class AutocompleteService {
       return [];
     }
 
+    // TODO: Add Node options here as well
     const optionsSet = this._getOptionsFromSearchResults(results);
-    const options: ThingWithLabelsModel[] = Object.keys(optionsSet)
+    const options: AutocompleteOptionModel[] = Object.keys(optionsSet)
       .map((id) => ({
         '@id': id,
         labels: Array.from(optionsSet[id]),
+        type: AutocompleteOptionType.SearchTerm,
       }))
       .filter((o) => o.labels.length > 0);
 

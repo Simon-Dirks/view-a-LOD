@@ -39,16 +39,6 @@
     class="dropdown-content menu bg-base-100 rounded-xl z-[1] max-h-52 overflow-y-auto p-2 block text-base shadow mt-2 max-w-2xl"
     *ngIf="hasAutocompleteOptions || autocomplete.isLoading"
   >
-    <li *ngIf="autocomplete.isLoading">
-      <p class="loading loading-sm loading-spinner p-0"></p>
-    </li>
-
-    <ng-container *ngIf="!autocomplete.isLoading">
-      <li *ngFor="let autocompleteResult of autocomplete.options.value">
-        <button (click)="onAutocompleteOptionSelect(autocompleteResult['@id'])">
-          {{ autocompleteResult.labels[0] }}
-        </button>
-      </li>
-    </ng-container>
+    <app-search-autocomplete (selected)="onAutocompleteOptionSelect($event)" />
   </ul>
 </div>

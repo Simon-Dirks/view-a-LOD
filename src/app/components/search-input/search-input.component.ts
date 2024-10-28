@@ -10,11 +10,25 @@ import { DetailsService } from '../../services/details.service';
 import { AutocompleteService } from '../../services/autocomplete.service';
 import { UrlService } from '../../services/url.service';
 import { Config } from '../../config/config';
+import {
+  AutocompleteOptionModel,
+  AutocompleteOptionType,
+} from '../../models/autocomplete-option.model';
+import { SearchAutocompleteComponent } from '../search-autocomplete/search-autocomplete.component';
 
 @Component({
   selector: 'app-search-input',
   standalone: true,
-  imports: [FormsModule, NgIcon, NgIf, NgClass, JsonPipe, NgForOf, RouterLink],
+  imports: [
+    FormsModule,
+    NgIcon,
+    NgIf,
+    NgClass,
+    JsonPipe,
+    NgForOf,
+    RouterLink,
+    SearchAutocompleteComponent,
+  ],
   templateUrl: './search-input.component.html',
   styleUrl: './search-input.component.scss',
 })
@@ -59,10 +73,17 @@ export class SearchInputComponent implements OnInit, AfterViewInit {
     this.autocomplete.searchSubject.next(this.searchInput);
   }
 
-  async onAutocompleteOptionSelect(id: string) {
+  async onAutocompleteOptionSelect(option: AutocompleteOptionModel) {
+    if (option.labels.length === 0) {
+      console.warn('No label found for autocomplete option', option);
+      return;
+    }
+
+    this.searchInput = option.labels[0];
     await this.onSearch();
-    await this.router.navigateByUrl(this.details.getLinkFromUrl(id));
+    // await this.router.navigateByUrl(this.details.getLinkFromUrl(option['@id']));
   }
 
   protected readonly Settings = Settings;
+  protected readonly AutoCompleteOptionType = AutocompleteOptionType;
 }

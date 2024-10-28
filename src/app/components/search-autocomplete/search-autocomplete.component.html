@@ -1,0 +1,31 @@
+<li *ngIf="autocomplete.isLoading">
+  <p class="loading loading-sm loading-spinner p-0"></p>
+</li>
+
+<ng-container *ngIf="!autocomplete.isLoading">
+  <div class="divider">Zoektermen</div>
+  <li
+    *ngFor="
+      let autocompleteResult of autocomplete.getOptionsByType(
+        AutoCompleteOptionType.SearchTerm
+      )
+    "
+  >
+    <button (click)="selected.emit(autocompleteResult)">
+      {{ autocompleteResult.labels[0] }}
+    </button>
+  </li>
+
+  <div class="divider">Zoekresultaten</div>
+  <li
+    *ngFor="
+      let autocompleteResult of autocomplete.getOptionsByType(
+        AutoCompleteOptionType.Node
+      )
+    "
+  >
+    <button (click)="selected.emit(autocompleteResult)">
+      {{ autocompleteResult.labels[0] }}
+    </button>
+  </li>
+</ng-container>
