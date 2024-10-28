@@ -82,6 +82,24 @@ export class AutocompleteService {
     return optionsSet;
   }
 
+  private async _getOptionsFromElastic(
+    query: any,
+    optionType: AutocompleteOptionType,
+  ): Promise<AutocompleteOptionModel[]> {
+    const results: ElasticEndpointSearchResponse<any>[] =
+      await this.elastic.searchEndpoints(query);
+
+    const optionsSet = this._getOptionsFromSearchResults(results);
+    const options: AutocompleteOptionModel[] = Object.keys(optionsSet)
+      .map((id) => ({
+        '@id': id,
+        labels: Array.from(optionsSet[id]),
+        type: optionType,
+      }))
+      .filter((option: AutocompleteOptionModel) => option.labels.length > 0);
+    return options;
+  }
+
   private async _getOptions(
     searchInput: string,
   ): Promise<AutocompleteOptionModel[]> {
@@ -99,7 +117,7 @@ export class AutocompleteService {
           .filtersForSearchTermOptions as UrlFilterOptionsModel,
       );
 
-    const shouldQueriesForSearchTermOptions: ElasticShouldQueries[] =
+    const queriesForSearchTermOptions: ElasticShouldQueries[] =
       this.elastic.getFieldAndValueFilterQueries(filtersForSearchTermOptions);
 
     const query: any = {
@@ -110,31 +128,26 @@ export class AutocompleteService {
               query_string: { query: `*${searchInput}*` },
             },
           ],
-          should: shouldQueriesForSearchTermOptions,
-          minimum_should_match: 1,
         },
       },
       size: Settings.search.autocomplete.maxAutocompleteOptionsPerEndpoint,
     };
 
-    const results: ElasticEndpointSearchResponse<any>[] =
-      await this.elastic.searchEndpoints(query);
+    const searchTermQuery: any = JSON.parse(JSON.stringify(query));
+    searchTermQuery.query.bool.should = queriesForSearchTermOptions;
+    searchTermQuery.query.bool.minimum_should_match = 1;
+
+    const nodeOptions: AutocompleteOptionModel[] =
+      await this._getOptionsFromElastic(query, AutocompleteOptionType.Node);
+    const searchTermOptions: AutocompleteOptionModel[] =
+      await this._getOptionsFromElastic(
+        searchTermQuery,
+        AutocompleteOptionType.SearchTerm,
+      );
 
     this.isLoading = false;
-    if (!results || results.length === 0) {
-      return [];
-    }
 
-    // TODO: Add Node options here as well
-    const optionsSet = this._getOptionsFromSearchResults(results);
-    const options: AutocompleteOptionModel[] = Object.keys(optionsSet)
-      .map((id) => ({
-        '@id': id,
-        labels: Array.from(optionsSet[id]),
-        type: AutocompleteOptionType.SearchTerm,
-      }))
-      .filter((o) => o.labels.length > 0);
-
-    return options;
+    const allOptions = [...searchTermOptions, ...nodeOptions];
+    return allOptions;
   }
 }

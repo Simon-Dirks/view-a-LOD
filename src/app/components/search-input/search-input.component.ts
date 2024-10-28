@@ -59,7 +59,7 @@ export class SearchInputComponent implements OnInit, AfterViewInit {
 
     this.autocomplete.clearOptions();
 
-    await this.router.navigate([], {
+    await this.router.navigate(['/'], {
       queryParams: { [Config.searchParam]: this.searchInput },
       queryParamsHandling: 'merge',
     });
@@ -79,11 +79,22 @@ export class SearchInputComponent implements OnInit, AfterViewInit {
       return;
     }
 
-    this.searchInput = option.labels[0];
-    await this.onSearch();
-    // await this.router.navigateByUrl(this.details.getLinkFromUrl(option['@id']));
+    this.autocomplete.clearOptions();
+
+    const isSearchOption = option.type === AutocompleteOptionType.SearchTerm;
+    const isNodeOption = option.type === AutocompleteOptionType.Node;
+
+    if (isSearchOption) {
+      this.searchInput = option.labels[0];
+      await this.onSearch();
+    } else if (isNodeOption) {
+      await this.router.navigateByUrl(
+        this.details.getLinkFromUrl(option['@id']),
+      );
+    } else {
+      console.warn('Unknown autocomplete option type');
+    }
   }
 
   protected readonly Settings = Settings;
-  protected readonly AutoCompleteOptionType = AutocompleteOptionType;
 }
