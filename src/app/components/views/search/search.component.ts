@@ -42,6 +42,7 @@ import { SearchHitsCounterComponent } from '../../search/search-hits-counter/sea
 import { FilterPanelLocation } from '../../../models/settings/filter-panel-location.enum';
 import { SettingsService } from '../../../services/settings.service';
 import { DetailsBackButtonComponent } from '../../details-back-button/details-back-button.component';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -111,4 +112,5 @@ export class SearchComponent implements OnInit, AfterViewInit {
   protected readonly ViewMode = ViewMode;
   protected readonly Settings = Settings;
   protected readonly FilterPanelLocation = FilterPanelLocation;
+  protected readonly filter = filter;
 }

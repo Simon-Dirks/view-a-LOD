@@ -17,7 +17,7 @@ import { FilterPanelLocation } from '../models/settings/filter-panel-location.en
 export class SettingsService {
   constructor(public viewModes: ViewModeService) {}
 
-  showFilterPanelOnSide(): boolean {
+  showingFilterPanelOnSide(): boolean {
     return (
       Settings.filtering.filterPanelLocation == FilterPanelLocation.Left ||
       Settings.filtering.filterPanelLocation == FilterPanelLocation.Right

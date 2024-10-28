@@ -1,7 +1,7 @@
 <div
   class="flex flex-col gap-1 mb-4"
   [ngClass]="[
-    settings.showFilterPanelOnSide() ? 'lg:gap-1' : 'lg:flex-row lg:gap-2'
+    settings.showingFilterPanelOnSide() ? 'lg:gap-1' : 'lg:flex-row lg:gap-2'
   ]"
   *ngIf="filters.options.value"
 >
@@ -42,9 +42,5 @@
 
   <div class="w-full lg:w-auto">
     <app-endpoints />
-  </div>
-
-  <div class="w-full lg:w-auto">
-    <app-sort-select />
   </div>
 </div>
