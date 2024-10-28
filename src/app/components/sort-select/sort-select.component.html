@@ -23,7 +23,11 @@
 <!--</div>-->
 
 <div class="collapse collapse-arrow join-item bg-white text-neutral">
-  <input type="checkbox" name="filter-accordion" />
+  <input
+    type="checkbox"
+    name="filter-accordion"
+    [(ngModel)]="ui.accordionExpandedStates['sort']"
+  />
   <div class="collapse-title">
     <span>{{ sorting.current.value?.label }}</span>
   </div>

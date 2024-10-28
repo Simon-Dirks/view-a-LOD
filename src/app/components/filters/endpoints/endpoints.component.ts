@@ -8,6 +8,7 @@ import { FilterCountComponent } from '../filter-options/filter-count/filter-coun
 import { FilterService } from '../../../services/search/filter.service';
 import { SearchService } from '../../../services/search/search.service';
 import { FormsModule } from '@angular/forms';
+import { UiService } from '../../../services/ui.service';
 
 @Component({
   selector: 'app-endpoints',
@@ -29,6 +30,7 @@ export class EndpointsComponent {
     public endpoints: EndpointService,
     public filters: FilterService,
     public search: SearchService,
+    public ui: UiService,
   ) {}
 
   protected readonly Settings = Settings;

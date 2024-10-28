@@ -11,6 +11,7 @@ import { Settings } from '../../../config/settings';
 import { FilterPanelLocation } from '../../../models/settings/filter-panel-location.enum';
 import { SettingsService } from '../../../services/settings.service';
 import { FormsModule } from '@angular/forms';
+import { UiService } from '../../../services/ui.service';
 
 @Component({
   selector: 'app-filter-options',
@@ -36,6 +37,7 @@ export class FilterOptionsComponent {
   constructor(
     public filters: FilterService,
     public settings: SettingsService,
+    public ui: UiService,
   ) {}
 
   ngOnInit() {

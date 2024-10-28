@@ -37,8 +37,6 @@ export class FilterService {
   options: BehaviorSubject<FilterOptionsModel> =
     new BehaviorSubject<FilterOptionsModel>(Settings.filtering.filterOptions);
 
-  accordionExpandedStates: { [filterId: string]: boolean } = {};
-
   constructor(
     public elastic: ElasticService,
     public data: DataService,
@@ -46,12 +44,6 @@ export class FilterService {
     public router: Router,
   ) {
     this._initRestorePreviousFiltersOnOptionsChange();
-  }
-
-  collapseAllAccordions() {
-    for (const filterId of Object.keys(this.accordionExpandedStates)) {
-      this.accordionExpandedStates[filterId] = false;
-    }
   }
 
   convertFromUrlFormat(urlFilters: UrlFilterOptionsModel): FilterModel[] {

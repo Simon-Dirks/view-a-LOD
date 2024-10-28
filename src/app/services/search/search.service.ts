@@ -22,6 +22,7 @@ import { SortService } from '../sort.service';
 import { SortOptionModel } from '../../models/settings/sort-option.model';
 import { Config } from '../../config/config';
 import { UrlService } from '../url.service';
+import { UiService } from '../ui.service';
 
 @Injectable({
   providedIn: 'root',
@@ -53,6 +54,7 @@ export class SearchService {
     private details: DetailsService,
     private sort: SortService,
     private router: Router,
+    private ui: UiService,
   ) {
     this.initSearchOnUrlChange();
     this.initSearchOnFilterChange();
@@ -214,7 +216,7 @@ export class SearchService {
     //   return;
     // }
 
-    this.filters.collapseAllAccordions();
+    this.ui.collapseAllAccordions();
 
     this._searchQueryId++;
 
