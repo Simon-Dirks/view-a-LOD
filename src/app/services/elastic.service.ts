@@ -121,7 +121,7 @@ export class ElasticService {
     return await this.searchEndpoints(queryData);
   }
 
-  private getFieldAndValueFilterQueries(
+  getFieldAndValueFilterQueries(
     filters: FilterModel[],
   ): ElasticShouldQueries[] {
     const fieldAndValueFilters = filters.filter(

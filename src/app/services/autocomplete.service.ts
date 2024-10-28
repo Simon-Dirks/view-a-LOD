@@ -5,6 +5,10 @@ import { Settings } from '../config/settings';
 import { ElasticEndpointSearchResponse } from '../models/elastic/elastic-endpoint-search-response.type';
 import { ElasticService } from './elastic.service';
 import { DataService } from './data.service';
+import { FilterModel } from '../models/filter.model';
+import { FilterService } from './search/filter.service';
+import { UrlFilterOptionsModel } from '../models/filter-option.model';
+import { ElasticShouldQueries } from '../models/elastic/elastic-should-queries.type';
 
 @Injectable({
   providedIn: 'root',
@@ -19,6 +23,7 @@ export class AutocompleteService {
   constructor(
     private elastic: ElasticService,
     private data: DataService,
+    private filter: FilterService,
   ) {
     this._initDebouncedOptionsRetrieval();
   }
@@ -74,17 +79,39 @@ export class AutocompleteService {
     searchInput: string,
   ): Promise<ThingWithLabelsModel[]> {
     console.log('Retrieving autocomplete options...', searchInput);
+
+    if (!searchInput) {
+      return [];
+    }
+
     this.isLoading = true;
 
-    const results: ElasticEndpointSearchResponse<any>[] =
-      await this.elastic.searchEndpoints({
-        query: {
-          simple_query_string: {
-            query: searchInput,
-          },
+    const filtersForSearchTermOptions: FilterModel[] =
+      this.filter.convertFromUrlFormat(
+        Settings.search.autocomplete
+          .filtersForSearchTermOptions as UrlFilterOptionsModel,
+      );
+
+    const shouldQueriesForSearchTermOptions: ElasticShouldQueries[] =
+      this.elastic.getFieldAndValueFilterQueries(filtersForSearchTermOptions);
+
+    const query: any = {
+      query: {
+        bool: {
+          must: [
+            {
+              query_string: { query: `*${searchInput}*` },
+            },
+          ],
+          should: shouldQueriesForSearchTermOptions,
+          minimum_should_match: 1,
         },
-        size: Settings.search.autocomplete.maxAutocompleteOptionsPerEndpoint,
-      });
+      },
+      size: Settings.search.autocomplete.maxAutocompleteOptionsPerEndpoint,
+    };
+
+    const results: ElasticEndpointSearchResponse<any>[] =
+      await this.elastic.searchEndpoints(query);
 
     this.isLoading = false;
     if (!results || results.length === 0) {

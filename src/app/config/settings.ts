@@ -4,6 +4,7 @@ import { PredicateVisibility } from '../models/settings/predicate-visibility-set
 import { RenderMode } from '../models/settings/render-component-settings.type';
 import { SortOrder } from '../models/settings/sort-order.enum';
 import { FilterPanelLocation } from '../models/settings/filter-panel-location.enum';
+import { FilterType } from '../models/filter.model';
 
 export const imagePredicates: string[] = [
   'http://xmlns.com/foaf/0.1/depiction',
@@ -308,6 +309,28 @@ export const Settings = {
       enabled: true,
       maxAutocompleteOptionsPerEndpoint: 50,
       maxAutocompleteOptionsToShow: 20,
+      filtersForSearchTermOptions: {
+        type: {
+          type: FilterType.FieldAndValue,
+          fieldIds: typePredicates,
+          valueIds: [
+            'http://www.w3.org/2004/02/skos/core#Concept',
+            'https://hetutrechtsarchief.nl/def/trefwoord_tst_107',
+            'https://hetutrechtsarchief.nl/id/aet/incat',
+          ],
+        },
+        parents: {
+          type: FilterType.FieldAndValue,
+          fieldIds: [
+            ...parentPredicates,
+            'https://hetutrechtsarchief.nl/def/isDescendentOf',
+          ],
+          valueIds: [
+            'https://hetutrechtsarchief.nl/id/trefwoord',
+            'https://termennetwerk.netwerkdigitaalerfgoed.nl',
+          ],
+        },
+      },
     },
   },
   viewer: {

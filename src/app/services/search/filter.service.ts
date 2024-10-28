@@ -46,9 +46,7 @@ export class FilterService {
     this._initRestorePreviousFiltersOnOptionsChange();
   }
 
-  private _convertFromUrlFormat(
-    urlFilters: UrlFilterOptionsModel,
-  ): FilterModel[] {
+  convertFromUrlFormat(urlFilters: UrlFilterOptionsModel): FilterModel[] {
     const filters: FilterModel[] = [];
 
     for (const [filterId, { type, valueIds, fieldIds }] of Object.entries(
@@ -207,7 +205,7 @@ export class FilterService {
       '...',
     );
     const urlFilters: UrlFilterOptionsModel = JSON.parse(filtersParam);
-    const filters: FilterModel[] = this._convertFromUrlFormat(urlFilters);
+    const filters: FilterModel[] = this.convertFromUrlFormat(urlFilters);
 
     this.enabled.next(filters);
   }
