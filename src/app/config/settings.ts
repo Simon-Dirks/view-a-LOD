@@ -319,6 +319,14 @@ export const Settings = {
     label: labelPredicates,
     type: typePredicates,
     images: imagePredicates,
+    hopImages: [
+      [
+        'http://www.nationaalarchief.nl/mdto#heeftRepresentatie',
+        'http://www.nationaalarchief.nl/mdto#identificatie',
+        'http://www.nationaalarchief.nl/mdto#identificatieKenmerk',
+        'http://www.nationaalarchief.nl/mdto#URLBestand',
+      ],
+    ],
   },
   renderComponents: {
     [RenderMode.ByType]: {

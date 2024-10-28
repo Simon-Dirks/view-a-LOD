@@ -116,13 +116,30 @@ export class NodeComponent implements OnInit {
     this.title = titles[0];
   }
 
-  initImages() {
+  async getHopImageUrls(nodeId: string): Promise<string[]> {
+    const hopImagePromises = Settings.predicates.hopImages.map(
+      (hopImagePreds) => this.sparql.getObjIds(nodeId, hopImagePreds),
+    );
+
+    const hopImageUrls = await Promise.all(hopImagePromises);
+    return hopImageUrls.flat();
+  }
+
+  async initImages() {
+    if (!this.node) {
+      return;
+    }
+
     this.images = this.nodes.getObjValues(
       this.node,
       Settings.predicates.images,
       undefined,
       true,
     );
+
+    const nodeId: string = this.nodes.getId(this.node);
+    const hopImageUrls: string[] = await this.getHopImageUrls(nodeId);
+    this.images.push(...hopImageUrls);
   }
 
   initTypes() {
