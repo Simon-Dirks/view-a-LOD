@@ -10,6 +10,7 @@ import { SortSelectComponent } from '../../sort-select/sort-select.component';
 import { Settings } from '../../../config/settings';
 import { FilterPanelLocation } from '../../../models/settings/filter-panel-location.enum';
 import { SettingsService } from '../../../services/settings.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-filter-options',
@@ -24,6 +25,7 @@ import { SettingsService } from '../../../services/settings.service';
     FilterCountComponent,
     SortSelectComponent,
     NgClass,
+    FormsModule,
   ],
   templateUrl: './filter-options.component.html',
   styleUrl: './filter-options.component.scss',

@@ -7,6 +7,7 @@ import { EndpointService } from '../../../services/endpoint.service';
 import { FilterCountComponent } from '../filter-options/filter-count/filter-count.component';
 import { FilterService } from '../../../services/search/filter.service';
 import { SearchService } from '../../../services/search/search.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-endpoints',
@@ -18,6 +19,7 @@ import { SearchService } from '../../../services/search/search.service';
     NodeLinkComponent,
     FilterCountComponent,
     NgClass,
+    FormsModule,
   ],
   templateUrl: './endpoints.component.html',
   styleUrl: './endpoints.component.scss',

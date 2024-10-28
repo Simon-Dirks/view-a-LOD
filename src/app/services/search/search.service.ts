@@ -214,6 +214,8 @@ export class SearchService {
     //   return;
     // }
 
+    this.filters.collapseAllAccordions();
+
     this._searchQueryId++;
 
     if (this.queryStr !== '') {

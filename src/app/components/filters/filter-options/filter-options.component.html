@@ -12,7 +12,11 @@
       *ngIf="filters.getOptionValueIds(filterId).length > 0"
     >
       <div class="collapse collapse-arrow bg-primary text-white border">
-        <input type="checkbox" name="filter-accordion" />
+        <input
+          type="checkbox"
+          name="filter-accordion"
+          [(ngModel)]="filters.accordionExpandedStates[filterId]"
+        />
         <div class="collapse-title">
           <span>
             {{ filters.getOptionById(filterId).label }}
