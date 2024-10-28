@@ -31,6 +31,10 @@ export class AutocompleteService {
     this._initDebouncedOptionsRetrieval();
   }
 
+  hasOptionsOfType(type: AutocompleteOptionType): boolean {
+    return this.getOptionsByType(type).length > 0;
+  }
+
   getOptionsByType(type: AutocompleteOptionType): AutocompleteOptionModel[] {
     return this.options.value.filter((option) => option.type === type);
   }

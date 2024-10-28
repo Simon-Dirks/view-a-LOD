@@ -20,4 +20,5 @@ export class SearchAutocompleteComponent {
   constructor(public autocomplete: AutocompleteService) {}
 
   protected readonly AutoCompleteOptionType = AutocompleteOptionType;
+  protected readonly AutocompleteOptionType = AutocompleteOptionType;
 }

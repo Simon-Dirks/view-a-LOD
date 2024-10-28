@@ -3,29 +3,33 @@
 </li>
 
 <ng-container *ngIf="!autocomplete.isLoading">
-  <div class="divider">Zoektermen</div>
-  <li
-    *ngFor="
-      let autocompleteResult of autocomplete.getOptionsByType(
-        AutoCompleteOptionType.SearchTerm
-      )
-    "
-  >
-    <button (click)="selected.emit(autocompleteResult)">
-      {{ autocompleteResult.labels[0] }}
-    </button>
-  </li>
+  <div *ngIf="autocomplete.hasOptionsOfType(AutocompleteOptionType.SearchTerm)">
+    <div class="divider">Zoektermen</div>
+    <li
+      *ngFor="
+        let autocompleteResult of autocomplete.getOptionsByType(
+          AutoCompleteOptionType.SearchTerm
+        )
+      "
+    >
+      <button (click)="selected.emit(autocompleteResult)">
+        {{ autocompleteResult.labels[0] }}
+      </button>
+    </li>
+  </div>
 
-  <div class="divider">Zoekresultaten</div>
-  <li
-    *ngFor="
-      let autocompleteResult of autocomplete.getOptionsByType(
-        AutoCompleteOptionType.Node
-      )
-    "
-  >
-    <button (click)="selected.emit(autocompleteResult)">
-      {{ autocompleteResult.labels[0] }}
-    </button>
-  </li>
+  <div *ngIf="autocomplete.hasOptionsOfType(AutocompleteOptionType.Node)">
+    <div class="divider">Zoekresultaten</div>
+    <li
+      *ngFor="
+        let autocompleteResult of autocomplete.getOptionsByType(
+          AutoCompleteOptionType.Node
+        )
+      "
+    >
+      <button (click)="selected.emit(autocompleteResult)">
+        {{ autocompleteResult.labels[0] }}
+      </button>
+    </li>
+  </div>
 </ng-container>
