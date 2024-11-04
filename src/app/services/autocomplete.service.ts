@@ -6,7 +6,7 @@ import { ElasticService } from './elastic.service';
 import { DataService } from './data.service';
 import { FilterModel } from '../models/filter.model';
 import { FilterService } from './search/filter.service';
-import { UrlFilterOptionsModel } from '../models/filter-option.model';
+import { FilterOptionsIdsModel } from '../models/filter-option.model';
 import { ElasticShouldQueries } from '../models/elastic/elastic-should-queries.type';
 import {
   AutocompleteOptionModel,
@@ -116,9 +116,9 @@ export class AutocompleteService {
     this.isLoading = true;
 
     const filtersForSearchTermOptions: FilterModel[] =
-      this.filter.convertFromUrlFormat(
+      this.data.convertFiltersFromIdsFormat(
         Settings.search.autocomplete
-          .filtersForSearchTermOptions as UrlFilterOptionsModel,
+          .filtersForSearchTermOptions as FilterOptionsIdsModel,
       );
 
     const queriesForSearchTermOptions: ElasticShouldQueries[] =

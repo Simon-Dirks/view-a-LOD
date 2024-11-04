@@ -1,11 +1,13 @@
 import { FilterType } from './filter.model';
 
-export interface UrlFilterOptionsModel {
-  [filterId: string]: {
-    type: FilterType;
-    fieldIds: string[];
-    valueIds: string[];
-  };
+export interface FilterOptionsIdsModel {
+  [filterId: string]: FilterOptionIdsModel;
+}
+
+export interface FilterOptionIdsModel {
+  type: FilterType;
+  fieldIds: string[];
+  valueIds: string[];
 }
 
 export interface FilterOptionsModel {

@@ -483,6 +483,21 @@ export const Settings = {
     'https://hetutrechtsarchief.nl/def/isDescendentOf',
     'https://hetutrechtsarchief.nl/def/isDescendantOf',
   ],
+  alwaysHideNodes: {
+    hideSkosConcept: {
+      fieldIds: [...typePredicates],
+      valueIds: ['http://www.w3.org/2004/02/skos/core#concept'],
+      type: FilterType.FieldAndValue,
+    },
+    hideTerms: {
+      fieldIds: [...parentPredicates],
+      valueIds: [
+        'https://hetutrechtsarchief.nl/id/trefwoorden',
+        'https://termennetwerk.netwerkdigitaalerfgoed.nl',
+      ],
+      type: FilterType.FieldAndValue,
+    },
+  },
   namespacePrefixes: {
     'https://www.ica.org/standards/RiC/ontology#': 'rico:',
     'https://hetutrechtsarchief.nl/def/': 'def:',

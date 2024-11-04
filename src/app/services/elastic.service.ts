@@ -16,6 +16,7 @@ import { ElasticShouldQueries } from '../models/elastic/elastic-should-queries.t
 import { SortOrder } from '../models/settings/sort-order.enum';
 import { ElasticSortEntryModel } from '../models/elastic/elastic-sort.model';
 import { SortService } from './sort.service';
+import { FilterOptionsIdsModel } from '../models/filter-option.model';
 
 @Injectable({
   providedIn: 'root',
@@ -256,6 +257,16 @@ export class ElasticService {
     if (mustQueries && mustQueries.length > 0) {
       queryData.query.bool.must = mustQueries;
     }
+
+    const hideFilters = this.data.convertFiltersFromIdsFormat(
+      Settings.alwaysHideNodes as FilterOptionsIdsModel,
+    );
+    const hideQueries: ElasticShouldQueries[] =
+      this.getFieldAndValueFilterQueries(hideFilters);
+    if (hideQueries && hideQueries.length > 0) {
+      queryData.query.bool.must_not = hideQueries;
+    }
+
     return queryData;
   }
 

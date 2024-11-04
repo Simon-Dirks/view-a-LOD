@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { ThingWithLabelModel } from '../models/thing-with-label.model';
 import { ElasticNodeModel } from '../models/elastic/elastic-node.model';
 import { SparqlNodeParentModel } from '../models/sparql/sparql-node-parent.model';
+import { FilterOptionsIdsModel } from '../models/filter-option.model';
+import { FilterModel, FilterType } from '../models/filter.model';
 
 @Injectable({
   providedIn: 'root',
@@ -53,5 +55,60 @@ export class DataService {
     }
 
     return nodeParents.reverse().slice(0, -1);
+  }
+
+  convertFiltersFromIdsFormat(
+    filterIdsFormat: FilterOptionsIdsModel,
+  ): FilterModel[] {
+    const filters: FilterModel[] = [];
+
+    for (const [filterId, { type, valueIds, fieldIds }] of Object.entries(
+      filterIdsFormat,
+    )) {
+      for (const fieldId of fieldIds) {
+        for (const valueId of valueIds) {
+          const filter: FilterModel = {
+            filterId,
+            fieldId,
+            valueId,
+            type,
+          };
+          filters.push(filter);
+        }
+      }
+    }
+
+    return filters;
+  }
+
+  convertFiltersToIdsFormat(filters: FilterModel[]): FilterOptionsIdsModel {
+    const enabledFiltersIdsFormat: FilterOptionsIdsModel = {};
+
+    for (const { filterId, fieldId, valueId } of filters) {
+      if (!filterId || !fieldId || !valueId) {
+        console.warn('Filter is missing ID(s)');
+        continue;
+      }
+
+      if (!enabledFiltersIdsFormat[filterId]) {
+        // TODO: Support other filter types as well (only field or only value)
+        enabledFiltersIdsFormat[filterId] = {
+          type: FilterType.FieldAndValue,
+          fieldIds: [],
+          valueIds: [],
+        };
+      }
+
+      const filterData = enabledFiltersIdsFormat[filterId];
+      if (!filterData.fieldIds.includes(fieldId)) {
+        filterData.fieldIds.push(fieldId);
+      }
+
+      if (!filterData.valueIds.includes(valueId)) {
+        filterData.valueIds.push(valueId);
+      }
+    }
+
+    return enabledFiltersIdsFormat;
   }
 }

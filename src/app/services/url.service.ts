@@ -5,6 +5,7 @@ import { Config } from '../config/config';
 import { FilterService } from './search/filter.service';
 import { Router } from '@angular/router';
 import { skip } from 'rxjs';
+import { DataService } from './data.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,7 @@ export class UrlService {
     private details: DetailsService,
     private filters: FilterService,
     private router: Router,
+    private data: DataService,
   ) {
     this._initUpdateUrlOnFilterChange();
   }
@@ -29,7 +31,7 @@ export class UrlService {
 
   async updateUrlToReflectFilters(filters: FilterModel[]) {
     const enabledFiltersParam = JSON.stringify(
-      this.filters.convertToUrlFormat(filters),
+      this.data.convertFiltersToIdsFormat(filters),
     );
 
     console.log(

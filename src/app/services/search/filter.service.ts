@@ -3,9 +3,9 @@ import { BehaviorSubject } from 'rxjs';
 import { FilterModel, FilterType } from '../../models/filter.model';
 import {
   FilterOptionModel,
+  FilterOptionsIdsModel,
   FilterOptionsModel,
   FilterOptionValueModel,
-  UrlFilterOptionsModel,
 } from '../../models/filter-option.model';
 import { SearchResponse } from '@elastic/elasticsearch/lib/api/types';
 import { FieldDocCountsModel } from '../../models/elastic/field-doc-counts.model';
@@ -44,59 +44,6 @@ export class FilterService {
     public router: Router,
   ) {
     this._initRestorePreviousFiltersOnOptionsChange();
-  }
-
-  convertFromUrlFormat(urlFilters: UrlFilterOptionsModel): FilterModel[] {
-    const filters: FilterModel[] = [];
-
-    for (const [filterId, { type, valueIds, fieldIds }] of Object.entries(
-      urlFilters,
-    )) {
-      for (const fieldId of fieldIds) {
-        for (const valueId of valueIds) {
-          const filter: FilterModel = {
-            filterId,
-            fieldId,
-            valueId,
-            type,
-          };
-          filters.push(filter);
-        }
-      }
-    }
-
-    return filters;
-  }
-
-  convertToUrlFormat(filters: FilterModel[]): UrlFilterOptionsModel {
-    const enabledFiltersUrlFormat: UrlFilterOptionsModel = {};
-
-    for (const { filterId, fieldId, valueId } of filters) {
-      if (!filterId || !fieldId || !valueId) {
-        console.warn('Filter is missing ID(s)');
-        continue;
-      }
-
-      if (!enabledFiltersUrlFormat[filterId]) {
-        // TODO: Support other filter types as well (only field or only value)
-        enabledFiltersUrlFormat[filterId] = {
-          type: FilterType.FieldAndValue,
-          fieldIds: [],
-          valueIds: [],
-        };
-      }
-
-      const filterData = enabledFiltersUrlFormat[filterId];
-      if (!filterData.fieldIds.includes(fieldId)) {
-        filterData.fieldIds.push(fieldId);
-      }
-
-      if (!filterData.valueIds.includes(valueId)) {
-        filterData.valueIds.push(valueId);
-      }
-    }
-
-    return enabledFiltersUrlFormat;
   }
 
   private _getFieldDocCountsFromResponses(
@@ -204,8 +151,9 @@ export class FilterService {
       filtersParam.slice(0, 100),
       '...',
     );
-    const urlFilters: UrlFilterOptionsModel = JSON.parse(filtersParam);
-    const filters: FilterModel[] = this.convertFromUrlFormat(urlFilters);
+    const urlFilters: FilterOptionsIdsModel = JSON.parse(filtersParam);
+    const filters: FilterModel[] =
+      this.data.convertFiltersFromIdsFormat(urlFilters);
 
     this.enabled.next(filters);
   }
