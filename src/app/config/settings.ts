@@ -225,6 +225,7 @@ export const Settings = {
   },
   filtering: {
     showFilterPanel: true,
+    showImageFilter: true,
     filterPanelLocation: FilterPanelLocation.Left,
     minNumOfValuesForFilterOptionToAppear: 1,
     filterOptions: {

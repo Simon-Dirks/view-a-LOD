@@ -41,7 +41,7 @@
     </div>
   </ng-container>
 
-  <div class="w-full lg:w-auto">
+  <div class="w-full lg:w-auto" *ngIf="Settings.filtering.showImageFilter">
     <app-image-filter />
   </div>
 
