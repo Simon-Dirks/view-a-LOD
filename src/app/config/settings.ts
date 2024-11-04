@@ -28,6 +28,7 @@ const parentPredicates: string[] = [
 
 export const labelPredicates: string[] = [
   'http://www.w3.org/2000/01/rdf-schema#label',
+  'http://www.w3.org/2004/02/skos/core#prefLabel',
   'https://schema.org/name',
   'https://www.ica.org/standards/RiC/ontology#title',
   'https://www.ica.org/standards/RiC/ontology#textualValue',
