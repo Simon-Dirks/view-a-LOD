@@ -7,10 +7,7 @@
 >
   <!--  <p>Filter op:</p>-->
   <ng-container *ngFor="let filterId of Object.keys(filters.options.value)">
-    <div
-      class="w-full sm:flex-1"
-      *ngIf="filters.getOptionValueIds(filterId).length > 0"
-    >
+    <div class="w-full sm:flex-1" *ngIf="filters.shouldShow(filterId)">
       <div class="collapse collapse-arrow bg-primary text-white border">
         <input
           type="checkbox"

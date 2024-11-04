@@ -137,6 +137,15 @@ const archivesClusterValueIds = [
   'http://www.nationaalarchief.nl/mdto#Informatieobject',
 ];
 
+const visualMaterialClusterValueIds = [
+  'https://schema.org/CreativeWork',
+  'https://schema.org/Drawing',
+  'https://schema.org/ImageObject',
+  'https://schema.org/Map',
+  'https://schema.org/Photograph',
+  'https://schema.org/VideoObject',
+];
+
 export const Settings = {
   endpoints: {
     hua: {
@@ -228,17 +237,10 @@ export const Settings = {
         label: 'Licentie',
         fieldIds: ['https://schema.org/license'],
         values: [],
-      },
-      category: {
-        label: 'Categorie',
-        fieldIds: [
-          'https://www.ica.org/standards/RiC/ontology#hasOrHadCategory',
-        ],
-        values: [],
         showOnlyForSelectedFilters: {
-          archives: {
+          visualMaterial: {
             fieldIds: typePredicates,
-            valueIds: archivesClusterValueIds,
+            valueIds: visualMaterialClusterValueIds,
             type: FilterType.FieldAndValue,
           },
         },
@@ -249,14 +251,7 @@ export const Settings = {
     filterOptionValues: {
       images: {
         label: 'Beeldmateriaal',
-        valueIds: [
-          'https://schema.org/CreativeWork',
-          'https://schema.org/Drawing',
-          'https://schema.org/ImageObject',
-          'https://schema.org/Map',
-          'https://schema.org/Photograph',
-          'https://schema.org/VideoObject',
-        ],
+        valueIds: visualMaterialClusterValueIds,
       },
       archive: {
         label: 'Archieven',

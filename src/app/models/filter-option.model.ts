@@ -20,6 +20,7 @@ export interface FilterOptionModel {
   values: FilterOptionValueModel[];
   hideValueIds?: string[];
   showOnlyValueIds?: string[];
+  showOnlyForSelectedFilters?: FilterOptionsIdsModel;
 }
 
 export interface FilterOptionValueModel {

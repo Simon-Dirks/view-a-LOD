@@ -111,4 +111,8 @@ export class DataService {
 
     return enabledFiltersIdsFormat;
   }
+
+  hasOverlap(arr1: any[], arr2: any[]): boolean {
+    return arr1.some((o) => arr2.includes(o));
+  }
 }

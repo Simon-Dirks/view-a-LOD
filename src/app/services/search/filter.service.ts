@@ -244,11 +244,12 @@ export class FilterService {
     this.toggleMultiple([filter]);
   }
 
-  has(ids: string[], type: FilterType): boolean {
+  has(valueIds: string[], type: FilterType): boolean {
     // TODO: Reduce calls to this function if needed for performance reasons
+    // TODO: Make sure this works with other filter types (e.g. filtering on only Field or only Value)
     return (
       this.enabled.value.find(
-        (f) => f.valueId && ids.includes(f.valueId) && f.type === type,
+        (f) => f.valueId && valueIds.includes(f.valueId) && f.type === type,
       ) !== undefined
     );
   }
@@ -257,9 +258,62 @@ export class FilterService {
     return this.options.value?.[filterId];
   }
 
-  getOptionValueIds(filterId: string): string[] {
+  private _getOptionValueIds(filterId: string): string[] {
     // TODO: Reduce number of calls if necessary for performance reasons
     return this.getOptionById(filterId).values.flatMap((v) => v.ids);
+  }
+
+  shouldShow(filterId: string): boolean {
+    const hasOptionsToShow = this._getOptionValueIds(filterId).length > 0;
+    const option: FilterOptionModel = this.getOptionById(filterId);
+
+    if (!option.showOnlyForSelectedFilters) {
+      return hasOptionsToShow;
+    }
+
+    const showOnlyForSelectedFilters: FilterOptionsIdsModel =
+      option.showOnlyForSelectedFilters;
+
+    return (
+      hasOptionsToShow &&
+      this._shouldShowBasedOnFilters(showOnlyForSelectedFilters)
+    );
+  }
+
+  private _shouldShowBasedOnFilters(
+    showOnlyForSelectedFilters: FilterOptionsIdsModel,
+  ): boolean {
+    const enabledFilters: FilterOptionsIdsModel =
+      this.data.convertFiltersToIdsFormat(this.enabled.value);
+    for (const enabledFilter of Object.values(enabledFilters)) {
+      for (const showOnlyForSelectedFilter of Object.values(
+        showOnlyForSelectedFilters,
+      )) {
+        const hasFieldIdOverlap = this.data.hasOverlap(
+          enabledFilter.fieldIds,
+          showOnlyForSelectedFilter.fieldIds,
+        );
+        const hasValueIdOverlap = this.data.hasOverlap(
+          enabledFilter.valueIds,
+          showOnlyForSelectedFilter.valueIds,
+        );
+
+        switch (showOnlyForSelectedFilter.type) {
+          case FilterType.Field:
+            if (hasFieldIdOverlap) return true;
+            break;
+          case FilterType.Value:
+            if (hasValueIdOverlap) return true;
+            break;
+          case FilterType.FieldAndValue:
+            if (hasFieldIdOverlap && hasValueIdOverlap) return true;
+            break;
+          default:
+            break;
+        }
+      }
+    }
+    return false;
   }
 
   getEnabledFiltersCountStr(count: number): string | undefined {
