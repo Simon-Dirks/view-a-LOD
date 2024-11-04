@@ -108,6 +108,35 @@ const peopleFilterOptionValueIds = [
   'http://www.nationaalarchief.nl/mdto#archiefvormer',
 ];
 
+const archivesClusterValueIds = [
+  'https://data.cbg.nl/pico-terms#doopinschrijving',
+  'https://data.cbg.nl/pico-terms#dtb_begraven',
+  'https://data.cbg.nl/pico-terms#geboorteakte',
+  'https://data.cbg.nl/pico-terms#huwelijksakte',
+  'https://data.cbg.nl/pico-terms#naamsverbetering',
+  'https://data.cbg.nl/pico-terms#notariele-akte',
+  'https://data.cbg.nl/pico-terms#overlijdensakte',
+  'https://data.cbg.nl/pico-terms#trouwinschrijving',
+  'https://hetutrechtsarchief.nl/def/Transcriptie',
+  'https://hetutrechtsarchief.nl/def/Vertaling',
+  'https://hetutrechtsarchief.nl/id/aet/db',
+  'https://hetutrechtsarchief.nl/id/aet/eb',
+  'https://hetutrechtsarchief.nl/id/aet/geb',
+  'https://hetutrechtsarchief.nl/id/aet/kvk',
+  'https://hetutrechtsarchief.nl/id/aet/notakt',
+  'https://hetutrechtsarchief.nl/id/aet/ove',
+  'https://hetutrechtsarchief.nl/id/aet/tsc',
+  'https://hetutrechtsarchief.nl/id/lst/35-codicil',
+  'https://hetutrechtsarchief.nl/id/lst/35-ontzegeling',
+  'https://hetutrechtsarchief.nl/id/lst/35-procuratie',
+  'https://hetutrechtsarchief.nl/id/lst/35-verzegeling',
+  'https://schema.org/ArchiveComponent',
+  'https://schema.org/SheetMusic',
+  'https://www.ica.org/standards/RiC/ontology#Record',
+  'http://www.nationaalarchief.nl/mdto#Bestand',
+  'http://www.nationaalarchief.nl/mdto#Informatieobject',
+];
+
 export const Settings = {
   endpoints: {
     hua: {
@@ -200,6 +229,20 @@ export const Settings = {
         fieldIds: ['https://schema.org/license'],
         values: [],
       },
+      category: {
+        label: 'Categorie',
+        fieldIds: [
+          'https://www.ica.org/standards/RiC/ontology#hasOrHadCategory',
+        ],
+        values: [],
+        showOnlyForSelectedFilters: {
+          archives: {
+            fieldIds: typePredicates,
+            valueIds: archivesClusterValueIds,
+            type: FilterType.FieldAndValue,
+          },
+        },
+      },
     },
   },
   clustering: {
@@ -217,34 +260,7 @@ export const Settings = {
       },
       archive: {
         label: 'Archieven',
-        valueIds: [
-          'https://data.cbg.nl/pico-terms#doopinschrijving',
-          'https://data.cbg.nl/pico-terms#dtb_begraven',
-          'https://data.cbg.nl/pico-terms#geboorteakte',
-          'https://data.cbg.nl/pico-terms#huwelijksakte',
-          'https://data.cbg.nl/pico-terms#naamsverbetering',
-          'https://data.cbg.nl/pico-terms#notariele-akte',
-          'https://data.cbg.nl/pico-terms#overlijdensakte',
-          'https://data.cbg.nl/pico-terms#trouwinschrijving',
-          'https://hetutrechtsarchief.nl/def/Transcriptie',
-          'https://hetutrechtsarchief.nl/def/Vertaling',
-          'https://hetutrechtsarchief.nl/id/aet/db',
-          'https://hetutrechtsarchief.nl/id/aet/eb',
-          'https://hetutrechtsarchief.nl/id/aet/geb',
-          'https://hetutrechtsarchief.nl/id/aet/kvk',
-          'https://hetutrechtsarchief.nl/id/aet/notakt',
-          'https://hetutrechtsarchief.nl/id/aet/ove',
-          'https://hetutrechtsarchief.nl/id/aet/tsc',
-          'https://hetutrechtsarchief.nl/id/lst/35-codicil',
-          'https://hetutrechtsarchief.nl/id/lst/35-ontzegeling',
-          'https://hetutrechtsarchief.nl/id/lst/35-procuratie',
-          'https://hetutrechtsarchief.nl/id/lst/35-verzegeling',
-          'https://schema.org/ArchiveComponent',
-          'https://schema.org/SheetMusic',
-          'https://www.ica.org/standards/RiC/ontology#Record',
-          'http://www.nationaalarchief.nl/mdto#Bestand',
-          'http://www.nationaalarchief.nl/mdto#Informatieobject',
-        ],
+        valueIds: archivesClusterValueIds,
       },
       locations: {
         label: 'Locaties',
