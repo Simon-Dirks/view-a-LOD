@@ -98,6 +98,7 @@ const hideFilterOptionValueIds = [
   'https://web.maisflexis.nl/rdf/INL',
   'https://web.maisflexis.nl/rdf/EB',
   'http://dbpedia.org/ontology/Place',
+  'http://www.nationaalarchief.nl/mdto#BetrokkeneGegevens',
 ];
 
 const peopleFilterOptionValueIds = [
