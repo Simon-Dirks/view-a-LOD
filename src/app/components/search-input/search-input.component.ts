@@ -58,6 +58,7 @@ export class SearchInputComponent implements OnInit, AfterViewInit {
     // }
 
     this.autocomplete.clearOptions();
+    this.autocomplete.searchSubject.next('');
 
     await this.router.navigate(['/'], {
       queryParams: { [Config.searchParam]: this.searchInput },
