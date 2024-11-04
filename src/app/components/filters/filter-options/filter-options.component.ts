@@ -8,10 +8,11 @@ import { FilterType } from '../../../models/filter.model';
 import { FilterCountComponent } from './filter-count/filter-count.component';
 import { SortSelectComponent } from '../../sort-select/sort-select.component';
 import { Settings } from '../../../config/settings';
-import { FilterPanelLocation } from '../../../models/settings/filter-panel-location.enum';
 import { SettingsService } from '../../../services/settings.service';
 import { FormsModule } from '@angular/forms';
 import { UiService } from '../../../services/ui.service';
+import { NgIcon } from '@ng-icons/core';
+import { ImageFilterComponent } from '../image-filter/image-filter.component';
 
 @Component({
   selector: 'app-filter-options',
@@ -27,6 +28,8 @@ import { UiService } from '../../../services/ui.service';
     SortSelectComponent,
     NgClass,
     FormsModule,
+    NgIcon,
+    ImageFilterComponent,
   ],
   templateUrl: './filter-options.component.html',
   styleUrl: './filter-options.component.scss',
@@ -43,5 +46,4 @@ export class FilterOptionsComponent {
   protected readonly Object = Object;
   protected readonly FilterType = FilterType;
   protected readonly Settings = Settings;
-  protected readonly FilterPanelLocation = FilterPanelLocation;
 }

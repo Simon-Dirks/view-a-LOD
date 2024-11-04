@@ -1,0 +1,28 @@
+<div class="collapse collapse-arrow join-item bg-primary text-white border">
+  <input
+    type="checkbox"
+    name="filter-accordion"
+    [(ngModel)]="ui.accordionExpandedStates['image']"
+  />
+  <div class="collapse-title">
+    <span>
+      Alleen met afbeelding
+      {{ filters.onlyShowResultsWithImages.value ? "(1)" : "" }}
+    </span>
+  </div>
+
+  <div class="collapse-content max-h-48 overflow-y-scroll overflow-x-hidden">
+    <div class="form-control flex-row">
+      <label class="label text">
+        <input
+          type="checkbox"
+          name="image-filter-radio"
+          class="checkbox checkbox-sm mr-4"
+          [checked]="filters.onlyShowResultsWithImages.value"
+          (click)="onToggle($event)"
+        />
+        Toon alleen resultaten met afbeelding
+      </label>
+    </div>
+  </div>
+</div>

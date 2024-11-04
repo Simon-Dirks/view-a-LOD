@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiService } from './api.service';
-import { Settings } from '../config/settings';
+import { hasImageFilters, Settings } from '../config/settings';
 import { ElasticNodeModel } from '../models/elastic/elastic-node.model';
 import { FilterModel, FilterType } from '../models/filter.model';
 import { ElasticQuery } from '../models/elastic/elastic-query.type';
@@ -90,6 +90,7 @@ export class ElasticService {
     query: string,
     filterFieldIds: string[],
     activeFilters: FilterModel[],
+    onlyWithImages: boolean,
   ): Promise<SearchResponse<any>[]> {
     const aggs = filterFieldIds.reduce((result: any, fieldId) => {
       const elasticFieldId = this.data.replacePeriodsWithSpaces(fieldId);
@@ -116,7 +117,13 @@ export class ElasticService {
       return result;
     }, {});
 
-    const queryData = this._getNodeSearchQuery(query, activeFilters, 0, 0);
+    const queryData = this._getNodeSearchQuery(
+      query,
+      activeFilters,
+      onlyWithImages,
+      0,
+      0,
+    );
     queryData.aggs = { ...aggs };
 
     return await this.searchEndpoints(queryData);
@@ -217,6 +224,7 @@ export class ElasticService {
   private _getNodeSearchQuery(
     query: string,
     filters: FilterModel[],
+    onlyWithImages: boolean,
     from?: number,
     size?: number,
   ): any {
@@ -254,6 +262,16 @@ export class ElasticService {
       mustQueries.push({ bool: { should: fieldOrValueFilterQueries } });
     }
 
+    const hasImageFilterQueries =
+      this._getFieldOrValueFilterQueries(hasImageFilters);
+    if (
+      onlyWithImages &&
+      hasImageFilterQueries &&
+      hasImageFilterQueries.length > 0
+    ) {
+      mustQueries.push({ bool: { should: hasImageFilterQueries } });
+    }
+
     if (mustQueries && mustQueries.length > 0) {
       queryData.query.bool.must = mustQueries;
     }
@@ -275,8 +293,15 @@ export class ElasticService {
     from: number,
     size: number,
     filters: FilterModel[],
+    onlyWithImages: boolean,
   ): Promise<ElasticEndpointSearchResponse<ElasticNodeModel>[]> {
-    const queryData = this._getNodeSearchQuery(query, filters, from, size);
+    const queryData = this._getNodeSearchQuery(
+      query,
+      filters,
+      onlyWithImages,
+      from,
+      size,
+    );
 
     return await this.searchEndpoints<ElasticNodeModel>(queryData);
   }

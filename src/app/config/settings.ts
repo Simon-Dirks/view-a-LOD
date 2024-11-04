@@ -4,13 +4,23 @@ import { PredicateVisibility } from '../models/settings/predicate-visibility-set
 import { RenderMode } from '../models/settings/render-component-settings.type';
 import { SortOrder } from '../models/settings/sort-order.enum';
 import { FilterPanelLocation } from '../models/settings/filter-panel-location.enum';
-import { FilterType } from '../models/filter.model';
+import { FilterModel, FilterType } from '../models/filter.model';
 
 export const imagePredicates: string[] = [
   'http://xmlns.com/foaf/0.1/depiction',
   // 'https://schema.org/thumbnail',
   'https://schema.org/image',
 ];
+
+export const hasImageFilters: FilterModel[] = imagePredicates.map(
+  (imagePred) => {
+    return {
+      filterId: 'image',
+      fieldId: imagePred,
+      type: FilterType.Field,
+    };
+  },
+);
 
 const typePredicates: string[] = [
   'http://www.w3.org/1999/02/22-rdf-syntax-ns#type',

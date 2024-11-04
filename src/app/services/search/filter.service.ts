@@ -37,6 +37,9 @@ export class FilterService {
   options: BehaviorSubject<FilterOptionsModel> =
     new BehaviorSubject<FilterOptionsModel>(Settings.filtering.filterOptions);
 
+  onlyShowResultsWithImages: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+
   constructor(
     public elastic: ElasticService,
     public data: DataService,
@@ -168,6 +171,7 @@ export class FilterService {
         query,
         allFilterFieldIds,
         this.enabled.value,
+        this.onlyShowResultsWithImages.value,
       );
     const docCounts: FieldDocCountsModel =
       this._getFieldDocCountsFromResponses(responses);

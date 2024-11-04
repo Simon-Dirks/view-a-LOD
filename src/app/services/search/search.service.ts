@@ -137,6 +137,10 @@ export class SearchService {
       }
       void this.execute(true, s.clearFilters);
     });
+
+    this.filters.onlyShowResultsWithImages.subscribe(() => {
+      void this.execute(true, false);
+    });
   }
 
   initSearchOnEndpointChange() {
@@ -205,6 +209,7 @@ export class SearchService {
         this.page * Settings.search.resultsPerPagePerEndpoint,
         Settings.search.resultsPerPagePerEndpoint,
         this.filters.enabled.value,
+        this.filters.onlyShowResultsWithImages.value,
       );
     const hits: SearchHit<ElasticNodeModel>[] =
       this.hits.getFromSearchResponses(responses);
@@ -244,6 +249,7 @@ export class SearchService {
         this.page * Settings.search.resultsPerPagePerEndpoint,
         Settings.search.resultsPerPagePerEndpoint,
         this.filters.enabled.value,
+        this.filters.onlyShowResultsWithImages.value,
       );
       const filterOptionsPromise = this.filters.updateFilterOptionValues(
         this.queryStr,
