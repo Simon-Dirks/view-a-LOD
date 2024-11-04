@@ -1,0 +1,4 @@
+// Sets the truncate/expand label button color
+:host ::ng-deep app-node-link app-node-label button {
+  color: theme("colors.white") !important; // TODO: Set to theme color instead
+}
