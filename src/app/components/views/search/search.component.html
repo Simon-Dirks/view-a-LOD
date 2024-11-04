@@ -54,11 +54,7 @@
     >
       <app-details *ngIf="details.showing.value" />
 
-      <div
-        [ngClass]="[
-          details.showing.value ? 'h-0 invisible overflow-hidden' : ''
-        ]"
-      >
+      <div *ngIf="!details.showing.value">
         <div class="flex flex-row">
           <app-search-hits-counter class="w-1/2 lg:w-3/4" />
           <app-sort-select class="w-1/2 lg:w-1/4 mb-2" />
