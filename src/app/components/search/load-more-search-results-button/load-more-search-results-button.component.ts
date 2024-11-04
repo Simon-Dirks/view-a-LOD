@@ -14,7 +14,7 @@ export class LoadMoreSearchResultsButtonComponent {
 
   loadMore() {
     if (!this.search.isLoading.value) {
-      void this.search.execute();
+      void this.search.execute(false, false);
     }
   }
 }
