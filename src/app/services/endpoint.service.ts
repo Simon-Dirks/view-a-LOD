@@ -5,8 +5,10 @@ import {
   EndpointUrlsModel,
 } from '../models/endpoint.model';
 import { Settings } from '../config/settings';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, take } from 'rxjs';
 import { SettingsService } from './settings.service';
+import { Config } from '../config/config';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +16,23 @@ import { SettingsService } from './settings.service';
 export class EndpointService {
   enabledIds: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
 
-  constructor(public settings: SettingsService) {}
+  constructor(
+    public settings: SettingsService,
+    private route: ActivatedRoute,
+  ) {
+    this._initUpdateEndpointsOnUrlChange();
+  }
+
+  private _initUpdateEndpointsOnUrlChange() {
+    void this.route.queryParams.pipe(take(1)).subscribe((queryParams) => {
+      const endpointsParam: string | undefined =
+        queryParams[Config.endpointsParam];
+      if (endpointsParam) {
+        const endpointIds: string[] = endpointsParam.split(',');
+        this.enabledIds.next(endpointIds);
+      }
+    });
+  }
 
   getById(endpointId: string): EndpointModel | undefined {
     const endpoints = Settings.endpoints as EndpointsModel;
