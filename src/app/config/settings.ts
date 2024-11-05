@@ -388,6 +388,7 @@ export const Settings = {
   viewer: {
     showReferenceStrip: true,
   },
+  showLanguageToggle: false,
   labelMaxChars: 100,
   predicates: {
     parents: parentPredicates,
