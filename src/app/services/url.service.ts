@@ -6,6 +6,7 @@ import { FilterService } from './search/filter.service';
 import { Router } from '@angular/router';
 import { skip } from 'rxjs';
 import { DataService } from './data.service';
+import { EndpointService } from './endpoint.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,14 +19,42 @@ export class UrlService {
     private filters: FilterService,
     private router: Router,
     private data: DataService,
+    private endpoints: EndpointService,
   ) {
     this._initUpdateUrlOnFilterChange();
+    this._initUpdateUrlOnEndpointChange();
   }
 
   private _initUpdateUrlOnFilterChange() {
     // Skip URL change for initial (empty) enabled filters, as well as filters loaded from URL
     this.filters.enabled.pipe(skip(2)).subscribe((enabledFilters) => {
       void this.updateUrlToReflectFilters(enabledFilters);
+    });
+  }
+
+  private _initUpdateUrlOnEndpointChange() {
+    this.endpoints.enabledIds
+      .pipe(skip(1))
+      .subscribe((endpointIds: string[]) => {
+        void this._updateUrlToReflectEndpoints(endpointIds);
+      });
+  }
+
+  private async _updateUrlToReflectEndpoints(endpointIds: string[]) {
+    console.log('Updating URL to reflect endpoints', endpointIds);
+
+    let endpointsParam: string | null = null;
+    if (endpointIds && endpointIds.length > 0) {
+      endpointsParam = endpointIds.join(',');
+    }
+
+    setTimeout(async () => {
+      this.ignoreQueryParamChange = true;
+      await this.router.navigate([], {
+        queryParams: { [Config.endpointsParam]: endpointsParam },
+        queryParamsHandling: 'merge',
+      });
+      this.ignoreQueryParamChange = false;
     });
   }
 

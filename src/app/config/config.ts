@@ -11,4 +11,5 @@ export const Config = {
   detailsUrl: 'details',
   searchParam: 'search',
   filtersParam: 'filters',
+  endpointsParam: 'endpoints',
 };
