@@ -322,6 +322,7 @@ export class ElasticService {
       ];
     }
     if (boostQueries && boostQueries.length > 0) {
+      // TODO: Fix issue with less results showing when including boost queries (e.g. empty search)
       queryData.query.bool.should = boostQueries;
     }
 
