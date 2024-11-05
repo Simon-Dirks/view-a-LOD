@@ -30,6 +30,15 @@ export class UrlService {
     this.filters.enabled.pipe(skip(2)).subscribe((enabledFilters) => {
       void this.updateUrlToReflectFilters(enabledFilters);
     });
+
+    this.filters.onlyShowResultsWithImages
+      .pipe(skip(1))
+      .subscribe(async (onlyWithImages) => {
+        void this._updateUrlParam(
+          Config.onlyWithImages,
+          JSON.stringify(onlyWithImages),
+        );
+      });
   }
 
   private _initUpdateUrlOnEndpointChange() {
@@ -49,12 +58,7 @@ export class UrlService {
     }
 
     setTimeout(async () => {
-      this.ignoreQueryParamChange = true;
-      await this.router.navigate([], {
-        queryParams: { [Config.endpointsParam]: endpointsParam },
-        queryParamsHandling: 'merge',
-      });
-      this.ignoreQueryParamChange = false;
+      await this._updateUrlParam(Config.endpointsParam, endpointsParam);
     });
   }
 
@@ -69,9 +73,13 @@ export class UrlService {
       filters,
     );
 
+    void this._updateUrlParam(Config.filtersParam, enabledFiltersParam);
+  }
+
+  private async _updateUrlParam(key: string, param: string | null) {
     this.ignoreQueryParamChange = true;
     await this.router.navigate([], {
-      queryParams: { [Config.filtersParam]: enabledFiltersParam },
+      queryParams: { [key]: param },
       queryParamsHandling: 'merge',
     });
     this.ignoreQueryParamChange = false;

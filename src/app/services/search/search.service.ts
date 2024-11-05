@@ -187,6 +187,13 @@ export class SearchService {
       if (filtersParam) {
         this.filters.onUpdateFromURLParam(filtersParam);
       }
+
+      const onlyWithImages: string | undefined =
+        queryParams[Config.onlyWithImages];
+      if (onlyWithImages) {
+        this.filters.onlyShowResultsWithImages.next(JSON.parse(onlyWithImages));
+      }
+
       setTimeout(() => this._searchOnUrlChange(queryParams));
     });
 
