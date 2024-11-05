@@ -111,14 +111,28 @@ const hideFilterOptionValueIds = [
   'http://www.nationaalarchief.nl/mdto#BetrokkeneGegevens',
 ];
 
-const peopleFilterOptionValueIds = [
+const peopleValueIds = [
   'https://schema.org/Person',
   'https://data.cbg.nl/pico#PersonObservation',
   'http://xmlns.com/foaf/0.1/Agent',
   'http://www.nationaalarchief.nl/mdto#archiefvormer',
 ];
 
-const archivesClusterValueIds = [
+const publicationValueIds = [
+  'https://hetutrechtsarchief.nl/def/Band',
+  'https://hetutrechtsarchief.nl/id/aet/hasc',
+  'https://hetutrechtsarchief.nl/id/aet/jrg',
+  'https://hetutrechtsarchief.nl/id/aet/krtp',
+  'https://schema.org/Article',
+  'https://schema.org/Book',
+  'https://schema.org/BookSeries',
+  'https://schema.org/CollectionPage',
+  'https://schema.org/Manuscript',
+  'https://schema.org/Newspaper',
+  'https://schema.org/PublicationEvent',
+];
+
+const archivesValueIds = [
   'https://data.cbg.nl/pico-terms#doopinschrijving',
   'https://data.cbg.nl/pico-terms#dtb_begraven',
   'https://data.cbg.nl/pico-terms#geboorteakte',
@@ -147,7 +161,7 @@ const archivesClusterValueIds = [
   'http://www.nationaalarchief.nl/mdto#Informatieobject',
 ];
 
-const visualMaterialClusterValueIds = [
+const visualMaterialValueIds = [
   'https://schema.org/CreativeWork',
   'https://schema.org/Drawing',
   'https://schema.org/ImageObject',
@@ -204,12 +218,43 @@ export const Settings = {
   },
   maxNumParallelRequests: 4, // 4 SPARQL workers max for Triply
   sorting: {
-    default: 'relevance',
+    default: 'hua',
     options: {
       relevance: {
         fields: [],
         label: 'Relevantie',
         order: SortOrder.Ascending,
+      },
+      hua: {
+        fields: [],
+        label: 'HUA',
+        order: SortOrder.Ascending,
+        boost: {
+          images: {
+            boost: 4,
+            filter: {
+              fieldIds: imagePredicates,
+              valueIds: [],
+              type: FilterType.Field,
+            },
+          },
+          publications: {
+            boost: 3,
+            filter: {
+              fieldIds: imagePredicates,
+              valueIds: publicationValueIds,
+              type: FilterType.FieldAndValue,
+            },
+          },
+          archives: {
+            boost: 2,
+            filter: {
+              fieldIds: typePredicates,
+              valueIds: archivesValueIds,
+              type: FilterType.FieldAndValue,
+            },
+          },
+        },
       },
       'title-a-z': {
         fields: labelPredicates,
@@ -251,7 +296,7 @@ export const Settings = {
         showOnlyForSelectedFilters: {
           visualMaterial: {
             fieldIds: typePredicates,
-            valueIds: visualMaterialClusterValueIds,
+            valueIds: visualMaterialValueIds,
             type: FilterType.FieldAndValue,
           },
         },
@@ -262,11 +307,11 @@ export const Settings = {
     filterOptionValues: {
       images: {
         label: 'Beeldmateriaal',
-        valueIds: visualMaterialClusterValueIds,
+        valueIds: visualMaterialValueIds,
       },
       archive: {
         label: 'Archieven',
-        valueIds: archivesClusterValueIds,
+        valueIds: archivesValueIds,
       },
       locations: {
         label: 'Locaties',
@@ -297,23 +342,11 @@ export const Settings = {
       },
       people: {
         label: 'Personen',
-        valueIds: peopleFilterOptionValueIds,
+        valueIds: peopleValueIds,
       },
       publication: {
         label: 'Publicaties',
-        valueIds: [
-          'https://hetutrechtsarchief.nl/def/Band',
-          'https://hetutrechtsarchief.nl/id/aet/hasc',
-          'https://hetutrechtsarchief.nl/id/aet/jrg',
-          'https://hetutrechtsarchief.nl/id/aet/krtp',
-          'https://schema.org/Article',
-          'https://schema.org/Book',
-          'https://schema.org/BookSeries',
-          'https://schema.org/CollectionPage',
-          'https://schema.org/Manuscript',
-          'https://schema.org/Newspaper',
-          'https://schema.org/PublicationEvent',
-        ],
+        valueIds: publicationValueIds,
       },
     },
     types: {
