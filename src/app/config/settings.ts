@@ -218,20 +218,15 @@ export const Settings = {
   },
   maxNumParallelRequests: 4, // 4 SPARQL workers max for Triply
   sorting: {
-    default: 'hua',
+    default: 'relevance',
     options: {
       relevance: {
         fields: [],
         label: 'Relevantie',
         order: SortOrder.Ascending,
-      },
-      hua: {
-        fields: [],
-        label: 'HUA',
-        order: SortOrder.Ascending,
         boost: {
           images: {
-            boost: 4,
+            boost: 100,
             filter: {
               fieldIds: imagePredicates,
               valueIds: [],
@@ -239,9 +234,9 @@ export const Settings = {
             },
           },
           publications: {
-            boost: 3,
+            boost: 5,
             filter: {
-              fieldIds: imagePredicates,
+              fieldIds: typePredicates,
               valueIds: publicationValueIds,
               type: FilterType.FieldAndValue,
             },

@@ -65,16 +65,30 @@ export class DataService {
     for (const [filterId, { type, valueIds, fieldIds }] of Object.entries(
       filterIdsFormat,
     )) {
-      for (const fieldId of fieldIds) {
-        for (const valueId of valueIds) {
-          const filter: FilterModel = {
-            filterId,
-            fieldId,
-            valueId,
-            type,
-          };
-          filters.push(filter);
-        }
+      if (type === FilterType.Value && valueIds && valueIds.length > 0) {
+        valueIds.forEach((valueId) => {
+          filters.push({ filterId, valueId, type });
+        });
+      }
+
+      if (type === FilterType.Field && fieldIds && fieldIds.length > 0) {
+        fieldIds.forEach((fieldId) => {
+          filters.push({ filterId, fieldId, type });
+        });
+      }
+
+      if (
+        type === FilterType.FieldAndValue &&
+        valueIds &&
+        valueIds.length > 0 &&
+        fieldIds &&
+        fieldIds.length > 0
+      ) {
+        fieldIds.forEach((fieldId) => {
+          valueIds.forEach((valueId) => {
+            filters.push({ filterId, fieldId, valueId, type });
+          });
+        });
       }
     }
 

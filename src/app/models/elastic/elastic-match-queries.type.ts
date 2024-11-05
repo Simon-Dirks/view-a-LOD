@@ -1,3 +1,3 @@
 export type ElasticMatchQueries = {
-  match_phrase: { [fieldId: string]: string };
+  match_phrase: { [fieldId: string]: { query: string; boost?: number } };
 };
