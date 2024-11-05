@@ -1,0 +1,15 @@
+<div class="text-right">
+  <button
+    (click)="translate.use('en')"
+    [ngClass]="[translate.currentLang === 'en' ? 'font-bold' : '']"
+  >
+    ENG
+  </button>
+  <br />
+  <button
+    (click)="translate.use('nl')"
+    [ngClass]="[translate.currentLang === 'nl' ? 'font-bold' : '']"
+  >
+    NL
+  </button>
+</div>

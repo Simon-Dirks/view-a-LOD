@@ -5,7 +5,7 @@
     <input
       type="text"
       class="grow"
-      placeholder="Zoeken"
+      [placeholder]="'search-placeholder' | translate"
       value="{{ search.queryStr }}"
       [(ngModel)]="searchInput"
       (keyup.enter)="onSearch()"
@@ -30,7 +30,7 @@
         *ngIf="!search.isLoading.value"
       />
       <!--    <ng-icon [svg]="featherSearch" />-->
-      <span>Zoek</span>
+      <span>{{ "search" | translate }}</span>
     </button>
   </label>
 

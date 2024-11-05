@@ -1,8 +1,9 @@
 <p class="text-center mt-12 text-base sm:text-lg sm:w-3/4 px-2 mx-auto">
-  Hier zoek je binnen de gecombineerde archieven van
-  <span class="font-bold">Het Utrechts Archief</span>,
-  <span class="font-bold">Kasteel Amerongen</span> en
-  <span class="font-bold">Regionaal Archief Zuid-Utrecht</span>
+  {{ "search-in-combined-archives-of" | translate }}
+  <span class="font-bold">{{ "hua" | translate }}</span
+  >, <span class="font-bold">{{ "castle-amerongen" | translate }}</span>
+  {{ "and" | translate }}
+  <span class="font-bold">{{ "razu" | translate }}</span>
 </p>
 
 <div class="mx-auto text-center my-6">
@@ -12,6 +13,6 @@
     <span class="relative bottom-[0.15rem]">?</span>
   </div>
   <button class="underline" (click)="router.navigateByUrl('colofon')">
-    Meer info
+    {{ "more-info" | translate }}
   </button>
 </div>

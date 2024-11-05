@@ -15,6 +15,7 @@ import {
   AutocompleteOptionType,
 } from '../../models/autocomplete-option.model';
 import { SearchAutocompleteComponent } from '../search-autocomplete/search-autocomplete.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search-input',
@@ -28,6 +29,7 @@ import { SearchAutocompleteComponent } from '../search-autocomplete/search-autoc
     NgForOf,
     RouterLink,
     SearchAutocompleteComponent,
+    TranslatePipe,
   ],
   templateUrl: './search-input.component.html',
   styleUrl: './search-input.component.scss',

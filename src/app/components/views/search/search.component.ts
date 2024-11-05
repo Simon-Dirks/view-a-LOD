@@ -43,6 +43,7 @@ import { FilterPanelLocation } from '../../../models/settings/filter-panel-locat
 import { SettingsService } from '../../../services/settings.service';
 import { DetailsBackButtonComponent } from '../../details-back-button/details-back-button.component';
 import { filter } from 'rxjs';
+import { LangSwitchComponent } from '../../lang-switch/lang-switch.component';
 
 @Component({
   selector: 'app-search',
@@ -73,6 +74,7 @@ import { filter } from 'rxjs';
     LoadMoreSearchResultsButtonComponent,
     SearchHitsCounterComponent,
     DetailsBackButtonComponent,
+    LangSwitchComponent,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
