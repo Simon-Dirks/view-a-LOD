@@ -2,8 +2,13 @@
   <div class="sm:w-[80%] mx-auto">
     <h1 class="text-center text-2xl sm:text-5xl mb-0 sm:mb-6 font-bold">
       {{ "discover-history-of" | translate }}
-      <span class="text-primary">{{ "castle-amerongen" | translate }}</span>
-      {{ "on-experimental-lod-website" | translate }}
+      <span
+        class="text-primary"
+        [innerHTML]="translate.get('castle-amerongen') | async"
+      ></span>
+      <span>&nbsp;</span>
+      <span [innerHTML]="translate.get('on-experimental-lod-website') | async">
+      </span>
     </h1>
 
     <!--    <p>-->

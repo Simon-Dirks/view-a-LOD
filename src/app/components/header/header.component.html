@@ -3,9 +3,10 @@
 >
   <button class="text-left" (click)="onButtonClicked('')">
     <!--    <div class="text-sm sm:text-base">Prototype Zoekomgeving</div>-->
-    <div class="font-semibold text-lg sm:text-2xl mb-2">
-      {{ "castle-amerongen" | translate }}
-    </div>
+    <div
+      class="font-semibold text-lg sm:text-2xl mb-2"
+      [innerHTML]="translate.get('castle-amerongen') | async"
+    ></div>
   </button>
 
   <div class="flex-grow">
