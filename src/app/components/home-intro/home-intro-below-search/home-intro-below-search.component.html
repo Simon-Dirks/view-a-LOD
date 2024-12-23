@@ -1,7 +1,9 @@
 <p class="text-center mt-12 text-base sm:text-lg sm:w-3/4 px-2 mx-auto">
-  {{ "search-in-combined-archives-of" | translate }}
+  <span [innerHTML]="'search-in-combined-archives-of' | translate"></span>
+  <span>&nbsp;</span>
   <span class="font-bold">{{ "hua" | translate }}</span
-  >, <span class="font-bold">{{ "castle-amerongen" | translate }}</span>
+  >,
+  <span class="font-bold" [innerHTML]="'castle-amerongen' | translate"></span>
   {{ "and" | translate }}
   <span class="font-bold">{{ "razu" | translate }}</span>
 </p>
