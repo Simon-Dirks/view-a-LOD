@@ -279,6 +279,16 @@ export class ElasticService {
       mustQueries.push({ bool: { should: hasImageFilterQueries } });
     }
 
+    // Only show filters (e.g., only show "InformatieObject")
+    const onlyShowFilters = this.data.convertFiltersFromIdsFormat(
+      Settings.onlyShowNodes as FilterOptionsIdsModel,
+    );
+    const onlyShowQueries: ElasticShouldQueries[] =
+      this.getFieldAndValueFilterQueries(onlyShowFilters);
+    if (onlyShowQueries && onlyShowQueries.length > 0) {
+      mustQueries.push(...onlyShowQueries);
+    }
+
     if (mustQueries && mustQueries.length > 0) {
       queryData.query.bool.must = mustQueries;
     }
