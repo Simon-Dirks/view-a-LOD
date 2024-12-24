@@ -4,4 +4,5 @@ export enum ViewModeSetting {
   ShowTitle,
   ShowTypes,
   ShowImageNextToTable,
+  ShowOrganization,
 }

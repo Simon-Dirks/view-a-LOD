@@ -44,7 +44,10 @@
       >
         <app-node-types [types]="types" />
       </app-node-table-row>
-      <app-node-table-row [label]="'Organisatie'" *ngIf="details.showing.value">
+      <app-node-table-row
+        [label]="'Organisatie'"
+        *ngIf="details.showing.value && showOrganization"
+      >
         <app-node-endpoint [endpointId]="nodes.getEndpointId(node)" />
       </app-node-table-row>
     </div>

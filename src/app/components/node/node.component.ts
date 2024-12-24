@@ -75,6 +75,7 @@ export class NodeComponent implements OnInit {
   showTitle = this.settings.hasViewModeSetting(ViewModeSetting.ShowTitle);
   showParents = this.settings.hasViewModeSetting(ViewModeSetting.ShowParents);
   showTypes = this.settings.hasViewModeSetting(ViewModeSetting.ShowTypes);
+  showOrganization = this.settings.hasViewModeSetting(ViewModeSetting.ShowOrganization);
   showImageNextToTable = this.settings.hasViewModeSetting(
     ViewModeSetting.ShowImageNextToTable,
   );
