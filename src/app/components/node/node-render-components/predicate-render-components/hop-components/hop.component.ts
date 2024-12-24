@@ -43,4 +43,8 @@ export class HopComponent {
     }
     return this.settings.showHops;
   }
+
+  get hasHopHits(): boolean {
+    return this.hopObjIds && this.hopObjIds.length > 0;
+  }
 }
