@@ -32,19 +32,26 @@ export class NodeTypesComponent {
     this.initClusteredTypes();
   }
 
+  getVisibleTypes(): TypeModel[] {
+    if (!this.types) {
+      return [];
+    }
+
+    return this.types?.filter(
+      (t) =>
+        this.settings.getPredicateVisibility(t.id) !==
+          PredicateVisibility.Hide &&
+        !(Settings.hideTypePredicates as string[]).includes(t.id),
+    );
+  }
+
   initTypesClusteredInFilters() {
     if (!this.types) {
       return;
     }
 
     this.typesClusteredInFilters = [];
-    const typeIds = this.types
-      .filter(
-        (t) =>
-          this.settings.getPredicateVisibility(t.id) !==
-          PredicateVisibility.Hide,
-      )
-      .map((t) => t.id);
+    const typeIds = this.getVisibleTypes().map((t) => t.id);
 
     for (const [clusterId, filterCluster] of Object.entries(
       Settings.clustering.filterOptionValues as ClusterValuesSettingsModel,
@@ -64,13 +71,8 @@ export class NodeTypesComponent {
       return;
     }
 
-    const visibleTypes = this.types.filter(
-      (t) =>
-        this.settings.getPredicateVisibility(t.id) !== PredicateVisibility.Hide,
-    );
-
     this.clusteredTypes = this.clusters.clusterTypes(
-      visibleTypes,
+      this.getVisibleTypes(),
       Settings.clustering.types,
     );
   }

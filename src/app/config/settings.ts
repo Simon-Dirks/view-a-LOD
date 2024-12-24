@@ -539,6 +539,7 @@ export const Settings = {
     'https://hetutrechtsarchief.nl/def/isDescendentOf',
     'https://hetutrechtsarchief.nl/def/isDescendantOf',
   ],
+  hideTypePredicates: [],
   onlyShowNodes: {},
   alwaysHideNodes: {
     hideSkosConcept: {
