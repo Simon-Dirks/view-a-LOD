@@ -52,7 +52,9 @@
       </app-node-table-row>
     </div>
 
-    <app-node-renderer [node]="node" />
+    <div class="sm:pr-32">
+      <app-node-renderer [node]="node" />
+    </div>
 
     <div class="mt-8 font-mono text-sm" *ngIf="details.showing.value">
       <app-node-permalink-button [node]="node" />
