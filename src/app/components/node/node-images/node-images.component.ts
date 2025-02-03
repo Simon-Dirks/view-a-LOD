@@ -15,7 +15,8 @@ import { JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { Config } from '../../../config/config';
 import { UrlService } from '../../../services/url.service';
 import { Settings } from '../../../config/settings';
-import OpenSeadragon, { Viewer } from 'openseadragon';
+// @ts-ignore
+import Mirador from 'mirador/dist/es/src/index';
 
 @Component({
   selector: 'app-node-images',
@@ -28,12 +29,13 @@ import OpenSeadragon, { Viewer } from 'openseadragon';
 export class NodeImagesComponent
   implements OnInit, OnChanges, OnDestroy, AfterViewInit
 {
-  private _imageViewer?: Viewer;
-  @ViewChild('viewerElem') viewerElem!: ElementRef;
+  private _imageViewer?: any;
 
   @Input() imageUrls?: string[];
   @Input() shownInTableCell = true;
   @Input() useViewer = true;
+  @Input() showAsThumb = false;
+  @Input() imageLabel?: string;
 
   processedImageUrls: string[] = [];
 
@@ -42,17 +44,19 @@ export class NodeImagesComponent
     private ngZone: NgZone,
   ) {}
 
-  ngOnInit() {}
-
-  ngAfterViewInit() {
-    this.initImageViewer(this.processedImageUrls);
+  ngOnInit() {
     this._processImageUrls();
   }
 
-  // TODO: Refactor OSD into separate component
+  ngAfterViewInit() {
+    if (this.processedImageUrls.length > 0) {
+      this.initImageViewer(this.processedImageUrls);
+    }
+  }
+
   destroyImageViewer() {
     if (this._imageViewer) {
-      this._imageViewer.destroy();
+      this._imageViewer = undefined;
     }
   }
 
@@ -60,60 +64,38 @@ export class NodeImagesComponent
     if (!this.useViewer) {
       return;
     }
-    if (!this.viewerElem) {
-      // TODO
-      console.warn('Viewer elem not yet initialized');
+    if (!imgUrls.length) {
       return;
     }
 
     this.destroyImageViewer();
 
-    const sources: any = imgUrls.map((imgUrl) => {
-      return { type: 'image', url: imgUrl };
-    });
-
-    this._imageViewer = this.ngZone.runOutsideAngular(() =>
-      OpenSeadragon({
-        element: this.viewerElem.nativeElement,
-        prefixUrl: 'assets/osd/images/',
-
-        sequenceMode: true,
-        showReferenceStrip: Settings.viewer.showReferenceStrip,
-        // referenceStripScroll: 'vertical',
-        // showNavigator: true,
-
-        // collectionMode: true,
-        // collectionRows: 1,
-        // collectionTileSize: 1024,
-        // collectionTileMargin: 256,
-        tileSources: sources,
-        maxZoomPixelRatio: 5,
-        autoResize: true,
-      }),
-    );
-
-    this._imageViewer.addHandler('open-failed', () => {
-      this.initImageViewer([Settings.imageForWhenLoadingFails]);
-    });
-
-    this._imageViewer.addHandler('tile-loaded', (event) => {
-      if (!this._imageViewer) {
-        return;
-      }
-
-      if (this.shownInTableCell) {
-        this._imageViewer.viewport.goHome(true);
-        return;
-      }
-
-      const initialBounds = this._imageViewer.viewport.getBounds();
-      const alignImageToTopBounds = new OpenSeadragon.Rect(
-        0,
-        0,
-        1,
-        initialBounds.height / initialBounds.width,
-      );
-      this._imageViewer.viewport.fitBounds(alignImageToTopBounds, true);
+    this._imageViewer = this.ngZone.runOutsideAngular(() => {
+      return Mirador.viewer({
+        id: 'mirador',
+        windows: [
+          {
+            manifestId:
+              'https://iiif.bodleian.ox.ac.uk/iiif/manifest/e32a277e-91e2-4a6d-8ba6-cc4bad230410.json',
+            allowClose: false,
+            allowFullscreen: true,
+            sideBarOpen: false,
+          },
+        ],
+        workspace: {
+          type: 'single',
+          showZoomControls: true,
+        },
+        workspaceControlPanel: {
+          enabled: false,
+        },
+        window: {
+          allowWindowSideBar: false,
+          sideBarOpenByDefault: false,
+          allowTopMenuButton: false,
+          allowMaximize: false,
+        },
+      });
     });
   }
 
@@ -149,9 +131,9 @@ export class NodeImagesComponent
     this.initImageViewer(this.processedImageUrls);
   }
 
-  protected readonly Config = Config;
-
   onImageLoadError($event: ErrorEvent) {
     ($event.target as any).src = Settings.imageForWhenLoadingFails;
   }
+
+  protected readonly Config = Config;
 }
