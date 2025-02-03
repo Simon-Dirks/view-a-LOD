@@ -5,7 +5,7 @@ import {
   wrapWithAngleBrackets,
 } from '../../../../../helpers/util.helper';
 import { ApiService } from '../../../../../services/api.service';
-import { Settings } from '../../../../../config/settings';
+import { EndpointService } from '../../../../../services/endpoint.service';
 import { NodeLinkComponent } from '../../../node-link/node-link.component';
 import { NodeImagesComponent } from '../../../node-images/node-images.component';
 import { NgIf } from '@angular/common';
@@ -28,6 +28,7 @@ export class MdtoUrlBestandComponent implements OnInit {
   constructor(
     public api: ApiService,
     public sparql: SparqlService,
+    private endpointService: EndpointService,
   ) {}
 
   ngOnInit() {
@@ -43,13 +44,19 @@ export class MdtoUrlBestandComponent implements OnInit {
 ${wrapWithAngleBrackets(this.nodeId)} <http://www.nationaalarchief.nl/mdto#bestandsformaat> ?b .
 ?b <http://www.nationaalarchief.nl/mdto#begripLabel> ?bestandsformaat .`;
 
+    const razuUrls = this.endpointService.getEndpointUrls('razu');
+    const kasteelUrls = this.endpointService.getEndpointUrls('kasteelAmerongen');
+    if (!razuUrls || !kasteelUrls) {
+      return;
+    }
+
     const query = `
 SELECT ?bestandsformaat WHERE {
-  ${this.sparql.getFederatedQuery(queryTemplate, [...Settings.endpoints.razu.endpointUrls, ...Settings.endpoints.kasteelAmerongen.endpointUrls])}
+  ${this.sparql.getFederatedQuery(queryTemplate, [...razuUrls, ...kasteelUrls])}
 } LIMIT 100`;
 
     const response = await this.api.postData<{ bestandsformaat: string }[]>(
-      Settings.endpoints.razu.endpointUrls[0].sparql,
+      razuUrls[0].sparql,
       {
         query: query,
       },

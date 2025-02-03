@@ -4,9 +4,11 @@ import { JsonPipe, NgForOf } from '@angular/common';
 import { ApiService } from '../../../../../services/api.service';
 import { SparqlService } from '../../../../../services/sparql.service';
 import { NodeService } from '../../../../../services/node.service';
-import { labelPredicates, Settings } from '../../../../../config/settings';
+import { labelPredicates } from '../../../../../config/settings';
 import { NodeLinkComponent } from '../../../node-link/node-link.component';
 import { wrapWithAngleBrackets } from '../../../../../helpers/util.helper';
+import { EndpointService } from '../../../../../services/endpoint.service';
+import { EndpointUrlsModel } from '../../../../../models/endpoint.model';
 
 @Component({
   selector: 'app-hua-rubriek',
@@ -22,6 +24,7 @@ export class HuaRubriekComponent extends NodeRenderComponent {
     public api: ApiService,
     public sparql: SparqlService,
     public override nodes: NodeService,
+    private endpointService: EndpointService,
   ) {
     super(nodes);
   }
@@ -44,9 +47,15 @@ WHERE {
   ?subject ${labelPredicates.map((p) => wrapWithAngleBrackets(p)).join('|')} ?subjectLabel .
 }`;
 
+    const endpointUrls: EndpointUrlsModel[] | null =
+      this.endpointService.getEndpointUrls('hua');
+    if (!endpointUrls) {
+      return;
+    }
+
     const response = await this.api.postData<
       { subject: string; subjectLabel: string }[]
-    >(Settings.endpoints.hua.endpointUrls[0].sparql, {
+    >(endpointUrls[0].sparql, {
       query: query,
     });
 

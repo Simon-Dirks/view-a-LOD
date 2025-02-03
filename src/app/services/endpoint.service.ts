@@ -23,6 +23,16 @@ export class EndpointService {
     this._initUpdateEndpointsOnUrlChange();
   }
 
+    getEndpointUrls(endpointId: string): EndpointUrlsModel[] | null {
+    const endpoints = Settings.endpoints as EndpointsModel;
+    if (!(endpointId in endpoints)) {
+      console.warn(`${endpointId} endpoint not configured`);
+      return null;
+    }
+    const endpoint = endpoints[endpointId] as EndpointModel;
+    return endpoint.endpointUrls;
+  }
+
   private _initUpdateEndpointsOnUrlChange() {
     void this.route.queryParams.pipe(take(1)).subscribe((queryParams) => {
       const endpointsParam: string | undefined =

@@ -5,10 +5,11 @@ import {
   wrapWithAngleBrackets,
 } from '../../../../../helpers/util.helper';
 import { ApiService } from '../../../../../services/api.service';
-import { Settings } from '../../../../../config/settings';
+import { EndpointService } from '../../../../../services/endpoint.service';
 import { NodeLinkComponent } from '../../../node-link/node-link.component';
 import { NodeImagesComponent } from '../../../node-images/node-images.component';
 import { NgIf } from '@angular/common';
+import { EndpointUrlsModel } from '../../../../../models/endpoint.model';
 
 @Component({
   selector: 'app-rico-identifier',
@@ -25,6 +26,7 @@ export class RicoIdentifierComponent implements OnInit {
   constructor(
     public api: ApiService,
     public sparql: SparqlService,
+    private endpointService: EndpointService,
   ) {}
 
   ngOnInit(): void {
@@ -40,17 +42,23 @@ export class RicoIdentifierComponent implements OnInit {
       rico: 'https://www.ica.org/standards/RiC/ontology#',
       rdfs: 'http://www.w3.org/2000/01/rdf-schema#',
     };
+    const endpointUrls: EndpointUrlsModel[] | null =
+      this.endpointService.getEndpointUrls('hua');
+    if (!endpointUrls) {
+      return;
+    }
+
     const queryTemplate = `
     ${wrapWithAngleBrackets(this.id)} <${prefixes.rico}hasIdentifierType>/<${prefixes.rdfs}label> ?typeLabel ; <${prefixes.rico}textualValue> ?value .`;
 
     const query = `
 SELECT distinct ?typeLabel ?value WHERE {
-${this.sparql.getFederatedQuery(queryTemplate, Settings.endpoints.hua.endpointUrls)}
+${this.sparql.getFederatedQuery(queryTemplate, endpointUrls)}
 } LIMIT 1`;
 
     const response = await this.api.postData<
       { typeLabel: string; value: string }[]
-    >(Settings.endpoints.hua.endpointUrls[0].sparql, {
+    >(endpointUrls[0].sparql, {
       query: query,
     });
     if (!response || response.length === 0) {
