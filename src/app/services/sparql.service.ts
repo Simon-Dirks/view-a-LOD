@@ -83,12 +83,17 @@ SELECT DISTINCT ?sub ?pred WHERE {
 
 limit 500`;
 
-    return await this.api.postData<SparqlIncomingRelationModel[]>(
-      this.endpoints.getFirstUrls().sparql,
-      {
-        query: query,
-      },
-    );
+    try {
+      return await this.api.postData<SparqlIncomingRelationModel[]>(
+        this.endpoints.getFirstUrls().sparql,
+        {
+          query: query,
+        },
+      );
+    } catch (error) {
+      console.warn('Failed to fetch incoming relations:', error);
+      return [];
+    }
   }
 
   async getAllParents(node: NodeModel): Promise<SparqlNodeParentModel[]> {
@@ -114,12 +119,17 @@ SELECT DISTINCT ?id ?title ?parent WHERE {
 
 limit 500`;
 
-    return await this.api.postData<SparqlNodeParentModel[]>(
-      this.endpoints.getFirstUrls().sparql,
-      {
-        query: query,
-      },
-    );
+    try {
+      return await this.api.postData<SparqlNodeParentModel[]>(
+        this.endpoints.getFirstUrls().sparql,
+        {
+          query: query,
+        },
+      );
+    } catch (error) {
+      console.warn('Failed to fetch parent nodes:', error);
+      return [];
+    }
   }
 
   // async getLabelFromLiterals(id: string): Promise<string> {
@@ -184,16 +194,21 @@ SELECT DISTINCT ?s ?label WHERE {
 }
 LIMIT 10000`;
 
-    const response: { s: string; label: string }[] = await this.api.postData<
-      { s: string; label: string }[]
-    >(this.endpoints.getFirstUrls().sparql, {
-      query: query,
-    });
-    const labels: ThingWithLabelModel[] = response.map(({ s, label }) => {
-      return { '@id': s, label: label };
-    });
+    try {
+      const response: { s: string; label: string }[] = await this.api.postData<
+        { s: string; label: string }[]
+      >(this.endpoints.getFirstUrls().sparql, {
+        query: query,
+      });
+      const labels: ThingWithLabelModel[] = response.map(({ s, label }) => {
+        return { '@id': s, label: label };
+      });
 
-    return labels;
+      return labels;
+    } catch (error) {
+      console.warn('Failed to fetch labels:', error);
+      return [];
+    }
 
     // TODO: Bring back fallback label from literals functionality
     // if (!labels || labels.length === 0) {
@@ -215,16 +230,19 @@ SELECT DISTINCT ?o WHERE {
     ${this.getFederatedQuery(queryTemplate)}
 }
 LIMIT 10000`;
-
-    const response: { o: string }[] = await this.api.postData<{ o: string }[]>(
-      this.endpoints.getFirstUrls().sparql,
-      {
+    try {
+      const response: { o: string }[] = await this.api.postData<
+        { o: string }[]
+      >(this.endpoints.getFirstUrls().sparql, {
         query: query,
-      },
-    );
-    const objIds = response.map((item) => item.o);
+      });
+      const objIds = response.map((item) => item.o);
 
-    return objIds;
+      return objIds;
+    } catch (error) {
+      console.warn('Failed to fetch objects:', error);
+      return [];
+    }
   }
 
   async getNode(id: string): Promise<NodeModel> {
