@@ -1,10 +1,11 @@
 import { Component, Input, type OnInit } from '@angular/core';
 import { SparqlService } from '../../../../../services/sparql.service';
-import { NgForOf, NgIf } from '@angular/common';
+import { NgForOf, NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
 import { NodeImagesComponent } from '../../../node-images/node-images.component';
 import { DocViewerComponent } from '../../../../doc-viewer/doc-viewer.component';
 import { HopLinkSettingsModel } from '../../../../../models/settings/hop-link-settings.model';
 import { NodeLinkComponent } from '../../../node-link/node-link.component';
+import { MimeTypeService } from '../../../../../services/mime-type.service';
 
 @Component({
   selector: 'app-file-renderer',
@@ -15,19 +16,34 @@ import { NodeLinkComponent } from '../../../node-link/node-link.component';
     NodeImagesComponent,
     DocViewerComponent,
     NodeLinkComponent,
+    NgSwitch,
+    NgSwitchCase,
   ],
   templateUrl: './file-renderer.component.html',
   styleUrl: './file-renderer.component.css',
 })
 export class FileRendererComponent implements OnInit {
+  private static readonly SUPPORTED_MIME_TYPES = {
+    image: ['image/'],
+    document: [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    ],
+  } as const;
+
   @Input() urls: string | string[] = [];
   @Input() hopSettings?: HopLinkSettingsModel;
   @Input() fullHeight = false;
 
   fileUrls: string[] = [];
   loading = false;
+  urlMimeTypes = new Map<string, string>();
 
-  constructor(private sparql: SparqlService) {}
+  constructor(
+    private sparql: SparqlService,
+    private mimeTypeService: MimeTypeService,
+  ) {}
 
   ngOnInit(): void {
     void this.initFileUrls();
@@ -35,7 +51,6 @@ export class FileRendererComponent implements OnInit {
 
   private async initFileUrls() {
     const inputUrls = Array.isArray(this.urls) ? this.urls : [this.urls];
-
     const validUrls = inputUrls.filter((url) => url);
 
     if (validUrls.length === 0) {
@@ -55,25 +70,36 @@ export class FileRendererComponent implements OnInit {
         );
 
         const results = await Promise.all(urlPromises);
-
         this.fileUrls = results.flat();
       } else {
         this.fileUrls = validUrls;
       }
+
+      await Promise.all(
+        this.fileUrls.map(async (url) => {
+          const mimeType = await this.mimeTypeService.getMimeType(url);
+          if (mimeType) {
+            this.urlMimeTypes.set(url, mimeType);
+          }
+        }),
+      );
     } finally {
       this.loading = false;
     }
   }
 
-  isImageUrl(url: string): boolean {
-    const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp'];
-    try {
-      const urlObj = new URL(url);
-      const path = urlObj.pathname.toLowerCase();
-      return imageExtensions.some((ext) => path.endsWith(ext));
-    } catch {
-      const lowerUrl = url.toLowerCase();
-      return imageExtensions.some((ext) => lowerUrl.endsWith(ext));
+  getFileType(url: string): 'image' | 'document' | null {
+    const mimeType = this.urlMimeTypes.get(url);
+    if (!mimeType) return null;
+
+    for (const [type, patterns] of Object.entries(
+      FileRendererComponent.SUPPORTED_MIME_TYPES,
+    )) {
+      if (patterns.some((pattern) => mimeType.startsWith(pattern))) {
+        return type as 'image' | 'document';
+      }
     }
+
+    return null;
   }
 }

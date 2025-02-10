@@ -1,17 +1,20 @@
 <div class="w-full h-full" *ngIf="!loading && fileUrls.length > 0">
   <div *ngFor="let url of fileUrls" class="mb-4 h-full">
-    <app-node-images
-      *ngIf="isImageUrl(url)"
-      [imageUrls]="[url]"
-      [shownInTableCell]="!fullHeight"
-    ></app-node-images>
+    <ng-container [ngSwitch]="getFileType(url)">
+      <app-node-images
+        *ngSwitchCase="'image'"
+        [imageUrls]="[url]"
+        [shownInTableCell]="!fullHeight"
+      ></app-node-images>
 
-    <app-doc-viewer
-      *ngIf="!isImageUrl(url)"
-      [url]="url"
-      [style.height]="fullHeight ? '100%' : '16rem'"
-    ></app-doc-viewer>
+      <app-doc-viewer
+        *ngSwitchCase="'document'"
+        [url]="url"
+        [style.height]="fullHeight ? '100%' : '16rem'"
+      ></app-doc-viewer>
+    </ng-container>
 
+    <!-- Original link if enabled -->
     <a
       [href]="url"
       target="_blank"
@@ -22,5 +25,4 @@
   </div>
 </div>
 
-<!-- <app-node-link [url]="url" *ngIf="hopSettings?.showOriginalLink" /> -->
 <span class="loading loading-spinner loading-xs" *ngIf="loading"></span>
