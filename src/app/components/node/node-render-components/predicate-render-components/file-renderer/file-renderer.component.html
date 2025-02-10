@@ -1,7 +1,7 @@
 <div class="w-full h-full" *ngIf="!loading && fileUrls.length > 0">
   <!-- All images - pass full array to node-images -->
   <app-node-images
-    *ngIf="allFilesType === 'image'"
+    *ngIf="allFilesType === FileType.IMAGE"
     [imageUrls]="displayUrls"
     [shownInTableCell]="!fullHeight"
     [useViewer]="!isThumb"
@@ -9,19 +9,27 @@
   ></app-node-images>
 
   <!-- Mixed content or all documents - handle individually -->
-  <div *ngIf="allFilesType !== 'image'" class="mb-4 h-full">
+  <div *ngIf="allFilesType !== FileType.IMAGE" class="mb-4 h-full">
     <div *ngFor="let url of displayUrls" class="mb-4 h-full">
       <ng-container [ngSwitch]="getFileType(url)">
         <app-node-images
-          *ngSwitchCase="'image'"
+          *ngSwitchCase="FileType.IMAGE"
           [imageUrls]="[url]"
           [shownInTableCell]="!fullHeight"
           [useViewer]="!isThumb"
         ></app-node-images>
 
         <app-doc-viewer
-          *ngSwitchCase="'document'"
+          *ngSwitchCase="FileType.PDF"
           [url]="url"
+          [fileType]="getFileType(url)"
+          [style.height]="fullHeight ? '100%' : '16rem'"
+        ></app-doc-viewer>
+
+        <app-doc-viewer
+          *ngSwitchCase="FileType.DOC"
+          [url]="url"
+          [fileType]="getFileType(url)"
           [style.height]="fullHeight ? '100%' : '16rem'"
         ></app-doc-viewer>
       </ng-container>

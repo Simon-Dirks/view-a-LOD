@@ -14,6 +14,7 @@ import { DocViewerComponent } from '../../../../doc-viewer/doc-viewer.component'
 import { HopLinkSettingsModel } from '../../../../../models/settings/hop-link-settings.model';
 import { NodeLinkComponent } from '../../../node-link/node-link.component';
 import { MimeTypeService } from '../../../../../services/mime-type.service';
+import { FileType } from '../../../../../models/file-type.model';
 
 @Component({
   selector: 'app-file-renderer',
@@ -31,10 +32,12 @@ import { MimeTypeService } from '../../../../../services/mime-type.service';
   styleUrl: './file-renderer.component.css',
 })
 export class FileRendererComponent implements OnInit, OnChanges {
+  protected readonly FileType = FileType;
+
   private static readonly SUPPORTED_MIME_TYPES = {
-    image: ['image/'],
-    document: [
-      'application/pdf',
+    [FileType.IMAGE]: ['image/'],
+    [FileType.PDF]: ['application/pdf'],
+    [FileType.DOC]: [
       'application/msword',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     ],
@@ -55,15 +58,20 @@ export class FileRendererComponent implements OnInit, OnChanges {
     return this.isThumb ? this.fileUrls.slice(0, 1) : this.fileUrls;
   }
 
-  get allFilesType(): 'image' | 'document' | 'mixed' {
-    if (this.fileUrls.length === 0) return 'mixed';
-    
-    const types = new Set(this.fileUrls.map(url => this.getFileType(url)));
+  get allFilesType(): FileType {
+    if (this.fileUrls.length === 0) return FileType.UNKNOWN;
+
+    const types = new Set(this.fileUrls.map((url) => this.getFileType(url)));
     if (types.size === 1) {
       const type = types.values().next().value;
-      if (type === 'image' || type === 'document') return type;
+      if (
+        type === FileType.IMAGE ||
+        type === FileType.DOC ||
+        type === FileType.PDF
+      )
+        return type;
     }
-    return 'mixed';
+    return FileType.UNKNOWN;
   }
 
   constructor(
@@ -121,18 +129,18 @@ export class FileRendererComponent implements OnInit, OnChanges {
     }
   }
 
-  getFileType(url: string): 'image' | 'document' | null {
+  getFileType(url: string): FileType {
     const mimeType = this.urlMimeTypes.get(url);
-    if (!mimeType) return null;
+    if (!mimeType) return FileType.UNKNOWN;
 
     for (const [type, patterns] of Object.entries(
       FileRendererComponent.SUPPORTED_MIME_TYPES,
     )) {
       if (patterns.some((pattern) => mimeType.startsWith(pattern))) {
-        return type as 'image' | 'document';
+        return type as FileType;
       }
     }
 
-    return null;
+    return FileType.UNKNOWN;
   }
 }
