@@ -14,11 +14,12 @@
     [style.width]="imageWidth"
     [style.min-width]="imageWidth"
   >
-    <app-node-images
+    <!-- <app-node-images
       [imageUrls]="images"
       [shownInTableCell]="false"
       [useViewer]="this.details.showing.value"
-    />
+    /> -->
+    <app-file-renderer [urls]="images" [fullHeight]="true" />
   </a>
 
   <div

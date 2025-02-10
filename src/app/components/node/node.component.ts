@@ -37,6 +37,7 @@ import { NodeDetailsButtonComponent } from './node-details-button/node-details-b
 import { NodePermalinkButtonComponent } from './node-permalink-button/node-permalink-button.component';
 import { Router, RouterLink } from '@angular/router';
 import { RoutingService } from '../../services/routing.service';
+import { FileRendererComponent } from './node-render-components/predicate-render-components/file-renderer/file-renderer.component';
 
 @Component({
   selector: 'app-node',
@@ -59,6 +60,7 @@ import { RoutingService } from '../../services/routing.service';
     NodeDetailsButtonComponent,
     NodePermalinkButtonComponent,
     RouterLink,
+    FileRendererComponent,
   ],
   templateUrl: './node.component.html',
   styleUrl: './node.component.scss',
@@ -75,7 +77,9 @@ export class NodeComponent implements OnInit {
   showTitle = this.settings.hasViewModeSetting(ViewModeSetting.ShowTitle);
   showParents = this.settings.hasViewModeSetting(ViewModeSetting.ShowParents);
   showTypes = this.settings.hasViewModeSetting(ViewModeSetting.ShowTypes);
-  showOrganization = this.settings.hasViewModeSetting(ViewModeSetting.ShowOrganization);
+  showOrganization = this.settings.hasViewModeSetting(
+    ViewModeSetting.ShowOrganization,
+  );
   showImageNextToTable = this.settings.hasViewModeSetting(
     ViewModeSetting.ShowImageNextToTable,
   );
@@ -137,10 +141,12 @@ export class NodeComponent implements OnInit {
       undefined,
       true,
     );
+    console.log('images', this.images);
 
     const nodeId: string = this.nodes.getId(this.node);
     const hopImageUrls: string[] = await this.getHopImageUrls(nodeId);
     this.images.push(...hopImageUrls);
+    console.log('images with hop images', this.images);
   }
 
   initTypes() {

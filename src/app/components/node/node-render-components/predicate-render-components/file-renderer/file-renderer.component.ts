@@ -4,18 +4,25 @@ import { NgForOf, NgIf } from '@angular/common';
 import { NodeImagesComponent } from '../../../node-images/node-images.component';
 import { DocViewerComponent } from '../../../../doc-viewer/doc-viewer.component';
 import { HopLinkSettingsModel } from '../../../../../models/settings/hop-link-settings.model';
-import { NodeLinkComponent } from "../../../node-link/node-link.component";
+import { NodeLinkComponent } from '../../../node-link/node-link.component';
 
 @Component({
   selector: 'app-file-renderer',
   standalone: true,
-  imports: [NgIf, NgForOf, NodeImagesComponent, DocViewerComponent, NodeLinkComponent],
+  imports: [
+    NgIf,
+    NgForOf,
+    NodeImagesComponent,
+    DocViewerComponent,
+    NodeLinkComponent,
+  ],
   templateUrl: './file-renderer.component.html',
   styleUrl: './file-renderer.component.css',
 })
 export class FileRendererComponent implements OnInit {
-  @Input() url: string = '';
+  @Input() urls: string | string[] = [];
   @Input() hopSettings?: HopLinkSettingsModel;
+  @Input() fullHeight = false;
 
   fileUrls: string[] = [];
   loading = false;
@@ -27,7 +34,11 @@ export class FileRendererComponent implements OnInit {
   }
 
   private async initFileUrls() {
-    if (!this.url) {
+    const inputUrls = Array.isArray(this.urls) ? this.urls : [this.urls];
+
+    const validUrls = inputUrls.filter((url) => url);
+
+    if (validUrls.length === 0) {
       return;
     }
 
@@ -39,12 +50,15 @@ export class FileRendererComponent implements OnInit {
         this.hopSettings.preds &&
         this.hopSettings.preds.length > 0
       ) {
-        this.fileUrls = await this.sparql.getObjIds(
-          this.url,
-          this.hopSettings.preds,
+        const urlPromises = validUrls.map((url) =>
+          this.sparql.getObjIds(url, this.hopSettings!.preds),
         );
+
+        const results = await Promise.all(urlPromises);
+
+        this.fileUrls = results.flat();
       } else {
-        this.fileUrls = [this.url];
+        this.fileUrls = validUrls;
       }
     } finally {
       this.loading = false;

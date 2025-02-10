@@ -1,14 +1,15 @@
-<div class="w-full" *ngIf="!loading && fileUrls.length > 0">
-  <div *ngFor="let url of fileUrls" class="mb-4">
+<div class="w-full h-full" *ngIf="!loading && fileUrls.length > 0">
+  <div *ngFor="let url of fileUrls" class="mb-4 h-full">
     <app-node-images
       *ngIf="isImageUrl(url)"
       [imageUrls]="[url]"
+      [shownInTableCell]="!fullHeight"
     ></app-node-images>
 
     <app-doc-viewer
       *ngIf="!isImageUrl(url)"
       [url]="url"
-      class="h-64"
+      [style.height]="fullHeight ? '100%' : '16rem'"
     ></app-doc-viewer>
 
     <a
