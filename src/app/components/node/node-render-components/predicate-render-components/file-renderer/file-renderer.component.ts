@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, type OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  type OnInit,
+} from '@angular/core';
 import { SparqlService } from '../../../../../services/sparql.service';
 import { NgForOf, NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
 import { NodeImagesComponent } from '../../../node-images/node-images.component';
@@ -37,10 +45,26 @@ export class FileRendererComponent implements OnInit, OnChanges {
   @Input() urls: string | string[] = [];
   @Input() hopSettings?: HopLinkSettingsModel;
   @Input() fullHeight = false;
+  @Input() isThumb = false;
 
   fileUrls: string[] = [];
   loading = false;
   urlMimeTypes = new Map<string, string>();
+
+  get displayUrls(): string[] {
+    return this.isThumb ? this.fileUrls.slice(0, 1) : this.fileUrls;
+  }
+
+  get allFilesType(): 'image' | 'document' | 'mixed' {
+    if (this.fileUrls.length === 0) return 'mixed';
+    
+    const types = new Set(this.fileUrls.map(url => this.getFileType(url)));
+    if (types.size === 1) {
+      const type = types.values().next().value;
+      if (type === 'image' || type === 'document') return type;
+    }
+    return 'mixed';
+  }
 
   constructor(
     private sparql: SparqlService,

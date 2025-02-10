@@ -1,10 +1,11 @@
 <div class="w-full h-full" *ngIf="!loading && fileUrls.length > 0">
-  <div *ngFor="let url of fileUrls" class="mb-4 h-full">
+  <div *ngFor="let url of displayUrls" class="mb-4 h-full">
     <ng-container [ngSwitch]="getFileType(url)">
       <app-node-images
         *ngSwitchCase="'image'"
         [imageUrls]="[url]"
         [shownInTableCell]="!fullHeight"
+        [useViewer]="!isThumb"
       ></app-node-images>
 
       <app-doc-viewer

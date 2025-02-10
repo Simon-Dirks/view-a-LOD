@@ -16,19 +16,10 @@
     [style.width]="fileRendererWidth"
     [style.min-width]="fileRendererWidth"
   >
-    <!-- Thumb on search page -->
-    <!-- <app-node-images
-      [imageUrls]="files.value"
-      [shownInTableCell]="false"
-      [useViewer]="false"
-      *ngIf="!details.showing.value"
-    /> -->
-
-    <!-- File renderer on detail page -->
     <app-file-renderer
       [urls]="files.value"
       [fullHeight]="true"
-      *ngIf="details.showing.value"
+      [isThumb]="!details.showing.value"
     />
   </a>
 
