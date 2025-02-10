@@ -53,6 +53,11 @@
           [id]="objValue"
         />
 
+        <app-mdto-heeft-representatie
+          *ngIf="shouldRenderComponentIds.includes('mdto-heeft-representatie')"
+          [id]="objValue"
+        />
+
         <app-mdto-url-bestand
           *ngIf="shouldRenderComponentIds.includes('mdto-url-bestand')"
           [nodeId]="nodes.getId(node)"

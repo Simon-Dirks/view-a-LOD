@@ -456,14 +456,7 @@ export const Settings = {
         },
       },
       'http://www.nationaalarchief.nl/mdto#heeftRepresentatie': {
-        componentId: 'hop-image',
-        hopLinkSettings: {
-          preds: [
-            'http://www.nationaalarchief.nl/mdto#identificatie',
-            'http://www.nationaalarchief.nl/mdto#identificatieKenmerk',
-            'http://www.nationaalarchief.nl/mdto#URLBestand',
-          ],
-        },
+        componentId: 'mdto-heeft-representatie',
       },
       'http://www.w3.org/ns/prov#hadPrimarySource': {
         componentId: 'hop-image',

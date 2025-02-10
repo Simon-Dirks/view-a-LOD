@@ -1,0 +1,12 @@
+<div class="w-full" *ngIf="!loading && mdtoUrlBestand.length > 0">
+  <div *ngFor="let url of mdtoUrlBestand" class="mb-4">
+    <app-node-images
+      *ngIf="isImageUrl(url)"
+      [imageUrls]="[url]"
+    ></app-node-images>
+
+    <app-doc-viewer *ngIf="!isImageUrl(url)" [url]="url"></app-doc-viewer>
+  </div>
+</div>
+
+<div *ngIf="loading" class="w-full text-center py-4">Loading...</div>
