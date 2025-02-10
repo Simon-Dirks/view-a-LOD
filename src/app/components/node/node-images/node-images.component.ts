@@ -57,6 +57,9 @@ export class NodeImagesComponent
   }
 
   initImageViewer(imgUrls: string[]) {
+    if (!this.useViewer) {
+      return;
+    }
     if (!this.viewerElem) {
       // TODO
       console.warn('Viewer elem not yet initialized');
