@@ -53,9 +53,18 @@
           [id]="objValue"
         />
 
-        <app-mdto-heeft-representatie
-          *ngIf="shouldRenderComponentIds.includes('mdto-heeft-representatie')"
-          [id]="objValue"
+        <app-file-renderer
+          *ngIf="shouldRenderComponentIds.includes('file-renderer')"
+          [url]="objValue"
+          [hopSettings]="
+            renderComponent.getSettingByKey(
+              'hopLinkSettings',
+              node,
+              RenderMode.ByPredicate,
+              [pred],
+              direction
+            )
+          "
         />
 
         <app-mdto-url-bestand

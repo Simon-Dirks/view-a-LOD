@@ -19,7 +19,7 @@ import { MdtoUrlBestandComponent } from '../../../predicate-render-components/md
 import { HopImageComponent } from '../../../predicate-render-components/hop-components/hop-image/hop-image.component';
 import { RicoIdentifierComponent } from '../../../predicate-render-components/rico-identifier/rico-identifier.component';
 import { MdtoOmvangComponent } from '../../../predicate-render-components/mdto-omvang/mdto-omvang.component';
-import { MdtoHeeftRepresentatieComponent } from "../../../predicate-render-components/mdto-heeft-representatie/mdto-heeft-representatie.component";
+import { FileRendererComponent } from '../../../predicate-render-components/file-renderer/file-renderer.component';
 
 export enum TableCellShowOptions {
   Pred,
@@ -45,8 +45,8 @@ export enum TableCellShowOptions {
     HopImageComponent,
     RicoIdentifierComponent,
     MdtoOmvangComponent,
-    MdtoHeeftRepresentatieComponent
-],
+    FileRendererComponent,
+  ],
   templateUrl: './node-table-cell.component.html',
   styleUrl: './node-table-cell.component.scss',
 })
