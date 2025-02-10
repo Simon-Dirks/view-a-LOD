@@ -5,7 +5,11 @@
       [imageUrls]="[url]"
     ></app-node-images>
 
-    <app-doc-viewer *ngIf="!isImageUrl(url)" [url]="url"></app-doc-viewer>
+    <app-doc-viewer
+      *ngIf="!isImageUrl(url)"
+      [url]="url"
+      class="h-64"
+    ></app-doc-viewer>
   </div>
 </div>
 
