@@ -1,28 +1,40 @@
 <div class="w-full h-full" *ngIf="!loading && fileUrls.length > 0">
-  <div *ngFor="let url of displayUrls" class="mb-4 h-full">
-    <ng-container [ngSwitch]="getFileType(url)">
-      <app-node-images
-        *ngSwitchCase="'image'"
-        [imageUrls]="[url]"
-        [shownInTableCell]="!fullHeight"
-        [useViewer]="!isThumb"
-      ></app-node-images>
+  <!-- All images - pass full array to node-images -->
+  <app-node-images
+    *ngIf="allFilesType === 'image'"
+    [imageUrls]="displayUrls"
+    [shownInTableCell]="!fullHeight"
+    [useViewer]="!isThumb"
+    class="mb-4 h-full"
+  ></app-node-images>
 
-      <app-doc-viewer
-        *ngSwitchCase="'document'"
-        [url]="url"
-        [style.height]="fullHeight ? '100%' : '16rem'"
-      ></app-doc-viewer>
-    </ng-container>
+  <!-- Mixed content or all documents - handle individually -->
+  <div *ngIf="allFilesType !== 'image'" class="mb-4 h-full">
+    <div *ngFor="let url of displayUrls" class="mb-4 h-full">
+      <ng-container [ngSwitch]="getFileType(url)">
+        <app-node-images
+          *ngSwitchCase="'image'"
+          [imageUrls]="[url]"
+          [shownInTableCell]="!fullHeight"
+          [useViewer]="!isThumb"
+        ></app-node-images>
 
-    <a
-      [href]="url"
-      target="_blank"
-      class="clickable"
-      *ngIf="hopSettings?.showOriginalLink"
-      >{{ url }}</a
-    >
+        <app-doc-viewer
+          *ngSwitchCase="'document'"
+          [url]="url"
+          [style.height]="fullHeight ? '100%' : '16rem'"
+        ></app-doc-viewer>
+      </ng-container>
+
+      <a
+        [href]="url"
+        target="_blank"
+        class="clickable"
+        *ngIf="hopSettings?.showOriginalLink"
+        >{{ url }}</a
+      >
+    </div>
   </div>
-</div>
 
-<span class="loading loading-spinner loading-xs" *ngIf="loading"></span>
+  <span class="loading loading-spinner loading-xs" *ngIf="loading"></span>
+</div>
