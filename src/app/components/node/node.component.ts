@@ -102,7 +102,7 @@ export class NodeComponent implements OnInit {
     void this.retrieveParents();
     this.initTitle();
     this.initTypes();
-    this.initImages();
+    this.initFiles();
 
     if (!this.node) {
       return;
@@ -132,7 +132,7 @@ export class NodeComponent implements OnInit {
     return hopImageUrls.flat();
   }
 
-  async initImages() {
+  async initFiles() {
     if (!this.node) {
       return;
     }
@@ -145,12 +145,10 @@ export class NodeComponent implements OnInit {
         true,
       ),
     );
-    console.log('images', this.files);
 
     const nodeId: string = this.nodes.getId(this.node);
     const hopImageUrls: string[] = await this.getHopImageUrls(nodeId);
     this.files.next([...this.files.value, ...hopImageUrls]);
-    console.log('images with hop images', this.files);
   }
 
   initTypes() {
