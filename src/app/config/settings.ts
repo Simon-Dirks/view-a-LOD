@@ -494,17 +494,17 @@ export const Settings = {
       [ViewModeSetting.ShowTypes]: true,
       [ViewModeSetting.ShowTitle]: true,
       [ViewModeSetting.ShowOrganization]: true,
-      [ViewModeSetting.ShowImageNextToTable]: true,
+      [ViewModeSetting.ShowFileNextToTable]: true,
     },
     [ViewMode.Grid]: {
       [ViewModeSetting.ShowTitle]: true,
       [ViewModeSetting.ShowDetails]: true,
       [ViewModeSetting.ShowTypes]: true,
       [ViewModeSetting.ShowOrganization]: true,
-      [ViewModeSetting.ShowImageNextToTable]: true,
+      [ViewModeSetting.ShowFileNextToTable]: true,
     },
   },
-  largeImageWidth: { search: '30%', details: '40%' },
+  largeFileRendererWidth: { search: '30%', details: '40%' },
   imageForWhenLoadingFails: '/assets/img/image-load-fail.png',
   predicateVisibility: {
     [ViewMode.List]: {
@@ -580,6 +580,7 @@ export const Settings = {
     'http://www.nationaalarchief.nl/mdto-shacl#': 'mdto-sh:',
     'http://www.w3.org/ns/shacl#': 'sh:',
   },
+  imageUrlSubstrings: ['proxy.archieven.nl/thumb'], // If a URL matches one of these substrings, it is considered to be an image, even if the URL does not end with an image file extension
   matomo: {
     siteId: '2',
     trackerUrl: '//analytics.boasmedia.nl/',

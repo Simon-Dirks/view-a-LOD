@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Settings } from '../config/settings';
 
 @Injectable({
   providedIn: 'root',
@@ -19,65 +20,28 @@ export class MimeTypeService {
     '.htm': 'text/html',
   };
 
-  async getMimeType(url: string): Promise<string | null> {
+  getMimeType(url: string): string | null {
     try {
-      try {
-        const response = await fetch(url, {
-          method: 'HEAD',
-          headers: {
-            Accept: '*/*',
-            'User-Agent': 'Mozilla/5.0',
-          },
-        });
-
-        if (response.ok) {
-          const mimeType = response.headers.get('content-type')?.split(';')[0];
-          if (mimeType) {
-            return mimeType;
-          }
-        }
-      } catch (headError) {
-        console.debug('HEAD request failed, trying fallbacks:', headError);
+      if (
+        (Settings.imageUrlSubstrings as string[]).some((substring) =>
+          url.includes(substring),
+        )
+      ) {
+        return 'image/jpeg';
       }
 
-      try {
-        const response = await fetch(url, {
-          method: 'GET',
-          headers: {
-            Range: 'bytes=0-0',
-            Accept: '*/*',
-            'User-Agent': 'Mozilla/5.0',
-          },
-        });
+      const urlObj = new URL(url);
+      const pathname = urlObj.pathname;
 
-        if (response.ok || response.status === 206) {
-          const mimeType = response.headers.get('content-type')?.split(';')[0];
-          if (mimeType) {
-            return mimeType;
-          }
-        }
-      } catch (rangeError) {
-        console.debug(
-          'Range request failed, falling back to extension:',
-          rangeError,
-        );
+      const lastDotIndex = pathname.lastIndexOf('.');
+      if (lastDotIndex === -1) {
+        return null;
       }
 
-      try {
-        const urlObj = new URL(url);
-        const path = urlObj.pathname.toLowerCase();
-        const extension = Object.keys(this.mimeTypeMap).find((ext) =>
-          path.endsWith(ext),
-        );
-        return extension ? this.mimeTypeMap[extension] : null;
-      } catch (urlError) {
-        const extension = Object.keys(this.mimeTypeMap).find((ext) =>
-          url.toLowerCase().endsWith(ext),
-        );
-        return extension ? this.mimeTypeMap[extension] : null;
-      }
+      const extension = pathname.substring(lastDotIndex).toLowerCase();
+      return this.mimeTypeMap[extension] || null;
     } catch (error) {
-      console.error('All MIME type detection methods failed:', error);
+      console.error('Error parsing URL in getMimeType:', error);
       return null;
     }
   }

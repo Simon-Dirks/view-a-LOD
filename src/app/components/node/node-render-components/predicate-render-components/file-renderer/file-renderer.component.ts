@@ -1,4 +1,4 @@
-import { Component, Input, type OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, type OnInit } from '@angular/core';
 import { SparqlService } from '../../../../../services/sparql.service';
 import { NgForOf, NgIf, NgSwitch, NgSwitchCase } from '@angular/common';
 import { NodeImagesComponent } from '../../../node-images/node-images.component';
@@ -22,7 +22,7 @@ import { MimeTypeService } from '../../../../../services/mime-type.service';
   templateUrl: './file-renderer.component.html',
   styleUrl: './file-renderer.component.css',
 })
-export class FileRendererComponent implements OnInit {
+export class FileRendererComponent implements OnInit, OnChanges {
   private static readonly SUPPORTED_MIME_TYPES = {
     image: ['image/'],
     document: [
@@ -31,6 +31,8 @@ export class FileRendererComponent implements OnInit {
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
     ],
   } as const;
+
+  @Output() loaded = new EventEmitter<void>();
 
   @Input() urls: string | string[] = [];
   @Input() hopSettings?: HopLinkSettingsModel;
@@ -47,6 +49,12 @@ export class FileRendererComponent implements OnInit {
 
   ngOnInit(): void {
     void this.initFileUrls();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['urls'] && !changes['urls'].firstChange) {
+      void this.initFileUrls();
+    }
   }
 
   private async initFileUrls() {
@@ -85,6 +93,7 @@ export class FileRendererComponent implements OnInit {
       );
     } finally {
       this.loading = false;
+      this.loaded.emit();
     }
   }
 

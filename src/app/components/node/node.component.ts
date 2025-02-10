@@ -38,6 +38,7 @@ import { NodePermalinkButtonComponent } from './node-permalink-button/node-perma
 import { Router, RouterLink } from '@angular/router';
 import { RoutingService } from '../../services/routing.service';
 import { FileRendererComponent } from './node-render-components/predicate-render-components/file-renderer/file-renderer.component';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-node',
@@ -72,7 +73,8 @@ export class NodeComponent implements OnInit {
   id?: string;
   title = '';
   types: TypeModel[] = [];
-  images: string[] = [];
+  files: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
+  filesLoaded: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   showTitle = this.settings.hasViewModeSetting(ViewModeSetting.ShowTitle);
   showParents = this.settings.hasViewModeSetting(ViewModeSetting.ShowParents);
@@ -80,8 +82,8 @@ export class NodeComponent implements OnInit {
   showOrganization = this.settings.hasViewModeSetting(
     ViewModeSetting.ShowOrganization,
   );
-  showImageNextToTable = this.settings.hasViewModeSetting(
-    ViewModeSetting.ShowImageNextToTable,
+  showFileNextToTable = this.settings.hasViewModeSetting(
+    ViewModeSetting.ShowFileNextToTable,
   );
 
   constructor(
@@ -135,18 +137,20 @@ export class NodeComponent implements OnInit {
       return;
     }
 
-    this.images = this.nodes.getObjValues(
-      this.node,
-      Settings.predicates.images,
-      undefined,
-      true,
+    this.files.next(
+      this.nodes.getObjValues(
+        this.node,
+        Settings.predicates.images,
+        undefined,
+        true,
+      ),
     );
-    console.log('images', this.images);
+    console.log('images', this.files);
 
     const nodeId: string = this.nodes.getId(this.node);
     const hopImageUrls: string[] = await this.getHopImageUrls(nodeId);
-    this.images.push(...hopImageUrls);
-    console.log('images with hop images', this.images);
+    this.files.next([...this.files.value, ...hopImageUrls]);
+    console.log('images with hop images', this.files);
   }
 
   initTypes() {
@@ -179,18 +183,21 @@ export class NodeComponent implements OnInit {
     );
   }
 
-  get imageWidth(): string {
+  get fileRendererWidth(): string {
     if (window.innerWidth < 640) {
       return '100%';
     }
 
     return this.details.showing.value
-      ? Settings.largeImageWidth.details
-      : Settings.largeImageWidth.search;
+      ? Settings.largeFileRendererWidth.details
+      : Settings.largeFileRendererWidth.search;
   }
 
-  shouldShowImageNextToTable(): boolean {
-    return this.showImageNextToTable && this.images && this.images.length > 0;
+  shouldShowFileNextToTable(): boolean {
+    return (
+      this.showFileNextToTable && this.files && this.files.value.length > 0
+    );
+    // && this.filesLoaded.value;
   }
 
   protected readonly Settings = Settings;
