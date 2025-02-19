@@ -1,3 +1,4 @@
+import { IIIFService } from '../../../services/iiif.service';
 import {
   AfterViewInit,
   Component,
@@ -15,7 +16,8 @@ import { JsonPipe, NgClass, NgForOf, NgIf } from '@angular/common';
 import { Config } from '../../../config/config';
 import { UrlService } from '../../../services/url.service';
 import { Settings } from '../../../config/settings';
-import OpenSeadragon, { Viewer } from 'openseadragon';
+// @ts-ignore
+import Mirador from 'mirador/dist/es/src/index';
 
 @Component({
   selector: 'app-node-images',
@@ -28,31 +30,34 @@ import OpenSeadragon, { Viewer } from 'openseadragon';
 export class NodeImagesComponent
   implements OnInit, OnChanges, OnDestroy, AfterViewInit
 {
-  private _imageViewer?: Viewer;
-  @ViewChild('viewerElem') viewerElem!: ElementRef;
+  private _imageViewer?: any;
 
   @Input() imageUrls?: string[];
   @Input() shownInTableCell = true;
   @Input() useViewer = true;
+  @Input() imageLabel?: string;
 
   processedImageUrls: string[] = [];
 
   constructor(
     public urlService: UrlService,
     private ngZone: NgZone,
+    private iiifService: IIIFService,
   ) {}
 
-  ngOnInit() {}
-
-  ngAfterViewInit() {
-    this.initImageViewer(this.processedImageUrls);
+  ngOnInit() {
     this._processImageUrls();
   }
 
-  // TODO: Refactor OSD into separate component
+  ngAfterViewInit() {
+    if (this.processedImageUrls.length > 0) {
+      this.initImageViewer(this.processedImageUrls);
+    }
+  }
+
   destroyImageViewer() {
     if (this._imageViewer) {
-      this._imageViewer.destroy();
+      this._imageViewer = undefined;
     }
   }
 
@@ -60,60 +65,58 @@ export class NodeImagesComponent
     if (!this.useViewer) {
       return;
     }
-    if (!this.viewerElem) {
-      // TODO
-      console.warn('Viewer elem not yet initialized');
+    if (!imgUrls.length) {
       return;
     }
 
     this.destroyImageViewer();
 
-    const sources: any = imgUrls.map((imgUrl) => {
-      return { type: 'image', url: imgUrl };
-    });
+    this._imageViewer = this.ngZone.runOutsideAngular(() => {
+      const manifestUrl = this.iiifService.createManifestBlob(imgUrls);
+      console.log('Manifest URL', manifestUrl);
 
-    this._imageViewer = this.ngZone.runOutsideAngular(() =>
-      OpenSeadragon({
-        element: this.viewerElem.nativeElement,
-        prefixUrl: 'assets/osd/images/',
+      const miradorInstance = Mirador.viewer({
+        id: 'mirador',
+        workspace: {
+          type: 'single',
+          showZoomControls: true,
+        },
+        workspaceControlPanel: {
+          enabled: false,
+        },
+        windows: [
+          {
+            manifestId: manifestUrl,
+            allowWindowSideBar: true,
+            sideBarOpenByDefault: false,
+            allowMaximize: false,
+            allowFullscreen: true,
+            allowClose: false,
+          },
+        ],
+      });
 
-        sequenceMode: true,
-        showReferenceStrip: Settings.viewer.showReferenceStrip,
-        // referenceStripScroll: 'vertical',
-        // showNavigator: true,
+      // Center image after load
+      miradorInstance.store.subscribe(() => {
+        const state = miradorInstance.store.getState();
+        const windows = state.windows || {};
+        const windowIds = Object.keys(windows);
 
-        // collectionMode: true,
-        // collectionRows: 1,
-        // collectionTileSize: 1024,
-        // collectionTileMargin: 256,
-        tileSources: sources,
-        maxZoomPixelRatio: 5,
-        autoResize: true,
-      }),
-    );
+        if (windowIds.length > 0) {
+          const windowId = windowIds[0];
+          const canvasId = windows[windowId]?.canvasId;
 
-    this._imageViewer.addHandler('open-failed', () => {
-      this.initImageViewer([Settings.imageForWhenLoadingFails]);
-    });
+          if (canvasId && state.viewers?.[windowId]?.viewer) {
+            const viewer = state.viewers[windowId].viewer;
+            if (viewer && !viewer.__centered) {
+              viewer.viewport.goHome();
+              viewer.__centered = true;
+            }
+          }
+        }
+      });
 
-    this._imageViewer.addHandler('tile-loaded', (event) => {
-      if (!this._imageViewer) {
-        return;
-      }
-
-      if (this.shownInTableCell) {
-        this._imageViewer.viewport.goHome(true);
-        return;
-      }
-
-      const initialBounds = this._imageViewer.viewport.getBounds();
-      const alignImageToTopBounds = new OpenSeadragon.Rect(
-        0,
-        0,
-        1,
-        initialBounds.height / initialBounds.width,
-      );
-      this._imageViewer.viewport.fitBounds(alignImageToTopBounds, true);
+      return miradorInstance;
     });
   }
 
@@ -149,9 +152,9 @@ export class NodeImagesComponent
     this.initImageViewer(this.processedImageUrls);
   }
 
-  protected readonly Config = Config;
-
   onImageLoadError($event: ErrorEvent) {
     ($event.target as any).src = Settings.imageForWhenLoadingFails;
   }
+
+  protected readonly Config = Config;
 }
