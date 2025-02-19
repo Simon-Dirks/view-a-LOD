@@ -1,3 +1,4 @@
+import { IIIFService } from '../../../services/iiif.service';
 import {
   AfterViewInit,
   Component,
@@ -42,6 +43,7 @@ export class NodeImagesComponent
   constructor(
     public urlService: UrlService,
     private ngZone: NgZone,
+    private iiifService: IIIFService,
   ) {}
 
   ngOnInit() {
@@ -71,17 +73,11 @@ export class NodeImagesComponent
     this.destroyImageViewer();
 
     this._imageViewer = this.ngZone.runOutsideAngular(() => {
+      const manifestUrl = this.iiifService.createManifestBlob(imgUrls);
+      console.log('Manifest URL', manifestUrl);
+
       return Mirador.viewer({
         id: 'mirador',
-        windows: [
-          {
-            manifestId:
-              'https://iiif.bodleian.ox.ac.uk/iiif/manifest/e32a277e-91e2-4a6d-8ba6-cc4bad230410.json',
-            allowClose: false,
-            allowFullscreen: true,
-            sideBarOpen: false,
-          },
-        ],
         workspace: {
           type: 'single',
           showZoomControls: true,
@@ -89,12 +85,16 @@ export class NodeImagesComponent
         workspaceControlPanel: {
           enabled: false,
         },
-        window: {
-          allowWindowSideBar: false,
-          sideBarOpenByDefault: false,
-          allowTopMenuButton: false,
-          allowMaximize: false,
-        },
+        windows: [
+          {
+            manifestId: manifestUrl,
+            allowWindowSideBar: true,
+            sideBarOpenByDefault: false,
+            allowMaximize: false,
+            allowFullscreen: true,
+            allowClose: false,
+          },
+        ],
       });
     });
   }
