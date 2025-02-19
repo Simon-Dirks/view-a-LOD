@@ -30,7 +30,7 @@ import Mirador from 'mirador/dist/es/src/index';
 export class NodeImagesComponent
   implements OnInit, OnChanges, OnDestroy, AfterViewInit
 {
-  private _miradorViewer?: any;
+  private _imageViewer?: any;
 
   @Input() imageUrls?: string[];
   @Input() shownInTableCell = true;
@@ -56,8 +56,8 @@ export class NodeImagesComponent
   }
 
   destroyImageViewer() {
-    if (this._miradorViewer) {
-      this._miradorViewer = undefined;
+    if (this._imageViewer) {
+      this._imageViewer = undefined;
     }
   }
 
@@ -71,11 +71,11 @@ export class NodeImagesComponent
 
     this.destroyImageViewer();
 
-    this._miradorViewer = this.ngZone.runOutsideAngular(() => {
+    this._imageViewer = this.ngZone.runOutsideAngular(() => {
       const manifestUrl = this.iiifService.createManifestBlob(imgUrls);
       console.log('Manifest URL', manifestUrl);
 
-      return Mirador.viewer({
+      const miradorInstance = Mirador.viewer({
         id: 'mirador',
         workspace: {
           type: 'single',
@@ -95,6 +95,28 @@ export class NodeImagesComponent
           },
         ],
       });
+
+      // Center image after load
+      miradorInstance.store.subscribe(() => {
+        const state = miradorInstance.store.getState();
+        const windows = state.windows || {};
+        const windowIds = Object.keys(windows);
+
+        if (windowIds.length > 0) {
+          const windowId = windowIds[0];
+          const canvasId = windows[windowId]?.canvasId;
+
+          if (canvasId && state.viewers?.[windowId]?.viewer) {
+            const viewer = state.viewers[windowId].viewer;
+            if (viewer && !viewer.__centered) {
+              viewer.viewport.goHome();
+              viewer.__centered = true;
+            }
+          }
+        }
+      });
+
+      return miradorInstance;
     });
   }
 
