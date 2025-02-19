@@ -2,12 +2,12 @@
   class="w-full h-full relative"
   [ngClass]="[shownInTableCell ? 'viewer-small-ui' : '']"
   id="mirador"
-  *ngIf="!showAsThumb"
+  *ngIf="useViewer"
 ></div>
 
 <div
   class="w-full h-full overflow-y-scroll"
-  *ngIf="showAsThumb && this.processedImageUrls.length > 0"
+  *ngIf="!useViewer && this.processedImageUrls.length > 0"
 >
   <img
     [src]="this.processedImageUrls[0]"

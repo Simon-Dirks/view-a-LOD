@@ -30,12 +30,11 @@ import Mirador from 'mirador/dist/es/src/index';
 export class NodeImagesComponent
   implements OnInit, OnChanges, OnDestroy, AfterViewInit
 {
-  private _imageViewer?: any;
+  private _miradorViewer?: any;
 
   @Input() imageUrls?: string[];
   @Input() shownInTableCell = true;
   @Input() useViewer = true;
-  @Input() showAsThumb = false;
   @Input() imageLabel?: string;
 
   processedImageUrls: string[] = [];
@@ -57,8 +56,8 @@ export class NodeImagesComponent
   }
 
   destroyImageViewer() {
-    if (this._imageViewer) {
-      this._imageViewer = undefined;
+    if (this._miradorViewer) {
+      this._miradorViewer = undefined;
     }
   }
 
@@ -72,7 +71,7 @@ export class NodeImagesComponent
 
     this.destroyImageViewer();
 
-    this._imageViewer = this.ngZone.runOutsideAngular(() => {
+    this._miradorViewer = this.ngZone.runOutsideAngular(() => {
       const manifestUrl = this.iiifService.createManifestBlob(imgUrls);
       console.log('Manifest URL', manifestUrl);
 
